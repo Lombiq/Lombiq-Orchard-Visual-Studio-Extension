@@ -1,5 +1,4 @@
-﻿// Guids.cs
-// MUST match guids.h
+﻿// MUST match guids.h
 using System;
 
 namespace Lombiq.VisualStudioExtensions
