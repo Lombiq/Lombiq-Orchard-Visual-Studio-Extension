@@ -130,6 +130,8 @@
       <DependentUpon>InjectDependencyDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="Guids.cs" />
+    <Compile Include="Helpers\DialogHelpers.cs" />
+    <Compile Include="Models\Result.cs" />
     <Compile Include="Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -140,7 +142,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PkgCmdID.cs" />
     <Compile Include="Services\DependecyToConstructorInjector.cs" />
-    <Compile Include="Services\IDependencyToConstructorInjector.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Forms\InjectDependencyDialog.resx">

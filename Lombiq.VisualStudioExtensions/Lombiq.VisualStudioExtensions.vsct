@@ -2,7 +2,6 @@
 <CommandTable xmlns="http://schemas.microsoft.com/VisualStudio/2005-10-18/CommandTable" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
   <Extern href="stdidcmd.h"/>
-
   <Extern href="vsshlids.h"/>
 
 
@@ -60,7 +59,6 @@
       <IDSymbol name="cmdidInjectDependency" value="0x0100" />
       <IDSymbol name="cmdidTest" value="0x0101" />
     </GuidSymbol>
-    
     
     
     <GuidSymbol name="guidImages" value="{59308fb6-b1c7-47bf-a970-a73360c0607a}" >

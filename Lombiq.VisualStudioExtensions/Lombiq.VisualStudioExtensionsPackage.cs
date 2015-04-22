@@ -1,14 +1,11 @@
 ﻿using EnvDTE;
-using Lombiq.VisualStudioExtensions.Exceptions;
 using Lombiq.VisualStudioExtensions.Forms;
+using Lombiq.VisualStudioExtensions.Helpers;
 using Lombiq.VisualStudioExtensions.Services;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 using System;
 using System.ComponentModel.Design;
-using System.Diagnostics;
-using System.Globalization;
-using System.IO;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
@@ -21,11 +18,13 @@ namespace Lombiq.VisualStudioExtensions
     public sealed class VisualStudioExtensionsPackage : Package
     {
         private readonly IDependencyToConstructorInjector _dependencyToConstructorInjector;
+        private readonly DTE _dte;
 
 
         public VisualStudioExtensionsPackage()
         {
             _dependencyToConstructorInjector = new DependecyToConstructorInjector();
+            _dte = Package.GetGlobalService(typeof(SDTE)) as DTE;
         }
 
 
@@ -51,43 +50,30 @@ namespace Lombiq.VisualStudioExtensions
 
         private void InjectDependencyCallback(object sender, EventArgs e)
         {
-            var dte = Package.GetGlobalService(typeof(SDTE)) as DTE;
-
-            if (dte.ActiveDocument == null)
+            if (_dte.ActiveDocument == null)
             {
                 MessageBox.Show("Open a code file first.", "Inject Dependency", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
                 return;
             }
 
-            var injectDependencyDialog = new InjectDependencyDialog();
-
-            if (injectDependencyDialog.ShowDialog() == DialogResult.OK)
+            using (var injectDependencyDialog = new InjectDependencyDialog())
             {
-                if (string.IsNullOrEmpty(injectDependencyDialog.DependencyName))
+                if (injectDependencyDialog.ShowDialog() == DialogResult.OK)
                 {
-                    MessageBox.Show("Dependency name cannot be empty.", "Inject Dependency", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    if (string.IsNullOrEmpty(injectDependencyDialog.DependencyName))
+                    {
+                        DialogHelpers.Warning("Dependency name cannot be empty.", "Inject Dependency");
 
-                    return;
-                }
+                        return;
+                    }
 
-                try
-                {
-                    var fileName = dte.ActiveDocument.FullName;
-                    var constructorName = Path.GetFileNameWithoutExtension(fileName);
+                    var result = _dependencyToConstructorInjector.Inject(_dte.ActiveDocument, injectDependencyDialog.DependencyName);
 
-                    var textDoc = dte.ActiveDocument.Object() as TextDocument;
-                    EditPoint editPoint = (EditPoint)textDoc.StartPoint.CreateEditPoint();
-                    EditPoint endPoint = (EditPoint)textDoc.EndPoint.CreateEditPoint();
-                    var text = editPoint.GetText(endPoint);
-
-                    var newCode = _dependencyToConstructorInjector.Inject(injectDependencyDialog.DependencyName, text, constructorName);
-
-                    editPoint.ReplaceText(endPoint, newCode, 0);
-                }
-                catch (DependencyToConstructorInjectorException ex)
-                {
-                    MessageBox.Show(string.Format("Could not inject dependency. Error code: {0}", ex.ErrorCode), "Inject Dependency", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    if (!result.Success)
+                    {
+                        DialogHelpers.Warning(result.ErrorMessage);
+                    }
                 }
             }
         }

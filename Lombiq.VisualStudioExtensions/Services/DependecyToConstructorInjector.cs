@@ -1,13 +1,47 @@
-﻿using Lombiq.VisualStudioExtensions.Exceptions;
+﻿using EnvDTE;
+using Lombiq.VisualStudioExtensions.Exceptions;
+using Lombiq.VisualStudioExtensions.Models;
 using System;
 using System.IO;
 using System.Linq;
 
 namespace Lombiq.VisualStudioExtensions.Services
 {
+    public interface IDependencyToConstructorInjector
+    {
+        IResult Inject(Document document, string dependencyName);
+    }
+
+
     public class DependecyToConstructorInjector : IDependencyToConstructorInjector
     {
-        public string Inject(string dependecyName, string code, string className)
+        public IResult Inject(Document document, string dependecyName)
+        {
+            var fileName = document.FullName;
+            var constructorName = Path.GetFileNameWithoutExtension(fileName);
+
+            var textDoc = document.Object() as TextDocument;
+            EditPoint editPoint = (EditPoint)textDoc.StartPoint.CreateEditPoint();
+            EditPoint endPoint = (EditPoint)textDoc.EndPoint.CreateEditPoint();
+            var text = editPoint.GetText(endPoint);
+
+            string newCode = "";
+            try
+            {
+                newCode = InjectToFile(dependecyName, text, constructorName);
+            }
+            catch (DependencyToConstructorInjectorException ex)
+            {
+                return Result.FailedResult(ex.Message);
+            }
+
+            editPoint.ReplaceText(endPoint, newCode, 0);
+
+            return Result.SuccessResult;
+        }
+
+
+        private static string InjectToFile(string dependecyName, string code, string className)
         {
             var lines = code.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
 
@@ -79,8 +113,7 @@ namespace Lombiq.VisualStudioExtensions.Services
             }
         }
 
-
-        public static int GetNthIndex(string[] s, string t, int n)
+        private static int GetNthIndex(string[] s, string t, int n)
         {
             int count = 0;
             for (int i = 0; i < s.Length; i++)
