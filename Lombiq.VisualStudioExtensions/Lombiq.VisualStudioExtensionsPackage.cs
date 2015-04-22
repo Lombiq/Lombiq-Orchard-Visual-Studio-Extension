@@ -119,9 +119,12 @@ namespace Lombiq.VisualStudioExtensions
                     EditPoint endPoint = (EditPoint)textDoc.EndPoint.CreateEditPoint();
                     var text = editPoint.GetText(endPoint);
 
-                    var newCode = _dependencyToConstructorInjector.Inject(injectDependencyDialog.DependencyName, text, constructorName);
+                    textDoc.Selection.GotoLine(2);
 
-                    editPoint.ReplaceText(endPoint, newCode, 0);
+
+                    //var newCode = _dependencyToConstructorInjector.Inject(injectDependencyDialog.DependencyName, text, constructorName);
+
+                    //editPoint.ReplaceText(endPoint, newCode, 0);
                 }
                 catch (DependencyToConstructorInjectorException ex)
                 {
