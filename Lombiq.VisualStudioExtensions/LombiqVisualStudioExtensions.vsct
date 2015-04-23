@@ -9,8 +9,12 @@
     
     <Groups>
 
-      <Group guid="guidLombiq_VisualStudioExtensionsCmdSet" id="MyMenuGroup" priority="0x0600">
+      <Group guid="guidLombiq_VisualStudioExtensionsCmdSet" id="ToolsMenuGroup" priority="0x0600">
         <Parent guid="guidSHLMainMenu" id="IDM_VS_MENU_TOOLS"/>
+      </Group>
+      
+      <Group guid="guidLombiq_VisualStudioExtensionsCmdSet" id="SolutionFolderMenuGroup" priority="0x0600">
+        <Parent guid="guidSHLMainMenu" id="IDM_VS_CTXT_SOLNFOLDER"/>
       </Group>
       
     </Groups>
@@ -22,16 +26,24 @@
           <CommandFlag>DynamicVisibility</CommandFlag> -->
 
       <Button guid="guidLombiq_VisualStudioExtensionsCmdSet" id="cmdidInjectDependency" priority="0x0100" type="Button">
-        <Parent guid="guidLombiq_VisualStudioExtensionsCmdSet" id="MyMenuGroup" />
+        <Parent guid="guidLombiq_VisualStudioExtensionsCmdSet" id="ToolsMenuGroup" />
         <Icon guid="guidImages" id="bmpPic1" />
         <Strings>
           <ButtonText>Inject Dependency</ButtonText>
         </Strings>
       </Button>
 
+      <Button guid="guidLombiq_VisualStudioExtensionsCmdSet" id="cmdidAddModule" priority="0x0100" type="Button">
+        <Parent guid="guidLombiq_VisualStudioExtensionsCmdSet" id="SolutionFolderMenuGroup" />
+        <Icon guid="guidImages" id="bmpPic1" />
+        <Strings>
+          <ButtonText>Add Orchard Module</ButtonText>
+        </Strings>
+      </Button>
+
       <!-- For testing purposes. -->
       <Button guid="guidLombiq_VisualStudioExtensionsCmdSet" id="cmdidTest" priority="0x0101" type="Button">
-        <Parent guid="guidLombiq_VisualStudioExtensionsCmdSet" id="MyMenuGroup" />
+        <Parent guid="guidLombiq_VisualStudioExtensionsCmdSet" id="ToolsMenuGroup" />
         <Icon guid="guidImages" id="bmpPic1" />
         <Strings>
           <ButtonText>Test (Debug)</ButtonText>
@@ -55,9 +67,11 @@
     
     <GuidSymbol name="guidLombiq_VisualStudioExtensionsCmdSet" value="{0fe301eb-0ad4-4fb4-bbd9-c2545e74dde5}">
 
-      <IDSymbol name="MyMenuGroup" value="0x1020" />
+      <IDSymbol name="ToolsMenuGroup" value="0x1020" />
+      <IDSymbol name="SolutionFolderMenuGroup" value="0x1021" />
       <IDSymbol name="cmdidInjectDependency" value="0x0100" />
-      <IDSymbol name="cmdidTest" value="0x0101" />
+      <IDSymbol name="cmdidAddModule" value="0x0101" />
+      <IDSymbol name="cmdidTest" value="0x0102" />
     </GuidSymbol>
     
     
