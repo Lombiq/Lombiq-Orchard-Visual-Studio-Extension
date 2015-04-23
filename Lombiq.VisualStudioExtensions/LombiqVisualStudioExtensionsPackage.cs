@@ -18,7 +18,8 @@ namespace Lombiq.VisualStudioExtensions
     [PackageRegistration(UseManagedResourcesOnly = true)]
     [InstalledProductRegistration("#110", "#112", "1.0", IconResourceID = 400)]
     [ProvideMenuResource("Menus.ctmenu", 1)]
-    [Guid(GuidList.guidLombiq_VisualStudioExtensionsPkgString)]
+    [ProvideOptionPageAttribute(typeof(LombiqVisualStudioExtensionsOptionPage), "Lombiq VS Extensions", "General", 113, 114, true, new string[] { "Lombiq VS Extensions Options" })]
+    [Guid(GuidList.LombiqVisualStudioExtensionsPackageGuidString)]
     public sealed class LombiqVisualStudioExtensionsPackage : Package
     {
         private readonly IOrchardProjectGenerator _orchardProjectGenerator;
@@ -44,17 +45,17 @@ namespace Lombiq.VisualStudioExtensions
                 menuCommandService.AddCommand(
                     new MenuCommand(
                         InjectDependencyCallback,
-                        new CommandID(GuidList.guidLombiq_VisualStudioExtensionsCmdSet, (int)PkgCmdIDList.cmdidInjectDependency)));
+                        new CommandID(GuidList.LombiqVisualStudioExtensionsCommandSetGuid, (int)PkgCmdIDList.cmdidInjectDependency)));
 
                 menuCommandService.AddCommand(
                     new MenuCommand(
                         TestCallback,
-                        new CommandID(GuidList.guidLombiq_VisualStudioExtensionsCmdSet, (int)PkgCmdIDList.cmdidTest)));
+                        new CommandID(GuidList.LombiqVisualStudioExtensionsCommandSetGuid, (int)PkgCmdIDList.cmdidTest)));
 
                 menuCommandService.AddCommand(
                     new MenuCommand(
                         AddModuleCallback,
-                        new CommandID(GuidList.guidLombiq_VisualStudioExtensionsCmdSet, (int)PkgCmdIDList.cmdidAddModule)));
+                        new CommandID(GuidList.LombiqVisualStudioExtensionsCommandSetGuid, (int)PkgCmdIDList.cmdidAddModule)));
             }
         }
 
@@ -94,15 +95,23 @@ namespace Lombiq.VisualStudioExtensions
             var vsProject = (from Project p in _dte.Solution.Projects where p.Name == GetActiveItemName() select p).FirstOrDefault();
             if (vsProject == null || (vsProject.Object as SolutionFolder) == null)
             {
-                DialogHelpers.Error("Select a solution folder first.", "Add Orchard Module");
+                DialogHelpers.Warning("Select a solution folder first.", "Add Orchard Module");
 
                 return;
             }
             var selectedSolutionFolder = vsProject.Object as SolutionFolder;
-
-            //var moduleTemplatePath = Path.Combine(Path.GetDirectoryName(GetType().Assembly.Location), "OrchardTemplates", "__BlankModule", "BlankModule.csproj");
-            //For testing purposes.
-            var moduleTemplatePath = Path.Combine(@"D:\OrchardTemplates", "__BlankModule", "BlankModule.csproj");
+            
+            var optionPage = GetDialogPage(typeof(LombiqVisualStudioExtensionsOptionPage)) as LombiqVisualStudioExtensionsOptionPage;
+            if (optionPage == null)
+            {
+                DialogHelpers.Error("Lombiq VS Extensions options are not accessible.", "Add Orchard Module");
+            }
+            if (string.IsNullOrEmpty(optionPage.OrchardModuleTemlatePath))
+            {
+                DialogHelpers.Warning("Please set Orchard module template path in the options first.", "Add Orchard Module");
+            }
+            var moduleTemplatePath = Path.Combine(optionPage.OrchardModuleTemlatePath, "ModuleTemplate.csproj");
+            
             if (!File.Exists(moduleTemplatePath))
             {
                 DialogHelpers.Warning("Orchard module template was not found.", "Add Orchard Module");
@@ -112,6 +121,9 @@ namespace Lombiq.VisualStudioExtensions
 
             using (var addModuleDialog = new AddModuleDialog())
             {
+                addModuleDialog.Website = optionPage.DefaultWebsite;
+                addModuleDialog.Author = optionPage.DefaultAuthor;
+
                 if (addModuleDialog.ShowDialog() == DialogResult.OK)
                 {
                     if (string.IsNullOrEmpty(addModuleDialog.ProjectName))
@@ -122,12 +134,15 @@ namespace Lombiq.VisualStudioExtensions
                     }
 
                     var result = _orchardProjectGenerator.GenerateModule(
-                        new CreateProjectContext 
+                        new CreateModuleContext 
                         { 
                             ProjectName = addModuleDialog.ProjectName, 
                             Solution = _dte.Solution,
                             TemplatePath = moduleTemplatePath,
-                            SolutionFolder = selectedSolutionFolder
+                            SolutionFolder = selectedSolutionFolder,
+                            Author = addModuleDialog.Author,
+                            Description = addModuleDialog.Description,
+                            Website = addModuleDialog.Website
                         });
 
                     if (!result.Success)

@@ -122,6 +122,9 @@
     </COMReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="LombiqVisualStudioExtensionsOptionPage.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Exceptions\DependencyToConstructorInjectorException.cs" />
     <Compile Include="Forms\AddModuleDialog.cs">
       <SubType>Form</SubType>
@@ -135,24 +138,22 @@
     <Compile Include="Forms\InjectDependencyDialog.Designer.cs">
       <DependentUpon>InjectDependencyDialog.cs</DependentUpon>
     </Compile>
-    <Compile Include="Guids.cs" />
+    <Compile Include="GuidList.cs" />
     <Compile Include="Helpers\DialogHelpers.cs" />
+    <Compile Include="Models\CreateModuleContext.cs" />
     <Compile Include="Models\CreateProjectContext.cs" />
     <Compile Include="Models\Result.cs" />
-    <Content Include="OrchardTemplates\__BlankModule\Properties\AssemblyInfo.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Compile Include="Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="LombiqVisualStudioExtensionsPackage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PkgCmdID.cs" />
     <Compile Include="Services\DependecyToConstructorInjector.cs" />
     <Compile Include="Services\OrchardProjectGenerator.cs" />
+    <Compile Include="VSPackage.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>VSPackage.resx</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Forms\AddModuleDialog.resx">
@@ -161,26 +162,14 @@
     <EmbeddedResource Include="Forms\InjectDependencyDialog.resx">
       <DependentUpon>InjectDependencyDialog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <SubType>Designer</SubType>
-      <LastGenOutput>Resources1.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
     <EmbeddedResource Include="VSPackage.resx">
       <MergeWithCTO>true</MergeWithCTO>
       <ManifestResourceName>VSPackage</ManifestResourceName>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>VSPackage.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="OrchardTemplates\__BlankModule\Scripts\Web.config">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="OrchardTemplates\__BlankModule\Styles\Web.config">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="OrchardTemplates\__BlankModule\Web.config">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <None Include="source.extension.vsixmanifest">
       <SubType>Designer</SubType>
     </None>
@@ -197,19 +186,11 @@
     <None Include="Resources\Images.png" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="OrchardTemplates\__BlankModule\BlankModule.csproj">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="OrchardTemplates\__BlankModule\Module.txt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
+    <Resource Include="Resources\Orchard.png" />
+    <Resource Include="Resources\Orchard_large.png" />
     <Content Include="Resources\Package.ico" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="OrchardTemplates\__BlankModule\Controllers\" />
-    <Folder Include="OrchardTemplates\__BlankModule\Models\" />
-    <Folder Include="OrchardTemplates\__BlankModule\Views\" />
-  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <UseCodebase>true</UseCodebase>
   </PropertyGroup>

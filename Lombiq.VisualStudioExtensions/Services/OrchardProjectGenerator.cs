@@ -7,37 +7,45 @@ namespace Lombiq.VisualStudioExtensions.Services
 {
     public interface IOrchardProjectGenerator
     {
-        IResult GenerateModule(CreateProjectContext createProjectContext);
+        IResult GenerateModule(CreateModuleContext createModuleContext);
     }
 
 
     public class OrchardProjectGenerator : IOrchardProjectGenerator
     {
-        public IResult GenerateModule(CreateProjectContext createProjectContext)
+        public IResult GenerateModule(CreateModuleContext createModuleContext)
         {
             try
             {
-                var solutionPath = Path.GetDirectoryName(createProjectContext.Solution.FullName);
-                var newModulePath = Path.Combine(solutionPath, "Orchard.Web", "Modules", createProjectContext.ProjectName);
+                var solutionPath = Path.GetDirectoryName(createModuleContext.Solution.FullName);
+                var newModulePath = Path.Combine(solutionPath, "Orchard.Web", "Modules", createModuleContext.ProjectName);
 
-                var newModuleProject = createProjectContext.SolutionFolder.AddFromTemplate(createProjectContext.TemplatePath, newModulePath, createProjectContext.ProjectName);
+                var newModuleProject = createModuleContext.SolutionFolder.AddFromTemplate(createModuleContext.TemplatePath, newModulePath, createModuleContext.ProjectName);
 
-
-                ReplaceTokens(Path.Combine(newModulePath, createProjectContext.ProjectName + ".csproj"),
+                ReplaceTokens(Path.Combine(newModulePath, createModuleContext.ProjectName + ".csproj"),
                     new List<KeyValuePair<string, string>>
-                {
-                    new KeyValuePair<string, string>("$guid$", Guid.NewGuid().ToString()),
-                    new KeyValuePair<string, string>("$name$", createProjectContext.ProjectName)
-                });
+                    {
+                        new KeyValuePair<string, string>("$guid$", Guid.NewGuid().ToString()),
+                        new KeyValuePair<string, string>("$name$", createModuleContext.ProjectName)
+                    });
 
-                newModuleProject.Properties.Item("AssemblyName").Value = createProjectContext.ProjectName;
+                newModuleProject.Properties.Item("AssemblyName").Value = createModuleContext.ProjectName;
 
                 ReplaceTokens(Path.Combine(newModulePath, "Module.txt"),
                     new List<KeyValuePair<string, string>>
-                {
-                    new KeyValuePair<string, string>("$guid$", Guid.NewGuid().ToString()),
-                    new KeyValuePair<string, string>("$name$", createProjectContext.ProjectName)
-                });
+                    {
+                        new KeyValuePair<string, string>("$name$", createModuleContext.ProjectName),
+                        new KeyValuePair<string, string>("$author$", createModuleContext.Author),
+                        new KeyValuePair<string, string>("$website$", createModuleContext.Website),
+                        new KeyValuePair<string, string>("$description$", string.IsNullOrEmpty(createModuleContext.Description) ? "Description for module " + createModuleContext.ProjectName : createModuleContext.Description)
+                    });
+
+                ReplaceTokens(Path.Combine(newModulePath, "Properties", "AssemblyInfo.cs"),
+                    new List<KeyValuePair<string, string>>
+                    {
+                        new KeyValuePair<string, string>("$guid$", Guid.NewGuid().ToString()),
+                        new KeyValuePair<string, string>("$name$", createModuleContext.ProjectName)
+                    });
 
                 newModuleProject.Save();
             }

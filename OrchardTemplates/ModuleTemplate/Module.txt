@@ -1,0 +1,9 @@
+Name: $name$
+AntiForgery: enabled
+Author: $author$
+Website: $website$
+Version: 1.0
+OrchardVersion: 1.8
+Features:
+	Akarmilyen.Module:
+		Description: $description$

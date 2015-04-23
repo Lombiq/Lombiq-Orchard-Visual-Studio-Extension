@@ -9,11 +9,11 @@
     
     <Groups>
 
-      <Group guid="guidLombiq_VisualStudioExtensionsCmdSet" id="ToolsMenuGroup" priority="0x0600">
+      <Group guid="LombiqVisualStudioExtensionsCommandSetGuid" id="ToolsMenuGroup" priority="0x0600">
         <Parent guid="guidSHLMainMenu" id="IDM_VS_MENU_TOOLS"/>
       </Group>
       
-      <Group guid="guidLombiq_VisualStudioExtensionsCmdSet" id="SolutionFolderMenuGroup" priority="0x0600">
+      <Group guid="LombiqVisualStudioExtensionsCommandSetGuid" id="SolutionFolderMenuGroup" priority="0x0600">
         <Parent guid="guidSHLMainMenu" id="IDM_VS_CTXT_SOLNFOLDER"/>
       </Group>
       
@@ -21,30 +21,27 @@
     
     
     <Buttons>
-      
-      <!--<CommandFlag>DefaultInvisible</CommandFlag>
-          <CommandFlag>DynamicVisibility</CommandFlag> -->
 
-      <Button guid="guidLombiq_VisualStudioExtensionsCmdSet" id="cmdidInjectDependency" priority="0x0100" type="Button">
-        <Parent guid="guidLombiq_VisualStudioExtensionsCmdSet" id="ToolsMenuGroup" />
-        <Icon guid="guidImages" id="bmpPic1" />
+      <Button guid="LombiqVisualStudioExtensionsCommandSetGuid" id="cmdidInjectDependency" priority="0x0100" type="Button">
+        <Parent guid="LombiqVisualStudioExtensionsCommandSetGuid" id="ToolsMenuGroup" />
+        <Icon guid="ImagesGuid" id="OrchardIconBitmap" />
         <Strings>
           <ButtonText>Inject Dependency</ButtonText>
         </Strings>
       </Button>
 
-      <Button guid="guidLombiq_VisualStudioExtensionsCmdSet" id="cmdidAddModule" priority="0x0100" type="Button">
-        <Parent guid="guidLombiq_VisualStudioExtensionsCmdSet" id="SolutionFolderMenuGroup" />
-        <Icon guid="guidImages" id="bmpPic1" />
+      <Button guid="LombiqVisualStudioExtensionsCommandSetGuid" id="cmdidAddModule" priority="0x0100" type="Button">
+        <Parent guid="LombiqVisualStudioExtensionsCommandSetGuid" id="SolutionFolderMenuGroup" />
+        <Icon guid="ImagesGuid" id="OrchardIconBitmap" />
         <Strings>
           <ButtonText>Add Orchard Module</ButtonText>
         </Strings>
       </Button>
 
       <!-- For testing purposes. -->
-      <Button guid="guidLombiq_VisualStudioExtensionsCmdSet" id="cmdidTest" priority="0x0101" type="Button">
-        <Parent guid="guidLombiq_VisualStudioExtensionsCmdSet" id="ToolsMenuGroup" />
-        <Icon guid="guidImages" id="bmpPic1" />
+      <Button guid="LombiqVisualStudioExtensionsCommandSetGuid" id="cmdidTest" priority="0x0101" type="Button">
+        <Parent guid="LombiqVisualStudioExtensionsCommandSetGuid" id="ToolsMenuGroup" />
+        <Icon guid="ImagesGuid" id="OrchardIconBitmap" />
         <Strings>
           <ButtonText>Test (Debug)</ButtonText>
         </Strings>
@@ -55,7 +52,7 @@
     
     <Bitmaps>
       
-      <Bitmap guid="guidImages" href="Resources\Images.png" usedList="bmpPic1, bmpPic2, bmpPicSearch, bmpPicX, bmpPicArrows"/>
+      <Bitmap guid="ImagesGuid" href="Resources\Orchard.png" usedList="OrchardIconBitmap"/>
       
     </Bitmaps>
  
@@ -65,7 +62,7 @@
   <Symbols>
     <GuidSymbol name="guidLombiq_VisualStudioExtensionsPkg" value="{1a2f7a53-92bd-4396-b49c-98a9bfcc1d41}" />
     
-    <GuidSymbol name="guidLombiq_VisualStudioExtensionsCmdSet" value="{0fe301eb-0ad4-4fb4-bbd9-c2545e74dde5}">
+    <GuidSymbol name="LombiqVisualStudioExtensionsCommandSetGuid" value="{0fe301eb-0ad4-4fb4-bbd9-c2545e74dde5}">
 
       <IDSymbol name="ToolsMenuGroup" value="0x1020" />
       <IDSymbol name="SolutionFolderMenuGroup" value="0x1021" />
@@ -75,13 +72,8 @@
     </GuidSymbol>
     
     
-    <GuidSymbol name="guidImages" value="{59308fb6-b1c7-47bf-a970-a73360c0607a}" >
-      <IDSymbol name="bmpPic1" value="1" />
-      <IDSymbol name="bmpPic2" value="2" />
-      <IDSymbol name="bmpPicSearch" value="3" />
-      <IDSymbol name="bmpPicX" value="4" />
-      <IDSymbol name="bmpPicArrows" value="5" />
-      <IDSymbol name="bmpPicStrikethrough" value="6" />
+    <GuidSymbol name="ImagesGuid" value="{59308fb6-b1c7-47bf-a970-a73360c0607a}" >
+      <IDSymbol name="OrchardIconBitmap" value="1" />
     </GuidSymbol>
   </Symbols>
 
