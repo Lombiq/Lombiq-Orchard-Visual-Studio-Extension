@@ -5,5 +5,5 @@ Website: $website$
 Version: 1.0
 OrchardVersion: 1.8
 Features:
-	Akarmilyen.Module:
+	$name$:
 		Description: $description$
