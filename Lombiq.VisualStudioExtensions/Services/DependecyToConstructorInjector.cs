@@ -45,6 +45,10 @@ namespace Lombiq.VisualStudioExtensions.Services
 
             startEditPoint.ReplaceText(endEditPoint, string.Join(Environment.NewLine, codeLines), 0);
 
+            var textSelection = document.Selection as TextSelection;
+            textSelection.GotoLine(classStartIndex + 3);
+            textSelection.FindPattern(dependecyName);
+
             return Result.SuccessResult;
         }
 
