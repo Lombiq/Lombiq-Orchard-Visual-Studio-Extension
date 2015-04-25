@@ -2,6 +2,7 @@
 using Lombiq.VisualStudioExtensions.Exceptions;
 using Lombiq.VisualStudioExtensions.Models;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
@@ -9,49 +10,54 @@ namespace Lombiq.VisualStudioExtensions.Services
 {
     public interface IDependencyToConstructorInjector
     {
-        IResult Inject(Document document, string dependencyName);
+        IResult Inject(Document document, string dependencyName, string fieldName);
     }
 
 
     public class DependecyToConstructorInjector : IDependencyToConstructorInjector
     {
-        public IResult Inject(Document document, string dependecyName)
+        public IResult Inject(Document document, string dependecyName, string fieldName)
         {
+            if (fieldName[0] != '_') fieldName = "_" + fieldName;
+
             var fileName = document.FullName;
-            var constructorName = Path.GetFileNameWithoutExtension(fileName);
+            var className = Path.GetFileNameWithoutExtension(fileName);
+            var variableName = fieldName.Substring(1);
 
-            var textDoc = document.Object() as TextDocument;
-            EditPoint editPoint = (EditPoint)textDoc.StartPoint.CreateEditPoint();
-            EditPoint endPoint = (EditPoint)textDoc.EndPoint.CreateEditPoint();
-            var text = editPoint.GetText(endPoint);
+            var textDocument = document.Object() as TextDocument;
+            EditPoint startEditPoint = (EditPoint)textDocument.StartPoint.CreateEditPoint();
+            EditPoint endEditPoint = (EditPoint)textDocument.EndPoint.CreateEditPoint();
+            var codeText = startEditPoint.GetText(endEditPoint);
 
-            string newCode = "";
-            try
-            {
-                newCode = InjectToFile(dependecyName, text, constructorName);
-            }
-            catch (DependencyToConstructorInjectorException ex)
-            {
-                return Result.FailedResult(ex.Message);
-            }
+            var codeLines = new List<string>(codeText.Split(new[] { Environment.NewLine }, StringSplitOptions.None));
 
-            editPoint.ReplaceText(endPoint, newCode, 0);
+            var classStartIndex = GetClassStartLineIndex(className, codeLines);
+            if (classStartIndex == -1) return Result.FailedResult("Could not insert depencency because no class found in this file.");
+
+            var constructorIndex = GetConstructorLineIndex(className, codeLines);
+            if (constructorIndex == -1) return Result.FailedResult("Could not insert depencency because the constructor not found.");
+
+            InsertConstructorCodeLine(constructorIndex, fieldName, variableName, codeLines);
+
+            InsertInjection(constructorIndex, dependecyName, variableName, codeLines);
+
+            InsertPrivateField(classStartIndex, dependecyName, fieldName, codeLines);
+
+            startEditPoint.ReplaceText(endEditPoint, string.Join(Environment.NewLine, codeLines), 0);
 
             return Result.SuccessResult;
         }
 
 
-        private static string InjectToFile(string dependecyName, string code, string className)
+        private int GetConstructorLineIndex(string className, IList<string> codeLines)
         {
-            var lines = code.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
-
             var expectedConstructorStart = string.Format("public {0}(", className);
 
             var indexOfConstructor = 0;
 
-            while (indexOfConstructor < lines.Length)
+            while (indexOfConstructor < codeLines.Count)
             {
-                if (lines[indexOfConstructor].Trim().StartsWith(expectedConstructorStart))
+                if (codeLines[indexOfConstructor].Trim().StartsWith(expectedConstructorStart, StringComparison.OrdinalIgnoreCase))
                 {
                     break;
                 }
@@ -59,75 +65,88 @@ namespace Lombiq.VisualStudioExtensions.Services
                 indexOfConstructor++;
             }
 
-            if (indexOfConstructor < lines.Length)
+            return indexOfConstructor < codeLines.Count ? indexOfConstructor : -1;
+        }
+
+        private int GetClassStartLineIndex(string className, IList<string> codeLines)
+        {
+            var expectedClassDefinition = string.Format("class {0}", className);
+
+            var indexOfStartLine = 0;
+
+            while (indexOfStartLine < codeLines.Count)
             {
-                var lineList = lines.ToList();
-                var modifiedConstrucorLine = lines[indexOfConstructor];
-
-                var injectedParameter = string.Format("{0}{1}", char.ToLowerInvariant(dependecyName[1]), dependecyName.Substring(2));
-
-
-                // CASE 1: No parameters in constructor.
-                if (lines[indexOfConstructor].EndsWith("()"))
+                if (codeLines[indexOfStartLine].IndexOf(expectedClassDefinition, StringComparison.OrdinalIgnoreCase) >= 0)
                 {
-                    modifiedConstrucorLine = lineList[indexOfConstructor].Insert(lineList[indexOfConstructor].IndexOf('(') + 1, string.Format("{0} {1}", dependecyName, injectedParameter));
-                }
-                // CASE 2: Has parameters in the same line as the constructor name.
-                else if (lines[indexOfConstructor].EndsWith(")"))
-                {
-                    modifiedConstrucorLine = lineList[indexOfConstructor].Insert(lines[indexOfConstructor].IndexOf('(') + 1, string.Format("{0} {1}, ", dependecyName, injectedParameter));
-                }
-                // CASE 3: Constructor has parameters in multiple lines.
-                else if (lines[indexOfConstructor].EndsWith("("))
-                {
-                    var firstParameter = lineList[indexOfConstructor + 1];
-                    var newParameter = firstParameter.Replace(firstParameter.Trim(), string.Format("{0} {1},", dependecyName, injectedParameter));
-                    lineList.Insert(indexOfConstructor + 1, newParameter);
-                    lines = lineList.ToArray();
-                }
-                lineList[indexOfConstructor] = modifiedConstrucorLine;
-
-
-                var firstIndexOfConstructorCode = GetNthIndex(lines.Select(line => line.Trim()).ToArray(), "{", 3) + 1;
-
-                var indentSizeOfConstructorCode = Convert.ToInt32((lines[firstIndexOfConstructorCode - 1].IndexOf("{")) * 1.5);
-                lineList.Insert(firstIndexOfConstructorCode, string.Format("{0}_{1} = {1};", new string(' ', indentSizeOfConstructorCode), injectedParameter));
-
-
-                var firstIndexOfReadonlyParameters = GetNthIndex(lines.Select(line => line.Trim()).ToArray(), "{", 2) + 1;
-
-                if (lines[firstIndexOfReadonlyParameters].Trim().StartsWith(expectedConstructorStart))
-                {
-                    lineList.Insert(firstIndexOfReadonlyParameters, String.Empty);
-                    lineList.Insert(firstIndexOfReadonlyParameters, String.Empty);
+                    break;
                 }
 
-                var indentSizeOfReadonlyParameters = (lines[firstIndexOfReadonlyParameters - 1].IndexOf("{")) * 2;
-                lineList.Insert(firstIndexOfReadonlyParameters, string.Format("{0}private readonly {1} _{2};", new string(' ', indentSizeOfReadonlyParameters), dependecyName, injectedParameter));
-
-                return string.Join(Environment.NewLine, lineList);
+                indexOfStartLine++;
             }
-            else
+
+            return indexOfStartLine < codeLines.Count ? indexOfStartLine : -1;
+        }
+
+        private void InsertPrivateField(int classStartLineIndex, string dependency, string fieldName, IList<string> codeLines)
+        {
+            var classStartLine = codeLines[classStartLineIndex];
+            var indentSize = GetIndentSizeOfLine(classStartLine);
+            var privateFieldLine = string.Format("{0}private readonly {1} {2};", new string(' ', indentSize * 2), dependency, fieldName);
+
+            codeLines.Insert(classStartLineIndex + 2, privateFieldLine);
+        }
+
+        private void InsertConstructorCodeLine(int constructorLineIndex, string fieldName, string variableName, IList<string> codeLines)
+        {
+            var constructorLine = codeLines[constructorLineIndex];
+            var indentSize = GetIndentSizeOfLine(constructorLine);
+            var constructorCodeLine = new string(' ', Convert.ToInt32(indentSize * 1.5)) + fieldName + " = " + variableName + ";";
+
+            var insertionIndex = constructorLineIndex + 1;
+            foreach (var codeLine in codeLines.Skip(constructorLineIndex))
             {
-                throw new DependencyToConstructorInjectorException(DependencyToConstructorIjectorErrorCodes.ConstructorNotFound, "Constructor not found.");
+                if (codeLine.Contains("{")) break;
+                insertionIndex++;
+            }
+
+            codeLines.Insert(insertionIndex, constructorCodeLine);
+        }
+
+        private void InsertInjection(int constructorLineIndex, string dependency, string variable, IList<string> codeLines)
+        {
+            var constructorLine = codeLines[constructorLineIndex];
+            var indentSize = GetIndentSizeOfLine(constructorLine);
+            var injection = string.Format("{0} {1}", dependency, variable);
+
+            // CASE 1: No parameters in constructor.
+            if (constructorLine.EndsWith("()"))
+            {
+                codeLines.RemoveAt(constructorLineIndex);
+                codeLines.Insert(constructorLineIndex, constructorLine.Replace("()", string.Format("({0})", injection)));
+            }
+            // CASE 2: Has parameters in the same line as the constructor name.
+            else if (constructorLine.EndsWith(")"))
+            {
+                codeLines.RemoveAt(constructorLineIndex);
+                codeLines.Insert(constructorLineIndex, constructorLine.Replace("(", string.Format("({0}, ", injection)));
+            }
+            // CASE 3: Constructor has parameters in multiple lines.
+            else if (constructorLine.EndsWith("("))
+            {
+                codeLines.Insert(constructorLineIndex + 1, new string(' ', Convert.ToInt32(indentSize * 1.5)) + injection + ",");
             }
         }
 
-        private static int GetNthIndex(string[] s, string t, int n)
+        private int GetIndentSizeOfLine(string codeLine)
         {
-            int count = 0;
-            for (int i = 0; i < s.Length; i++)
+            var indentSize = 0;
+            foreach (var codeChar in codeLine)
             {
-                if (s[i] == t)
-                {
-                    count++;
-                    if (count == n)
-                    {
-                        return i;
-                    }
-                }
+                if (codeChar == ' ') indentSize++;
+                else break;
             }
-            return -1;
+
+            return indentSize;
         }
     }
 }

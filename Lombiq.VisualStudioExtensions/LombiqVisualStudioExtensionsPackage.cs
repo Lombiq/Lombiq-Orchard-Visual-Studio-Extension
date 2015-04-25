@@ -80,7 +80,14 @@ namespace Lombiq.VisualStudioExtensions
                         return;
                     }
 
-                    var result = _dependencyToConstructorInjector.Inject(_dte.ActiveDocument, injectDependencyDialog.DependencyName);
+                    if (string.IsNullOrEmpty(injectDependencyDialog.PrivateFieldName))
+                    {
+                        DialogHelpers.Warning("Private field name cannot be empty.", "Inject Dependency");
+
+                        return;
+                    }
+
+                    var result = _dependencyToConstructorInjector.Inject(_dte.ActiveDocument, injectDependencyDialog.DependencyName, injectDependencyDialog.PrivateFieldName);
 
                     if (!result.Success)
                     {
