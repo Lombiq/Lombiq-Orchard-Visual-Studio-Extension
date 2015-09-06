@@ -1,0 +1,16 @@
+﻿using Orchard.ContentManagement;
+using Orchard.ContentManagement.Records;
+
+namespace $rootnamespace$.Models
+{
+    public class $contentpartname$Part : ContentPart<$contentpartname$PartRecord>
+    {
+
+    }
+
+
+    public class $contentpartname$PartRecord : ContentPartRecord
+    {
+
+    }
+}

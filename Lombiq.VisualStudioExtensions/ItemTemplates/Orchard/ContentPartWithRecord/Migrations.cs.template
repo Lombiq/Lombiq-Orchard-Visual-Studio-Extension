@@ -1,0 +1,17 @@
+﻿using $rootnamespace$.Models;
+using Orchard.Data.Migration;
+
+namespace $rootnamespace$.Migrations
+{
+    public class $contentpartname$Migrations : DataMigrationImpl
+    {
+        public int Create()
+        {
+            SchemaBuilder.CreateTable(typeof($contentpartname$PartRecord).Name,
+                table => table
+                    .ContentPartRecord());
+
+            return 1;
+        }
+    }
+}

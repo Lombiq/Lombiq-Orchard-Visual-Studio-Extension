@@ -2,7 +2,7 @@
 
 namespace $rootnamespace$.Models
 {
-    public class $contentpartname$Part
+    public class $contentpartname$Part : ContentPart
     {
 
     }
