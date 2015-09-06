@@ -8,6 +8,8 @@
     <ItemTemplate Path="ItemTemplates\Orchard\ShapeTemplateFile\Definitions\CSharp.vstemplate" Name="Empty Shape Template File" Description="Generates an empty cshtml file to the location you selected." ProjectType="CSharp" ProjectSubType="Orchard" />
     <ItemTemplate Path="ItemTemplates\Orchard\SettingsContentPart\Definitions\CSharp.vstemplate" Name="Settings Content Part" Description="Generates a settings content part and its necessary files in the project using the conventions of settings part development. IMPORTANT: Make sure that you selected the project root. NOTE: Placement.info is not generated or appended." ProjectType="CSharp" ProjectSubType="Orchard" />
   </ItemTemplates>
-  <ProjectTemplates />
+  <ProjectTemplates>
+    <ProjectTemplate Path="..\OrchardTemplates\ModuleTemplate\_Definitions\_project.vstemplate.xml" Name="Orchard 1.9 Module" Description="Adding an Orchard module to your solution." ProjectType="CSharp" ProjectSubType="Orchard" />
+  </ProjectTemplates>
   <Snippets />
 </TemplateReport>

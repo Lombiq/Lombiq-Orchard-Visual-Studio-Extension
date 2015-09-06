@@ -1,9 +1,10 @@
-Name: $name$
+Name: $safeprojectname$
 AntiForgery: enabled
-Author: $author$
-Website: $website$
+Author: Orchard
+Website: http://orchardproject.net
 Version: 1.0
-OrchardVersion: 1.8
+OrchardVersion: 1.9.0
+Description: Some description.
 Features:
-	$name$:
-		Description: $description$
+	$safeprojectname$:
+		Description: Some description.

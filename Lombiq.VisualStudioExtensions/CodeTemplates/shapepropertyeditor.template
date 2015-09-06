@@ -1,4 +1,4 @@
 ﻿        <li>
-            @Html.#editortype#For(model => model.#propertyname#)
-            @Html.LabelFor(model => model.#propertyname#, T("#propertyname#"))
+          @Html.LabelFor(model => model.#propertyname#, T("#propertyname#"))
+          @Html.#editortype#For(model => model.#propertyname#)
         </li>

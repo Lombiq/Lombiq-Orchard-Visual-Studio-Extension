@@ -47,15 +47,15 @@ namespace Lombiq.VisualStudioExtensions
                         InjectDependencyCallback,
                         new CommandID(GuidList.LombiqVisualStudioExtensionsCommandSetGuid, (int)PkgCmdIDList.cmdidInjectDependency)));
 
-                menuCommandService.AddCommand(
-                    new MenuCommand(
-                        TestCallback,
-                        new CommandID(GuidList.LombiqVisualStudioExtensionsCommandSetGuid, (int)PkgCmdIDList.cmdidTest)));
+                //menuCommandService.AddCommand(
+                //    new MenuCommand(
+                //        TestCallback,
+                //        new CommandID(GuidList.LombiqVisualStudioExtensionsCommandSetGuid, (int)PkgCmdIDList.cmdidTest)));
 
-                menuCommandService.AddCommand(
-                    new MenuCommand(
-                        AddModuleCallback,
-                        new CommandID(GuidList.LombiqVisualStudioExtensionsCommandSetGuid, (int)PkgCmdIDList.cmdidAddModule)));
+                //menuCommandService.AddCommand(
+                //    new MenuCommand(
+                //        AddModuleCallback,
+                //        new CommandID(GuidList.LombiqVisualStudioExtensionsCommandSetGuid, (int)PkgCmdIDList.cmdidAddModule)));
             }
         }
 
@@ -97,74 +97,74 @@ namespace Lombiq.VisualStudioExtensions
             }
         }
 
-        private void AddModuleCallback(object sender, EventArgs e)
-        {
-            var vsProject = (from Project p in _dte.Solution.Projects where p.Name == GetActiveItemName() select p).FirstOrDefault();
-            if (vsProject == null || (vsProject.Object as SolutionFolder) == null)
-            {
-                DialogHelpers.Warning("Select a solution folder first.", "Add Orchard Module");
+        //private void AddModuleCallback(object sender, EventArgs e)
+        //{
+        //    var vsProject = (from Project p in _dte.Solution.Projects where p.Name == GetActiveItemName() select p).FirstOrDefault();
+        //    if (vsProject == null || (vsProject.Object as SolutionFolder) == null)
+        //    {
+        //        DialogHelpers.Warning("Select a solution folder first.", "Add Orchard Module");
 
-                return;
-            }
-            var selectedSolutionFolder = vsProject.Object as SolutionFolder;
+        //        return;
+        //    }
+        //    var selectedSolutionFolder = vsProject.Object as SolutionFolder;
             
-            var optionPage = GetDialogPage(typeof(LombiqVisualStudioExtensionsOptionPage)) as LombiqVisualStudioExtensionsOptionPage;
-            if (optionPage == null)
-            {
-                DialogHelpers.Error("Lombiq VS Extensions options are not accessible.", "Add Orchard Module");
-            }
-            if (string.IsNullOrEmpty(optionPage.OrchardModuleTemlatePath))
-            {
-                DialogHelpers.Warning("Please set Orchard module template path in the options first.", "Add Orchard Module");
-            }
-            var moduleTemplatePath = Path.Combine(optionPage.OrchardModuleTemlatePath, "ModuleTemplate.csproj");
+        //    var optionPage = GetDialogPage(typeof(LombiqVisualStudioExtensionsOptionPage)) as LombiqVisualStudioExtensionsOptionPage;
+        //    if (optionPage == null)
+        //    {
+        //        DialogHelpers.Error("Lombiq VS Extensions options are not accessible.", "Add Orchard Module");
+        //    }
+        //    if (string.IsNullOrEmpty(optionPage.OrchardModuleTemlatePath))
+        //    {
+        //        DialogHelpers.Warning("Please set Orchard module template path in the options first.", "Add Orchard Module");
+        //    }
+        //    var moduleTemplatePath = Path.Combine(optionPage.OrchardModuleTemlatePath, "ModuleTemplate.csproj");
             
-            if (!File.Exists(moduleTemplatePath))
-            {
-                DialogHelpers.Warning("Orchard module template was not found.", "Add Orchard Module");
+        //    if (!File.Exists(moduleTemplatePath))
+        //    {
+        //        DialogHelpers.Warning("Orchard module template was not found.", "Add Orchard Module");
 
-                return;
-            }
+        //        return;
+        //    }
 
-            using (var addModuleDialog = new AddModuleDialog())
-            {
-                addModuleDialog.Website = optionPage.DefaultWebsite;
-                addModuleDialog.Author = optionPage.DefaultAuthor;
+        //    using (var addModuleDialog = new AddModuleDialog())
+        //    {
+        //        addModuleDialog.Website = optionPage.DefaultWebsite;
+        //        addModuleDialog.Author = optionPage.DefaultAuthor;
 
-                if (addModuleDialog.ShowDialog() == DialogResult.OK)
-                {
-                    if (string.IsNullOrEmpty(addModuleDialog.ProjectName))
-                    {
-                        DialogHelpers.Warning("Module name cannot be empty.", "Add Orchard Module");
+        //        if (addModuleDialog.ShowDialog() == DialogResult.OK)
+        //        {
+        //            if (string.IsNullOrEmpty(addModuleDialog.ProjectName))
+        //            {
+        //                DialogHelpers.Warning("Module name cannot be empty.", "Add Orchard Module");
 
-                        return;
-                    }
+        //                return;
+        //            }
 
-                    var result = _orchardProjectGenerator.GenerateModule(
-                        new CreateModuleContext 
-                        { 
-                            ProjectName = addModuleDialog.ProjectName, 
-                            Solution = _dte.Solution,
-                            TemplatePath = moduleTemplatePath,
-                            SolutionFolder = selectedSolutionFolder,
-                            Author = addModuleDialog.Author,
-                            Description = addModuleDialog.Description,
-                            Website = addModuleDialog.Website
-                        });
+        //            var result = _orchardProjectGenerator.GenerateModule(
+        //                new CreateModuleContext 
+        //                { 
+        //                    ProjectName = addModuleDialog.ProjectName, 
+        //                    Solution = _dte.Solution,
+        //                    TemplatePath = moduleTemplatePath,
+        //                    SolutionFolder = selectedSolutionFolder,
+        //                    Author = addModuleDialog.Author,
+        //                    Description = addModuleDialog.Description,
+        //                    Website = addModuleDialog.Website
+        //                });
 
-                    if (!result.Success)
-                    {
-                        DialogHelpers.Warning(result.ErrorMessage);
-                    }
-                }
-            }
-        }
+        //            if (!result.Success)
+        //            {
+        //                DialogHelpers.Warning(result.ErrorMessage);
+        //            }
+        //        }
+        //    }
+        //}
 
         // For testing purposes.
-        private void TestCallback(object sender, EventArgs e)
-        {
-            MessageBox.Show(GetActiveItemName(), "Teszt", MessageBoxButtons.OK, MessageBoxIcon.Information);
-        }
+        //private void TestCallback(object sender, EventArgs e)
+        //{
+        //    MessageBox.Show(GetActiveItemName(), "Teszt", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        //}
 
 
         private string GetActiveItemName()

@@ -272,6 +272,11 @@
       <IncludeOutputGroupsInVSIXLocalOnly>DebugSymbolsProjectOutputGroup%3b</IncludeOutputGroupsInVSIXLocalOnly>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <TemplateReference Include="ModuleTemplate.csproj">
+      <PathToProject>../OrchardTemplates/ModuleTemplate/ModuleTemplate.csproj</PathToProject>
+    </TemplateReference>
+  </ItemGroup>
   <PropertyGroup>
     <UseCodebase>true</UseCodebase>
   </PropertyGroup>
