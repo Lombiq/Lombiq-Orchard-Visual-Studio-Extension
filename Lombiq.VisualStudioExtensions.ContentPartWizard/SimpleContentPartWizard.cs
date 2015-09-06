@@ -29,7 +29,7 @@ namespace Lombiq.VisualStudioExtensions.ContentPartWizard
             try
             {
                 var contentPartName = string.Empty;
-                replacementsDictionary.TryGetValue("$rootname$", out contentPartName);
+                replacementsDictionary.TryGetValue("$safeitemname$", out contentPartName);
 
                 if (!string.IsNullOrEmpty(contentPartName) && contentPartName.EndsWith("Part"))
                 {

@@ -126,8 +126,11 @@
     </COMReference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ItemTemplates\Orchard\ContentPart\ContentPartDriver.cs" />
-    <Compile Include="ItemTemplates\Orchard\ContentPart\ContentPart.cs" />
+    <None Include="ItemTemplates\Orchard\ContentPart\ContentHandler.cs.template" />
+    <None Include="ItemTemplates\Orchard\ContentPart\ContentPartDriver.cs.template" />
+    <None Include="ItemTemplates\Orchard\ContentPart\ContentPart.cs.template" />
+    <None Include="ItemTemplates\Orchard\ContentPart\DisplayTemplate.cshtml.template" />
+    <None Include="ItemTemplates\Orchard\ContentPart\EditorTemplate.cshtml.template" />
     <Compile Include="LombiqVisualStudioExtensionsOptionPage.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -175,7 +178,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="ItemTemplates\Orchard\ContentPart\Definitions\Web.CSharp.vstemplate" />
+    <Content Include="ItemTemplates\Orchard\ContentPart\Definitions\CSharp.vstemplate" />
     <None Include="packages.config" />
     <None Include="Properties\template-builder.props" />
     <None Include="source.extension.vsixmanifest">
@@ -197,8 +200,7 @@
   <ItemGroup>
     <Resource Include="Resources\Orchard.png" />
     <Resource Include="Resources\Orchard_large.png" />
-    <Resource Include="ItemTemplates\Orchard\ContentPart\readme.txt" />
-    <Resource Include="ItemTemplates\Orchard\ContentPart\icon.png" />
+    <Resource Include="ItemTemplates\Orchard\ContentPart\Icon.png" />
     <Content Include="Resources\Package.ico" />
   </ItemGroup>
   <ItemGroup>

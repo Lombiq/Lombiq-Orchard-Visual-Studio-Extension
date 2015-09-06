@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TemplateReport>
   <ItemTemplates>
-    <ItemTemplate Path="ItemTemplates\Orchard\ContentPart\Definitions\Web.CSharp.vstemplate" Name="Content Part" Description="Long description here" ProjectType="CSharp" ProjectSubType="" />
+    <ItemTemplate Path="ItemTemplates\Orchard\ContentPart\Definitions\CSharp.vstemplate" Name="Content Part" Description="Generates a general content part and its necessary files in the project: part itself, full driver, empty handler, display and editor shape templates. IMPORTANT: Make sure that you selected the project root. NOTE: Placement.info is not generated or appended." ProjectType="CSharp" ProjectSubType="Orchard" />
   </ItemTemplates>
   <ProjectTemplates />
   <Snippets />
