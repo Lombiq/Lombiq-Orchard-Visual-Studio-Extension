@@ -126,6 +126,7 @@
     </COMReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="ItemTemplates\Orchard\ShapeTemplateFile\ShapeTemplate.cshtml.template" />
     <None Include="ItemTemplates\Orchard\SettingsContentPart\ContentHandler.cs.template" />
     <None Include="ItemTemplates\Orchard\SettingsContentPart\ContentPart.cs.template" />
     <None Include="ItemTemplates\Orchard\SettingsContentPart\ContentPartDriver.cs.template" />
@@ -195,6 +196,8 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="ItemTemplates\Orchard\ShapeTemplateFile\Definitions\CSharp.vstemplate" />
+    <Resource Include="ItemTemplates\Orchard\ShapeTemplateFile\Icon.png" />
     <Content Include="ItemTemplates\Orchard\SettingsContentPart\Definitions\CSharp.vstemplate" />
     <Resource Include="ItemTemplates\Orchard\SettingsContentPart\Icon.png" />
     <Content Include="ItemTemplates\Orchard\ContentPartWithType\Definitions\CSharp.vstemplate" />
@@ -231,6 +234,7 @@
     <Folder Include="ItemTemplates\Orchard\ContentPartWithType\Models\" />
     <Folder Include="ItemTemplates\Orchard\ContentPart\Models\" />
     <Folder Include="ItemTemplates\Orchard\SettingsContentPart\Models\" />
+    <Folder Include="ItemTemplates\Orchard\ShapeTemplateFile\Models\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Lombiq.VisualStudioExtensions.ContentPartWizard\Lombiq.VisualStudioExtensions.ContentPartWizard.csproj">
