@@ -1,0 +1,10 @@
+﻿@model $rootnamespace$.Models.$contentpartname$Part
+
+<fieldset>
+    <legend>@T("$contentpartname$")</legend>
+
+    <ol>
+        <li>
+        </li>
+    </ol>
+</fieldset>

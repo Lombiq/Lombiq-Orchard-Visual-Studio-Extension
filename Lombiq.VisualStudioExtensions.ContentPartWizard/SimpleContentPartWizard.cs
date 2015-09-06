@@ -36,8 +36,16 @@ namespace Lombiq.VisualStudioExtensions.ContentPartWizard
                     contentPartName = contentPartName.Substring(0, contentPartName.Length - 4);
                 }
 
+                var settingsPartName = contentPartName;
+
+                if (!string.IsNullOrEmpty(settingsPartName) && settingsPartName.EndsWith("Settings"))
+                {
+                    settingsPartName = settingsPartName.Substring(0, settingsPartName.Length - 8);
+                }
+
                 // Add custom parameters.
                 replacementsDictionary.Add("$contentpartname$", contentPartName);
+                replacementsDictionary.Add("$settingscontentpartname$", settingsPartName);
             }
             catch (Exception ex)
             {

@@ -6,7 +6,7 @@
     <Name>Content Part with Record</Name>
     <Description>Generates a content part with a record and its necessary files in the project: commonly used files and migrations. IMPORTANT: Make sure that you selected the project root. NOTE: Placement.info is not generated or appended.</Description>
     <Icon>Icon.png</Icon>
-    <NumberOfParentCategoriesToRollUp>2</NumberOfParentCategoriesToRollUp>
+    <NumberOfParentCategoriesToRollUp>1</NumberOfParentCategoriesToRollUp>
     <TemplateID>75120133-88b5-46ad-810c-2ee5e6935b14</TemplateID>
     <SortOrder>11</SortOrder>
   </TemplateData>

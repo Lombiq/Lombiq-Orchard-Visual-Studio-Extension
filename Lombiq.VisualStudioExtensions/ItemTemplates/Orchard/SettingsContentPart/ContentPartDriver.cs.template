@@ -1,0 +1,32 @@
+﻿using $rootnamespace$.Models;
+using Orchard.ContentManagement;
+using Orchard.ContentManagement.Drivers;
+using Orchard.ContentManagement.Handlers;
+
+namespace $rootnamespace$.Drivers
+{
+    public class $contentpartname$PartDriver : ContentPartDriver<$contentpartname$Part>
+    {
+        protected override DriverResult Editor($contentpartname$Part part, dynamic shapeHelper)
+        {
+            return Editor(part, null, shapeHelper);
+        }
+
+        protected override DriverResult Editor($contentpartname$Part part, IUpdateModel updater, dynamic shapeHelper)
+        {
+            return ContentShape("Parts_$contentpartname$_Edit", () => 
+            {
+                if (updater != null)
+                {
+                    updater.TryUpdateModel(part, Prefix, null, null);
+                }
+
+                return shapeHelper.EditorTemplate(
+                    TemplateName: "Parts.$contentpartname$",
+                    Model: part,
+                    Prefix: Prefix);
+            })
+            .OnGroup("$contentpartname$");
+        }
+    }
+}
