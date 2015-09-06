@@ -7,11 +7,26 @@ using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
 using System.Linq;
+using System.Reflection;
 
 namespace Lombiq.VisualStudioExtensions.ContentPartWizard
 {
     public class SimpleContentPartWizard : IWizard
     {
+        private static string _codeTemplateLocation;
+
+        public static string CodeTemplateLocation
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(_codeTemplateLocation))
+                    _codeTemplateLocation = Path.Combine(Path.GetDirectoryName(typeof(SimpleContentPartWizard).Assembly.Location), "CodeTemplates");
+
+                return _codeTemplateLocation;
+            }
+        }
+
+
         public void BeforeOpeningFile(ProjectItem projectItem)
         {
         }
@@ -77,8 +92,8 @@ namespace Lombiq.VisualStudioExtensions.ContentPartWizard
             if (!properties.Any())
                 return "";
 
-            var infosetPropertyTemplatePath = Path.Combine(Environment.CurrentDirectory, "CodeTemplates", "infoset.template");
-            var hybridInfosetPropertyTemplatePath = Path.Combine(Environment.CurrentDirectory, "CodeTemplates", "hybridinfoset.template");
+            var infosetPropertyTemplatePath = Path.Combine(CodeTemplateLocation, "infoset.template");
+            var hybridInfosetPropertyTemplatePath = Path.Combine(CodeTemplateLocation, "hybridinfoset.template");
 
             var infosetPropertyTemplate = File.Exists(infosetPropertyTemplatePath) ? File.ReadAllText(infosetPropertyTemplatePath) : "";
             var hybridInfosetPropertyTemplate = File.Exists(hybridInfosetPropertyTemplatePath) ? File.ReadAllText(hybridInfosetPropertyTemplatePath) : "";
@@ -100,7 +115,7 @@ namespace Lombiq.VisualStudioExtensions.ContentPartWizard
             if (!properties.Any(property => property.HybridInfoset))
                 return "";
 
-            var virtualPropertyTemplatePath = Path.Combine(Environment.CurrentDirectory, "CodeTemplates", "virtualproperty.template");
+            var virtualPropertyTemplatePath = Path.Combine(CodeTemplateLocation, "virtualproperty.template");
 
             var virtualPropertyTemplate = File.Exists(virtualPropertyTemplatePath) ? File.ReadAllText(virtualPropertyTemplatePath) : "";
 
@@ -121,7 +136,7 @@ namespace Lombiq.VisualStudioExtensions.ContentPartWizard
             if (!items.Any(property => !property.SkipFromShapeTemplate))
                 return "";
 
-            var templatePath = Path.Combine(Environment.CurrentDirectory, "CodeTemplates", "shapepropertyeditor.template");
+            var templatePath = Path.Combine(CodeTemplateLocation, "shapepropertyeditor.template");
 
             var template = File.Exists(templatePath) ? File.ReadAllText(templatePath) : "";
 
@@ -142,7 +157,7 @@ namespace Lombiq.VisualStudioExtensions.ContentPartWizard
             if (!items.Any(property => !property.SkipFromShapeTemplate))
                 return "";
 
-            var templatePath = Path.Combine(Environment.CurrentDirectory, "CodeTemplates", "shapepropertydisplay.template");
+            var templatePath = Path.Combine(CodeTemplateLocation, "shapepropertydisplay.template");
 
             var template = File.Exists(templatePath) ? File.ReadAllText(templatePath) : "";
 
@@ -162,7 +177,7 @@ namespace Lombiq.VisualStudioExtensions.ContentPartWizard
             if (!items.Any(property => property.HybridInfoset))
                 return "";
 
-            var templatePath = Path.Combine(Environment.CurrentDirectory, "CodeTemplates", "migrationsrecordproperty.template");
+            var templatePath = Path.Combine(CodeTemplateLocation, "migrationsrecordproperty.template");
 
             var template = File.Exists(templatePath) ? File.ReadAllText(templatePath) : "";
 

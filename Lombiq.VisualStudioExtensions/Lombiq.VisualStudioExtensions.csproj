@@ -126,24 +126,30 @@
     </COMReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="CodeTemplates\hybridinfoset.template">
+    <Content Include="CodeTemplates\hybridinfoset.template">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="CodeTemplates\shapepropertydisplay.template">
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="CodeTemplates\shapepropertydisplay.template">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="CodeTemplates\shapepropertyeditor.template">
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="CodeTemplates\shapepropertyeditor.template">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="CodeTemplates\migrationsrecordproperty.template">
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="CodeTemplates\migrationsrecordproperty.template">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="CodeTemplates\virtualproperty.template">
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="CodeTemplates\virtualproperty.template">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="CodeTemplates\infoset.template">
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="CodeTemplates\infoset.template">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
     <None Include="ItemTemplates\Orchard\ContentPartWithTypeAndRecord\Constants.cs.template" />
     <None Include="ItemTemplates\Orchard\ContentPartWithTypeAndRecord\ContentHandler.cs.template" />
     <None Include="ItemTemplates\Orchard\ContentPartWithTypeAndRecord\ContentPart.cs.template" />
