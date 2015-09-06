@@ -126,11 +126,18 @@
     </COMReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="ItemTemplates\Orchard\ContentPartWithType\ContentHandler.cs.template" />
+    <None Include="ItemTemplates\Orchard\ContentPartWithType\ContentPart.cs.template" />
+    <None Include="ItemTemplates\Orchard\ContentPartWithType\ContentPartDriver.cs.template" />
+    <None Include="ItemTemplates\Orchard\ContentPartWithType\DisplayTemplate.cshtml.template" />
+    <None Include="ItemTemplates\Orchard\ContentPartWithType\EditorTemplate.cshtml.template" />
     <None Include="ItemTemplates\Orchard\ContentPartWithRecord\ContentHandler.cs.template" />
     <None Include="ItemTemplates\Orchard\ContentPartWithRecord\ContentPart.cs.template" />
     <None Include="ItemTemplates\Orchard\ContentPartWithRecord\ContentPartDriver.cs.template" />
     <None Include="ItemTemplates\Orchard\ContentPartWithRecord\DisplayTemplate.cshtml.template" />
     <None Include="ItemTemplates\Orchard\ContentPartWithRecord\EditorTemplate.cshtml.template" />
+    <None Include="ItemTemplates\Orchard\ContentPartWithType\Constants.cs.template" />
+    <None Include="ItemTemplates\Orchard\ContentPartWithType\Migrations.cs.template" />
     <None Include="ItemTemplates\Orchard\ContentPart\ContentHandler.cs.template" />
     <None Include="ItemTemplates\Orchard\ContentPart\ContentPartDriver.cs.template" />
     <None Include="ItemTemplates\Orchard\ContentPart\ContentPart.cs.template" />
@@ -184,6 +191,8 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="ItemTemplates\Orchard\ContentPartWithType\Definitions\CSharp.vstemplate" />
+    <Resource Include="ItemTemplates\Orchard\ContentPartWithType\Icon.png" />
     <Content Include="ItemTemplates\Orchard\ContentPartWithRecord\Definitions\CSharp.vstemplate" />
     <Resource Include="ItemTemplates\Orchard\ContentPartWithRecord\Icon.png" />
     <Content Include="ItemTemplates\Orchard\ContentPart\Definitions\CSharp.vstemplate" />
@@ -213,6 +222,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="ItemTemplates\Orchard\ContentPartWithRecord\Models\" />
+    <Folder Include="ItemTemplates\Orchard\ContentPartWithType\Models\" />
     <Folder Include="ItemTemplates\Orchard\ContentPart\Models\" />
   </ItemGroup>
   <ItemGroup>

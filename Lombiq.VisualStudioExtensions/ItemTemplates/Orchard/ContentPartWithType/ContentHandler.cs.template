@@ -1,0 +1,12 @@
+﻿using Orchard.ContentManagement.Handlers;
+
+namespace $rootnamespace$.Handlers
+{
+    public class $contentpartname$PartHandler : ContentHandler
+    {
+        public $contentpartname$PartHandler()
+        {
+
+        }
+    }
+}
