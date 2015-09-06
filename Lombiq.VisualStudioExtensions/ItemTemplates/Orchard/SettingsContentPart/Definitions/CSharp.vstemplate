@@ -17,7 +17,6 @@
     <ProjectItem TargetFileName="Drivers/$contentpartname$PartDriver.cs" ReplaceParameters="true">ContentPartDriver.cs.template</ProjectItem>
     <ProjectItem TargetFileName="Handlers/$contentpartname$PartHandler.cs" ReplaceParameters="true">ContentHandler.cs.template</ProjectItem>
     <ProjectItem TargetFileName="Views/EditorTemplates/Parts.$contentpartname$.cshtml" ReplaceParameters="true">EditorTemplate.cshtml.template</ProjectItem>
-    <ProjectItem TargetFileName="Views/Parts.$contentpartname$.cshtml" ReplaceParameters="true">DisplayTemplate.cshtml.template</ProjectItem>
     
   </TemplateContent>
 

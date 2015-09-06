@@ -126,6 +126,24 @@
     </COMReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="CodeTemplates\hybridinfoset.template">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="CodeTemplates\shapepropertydisplay.template">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="CodeTemplates\shapepropertyeditor.template">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="CodeTemplates\migrationsrecordproperty.template">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="CodeTemplates\virtualproperty.template">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="CodeTemplates\infoset.template">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="ItemTemplates\Orchard\ShapeTemplateFile\ShapeTemplate.cshtml.template" />
     <None Include="ItemTemplates\Orchard\SettingsContentPart\ContentHandler.cs.template" />
     <None Include="ItemTemplates\Orchard\SettingsContentPart\ContentPart.cs.template" />

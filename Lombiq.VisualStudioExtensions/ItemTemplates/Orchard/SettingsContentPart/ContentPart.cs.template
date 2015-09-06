@@ -4,6 +4,6 @@ namespace $rootnamespace$.Models
 {
     public class $contentpartname$Part : ContentPart
     {
-
+$infosetproperties$
     }
 }

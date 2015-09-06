@@ -4,7 +4,6 @@
     <legend>@T("$contentpartname$")</legend>
 
     <ol>
-        <li>
-        </li>
+$shapepropertyeditors$
     </ol>
 </fieldset>

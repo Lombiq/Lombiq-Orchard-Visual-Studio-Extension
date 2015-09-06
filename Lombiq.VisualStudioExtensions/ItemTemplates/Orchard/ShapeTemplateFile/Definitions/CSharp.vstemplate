@@ -3,7 +3,7 @@
     <ProjectType>CSharp</ProjectType>
     <ProjectSubType>Orchard</ProjectSubType>
     <DefaultName>MyTemplate.cshtml</DefaultName>
-    <Name>Empty Shape Template</Name>
+    <Name>Empty Shape Template File</Name>
     <Description>Generates an empty cshtml file to the location you selected.</Description>
     <Icon>Icon.png</Icon>
     <NumberOfParentCategoriesToRollUp>1</NumberOfParentCategoriesToRollUp>

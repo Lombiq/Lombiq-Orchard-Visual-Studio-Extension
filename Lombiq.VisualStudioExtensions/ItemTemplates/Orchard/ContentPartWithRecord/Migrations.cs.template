@@ -9,7 +9,7 @@ namespace $rootnamespace$.Migrations
         {
             SchemaBuilder.CreateTable(typeof($contentpartname$PartRecord).Name,
                 table => table
-                    .ContentPartRecord());
+                    .ContentPartRecord()$migrationsrecordproperties$);
 
             return 1;
         }

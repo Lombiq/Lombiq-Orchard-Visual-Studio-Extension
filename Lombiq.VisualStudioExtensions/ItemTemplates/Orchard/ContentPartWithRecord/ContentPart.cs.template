@@ -5,12 +5,12 @@ namespace $rootnamespace$.Models
 {
     public class $contentpartname$Part : ContentPart<$contentpartname$PartRecord>
     {
-
+$infosetproperties$
     }
 
 
     public class $contentpartname$PartRecord : ContentPartRecord
     {
-
+$virtualproperties$
     }
 }
