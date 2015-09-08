@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{3C26ED10-349F-49E4-9D07-06008B8AA0C7}</ProjectGuid>
+    <ProjectGuid>{63000BFB-F60F-4F6B-B3F8-03974CE8A5CA}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Lombiq.VisualStudioExtensions.ContentPartWizard</RootNamespace>
-    <AssemblyName>Lombiq.VisualStudioExtensions.ContentPartWizard</AssemblyName>
+    <RootNamespace>Lombiq.VisualStudioExtensions.TemplateWizards</RootNamespace>
+    <AssemblyName>Lombiq.VisualStudioExtensions.TemplateWizards</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -28,12 +28,6 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup>
-    <SignAssembly>false</SignAssembly>
-  </PropertyGroup>
-  <PropertyGroup>
-    <AssemblyOriginatorKeyFile>Key.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="envdte, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
@@ -58,18 +52,14 @@
       <DependentUpon>AddPropertiesDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="Models\PropertyItem.cs" />
-    <Compile Include="SimpleContentPartWizard.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Key.snk" />
+    <Compile Include="ContentPartWizard.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Forms\AddPropertiesDialog.resx">
       <DependentUpon>AddPropertiesDialog.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

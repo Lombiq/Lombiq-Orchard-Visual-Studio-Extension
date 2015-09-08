@@ -1,10 +1,10 @@
-﻿using Lombiq.VisualStudioExtensions.ContentPartWizard.Models;
+﻿using Lombiq.VisualStudioExtensions.TemplateWizards.Models;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows.Forms;
 
-namespace Lombiq.VisualStudioExtensions.ContentPartWizard.Forms
+namespace Lombiq.VisualStudioExtensions.TemplateWizards.Forms
 {
     public partial class AddPropertiesDialog : Form
     {

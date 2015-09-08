@@ -271,17 +271,17 @@
     <Folder Include="ItemTemplates\Orchard\ShapeTemplateFile\Models\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Lombiq.VisualStudioExtensions.ContentPartWizard\Lombiq.VisualStudioExtensions.ContentPartWizard.csproj">
-      <Project>{3c26ed10-349f-49e4-9d07-06008b8aa0c7}</Project>
-      <Name>Lombiq.VisualStudioExtensions.ContentPartWizard</Name>
-      <IncludeOutputGroupsInVSIX>BuiltProjectOutputGroup%3bBuiltProjectOutputGroupDependencies%3bGetCopyToOutputDirectoryItems%3bSatelliteDllsProjectOutputGroup%3b</IncludeOutputGroupsInVSIX>
-      <IncludeOutputGroupsInVSIXLocalOnly>DebugSymbolsProjectOutputGroup%3b</IncludeOutputGroupsInVSIXLocalOnly>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <TemplateReference Include="ModuleTemplate.csproj">
       <PathToProject>../OrchardTemplates/ModuleTemplate/ModuleTemplate.csproj</PathToProject>
     </TemplateReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Lombiq.VisualStudioExtensions.TemplateWizards\Lombiq.VisualStudioExtensions.TemplateWizards.csproj">
+      <Project>{63000BFB-F60F-4F6B-B3F8-03974CE8A5CA}</Project>
+      <Name>Lombiq.VisualStudioExtensions.TemplateWizards</Name>
+      <IncludeOutputGroupsInVSIX>BuiltProjectOutputGroup%3bBuiltProjectOutputGroupDependencies%3bGetCopyToOutputDirectoryItems%3bSatelliteDllsProjectOutputGroup%3b</IncludeOutputGroupsInVSIX>
+      <IncludeOutputGroupsInVSIXLocalOnly>DebugSymbolsProjectOutputGroup%3b</IncludeOutputGroupsInVSIXLocalOnly>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <UseCodebase>true</UseCodebase>

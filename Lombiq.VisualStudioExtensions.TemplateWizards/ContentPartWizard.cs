@@ -1,6 +1,6 @@
 ﻿using EnvDTE;
-using Lombiq.VisualStudioExtensions.ContentPartWizard.Forms;
-using Lombiq.VisualStudioExtensions.ContentPartWizard.Models;
+using Lombiq.VisualStudioExtensions.TemplateWizards.Forms;
+using Lombiq.VisualStudioExtensions.TemplateWizards.Models;
 using Microsoft.VisualStudio.TemplateWizard;
 using System;
 using System.Collections.Generic;
@@ -9,9 +9,9 @@ using System.Windows.Forms;
 using System.Linq;
 using System.Reflection;
 
-namespace Lombiq.VisualStudioExtensions.ContentPartWizard
+namespace Lombiq.VisualStudioExtensions.TemplateWizards
 {
-    public class SimpleContentPartWizard : IWizard
+    public class ContentPartWizard : IWizard
     {
         private static string _codeTemplateLocation;
 
@@ -20,7 +20,7 @@ namespace Lombiq.VisualStudioExtensions.ContentPartWizard
             get
             {
                 if (string.IsNullOrEmpty(_codeTemplateLocation))
-                    _codeTemplateLocation = Path.Combine(Path.GetDirectoryName(typeof(SimpleContentPartWizard).Assembly.Location), "CodeTemplates");
+                    _codeTemplateLocation = Path.Combine(Path.GetDirectoryName(typeof(ContentPartWizard).Assembly.Location), "CodeTemplates");
 
                 return _codeTemplateLocation;
             }

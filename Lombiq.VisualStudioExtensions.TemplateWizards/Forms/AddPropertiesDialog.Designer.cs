@@ -1,4 +1,4 @@
-﻿namespace Lombiq.VisualStudioExtensions.ContentPartWizard.Forms
+﻿namespace Lombiq.VisualStudioExtensions.TemplateWizards.Forms
 {
     partial class AddPropertiesDialog
     {

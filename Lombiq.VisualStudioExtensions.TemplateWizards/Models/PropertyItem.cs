@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
-namespace Lombiq.VisualStudioExtensions.ContentPartWizard.Models
+
+namespace Lombiq.VisualStudioExtensions.TemplateWizards.Models
 {
     public class PropertyItem
     {
