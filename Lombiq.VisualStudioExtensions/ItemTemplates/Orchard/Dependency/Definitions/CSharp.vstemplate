@@ -2,7 +2,7 @@
   <TemplateData>
     <ProjectType>CSharp</ProjectType>
     <ProjectSubType>Orchard</ProjectSubType>
-    <DefaultName>IMyDependency</DefaultName>
+    <DefaultName>IUltimateProblemSolverService</DefaultName>
     <Name>Dependency with Implementation</Name>
     <Description>Generates an interface inherited from IDependency and a class implementing this interface. Both files are located in a .cs file but without the 'I' prefix in the filename.</Description>
     <Icon>Icon.png</Icon>
