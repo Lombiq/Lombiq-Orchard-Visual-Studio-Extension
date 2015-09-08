@@ -1,0 +1,14 @@
+﻿using $rootnamespace$.Models;
+using Orchard.ContentManagement.Handlers;
+using Orchard.Data;
+
+namespace $rootnamespace$.Handlers
+{
+    public class $contentpartname$PartHandler : ContentHandler
+    {
+        public $contentpartname$PartHandler(IRepository<$contentpartname$PartRecord> repository)
+        {
+            Filters.Add(StorageFilter.For(repository));
+        }
+    }
+}

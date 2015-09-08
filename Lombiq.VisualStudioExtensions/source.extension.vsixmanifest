@@ -2,8 +2,12 @@
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
   <Metadata>
     <Identity Id="1a2f7a53-92bd-4396-b49c-98a9bfcc1d41" Version="1.0" Language="en-US" Publisher="Lombiq" />
-    <DisplayName>Lombiq.VisualStudioExtensions</DisplayName>
-    <Description>Visual Studio extensions used by developers at Lombiq.</Description>
+    <DisplayName>Lombiq Extensions</DisplayName>
+    <Description xml:space="preserve">Visual Studio extension with many features and templates frequently used by the Lombiq developers.</Description>
+    <MoreInfo>https://bitbucket.org/Lombiq/lombiq-visual-studio-extension</MoreInfo>
+    <Icon>Package.ico</Icon>
+    <PreviewImage>Orchard_large.png</PreviewImage>
+    <Tags>Orchard, Dependency, Shape</Tags>
   </Metadata>
   <Installation InstalledByMsi="false">
     <InstallationTarget Id="Microsoft.VisualStudio.Pro" Version="[12.0]" />
@@ -14,5 +18,8 @@
   </Dependencies>
   <Assets>
     <Asset Type="Microsoft.VisualStudio.VsPackage" d:Source="Project" d:ProjectName="%CurrentProject%" Path="|%CurrentProject%;PkgdefProjectOutputGroup|" />
+    <Asset Type="Microsoft.VisualStudio.ItemTemplate" Path="Output\ItemTemplates" />
+    <Asset Type="Microsoft.VisualStudio.ProjectTemplate" Path="Output\ProjectTemplates" />
+    <Asset Type="Microsoft.VisualStudio.Assembly" d:Source="Project" d:ProjectName="%CurrentProject%.TemplateWizards" Path="|Lombiq.VisualStudioExtensions.TemplateWizards|" AssemblyName="|Lombiq.VisualStudioExtensions.TemplateWizards;AssemblyName|" />
   </Assets>
 </PackageManifest>

@@ -1,0 +1,5 @@
+﻿        public #propertytype# #propertyname#
+        {
+            get { return Retrieve(x => x.#propertyname#); }
+            set { Store(x => x.#propertyname#, value); }
+        }

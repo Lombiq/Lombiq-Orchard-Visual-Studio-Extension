@@ -1,0 +1,19 @@
+<VSTemplate Version="3.0.0" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" Type="Item">
+  <TemplateData>
+    <ProjectType>CSharp</ProjectType>
+    <ProjectSubType>Orchard</ProjectSubType>
+    <DefaultName>MyTemplate.cshtml</DefaultName>
+    <Name>Empty Shape Template File</Name>
+    <Description>Generates an empty cshtml file to the location you selected.</Description>
+    <Icon>Icon.png</Icon>
+    <NumberOfParentCategoriesToRollUp>1</NumberOfParentCategoriesToRollUp>
+    <TemplateID>75120133-88b5-46ad-810c-2ee5e6935b14</TemplateID>
+    <SortOrder>15</SortOrder>
+  </TemplateData>
+  <TemplateContent>
+    <References />
+     
+    <ProjectItem TargetFileName="$safeitemname$.cshtml" ReplaceParameters="true">ShapeTemplate.cshtml.template</ProjectItem>
+    
+  </TemplateContent>
+</VSTemplate>

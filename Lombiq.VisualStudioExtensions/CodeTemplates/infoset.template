@@ -1,0 +1,5 @@
+﻿        public #propertytype# #propertyname#
+        {
+            get { return this.Retrieve(x => x.#propertyname#); }
+            set { this.Store(x => x.#propertyname#, value); }
+        }

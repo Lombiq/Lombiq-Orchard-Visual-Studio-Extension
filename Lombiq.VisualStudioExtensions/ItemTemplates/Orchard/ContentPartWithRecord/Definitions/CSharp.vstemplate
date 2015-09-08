@@ -1,0 +1,29 @@
+<VSTemplate Version="3.0.0" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" Type="Item">
+  <TemplateData>
+    <ProjectType>CSharp</ProjectType>
+    <ProjectSubType>Orchard</ProjectSubType>
+    <DefaultName>MyPart</DefaultName>
+    <Name>Content Part with Record</Name>
+    <Description>Generates a content part with a record and its necessary files in the project: commonly used files and migrations. IMPORTANT: Make sure that you selected the project root. NOTE: Placement.info is not generated or appended.</Description>
+    <Icon>Icon.png</Icon>
+    <NumberOfParentCategoriesToRollUp>1</NumberOfParentCategoriesToRollUp>
+    <TemplateID>75120133-88b5-46ad-810c-2ee5e6935b14</TemplateID>
+    <SortOrder>11</SortOrder>
+  </TemplateData>
+  <TemplateContent>
+    <References />
+     
+    <ProjectItem TargetFileName="Models/$contentpartname$Part.cs" ReplaceParameters="true">ContentPart.cs.template</ProjectItem>
+    <ProjectItem TargetFileName="Drivers/$contentpartname$PartDriver.cs" ReplaceParameters="true">ContentPartDriver.cs.template</ProjectItem>
+    <ProjectItem TargetFileName="Handlers/$contentpartname$PartHandler.cs" ReplaceParameters="true">ContentHandler.cs.template</ProjectItem>
+    <ProjectItem TargetFileName="Views/EditorTemplates/Parts.$contentpartname$.cshtml" ReplaceParameters="true">EditorTemplate.cshtml.template</ProjectItem>
+    <ProjectItem TargetFileName="Views/Parts.$contentpartname$.cshtml" ReplaceParameters="true">DisplayTemplate.cshtml.template</ProjectItem>
+    <ProjectItem TargetFileName="Migrations/$contentpartname$Migrations.cs" ReplaceParameters="true">Migrations.cs.template</ProjectItem>
+    
+  </TemplateContent>
+
+  <WizardExtension>
+    <Assembly>Lombiq.VisualStudioExtensions.TemplateWizards, Version=1.0.0.0, Culture=Neutral, PublicKeyToken=null</Assembly>
+    <FullClassName>Lombiq.VisualStudioExtensions.TemplateWizards.ContentPartWizard</FullClassName>
+  </WizardExtension>
+</VSTemplate>
