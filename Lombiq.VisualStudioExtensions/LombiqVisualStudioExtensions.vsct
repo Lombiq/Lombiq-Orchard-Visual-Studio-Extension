@@ -30,24 +30,6 @@
         </Strings>
       </Button>
 
-      <!--Hiding old module scaffolding feature-->
-      <!--<Button guid="LombiqVisualStudioExtensionsCommandSetGuid" id="cmdidAddModule" priority="0x0100" type="Button">
-        <Parent guid="LombiqVisualStudioExtensionsCommandSetGuid" id="SolutionFolderMenuGroup" />
-        <Icon guid="ImagesGuid" id="OrchardIconBitmap" />
-        <Strings>
-          <ButtonText>Add Orchard Module</ButtonText>
-        </Strings>
-      </Button>-->
-
-      <!-- For testing purposes. -->
-      <!--<Button guid="LombiqVisualStudioExtensionsCommandSetGuid" id="cmdidTest" priority="0x0101" type="Button">
-        <Parent guid="LombiqVisualStudioExtensionsCommandSetGuid" id="ToolsMenuGroup" />
-        <Icon guid="ImagesGuid" id="OrchardIconBitmap" />
-        <Strings>
-          <ButtonText>Test (Debug)</ButtonText>
-        </Strings>
-      </Button>-->
-
     </Buttons>
    
     
@@ -68,8 +50,6 @@
       <IDSymbol name="ToolsMenuGroup" value="0x1020" />
       <IDSymbol name="SolutionFolderMenuGroup" value="0x1021" />
       <IDSymbol name="cmdidInjectDependency" value="0x0100" />
-      <!--<IDSymbol name="cmdidAddModule" value="0x0101" />-->
-      <!--<IDSymbol name="cmdidTest" value="0x0102" />-->
     </GuidSymbol>
     
     
