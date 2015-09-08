@@ -45,6 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DependencyWizard.cs" />
     <Compile Include="Forms\AddPropertiesDialog.cs">
       <SubType>Form</SubType>
     </Compile>

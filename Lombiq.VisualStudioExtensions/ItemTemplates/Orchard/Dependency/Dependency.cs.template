@@ -1,0 +1,20 @@
+﻿using Orchard;
+
+namespace $rootnamespace$
+{
+    public interface I$dependencyclassname$ : IDependency
+    {
+    }
+
+
+    public class $dependencyclassname$ : I$dependencyclassname$
+    {
+        private readonly IOrchardServices _orchardServices;
+
+
+        public $dependencyclassname$(IOrchardServices orchardServices)
+        {
+            _orchardServices = orchardServices;
+        }
+    }
+}

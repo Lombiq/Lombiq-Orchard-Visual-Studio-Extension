@@ -157,6 +157,7 @@
     <None Include="ItemTemplates\Orchard\ContentPartWithTypeAndRecord\DisplayTemplate.cshtml.template" />
     <None Include="ItemTemplates\Orchard\ContentPartWithTypeAndRecord\EditorTemplate.cshtml.template" />
     <None Include="ItemTemplates\Orchard\ContentPartWithTypeAndRecord\Migrations.cs.template" />
+    <None Include="ItemTemplates\Orchard\Dependency\Dependency.cs.template" />
     <None Include="ItemTemplates\Orchard\ShapeTemplateFile\ShapeTemplate.cshtml.template" />
     <None Include="ItemTemplates\Orchard\SettingsContentPart\ContentHandler.cs.template" />
     <None Include="ItemTemplates\Orchard\SettingsContentPart\ContentPart.cs.template" />
@@ -229,6 +230,8 @@
   <ItemGroup>
     <Content Include="ItemTemplates\Orchard\ContentPartWithTypeAndRecord\Definitions\CSharp.vstemplate" />
     <Resource Include="ItemTemplates\Orchard\ContentPartWithTypeAndRecord\Icon.png" />
+    <Content Include="ItemTemplates\Orchard\Dependency\Definitions\CSharp.vstemplate" />
+    <Resource Include="ItemTemplates\Orchard\Dependency\Icon.png" />
     <Content Include="ItemTemplates\Orchard\ShapeTemplateFile\Definitions\CSharp.vstemplate" />
     <Resource Include="ItemTemplates\Orchard\ShapeTemplateFile\Icon.png" />
     <Content Include="ItemTemplates\Orchard\SettingsContentPart\Definitions\CSharp.vstemplate" />
@@ -267,6 +270,7 @@
     <Folder Include="ItemTemplates\Orchard\ContentPartWithTypeAndRecord\Models\" />
     <Folder Include="ItemTemplates\Orchard\ContentPartWithType\Models\" />
     <Folder Include="ItemTemplates\Orchard\ContentPart\Models\" />
+    <Folder Include="ItemTemplates\Orchard\Dependency\Models\" />
     <Folder Include="ItemTemplates\Orchard\SettingsContentPart\Models\" />
     <Folder Include="ItemTemplates\Orchard\ShapeTemplateFile\Models\" />
   </ItemGroup>
