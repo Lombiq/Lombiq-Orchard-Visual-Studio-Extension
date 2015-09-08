@@ -11,6 +11,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModuleTemplate", "OrchardTe
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lombiq.VisualStudioExtensions.TemplateWizards", "Lombiq.VisualStudioExtensions.TemplateWizards\Lombiq.VisualStudioExtensions.TemplateWizards.csproj", "{63000BFB-F60F-4F6B-B3F8-03974CE8A5CA}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{06173993-19D3-4CCA-9CA1-E9560C43293E}"
+	ProjectSection(SolutionItems) = preProject
+		Readme.md = Readme.md
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

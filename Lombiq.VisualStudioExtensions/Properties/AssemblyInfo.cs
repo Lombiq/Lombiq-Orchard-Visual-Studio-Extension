@@ -11,7 +11,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Lombiq")]
-[assembly: AssemblyProduct("Lombiq.VisualStudioExtensions")]
+[assembly: AssemblyProduct("Lombiq Extensions")]
 [assembly: AssemblyCopyright("")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]   
