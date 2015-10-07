@@ -27,7 +27,7 @@ namespace $rootnamespace$.Drivers
                 }
 
                 return shapeHelper.EditorTemplate(
-                    TemplateName: "Parts.$contentpartname$",
+                    TemplateName: "Parts/$contentpartname$",
                     Model: part,
                     Prefix: Prefix);
             })

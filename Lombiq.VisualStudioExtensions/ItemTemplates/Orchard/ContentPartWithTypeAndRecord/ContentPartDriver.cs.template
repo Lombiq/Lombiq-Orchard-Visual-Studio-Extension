@@ -22,7 +22,7 @@ namespace $rootnamespace$.Drivers
         {
             return ContentShape("Parts_$contentpartname$_Edit",
                 () => shapeHelper.EditorTemplate(
-                    TemplateName: "Parts.$contentpartname$",
+                    TemplateName: "Parts/$contentpartname$",
                     Model: part,
                     Prefix: Prefix));
         }
