@@ -7,15 +7,6 @@ namespace $rootnamespace$.Drivers
 {
     public class $contentpartname$PartDriver : ContentPartDriver<$contentpartname$Part>
     {
-        protected override string Prefix
-        {
-            get
-            {
-                return "$rootnamespace$.Models.$contentpartname$Part";
-            }
-        }
-
-
         protected override DriverResult Display($contentpartname$Part part, string displayType, dynamic shapeHelper)
         {
             return ContentShape("Parts_$contentpartname$",
