@@ -144,7 +144,18 @@ namespace Lombiq.VisualStudioExtensions.TemplateWizards
             foreach (var item in items.Where(property => !property.SkipFromShapeTemplate))
             {
                 var finalReplacement = template.Replace("#propertyname#", item.Name);
-                finalReplacement = finalReplacement.Replace("#editortype#", item.Type == "bool" ? "CheckBox" : "TextBox");
+                if (item.Type == "bool")
+                {
+                    finalReplacement = finalReplacement.Replace("#editortype#", "CheckBox");
+                }
+                else if (item.Type == "string")
+                {
+                    finalReplacement = finalReplacement.Replace("#editortype#", "TextBox");
+                }
+                else
+                {
+                    finalReplacement = finalReplacement.Replace("#editortype#", "Input");
+                }
 
                 finalReplacementsList.Add(finalReplacement);
             }
