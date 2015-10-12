@@ -154,6 +154,10 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
+    <Content Include="CodeTemplates\migrationsrecordindex.template">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
     <None Include="ItemTemplates\Orchard\ContentPartWithTypeAndRecord\Constants.cs.template" />
     <None Include="ItemTemplates\Orchard\ContentPartWithTypeAndRecord\ContentHandler.cs.template" />
     <None Include="ItemTemplates\Orchard\ContentPartWithTypeAndRecord\ContentPart.cs.template" />

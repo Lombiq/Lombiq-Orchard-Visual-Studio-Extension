@@ -74,6 +74,7 @@ namespace Lombiq.VisualStudioExtensions.TemplateWizards
                 replacementsDictionary.Add("$shapepropertyeditors$", GenerateShapePropertyEditors(addPropertiesDialog.PropertyItems));
                 replacementsDictionary.Add("$shapepropertydisplays$", GenerateShapePropertyDisplays(addPropertiesDialog.PropertyItems));
                 replacementsDictionary.Add("$migrationsrecordproperties$", GenerateMigrationsRecordProperties(addPropertiesDialog.PropertyItems));
+                replacementsDictionary.Add("$migrationsrecordindexes$", GenerateMigrationsRecordIndexes(addPropertiesDialog.PropertyItems, contentPartName + "PartRecord"));
             }
             catch (Exception ex)
             {
@@ -202,6 +203,27 @@ namespace Lombiq.VisualStudioExtensions.TemplateWizards
             }
 
             return Environment.NewLine + string.Join(Environment.NewLine, finalReplacementsList);
+        }
+
+        private string GenerateMigrationsRecordIndexes(IList<PropertyItem> items, string recordName)
+        {
+            if (!items.Any(property => property.HybridInfoset))
+                return "";
+
+            var templatePath = Path.Combine(CodeTemplateLocation, "migrationsrecordindex.template");
+
+            var template = File.Exists(templatePath) ? File.ReadAllText(templatePath) : "";
+
+            var finalReplacementsList = new List<string>();
+            foreach (var item in items.Where(property => property.HybridInfoset))
+            {
+                var finalReplacement = template.Replace("#propertyname#", item.Name);
+                finalReplacement = finalReplacement.Replace("#recordname#", recordName);
+
+                finalReplacementsList.Add(finalReplacement);
+            }
+
+            return string.Join(Environment.NewLine, finalReplacementsList);
         }
     }
 }
