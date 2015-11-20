@@ -1,8 +1,8 @@
-﻿# Lombiq Extensions Readme
+# Lombiq Visual Studio Extension readme
 
 
 
-Visual Studio extension with many features and templates frequently used by the Lombiq developers.
+Visual Studio extension with many features and templates frequently used by the [Lombiq](http://lombiq.com/) developers.
 
 
 ## Features
@@ -21,3 +21,13 @@ Item templates can be found in 'Add' > 'New Item' and in 'Visual C#' > 'Orchard'
 * Dependency Template File: It generates an interface inherited from IDependency and a class that implements this interface. Those will be in one single file and the file name will be the class' name.
 
 * Orchard 1.9 Module Template: It scaffolds an Orchard 1.9 module to your solution. NOTE: Make sure that the folder you selected is the Modules folder.
+
+
+## Source repositories
+
+The module's source is available in two public source repositories, automatically mirrored in both directions with [Git-hg Mirror](https://githgmirror.com):
+
+- [https://bitbucket.org/Lombiq/lombiq-visual-studio-extension](https://bitbucket.org/Lombiq/lombiq-visual-studio-extension) (Mercurial repository)
+- [https://github.com/Lombiq/Lombiq-Visual-Studio-Extension](https://github.com/Lombiq/Lombiq-Visual-Studio-Extension) (Git repository)
+
+This project is developed by [Lombiq Technologies Ltd](http://lombiq.com/). Commercial-grade support is available through Lombiq.
