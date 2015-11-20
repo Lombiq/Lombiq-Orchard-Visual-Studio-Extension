@@ -154,6 +154,10 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
+    <Content Include="CodeTemplates\migrationsrecordindex.template">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
     <None Include="ItemTemplates\Orchard\ContentPartWithTypeAndRecord\Constants.cs.template" />
     <None Include="ItemTemplates\Orchard\ContentPartWithTypeAndRecord\ContentHandler.cs.template" />
     <None Include="ItemTemplates\Orchard\ContentPartWithTypeAndRecord\ContentPart.cs.template" />
@@ -258,15 +262,7 @@
     </Content>
     <Resource Include="ItemTemplates\Orchard\ContentPart\Icon.png" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="ItemTemplates\Orchard\ContentPartWithRecord\Models\" />
-    <Folder Include="ItemTemplates\Orchard\ContentPartWithTypeAndRecord\Models\" />
-    <Folder Include="ItemTemplates\Orchard\ContentPartWithType\Models\" />
-    <Folder Include="ItemTemplates\Orchard\ContentPart\Models\" />
-    <Folder Include="ItemTemplates\Orchard\Dependency\Models\" />
-    <Folder Include="ItemTemplates\Orchard\SettingsContentPart\Models\" />
-    <Folder Include="ItemTemplates\Orchard\ShapeTemplateFile\Models\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <TemplateReference Include="ModuleTemplate.csproj">
       <PathToProject>../OrchardTemplates/ModuleTemplate/ModuleTemplate.csproj</PathToProject>

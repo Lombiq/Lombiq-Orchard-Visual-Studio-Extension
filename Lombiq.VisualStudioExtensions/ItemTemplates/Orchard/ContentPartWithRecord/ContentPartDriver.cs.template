@@ -2,20 +2,16 @@
 using Orchard.ContentManagement;
 using Orchard.ContentManagement.Drivers;
 using Orchard.ContentManagement.Handlers;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace $rootnamespace$.Drivers
 {
     public class $contentpartname$PartDriver : ContentPartDriver<$contentpartname$Part>
     {
-        protected override string Prefix
-        {
-            get
-            {
-                return "$rootnamespace$.Models.$contentpartname$Part";
-            }
-        }
-
-
         protected override DriverResult Display($contentpartname$Part part, string displayType, dynamic shapeHelper)
         {
             return ContentShape("Parts_$contentpartname$",
@@ -26,7 +22,7 @@ namespace $rootnamespace$.Drivers
         {
             return ContentShape("Parts_$contentpartname$_Edit",
                 () => shapeHelper.EditorTemplate(
-                    TemplateName: "Parts.$contentpartname$",
+                    TemplateName: "Parts/$contentpartname$",
                     Model: part,
                     Prefix: Prefix));
         }

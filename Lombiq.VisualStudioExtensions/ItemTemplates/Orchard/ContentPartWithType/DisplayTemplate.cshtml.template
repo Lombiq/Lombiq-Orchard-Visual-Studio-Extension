@@ -1,5 +1,6 @@
-﻿@{
-    var part = ($rootnamespace$.Models.$contentpartname$Part)Model.ContentPart;
+﻿@using $rootnamespace$.Models
+@{
+    var part = ($contentpartname$Part)Model.ContentPart;
 }
 
 $shapepropertydisplays$

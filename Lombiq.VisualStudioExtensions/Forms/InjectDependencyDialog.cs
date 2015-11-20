@@ -24,16 +24,6 @@ namespace Lombiq.VisualStudioExtensions.Forms
             this.ActiveControl = textBox1;    
         }
 
-        private void textBox1_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.Enter)
-            {
-                this.DialogResult = System.Windows.Forms.DialogResult.OK;
-
-                this.Close();
-            }
-        }
-
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
             if (DependencyName.Length == 0)
@@ -62,6 +52,11 @@ namespace Lombiq.VisualStudioExtensions.Forms
             }
 
             return string.Format("_{0}{1}", char.ToLower(cleanedDependency[0]), cleanedDependency.Substring(1));
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
