@@ -272,6 +272,9 @@
     <TemplateReference Include="ModuleTemplate.csproj">
       <PathToProject>../OrchardTemplates/ModuleTemplate/ModuleTemplate.csproj</PathToProject>
     </TemplateReference>
+    <TemplateReference Include="ModuleTemplate110.csproj">
+      <PathToProject>../OrchardTemplates/ModuleTemplate110/ModuleTemplate110.csproj</PathToProject>
+    </TemplateReference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Lombiq.VisualStudioExtensions.TemplateWizards\Lombiq.VisualStudioExtensions.TemplateWizards.csproj">

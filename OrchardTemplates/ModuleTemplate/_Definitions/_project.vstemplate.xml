@@ -2,7 +2,7 @@
   <TemplateData>
     <Name>Orchard 1.9 Module</Name>
     <Description>Adding an Orchard module to your solution.</Description>
-    <DefaultName>MyModule</DefaultName>
+    <DefaultName>Orchard.MyModule</DefaultName>
     
     <ProjectType>CSharp</ProjectType>
     <ProjectSubType>Orchard</ProjectSubType>
