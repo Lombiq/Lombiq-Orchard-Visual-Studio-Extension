@@ -10,6 +10,7 @@
     <ItemTemplate Path="ItemTemplates\Orchard\SettingsContentPart\Definitions\CSharp.vstemplate" Name="Settings Content Part" Description="Generates a settings content part and its necessary files in the project using the conventions of settings part development. IMPORTANT: Make sure that you selected the project root. NOTE: Placement.info is not generated or appended." ProjectType="CSharp" ProjectSubType="Orchard" />
   </ItemTemplates>
   <ProjectTemplates>
+    <ProjectTemplate Path="..\OrchardTemplates\ModuleTemplate110\_Definitions\_project.vstemplate.xml" Name="Orchard 1.10 Module" Description="Adding an Orchard 1.10 module to your solution." ProjectType="CSharp" ProjectSubType="Orchard" />
     <ProjectTemplate Path="..\OrchardTemplates\ModuleTemplate\_Definitions\_project.vstemplate.xml" Name="Orchard 1.9 Module" Description="Adding an Orchard module to your solution." ProjectType="CSharp" ProjectSubType="Orchard" />
   </ProjectTemplates>
   <Snippets />
