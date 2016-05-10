@@ -22,6 +22,8 @@ Item templates can be found in 'Add' > 'New Item' and in 'Visual C#' > 'Orchard'
 
 * Orchard 1.9 Module Template: It scaffolds an Orchard 1.9 module to your solution. NOTE: Make sure that the folder you selected is the Modules folder.
 
+* Orchard 1.10 Module Template: It scaffolds an Orchard 1.10 module, see the description above.
+
 
 ## Source repositories
 

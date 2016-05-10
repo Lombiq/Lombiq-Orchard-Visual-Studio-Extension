@@ -155,7 +155,7 @@ namespace Lombiq.VisualStudioExtensions.TemplateWizards
                 }
                 else
                 {
-                    finalReplacement = finalReplacement.Replace("#editortype#", "Input");
+                    finalReplacement = finalReplacement.Replace("#editortype#", "Editor");
                 }
 
                 finalReplacementsList.Add(finalReplacement);
