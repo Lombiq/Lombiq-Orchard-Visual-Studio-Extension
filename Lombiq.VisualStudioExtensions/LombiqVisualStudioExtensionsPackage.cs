@@ -47,7 +47,7 @@ namespace Lombiq.VisualStudioExtensions
         {
             if (_dte.ActiveDocument == null)
             {
-                MessageBox.Show("Open a code file first.", "Inject Dependency", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                DialogHelpers.Error("Open a code file first.", "Inject Dependency");
 
                 return;
             }
