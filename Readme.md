@@ -40,13 +40,13 @@ This project is developed by [Lombiq Technologies Ltd](http://lombiq.com/). Comm
 3. Add the project as an existing item to the Orchard Templates solution folder.
 4. Open the build configuration manager and make this project not to be built when building the solution.
 5. Right click on the main extension project and under the Add menu select the SideWaffle project. Select your project template in the form that has recently appeared.
-6. Now you have 3 files seems to be created in your project skeleton (and one phantom project file in the main extension project, don't remove it).
-	- _Definitions/_project.vstemplate.xml: It contains all the information need to be shown up when adding a new project later. I'd suggest you to replace this file with a similar one from the existing project templates and update the Name, Description and the ProjectTemplate/Project tags and the other tags if necessary.
-	- _preprocess.xml: It is described here what to do right before creating the project from the template like replacing strings. It is also recommended to replace this file with one of the existings. You can update TemplateInfo/Path attribute and the Replacements if necessary.
-	- sw-file-icon.png: The icon of the template shown up when adding the project. You should replace it (eg. with an Orchard logo found in other templates).
+6. Now you got 3 files created in your project skeleton (and one phantom project file in the main extension project, don't remove it).
+	- \_Definitions/_project.vstemplate.xml: It contains all the information needed to be shown when adding a new project later. I'd suggest you to replace this file with a similar one from the existing project templates and update the Name, Description and the ProjectTemplate/Project tags and the other tags if necessary.
+	- _preprocess.xml: It is described here what to do right before creating the project from the template like replacing strings. It is also recommended to replace this file with one of the existing ones. You can update TemplateInfo/Path attribute and the Replacements if necessary.
+	- sw-file-icon.png: The icon of the template shown when adding the project. You should replace it (eg. with an Orchard logo found in other templates).
 7. Finally we need to edit some project files.
-	- Module.txt/Theme.txt: You can use $safeprojectname$ or the string you've just given in a Replacement list - both will make the project generator to replace it with the project name (that is actualy the module's/theme's name). See one of the existing similar file.
-	- Csproj file (right click on the project and select Properties): Give the value you've just given to the Replacement list to the Assembly name and Default namespace (eg. Orchard.ModuleTemplate) so this will be also replaced after the project has been created from this template.
-	- Properties/AssemblyInfo.cs: Edit the AssemblyTitle attribute and give either the value you've just given to the Replacement list or the $safeprojectname$ string. Also the GUID needs to be auto-generated so replace the GUID value with $guid1$.
+	- Module.txt/Theme.txt: You can use $safeprojectname$ or the string you've just specified in a Replacement list - both will make the project generator replace it with the project name (that is actualy the module's/theme's name). See one of the existing similar file.
+	- Csproj file (right click on the project and select Properties): specify the value you've just given in the Replacement list to the Assembly name and Default namespace (eg. Orchard.ModuleTemplate) so this will be also replaced after the project has been created from this template.
+	- Properties/AssemblyInfo.cs: Edit the AssemblyTitle attribute and specify either the value you've just given in the Replacement list or the $safeprojectname$ string. Also the GUID needs to be auto-generated so replace the GUID value with $guid1$.
 
 These were the commonly used modifications but make sure that all the replacements can be done if you have some special files (eg. if you have a code file then replace the root namespace with the one given in the csproj properties).
