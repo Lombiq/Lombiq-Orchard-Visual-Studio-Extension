@@ -1,6 +1,6 @@
 ﻿namespace Lombiq.VisualStudioExtensions.TemplateWizards.Forms
 {
-    partial class AddPropertiesDialog
+    partial class ContentPartWizardDialog
     {
         /// <summary>
         /// Required designer variable.
@@ -28,13 +28,15 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AddPropertiesDialog));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ContentPartWizardDialog));
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.updatePlacementCheckBox = new System.Windows.Forms.CheckBox();
+            this.label1 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
@@ -42,7 +44,7 @@
             // button1
             // 
             this.button1.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.button1.Location = new System.Drawing.Point(456, 266);
+            this.button1.Location = new System.Drawing.Point(456, 308);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
             this.button1.TabIndex = 0;
@@ -52,7 +54,7 @@
             // button2
             // 
             this.button2.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.button2.Location = new System.Drawing.Point(537, 266);
+            this.button2.Location = new System.Drawing.Point(537, 308);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(75, 23);
             this.button2.TabIndex = 1;
@@ -62,7 +64,7 @@
             // label2
             // 
             this.label2.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.label2.Location = new System.Drawing.Point(1, 247);
+            this.label2.Location = new System.Drawing.Point(1, 289);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(625, 2);
             this.label2.TabIndex = 4;
@@ -71,7 +73,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(147, 12);
+            this.label6.Location = new System.Drawing.Point(147, 54);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(331, 13);
             this.label6.TabIndex = 11;
@@ -89,16 +91,40 @@
             // dataGridView1
             // 
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(150, 38);
+            this.dataGridView1.Location = new System.Drawing.Point(150, 80);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.Size = new System.Drawing.Size(462, 190);
             this.dataGridView1.TabIndex = 13;
             // 
-            // AddPropertiesDialog
+            // updatePlacementCheckBox
+            // 
+            this.updatePlacementCheckBox.AutoSize = true;
+            this.updatePlacementCheckBox.Location = new System.Drawing.Point(150, 12);
+            this.updatePlacementCheckBox.Name = "updatePlacementCheckBox";
+            this.updatePlacementCheckBox.Size = new System.Drawing.Size(171, 17);
+            this.updatePlacementCheckBox.TabIndex = 14;
+            this.updatePlacementCheckBox.Text = "Update Placement.info if exists";
+            this.updatePlacementCheckBox.UseVisualStyleBackColor = true;
+            this.updatePlacementCheckBox.CheckedChanged += new System.EventHandler(this.updatePlacementCheckBox_CheckedChanged);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.label1.Location = new System.Drawing.Point(147, 32);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(396, 13);
+            this.label1.TabIndex = 15;
+            this.label1.Text = "Note: the default XML indenting will be applied that may differ from the current " +
+    "one.";
+            // 
+            // ContentPartWizardDialog
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(624, 301);
+            this.ClientSize = new System.Drawing.Size(624, 348);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.updatePlacementCheckBox);
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.label6);
@@ -106,7 +132,7 @@
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
-            this.Name = "AddPropertiesDialog";
+            this.Name = "ContentPartWizardDialog";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Add Infoset Properties";
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
@@ -124,5 +150,7 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.CheckBox updatePlacementCheckBox;
+        private System.Windows.Forms.Label label1;
     }
 }

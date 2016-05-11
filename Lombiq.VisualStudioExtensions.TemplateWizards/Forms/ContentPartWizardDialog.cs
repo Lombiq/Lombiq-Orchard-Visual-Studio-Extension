@@ -6,12 +6,13 @@ using System.Windows.Forms;
 
 namespace Lombiq.VisualStudioExtensions.TemplateWizards.Forms
 {
-    public partial class AddPropertiesDialog : Form
+    public partial class ContentPartWizardDialog : Form
     {
         public BindingList<PropertyItem> PropertyItems { get; set; }
+        public bool UpdatePlacementInfoIfExists { get; set; }
 
 
-        public AddPropertiesDialog()
+        public ContentPartWizardDialog()
         {
             InitializeComponent();
 
@@ -26,16 +27,23 @@ namespace Lombiq.VisualStudioExtensions.TemplateWizards.Forms
             var source = new BindingSource(PropertyItems, null);
 
             dataGridView1.DataSource = source;
+
         }
+
 
         private void textBox1_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
             {
-                this.DialogResult = System.Windows.Forms.DialogResult.OK;
+                DialogResult = DialogResult.OK;
 
-                this.Close();
+                Close();
             }
+        }
+
+        private void updatePlacementCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            UpdatePlacementInfoIfExists = updatePlacementCheckBox.Checked;
         }
     }
 }

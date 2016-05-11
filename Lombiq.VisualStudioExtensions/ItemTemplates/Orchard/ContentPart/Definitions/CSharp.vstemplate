@@ -18,6 +18,7 @@
     <ProjectItem TargetFileName="Handlers/$contentpartname$PartHandler.cs" ReplaceParameters="true">ContentHandler.cs.template</ProjectItem>
     <ProjectItem TargetFileName="Views/EditorTemplates/Parts/$contentpartname$.cshtml" ReplaceParameters="true">EditorTemplate.cshtml.template</ProjectItem>
     <ProjectItem TargetFileName="Views/Parts/$contentpartname$.cshtml" ReplaceParameters="true">DisplayTemplate.cshtml.template</ProjectItem>
+    <ProjectItem TargetFileName="Placement.info" ReplaceParameters="true">Placement.info.template</ProjectItem>
     
   </TemplateContent>
 

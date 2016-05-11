@@ -163,6 +163,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
+    <None Include="ItemTemplates\Orchard\ContentPartWithRecord\Placement.info.template">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="ItemTemplates\Orchard\ContentPartWithTypeAndRecord\Constants.cs.template" />
     <None Include="ItemTemplates\Orchard\ContentPartWithTypeAndRecord\ContentHandler.cs.template" />
     <None Include="ItemTemplates\Orchard\ContentPartWithTypeAndRecord\ContentPart.cs.template" />
@@ -170,7 +173,19 @@
     <None Include="ItemTemplates\Orchard\ContentPartWithTypeAndRecord\DisplayTemplate.cshtml.template" />
     <None Include="ItemTemplates\Orchard\ContentPartWithTypeAndRecord\EditorTemplate.cshtml.template" />
     <None Include="ItemTemplates\Orchard\ContentPartWithTypeAndRecord\Migrations.cs.template" />
+    <None Include="ItemTemplates\Orchard\ContentPartWithTypeAndRecord\Placement.info.template">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="ItemTemplates\Orchard\ContentPartWithType\Placement.info.template">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="ItemTemplates\Orchard\ContentPart\Placement.info.template">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="ItemTemplates\Orchard\Dependency\Dependency.cs.template" />
+    <None Include="ItemTemplates\Orchard\SettingsContentPart\Placement.info.template">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="ItemTemplates\Orchard\ShapeTemplateFile\ShapeTemplate.cshtml.template" />
     <None Include="ItemTemplates\Orchard\SettingsContentPart\ContentHandler.cs.template" />
     <None Include="ItemTemplates\Orchard\SettingsContentPart\ContentPart.cs.template" />
@@ -283,6 +298,7 @@
       <PathToProject>../OrchardTemplates/Orchard.ModuleTemplate.1.9/Orchard.ModuleTemplate.1.9.csproj</PathToProject>
     </TemplateReference>
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <UseCodebase>true</UseCodebase>
   </PropertyGroup>

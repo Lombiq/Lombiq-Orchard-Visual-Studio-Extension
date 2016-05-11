@@ -8,13 +8,13 @@ using System.IO;
 using System.Windows.Forms;
 using System.Linq;
 using System.Reflection;
+using System.Xml.Linq;
 
 namespace Lombiq.VisualStudioExtensions.TemplateWizards
 {
     public class ContentPartWizard : IWizard
     {
         private static string _codeTemplateLocation;
-
         public static string CodeTemplateLocation
         {
             get
@@ -25,6 +25,9 @@ namespace Lombiq.VisualStudioExtensions.TemplateWizards
                 return _codeTemplateLocation;
             }
         }
+
+
+        private ContentPartWizardContext _context;
 
 
         public void BeforeOpeningFile(ProjectItem projectItem)
@@ -47,34 +50,49 @@ namespace Lombiq.VisualStudioExtensions.TemplateWizards
         {
             try
             {
-                var contentPartName = string.Empty;
-                replacementsDictionary.TryGetValue("$safeitemname$", out contentPartName);
+                _context = new ContentPartWizardContext();
 
-                if (!string.IsNullOrEmpty(contentPartName) && contentPartName.EndsWith("Part"))
+                var dte = automationObject as DTE;
+                if (dte != null)
                 {
-                    contentPartName = contentPartName.Substring(0, contentPartName.Length - 4);
+                    var activeProjects = (Array)dte.ActiveSolutionProjects;
+
+                    if (activeProjects.Length > 0)
+                    {
+                        var activeProject = (Project)activeProjects.GetValue(0);
+
+                        _context.TargetProjectPath = Path.GetDirectoryName(activeProject.FullName);
+                    }
                 }
 
-                var settingsPartName = contentPartName;
 
-                if (!string.IsNullOrEmpty(settingsPartName) && settingsPartName.EndsWith("Settings"))
-                {
-                    settingsPartName = settingsPartName.Substring(0, settingsPartName.Length - 8);
-                }
+                var contentPartNameWithoutSuffix = string.Empty;
+                replacementsDictionary.TryGetValue("$safeitemname$", out contentPartNameWithoutSuffix);
+
+                _context.ContentPartNameWithoutSuffix = contentPartNameWithoutSuffix.TrimEnd("Part");
+                _context.FullContentPartName = _context.ContentPartNameWithoutSuffix + "Part";
+
+                var settingsPartName = _context.ContentPartNameWithoutSuffix.TrimEnd("Settings");
 
                 // Add custom parameters.
-                replacementsDictionary.Add("$contentpartname$", contentPartName);
+                replacementsDictionary.Add("$contentpartname$", contentPartNameWithoutSuffix);
                 replacementsDictionary.Add("$settingscontentpartname$", settingsPartName);
 
-                var addPropertiesDialog = new AddPropertiesDialog();
-                addPropertiesDialog.ShowDialog();
+                using (var dialog = new ContentPartWizardDialog())
+                {
+                    if (dialog.ShowDialog() == DialogResult.OK)
+                    {
+                        _context.PropertyItems = dialog.PropertyItems;
+                        _context.UpdatePlacementInfoIfExists = dialog.UpdatePlacementInfoIfExists;
+                    }
+                }
 
-                replacementsDictionary.Add("$infosetproperties$", GenerateInfosetProperties(addPropertiesDialog.PropertyItems));
-                replacementsDictionary.Add("$virtualproperties$", GenerateVirtualProperties(addPropertiesDialog.PropertyItems));
-                replacementsDictionary.Add("$shapepropertyeditors$", GenerateShapePropertyEditors(addPropertiesDialog.PropertyItems));
-                replacementsDictionary.Add("$shapepropertydisplays$", GenerateShapePropertyDisplays(addPropertiesDialog.PropertyItems));
-                replacementsDictionary.Add("$migrationsrecordproperties$", GenerateMigrationsRecordProperties(addPropertiesDialog.PropertyItems));
-                replacementsDictionary.Add("$migrationsrecordindexes$", GenerateMigrationsRecordIndexes(addPropertiesDialog.PropertyItems, contentPartName + "PartRecord"));
+                replacementsDictionary.Add("$infosetproperties$", BuildInfosetPropertiesReplacement(_context));
+                replacementsDictionary.Add("$virtualproperties$", BuildVirtualPropertiesReplacement(_context));
+                replacementsDictionary.Add("$shapepropertyeditors$", BuildShapePropertyEditorsReplacement(_context));
+                replacementsDictionary.Add("$shapepropertydisplays$", BuildShapePropertyDisplaysReplacement(_context));
+                replacementsDictionary.Add("$migrationsrecordproperties$", BuildMigrationsRecordPropertiesReplacement(_context));
+                replacementsDictionary.Add("$migrationsrecordindexes$", BuildMigrationsRecordIndexesReplacement(_context));
             }
             catch (Exception ex)
             {
@@ -84,13 +102,53 @@ namespace Lombiq.VisualStudioExtensions.TemplateWizards
 
         public bool ShouldAddProjectItem(string filePath)
         {
+            if (Path.GetFileName(filePath) == "Placement.info.template")
+            {
+                try
+                {
+                    var placementInfoPath = Path.Combine(_context.TargetProjectPath, "Placement.info");
+                    if (File.Exists(placementInfoPath))
+                    {
+                        if (!_context.UpdatePlacementInfoIfExists) return false;
+
+                        var placementInfo = XDocument.Load(placementInfoPath);
+
+                        var displayShapePlaceAttribute = new XAttribute("Parts_" + _context.ContentPartNameWithoutSuffix, "Content: 5");
+                        var editorShapePlaceAttribute = new XAttribute("Parts_" + _context.ContentPartNameWithoutSuffix + "_Edit", "Content: 5");
+
+                        if (placementInfo.Root == null)
+                        {
+                            placementInfo.Add(new XElement("Placement", new XElement("Place")));
+                        }
+
+                        var firstPlaceTag = placementInfo.Root.Element("Place");
+                        if (firstPlaceTag != null)
+                        {
+                            firstPlaceTag.Add(displayShapePlaceAttribute, editorShapePlaceAttribute);
+                        }
+                        else
+                        {
+                            placementInfo.Root.Add(new XElement("Place", displayShapePlaceAttribute, editorShapePlaceAttribute));
+                        }
+
+                        placementInfo.Save(placementInfoPath, SaveOptions.None);
+
+                        return false;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.ToString());
+                }
+            }
+
             return true;
         }
 
 
-        private string GenerateInfosetProperties(IList<PropertyItem> properties)
+        private static string BuildInfosetPropertiesReplacement(ContentPartWizardContext context)
         {
-            if (!properties.Any())
+            if (!context.PropertyItems.Any())
                 return "";
 
             var infosetPropertyTemplatePath = Path.Combine(CodeTemplateLocation, "infoset.template");
@@ -100,7 +158,7 @@ namespace Lombiq.VisualStudioExtensions.TemplateWizards
             var hybridInfosetPropertyTemplate = File.Exists(hybridInfosetPropertyTemplatePath) ? File.ReadAllText(hybridInfosetPropertyTemplatePath) : "";
 
             var finalPropertiesList = new List<string>();
-            foreach (var item in properties)
+            foreach (var item in context.PropertyItems)
             {
                 var finalProperty = item.HybridInfoset ? hybridInfosetPropertyTemplate.Replace("#propertyname#", item.Name) : infosetPropertyTemplate.Replace("#propertyname#", item.Name);
                 finalProperty = finalProperty.Replace("#propertytype#", item.Type);
@@ -111,9 +169,9 @@ namespace Lombiq.VisualStudioExtensions.TemplateWizards
             return string.Join(Environment.NewLine + Environment.NewLine, finalPropertiesList);
         }
 
-        private string GenerateVirtualProperties(IList<PropertyItem> properties)
+        private static string BuildVirtualPropertiesReplacement(ContentPartWizardContext context)
         {
-            if (!properties.Any(property => property.HybridInfoset))
+            if (!context.PropertyItems.Any(property => property.HybridInfoset))
                 return "";
 
             var virtualPropertyTemplatePath = Path.Combine(CodeTemplateLocation, "virtualproperty.template");
@@ -121,10 +179,11 @@ namespace Lombiq.VisualStudioExtensions.TemplateWizards
             var virtualPropertyTemplate = File.Exists(virtualPropertyTemplatePath) ? File.ReadAllText(virtualPropertyTemplatePath) : "";
 
             var finalPropertiesList = new List<string>();
-            foreach (var item in properties.Where(property => property.HybridInfoset))
+            foreach (var item in context.PropertyItems.Where(property => property.HybridInfoset))
             {
-                var finalProperty = virtualPropertyTemplate.Replace("#propertyname#", item.Name);
-                finalProperty = finalProperty.Replace("#propertytype#", item.Type);
+                var finalProperty = virtualPropertyTemplate
+                    .Replace("#propertyname#", item.Name)
+                    .Replace("#propertytype#", item.Type);
 
                 finalPropertiesList.Add(finalProperty);
             }
@@ -132,9 +191,9 @@ namespace Lombiq.VisualStudioExtensions.TemplateWizards
             return string.Join(Environment.NewLine, finalPropertiesList);
         }
 
-        private string GenerateShapePropertyEditors(IList<PropertyItem> items)
+        private static string BuildShapePropertyEditorsReplacement(ContentPartWizardContext context)
         {
-            if (!items.Any(property => !property.SkipFromShapeTemplate))
+            if (!context.PropertyItems.Any(property => !property.SkipFromShapeTemplate))
                 return "";
 
             var templatePath = Path.Combine(CodeTemplateLocation, "shapepropertyeditor.template");
@@ -142,7 +201,7 @@ namespace Lombiq.VisualStudioExtensions.TemplateWizards
             var template = File.Exists(templatePath) ? File.ReadAllText(templatePath) : "";
 
             var finalReplacementsList = new List<string>();
-            foreach (var item in items.Where(property => !property.SkipFromShapeTemplate))
+            foreach (var item in context.PropertyItems.Where(property => !property.SkipFromShapeTemplate))
             {
                 var finalReplacement = template.Replace("#propertyname#", item.Name);
                 if (item.Type == "bool")
@@ -164,9 +223,9 @@ namespace Lombiq.VisualStudioExtensions.TemplateWizards
             return string.Join(Environment.NewLine, finalReplacementsList);
         }
 
-        private string GenerateShapePropertyDisplays(IList<PropertyItem> items)
+        private static string BuildShapePropertyDisplaysReplacement(ContentPartWizardContext context)
         {
-            if (!items.Any(property => !property.SkipFromShapeTemplate))
+            if (!context.PropertyItems.Any(property => !property.SkipFromShapeTemplate))
                 return "";
 
             var templatePath = Path.Combine(CodeTemplateLocation, "shapepropertydisplay.template");
@@ -174,7 +233,7 @@ namespace Lombiq.VisualStudioExtensions.TemplateWizards
             var template = File.Exists(templatePath) ? File.ReadAllText(templatePath) : "";
 
             var finalReplacementsList = new List<string>();
-            foreach (var item in items.Where(property => !property.SkipFromShapeTemplate))
+            foreach (var item in context.PropertyItems.Where(property => !property.SkipFromShapeTemplate))
             {
                 var finalReplacement = template.Replace("#propertyname#", item.Name);
 
@@ -184,9 +243,9 @@ namespace Lombiq.VisualStudioExtensions.TemplateWizards
             return string.Join(Environment.NewLine, finalReplacementsList);
         }
 
-        private string GenerateMigrationsRecordProperties(IList<PropertyItem> items)
+        private static string BuildMigrationsRecordPropertiesReplacement(ContentPartWizardContext context)
         {
-            if (!items.Any(property => property.HybridInfoset))
+            if (!context.PropertyItems.Any(property => property.HybridInfoset))
                 return "";
 
             var templatePath = Path.Combine(CodeTemplateLocation, "migrationsrecordproperty.template");
@@ -194,10 +253,11 @@ namespace Lombiq.VisualStudioExtensions.TemplateWizards
             var template = File.Exists(templatePath) ? File.ReadAllText(templatePath) : "";
 
             var finalReplacementsList = new List<string>();
-            foreach (var item in items.Where(property => property.HybridInfoset))
+            foreach (var item in context.PropertyItems.Where(property => property.HybridInfoset))
             {
-                var finalReplacement = template.Replace("#propertyname#", item.Name);
-                finalReplacement = finalReplacement.Replace("#propertytype#", item.Type);
+                var finalReplacement = template
+                    .Replace("#propertyname#", item.Name)
+                    .Replace("#propertytype#", item.Type);
 
                 finalReplacementsList.Add(finalReplacement);
             }
@@ -205,9 +265,9 @@ namespace Lombiq.VisualStudioExtensions.TemplateWizards
             return Environment.NewLine + string.Join(Environment.NewLine, finalReplacementsList);
         }
 
-        private string GenerateMigrationsRecordIndexes(IList<PropertyItem> items, string recordName)
+        private static string BuildMigrationsRecordIndexesReplacement(ContentPartWizardContext context)
         {
-            if (!items.Any(property => property.HybridInfoset))
+            if (!context.PropertyItems.Any(property => property.HybridInfoset))
                 return "";
 
             var templatePath = Path.Combine(CodeTemplateLocation, "migrationsrecordindex.template");
@@ -215,15 +275,32 @@ namespace Lombiq.VisualStudioExtensions.TemplateWizards
             var template = File.Exists(templatePath) ? File.ReadAllText(templatePath) : "";
 
             var finalReplacementsList = new List<string>();
-            foreach (var item in items.Where(property => property.HybridInfoset))
+            foreach (var item in context.PropertyItems.Where(property => property.HybridInfoset))
             {
-                var finalReplacement = template.Replace("#propertyname#", item.Name);
-                finalReplacement = finalReplacement.Replace("#recordname#", recordName);
+                var finalReplacement = template
+                    .Replace("#propertyname#", item.Name)
+                    .Replace("#recordname#", context.FullContentPartName + "Record");
 
                 finalReplacementsList.Add(finalReplacement);
             }
 
             return string.Join(Environment.NewLine, finalReplacementsList);
+        }
+
+
+        private class ContentPartWizardContext
+        {
+            public string FullContentPartName { get; set; }
+            public string ContentPartNameWithoutSuffix { get; set; }
+            public string TargetProjectPath { get; set; }
+            public IEnumerable<PropertyItem> PropertyItems { get; set; }
+            public bool UpdatePlacementInfoIfExists { get; set; }
+
+
+            public ContentPartWizardContext()
+            {
+                PropertyItems = Enumerable.Empty<PropertyItem>();
+            }
         }
     }
 }
