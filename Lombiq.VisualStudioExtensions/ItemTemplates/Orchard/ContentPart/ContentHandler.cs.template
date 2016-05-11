@@ -11,7 +11,7 @@ namespace $rootnamespace$.Handlers
     {
         public $contentpartname$PartHandler()
         {
-            Filters.Add(new ActivatingFilter<$contentpartname$UserPart>("User"));
+
         }
     }
 }
