@@ -35,6 +35,8 @@ This project is developed by [Lombiq Technologies Ltd](http://lombiq.com/). Comm
 
 ## How to add a new (Orchard) project template
 
+For adding project templates the [SideWaffle](https://github.com/ligershark/side-waffle) library is used in this Visual Studio extension. If you want to create a new one just follow the steps below.
+
 1. Create the project skeleton (use the Orchard.CodeGeneration feature) and give a unique name to the csproj file (eg. Orchard.ModuleTemplate.1.10.csproj).
 2. Copy the skeleton to the /OrchardTemplates subfolder.
 3. Add the project as an existing item to the Orchard Templates solution folder.
@@ -50,3 +52,7 @@ This project is developed by [Lombiq Technologies Ltd](http://lombiq.com/). Comm
 	- Properties/AssemblyInfo.cs: Edit the AssemblyTitle attribute and specify either the value you've just given in the Replacement list or the $safeprojectname$ string. Also the GUID needs to be auto-generated so replace the GUID value with $guid1$.
 
 These were the commonly used modifications but make sure that all the replacements can be done if you have some special files (eg. if you have a code file then replace the root namespace with the one given in the csproj properties).
+
+You can also use other template parameters, see the [MSDN documentation](https://msdn.microsoft.com/en-us/library/eehb4faa.aspx).
+
+Optionally you can use [wizards](https://msdn.microsoft.com/en-us/library/ms185301.aspx) to implement some operations in the different phases of the project/item generation.
