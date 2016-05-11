@@ -267,15 +267,6 @@
     </Content>
     <Resource Include="ItemTemplates\Orchard\ContentPart\Icon.png" />
   </ItemGroup>
-  <ItemGroup />
-  <ItemGroup>
-    <TemplateReference Include="ModuleTemplate.csproj">
-      <PathToProject>../OrchardTemplates/ModuleTemplate/ModuleTemplate.csproj</PathToProject>
-    </TemplateReference>
-    <TemplateReference Include="ModuleTemplate110.csproj">
-      <PathToProject>../OrchardTemplates/ModuleTemplate110/ModuleTemplate110.csproj</PathToProject>
-    </TemplateReference>
-  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Lombiq.VisualStudioExtensions.TemplateWizards\Lombiq.VisualStudioExtensions.TemplateWizards.csproj">
       <Project>{63000BFB-F60F-4F6B-B3F8-03974CE8A5CA}</Project>
@@ -283,6 +274,14 @@
       <IncludeOutputGroupsInVSIX>BuiltProjectOutputGroup%3bBuiltProjectOutputGroupDependencies%3bGetCopyToOutputDirectoryItems%3bSatelliteDllsProjectOutputGroup%3b</IncludeOutputGroupsInVSIX>
       <IncludeOutputGroupsInVSIXLocalOnly>DebugSymbolsProjectOutputGroup%3b</IncludeOutputGroupsInVSIXLocalOnly>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <TemplateReference Include="Orchard.ModuleTemplate.1.10.csproj">
+      <PathToProject>../OrchardTemplates/Orchard.ModuleTemplate.1.10/Orchard.ModuleTemplate.1.10.csproj</PathToProject>
+    </TemplateReference>
+    <TemplateReference Include="Orchard.ModuleTemplate.1.9.csproj">
+      <PathToProject>../OrchardTemplates/Orchard.ModuleTemplate.1.9/Orchard.ModuleTemplate.1.9.csproj</PathToProject>
+    </TemplateReference>
   </ItemGroup>
   <PropertyGroup>
     <UseCodebase>true</UseCodebase>

@@ -16,12 +16,7 @@
 		<NumberOfParentCategoriesToRollUp>1</NumberOfParentCategoriesToRollUp>
 	</TemplateData>
 	<TemplateContent>
-		<Project File="ModuleTemplate110.csproj" ReplaceParameters="true">
+		<Project File="Orchard.ModuleTemplate.1.10.csproj" ReplaceParameters="true">
 		</Project>
-		<!--<CustomParameters>
-			<CustomParameter Name="SideWaffle Project Template Files" Value="Orchard 1.10 Module" />
-			<CustomParameter Name="8e0a6fff-7069-4384-9bb3-5e53d6cbb0b3" Value="f292d270-4e1c-416b-9434-1e3a6bb9b7a6" />
-		<CustomParameter Name="Item" Value="Item" />
-		</CustomParameters>-->
 	</TemplateContent>
 </VSTemplate>
