@@ -155,7 +155,11 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
-    <Content Include="Resources\Package.ico">
+    <Content Include="Lombiq.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="Package.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
@@ -240,6 +244,7 @@
       <ManifestResourceName>VSPackage</ManifestResourceName>
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>VSPackage.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
@@ -276,10 +281,6 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Orchard.png" />
-    <Content Include="Resources\Orchard_large.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <IncludeInVSIX>true</IncludeInVSIX>
-    </Content>
     <Resource Include="ItemTemplates\Orchard\ContentPart\Icon.png" />
   </ItemGroup>
   <ItemGroup>

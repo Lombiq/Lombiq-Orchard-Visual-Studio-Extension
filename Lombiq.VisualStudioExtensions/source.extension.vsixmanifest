@@ -6,7 +6,7 @@
     <Description xml:space="preserve">Visual Studio extension with many features and templates frequently used by the Lombiq developers. Contains Orchard-related as well as generic goodies.</Description>
     <MoreInfo>https://github.com/Lombiq/Lombiq-Visual-Studio-Extension</MoreInfo>
     <Icon>Package.ico</Icon>
-    <PreviewImage>Orchard_large.png</PreviewImage>
+    <PreviewImage>Lombiq.png</PreviewImage>
     <Tags>Orchard, Dependency, Shape</Tags>
   </Metadata>
   <Installation InstalledByMsi="false">

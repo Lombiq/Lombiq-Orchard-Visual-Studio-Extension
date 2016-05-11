@@ -109,9 +109,9 @@ namespace Lombiq.VisualStudioExtensions {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Orchard_large {
+        internal static System.Drawing.Bitmap Lombiq {
             get {
-                object obj = ResourceManager.GetObject("Orchard_large", resourceCulture);
+                object obj = ResourceManager.GetObject("Lombiq", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
