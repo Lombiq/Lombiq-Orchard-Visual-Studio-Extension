@@ -4,7 +4,7 @@
     <ProjectSubType>Orchard</ProjectSubType>
     <DefaultName>MyPart</DefaultName>
     <Name>Content Part</Name>
-    <Description>Generates a general content part and its necessary files in the project: part itself, full driver, empty handler, display and editor shape templates. IMPORTANT: Make sure that you selected the project root. NOTE: Placement.info is not generated or appended.</Description>
+    <Description>Generates a general content part and its necessary files in the project: part itself, full driver, empty handler, display and editor shape templates. IMPORTANT: Make sure that you selected the project root.</Description>
     <Icon>Icon.png</Icon>
     <NumberOfParentCategoriesToRollUp>1</NumberOfParentCategoriesToRollUp>
     <TemplateID>75120133-88b5-46ad-810c-2ee5e6935b14</TemplateID>
