@@ -50,8 +50,8 @@ namespace Lombiq.VisualStudioExtensions.Forms
 
                 return upperCasedLetters.Any() ? ("_" + new string(upperCasedLetters.ToArray())).ToLowerInvariant() : "_" + cleanedDependency[0];
             }
-
-            return string.Format("_{0}{1}", char.ToLower(cleanedDependency[0]), cleanedDependency.Substring(1));
+            
+            return "_" + char.ToLower(cleanedDependency[0]) + cleanedDependency.Substring(1);
         }
 
         private void button2_Click(object sender, EventArgs e)

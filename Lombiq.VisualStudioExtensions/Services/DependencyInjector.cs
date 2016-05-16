@@ -122,7 +122,7 @@ namespace Lombiq.VisualStudioExtensions.Services
 
         private static void GetConstructorLineIndex(DependencyInjectionContext context)
         {
-            var expectedConstructorStart = string.Format("public {0}(", context.ClassName);
+            var expectedConstructorStart = "public " + context.ClassName + "(";
             context.ConstructorLineIndex = -1;
 
             for (int i = 0; i < context.CodeLines.Count; i++)
@@ -178,7 +178,7 @@ namespace Lombiq.VisualStudioExtensions.Services
         {
             var constructorLine = context.CodeLines[context.ConstructorLineIndex];
             var indentSize = GetIndentSizeOfLine(constructorLine);
-            var injection = string.Format("{0} {1}", context.DependencyName, context.VariableName);
+            var injection = context.DependencyName + " " + context.VariableName;
 
             // CASE 1: No parameters in constructor.
             if (constructorLine.Contains("()"))
