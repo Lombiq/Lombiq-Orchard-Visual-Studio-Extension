@@ -14,6 +14,9 @@ namespace Lombiq.VisualStudioExtensions.TemplateWizards
 {
     public class ContentPartWizard : IWizard
     {
+        private const bool DefaultUpdatePlacementIfExists = false;
+
+
         private static string _codeTemplateLocation;
         public static string CodeTemplateLocation
         {
@@ -50,6 +53,7 @@ namespace Lombiq.VisualStudioExtensions.TemplateWizards
         {
             try
             {
+                // Create and initialize the context first.
                 _context = new ContentPartWizardContext();
 
                 var dte = automationObject as DTE;
@@ -66,6 +70,33 @@ namespace Lombiq.VisualStudioExtensions.TemplateWizards
                 }
 
 
+                // Gather additional information from the user.
+                using (var dialog = new ContentPartWizardDialog())
+                {
+                    var dialogResult = dialog.ShowDialog();
+
+                    // The form has been filled.
+                    if (dialogResult == DialogResult.OK)
+                    {
+                        _context.PropertyItems = dialog.PropertyItems;
+                        _context.UpdatePlacementInfoIfExists = dialog.UpdatePlacementInfoIfExists;
+                    }
+                    // It was cancelled so don't create any file in the project.
+                    else if (dialogResult == DialogResult.Cancel)
+                    {
+                        _context.Cancelled = true;
+
+                        return;
+                    }
+                    // It was skipped so use default values.
+                    else
+                    {
+                        _context.UpdatePlacementInfoIfExists = DefaultUpdatePlacementIfExists;
+                    }
+                }
+
+
+                // Create the necessary replacements.
                 var contentPartNameWithoutSuffix = string.Empty;
                 replacementsDictionary.TryGetValue("$safeitemname$", out contentPartNameWithoutSuffix);
 
@@ -77,15 +108,6 @@ namespace Lombiq.VisualStudioExtensions.TemplateWizards
                 // Add custom parameters.
                 replacementsDictionary.Add("$contentpartname$", contentPartNameWithoutSuffix);
                 replacementsDictionary.Add("$settingscontentpartname$", settingsPartName);
-
-                using (var dialog = new ContentPartWizardDialog())
-                {
-                    if (dialog.ShowDialog() == DialogResult.OK)
-                    {
-                        _context.PropertyItems = dialog.PropertyItems;
-                        _context.UpdatePlacementInfoIfExists = dialog.UpdatePlacementInfoIfExists;
-                    }
-                }
 
                 replacementsDictionary.Add("$infosetproperties$", BuildInfosetPropertiesReplacement(_context));
                 replacementsDictionary.Add("$virtualproperties$", BuildVirtualPropertiesReplacement(_context));
@@ -102,6 +124,8 @@ namespace Lombiq.VisualStudioExtensions.TemplateWizards
 
         public bool ShouldAddProjectItem(string filePath)
         {
+            if (_context.Cancelled) return false;
+
             if (Path.GetFileName(filePath) == "Placement.info.template")
             {
                 try
@@ -295,6 +319,7 @@ namespace Lombiq.VisualStudioExtensions.TemplateWizards
             public string TargetProjectPath { get; set; }
             public IEnumerable<PropertyItem> PropertyItems { get; set; }
             public bool UpdatePlacementInfoIfExists { get; set; }
+            public bool Cancelled { get; set; }
 
 
             public ContentPartWizardContext()

@@ -45,5 +45,10 @@ namespace Lombiq.VisualStudioExtensions.TemplateWizards.Forms
         {
             UpdatePlacementInfoIfExists = updatePlacementCheckBox.Checked;
         }
+
+        private void ContentPartWizardDialog_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }
