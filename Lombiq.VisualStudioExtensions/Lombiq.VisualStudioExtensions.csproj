@@ -21,7 +21,7 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Lombiq.VisualStudioExtensions</RootNamespace>
-    <AssemblyName>Lombiq Extensions</AssemblyName>
+    <AssemblyName>Lombiq Visual Studio Extension</AssemblyName>
     <SignAssembly>True</SignAssembly>
     <AssemblyOriginatorKeyFile>Key.snk</AssemblyOriginatorKeyFile>
     <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
@@ -221,14 +221,14 @@
     <Compile Include="Forms\InjectDependencyDialog.Designer.cs">
       <DependentUpon>InjectDependencyDialog.cs</DependentUpon>
     </Compile>
-    <Compile Include="GuidList.cs" />
+    <Compile Include="Constants\PackageGuids.cs" />
     <Compile Include="Helpers\DialogHelpers.cs" />
     <Compile Include="Models\CreateModuleContext.cs" />
     <Compile Include="Models\Result.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="LombiqVisualStudioExtensionsPackage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="PkgCmdID.cs" />
+    <Compile Include="Constants\CommandIds.cs" />
     <Compile Include="Services\DependencyInjector.cs" />
     <Compile Include="VSPackage.Designer.cs">
       <AutoGen>True</AutoGen>

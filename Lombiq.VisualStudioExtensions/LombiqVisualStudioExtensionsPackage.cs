@@ -15,7 +15,7 @@ namespace Lombiq.VisualStudioExtensions
     [PackageRegistration(UseManagedResourcesOnly = true)]
     [InstalledProductRegistration("#110", "#112", "1.0", IconResourceID = 400)]
     [ProvideMenuResource("Menus.ctmenu", 1)]
-    [Guid(GuidList.LombiqVisualStudioExtensionsPackageGuidString)]
+    [Guid(PackageGuids.LombiqVisualStudioExtensionPackageGuidString)]
     public sealed class LombiqVisualStudioExtensionsPackage : Package
     {
         private readonly IDependencyInjector _dependencyInjector;
@@ -33,13 +33,14 @@ namespace Lombiq.VisualStudioExtensions
         {
             base.Initialize();
 
+            // Initialize "Inject Dependency" menu item.
             var menuCommandService = GetService(typeof(IMenuCommandService)) as OleMenuCommandService;
             if (menuCommandService != null)
             {
                 menuCommandService.AddCommand(
                     new MenuCommand(
                         InjectDependencyCallback,
-                        new CommandID(GuidList.LombiqVisualStudioExtensionsCommandSetGuid, (int)PkgCmdIDList.cmdidInjectDependency)));
+                        new CommandID(PackageGuids.LombiqVisualStudioExtensionCommandSetGuid, (int)CommandIds.InjectDependencyCommandId)));
             }
         }
 
@@ -47,6 +48,7 @@ namespace Lombiq.VisualStudioExtensions
         private void InjectDependencyCallback(object sender, EventArgs e)
         {
             var injectDependencyCaption = "Inject Dependency";
+
             if (_dte.ActiveDocument == null)
             {
                 DialogHelpers.Error("Open a code file first.", injectDependencyCaption);
@@ -85,6 +87,7 @@ namespace Lombiq.VisualStudioExtensions
                                 DialogHelpers.Warning("Could not inject depencency because the constructor was not found.", injectDependencyCaption);
                                 break;
                             default:
+                                DialogHelpers.Warning("Could not inject dependency.", injectDependencyCaption);
                                 break;
                         }
                         DialogHelpers.Warning(result.ErrorCode);
