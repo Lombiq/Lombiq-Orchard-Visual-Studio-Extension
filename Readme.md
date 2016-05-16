@@ -1,4 +1,4 @@
-# Lombiq Visual Studio Extension readme
+# Lombiq Orchard Visual Studio Extension readme
 
 
 

@@ -1,0 +1,24 @@
+<VSTemplate Version="3.0.0" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" Type="Item">
+  <TemplateData>
+    <ProjectType>CSharp</ProjectType>
+    <ProjectSubType>Orchard</ProjectSubType>
+    <DefaultName>IUltimateProblemSolverService</DefaultName>
+    <Name>Dependency with Implementation</Name>
+    <Description>Generates an interface inherited from IDependency and a class implementing this interface. Both files are located in a .cs file but without the 'I' prefix in the filename.</Description>
+    <Icon>Icon.png</Icon>
+    <NumberOfParentCategoriesToRollUp>1</NumberOfParentCategoriesToRollUp>
+    <TemplateID>75120133-88b5-46ad-810c-2ee5e6935b14</TemplateID>
+    <SortOrder>16</SortOrder>
+  </TemplateData>
+  <TemplateContent>
+    <References />
+     
+    <ProjectItem TargetFileName="$dependencyclassname$.cs" ReplaceParameters="true">Dependency.cs.template</ProjectItem>
+    
+  </TemplateContent>
+
+  <WizardExtension>
+    <Assembly>Lombiq.Vsix.Orchard.TemplateWizards, Version=1.0.0.0, Culture=Neutral, PublicKeyToken=null</Assembly>
+    <FullClassName>Lombiq.Vsix.Orchard.TemplateWizards.DependencyWizard</FullClassName>
+  </WizardExtension>
+</VSTemplate>
