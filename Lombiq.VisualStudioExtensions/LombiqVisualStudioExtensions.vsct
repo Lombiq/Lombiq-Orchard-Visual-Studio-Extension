@@ -19,7 +19,7 @@
       <!-- Add menu items to the created menu item group in the Tools menu. -->
       <Button guid="LombiqVisualStudioExtensionCommandSetGuid" id="InjectDependencyCommandId" priority="0x0100" type="Button">
         <Parent guid="LombiqVisualStudioExtensionCommandSetGuid" id="ToolsMenuGroupId" />
-        <Icon guid="ImagesGuid" id="OrchardIconBitmapId" />
+        <Icon guid="ImagesGuid" id="LombiqSmallBitmapId" />
         <Strings>
           <ButtonText>Inject Dependency</ButtonText>
         </Strings>
@@ -27,8 +27,8 @@
     </Buttons>
    
     <Bitmaps>
-      <!-- Define an image for Orchard-related commands. -->
-      <Bitmap guid="ImagesGuid" href="Resources\Orchard.png" usedList="OrchardIconBitmapId"/>
+      <!-- Define Lombiq logo image for not Orchard-related commands. -->
+      <Bitmap guid="ImagesGuid" href="Resources\Lombiq16x16.png" usedList="LombiqSmallBitmapId"/>
     </Bitmaps>
  
   </Commands>
@@ -37,7 +37,7 @@
   <!-- Define GUIDs with IDs to be used by the Visual Studio when adding commands. -->
   <!-- Some of the GUIDs and command IDs that must be used from csharp code are also defined in the PackageGuids.cs and CommandIds.cs file. -->
   <Symbols>
-
+    
     <GuidSymbol name="LombiqVisualStudioExtensionPackageGuid" value="{1a2f7a53-92bd-4396-b49c-98a9bfcc1d41}" />
     
     <GuidSymbol name="LombiqVisualStudioExtensionCommandSetGuid" value="{0fe301eb-0ad4-4fb4-bbd9-c2545e74dde5}">
@@ -46,8 +46,9 @@
     </GuidSymbol>
     
     <GuidSymbol name="ImagesGuid" value="{59308fb6-b1c7-47bf-a970-a73360c0607a}" >
-      <IDSymbol name="OrchardIconBitmapId" value="1" />
+      <IDSymbol name="LombiqSmallBitmapId" value="1" />
     </GuidSymbol>
+    
   </Symbols>
 
 </CommandTable>

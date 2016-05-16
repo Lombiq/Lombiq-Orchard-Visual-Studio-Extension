@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Lombiq.VisualStudioExtensions.Constants
 {
-    public static class DependencyInjectorErrorCodes
+    internal static class DependencyInjectorErrorCodes
     {
         public const string ClassNotFound = "ClassNotFound";
         public const string ConstructorNotFound = "ConstructorNotFound";

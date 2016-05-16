@@ -167,6 +167,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
+    <Resource Include="Resources\Lombiq16x16.png" />
     <None Include="ItemTemplates\Orchard\ContentPartWithRecord\Placement.info.template">
       <SubType>Designer</SubType>
     </None>
@@ -223,7 +224,6 @@
     </Compile>
     <Compile Include="Constants\PackageGuids.cs" />
     <Compile Include="Helpers\DialogHelpers.cs" />
-    <Compile Include="Models\CreateModuleContext.cs" />
     <Compile Include="Models\Result.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="LombiqVisualStudioExtensionsPackage.cs" />
@@ -278,10 +278,7 @@
     </VSCTCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Images.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Orchard.png" />
+    <Resource Include="Resources\Orchard16x16.png" />
     <Resource Include="ItemTemplates\Orchard\ContentPart\Icon.png" />
   </ItemGroup>
   <ItemGroup>
