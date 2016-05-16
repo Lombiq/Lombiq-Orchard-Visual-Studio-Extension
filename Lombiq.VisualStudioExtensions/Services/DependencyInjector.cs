@@ -1,4 +1,5 @@
 ﻿using EnvDTE;
+using Lombiq.VisualStudioExtensions.Constants;
 using Lombiq.VisualStudioExtensions.Exceptions;
 using Lombiq.VisualStudioExtensions.Models;
 using System;
@@ -8,13 +9,23 @@ using System.Linq;
 
 namespace Lombiq.VisualStudioExtensions.Services
 {
-    public interface IDependencyToConstructorInjector
+    /// <summary>
+    /// Injects dependency to the constructor and inserts the necessary code lines.
+    /// </summary>
+    public interface IDependencyInjector
     {
+        /// <summary>
+        /// Injects the given dependency, creates the private readonly field and also inserts the assignment to the constructor.
+        /// </summary>
+        /// <param name="document">Visual Studio document containing the class where the dependency needs to be injected.</param>
+        /// <param name="dependencyName">Name of the dependency (eg. <c>IOrchardServices</c>).</param>
+        /// <param name="fieldName">Name of the private readonly field that needs to be created.</param>
+        /// <returns>Result of the dependency injection.</returns>
         IResult Inject(Document document, string dependencyName, string fieldName);
     }
 
 
-    public class DependecyToConstructorInjector : IDependencyToConstructorInjector
+    public class DependencyInjector : IDependencyInjector
     {
         public IResult Inject(Document document, string dependecyName, string fieldName)
         {
@@ -38,14 +49,14 @@ namespace Lombiq.VisualStudioExtensions.Services
             GetClassStartLineIndex(context);
             if (context.ClassStartLineIndex == -1)
             {
-                return Result.FailedResult("Could not insert depencency because no class found in this file.");
+                return Result.FailedResult(DependencyInjectorErrorCodes.ClassNotFound);
             }
 
             // Find the initial line of the first constructor.
             GetConstructorLineIndex(context);
             if (context.ConstructorLineIndex == -1)
             {
-                return Result.FailedResult("Could not insert depencency because the constructor not found.");
+                return Result.FailedResult(DependencyInjectorErrorCodes.ConstructorNotFound);
             }
 
             // Update inner code of the constructor first.

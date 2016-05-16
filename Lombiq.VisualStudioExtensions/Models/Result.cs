@@ -4,7 +4,7 @@
     {
         bool Success { get; }
 
-        string ErrorMessage { get; }
+        string ErrorCode { get; }
     }
 
 
@@ -22,14 +22,14 @@
             }
         }
 
-        public static IResult FailedResult(string message)
+        public static IResult FailedResult(string errorCode)
         {
-            return new Result { Success = false, ErrorMessage = message };
+            return new Result { Success = false, ErrorCode = errorCode };
         }
 
 
         public bool Success { get; set; }
 
-        public string ErrorMessage { get; set; }
+        public string ErrorCode { get; set; }
     }
 }

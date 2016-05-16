@@ -213,6 +213,7 @@
     <None Include="ItemTemplates\Orchard\ContentPart\DisplayTemplate.cshtml.template" />
     <None Include="ItemTemplates\Orchard\ContentPart\EditorTemplate.cshtml.template" />
     <None Include="ItemTemplates\Orchard\ContentPartWithRecord\Migrations.cs.template" />
+    <Compile Include="Constants\DependencyInjectorErrorCodes.cs" />
     <Compile Include="Exceptions\DependencyToConstructorInjectorException.cs" />
     <Compile Include="Forms\InjectDependencyDialog.cs">
       <SubType>Form</SubType>
@@ -228,7 +229,7 @@
     <Compile Include="LombiqVisualStudioExtensionsPackage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PkgCmdID.cs" />
-    <Compile Include="Services\DependecyToConstructorInjector.cs" />
+    <Compile Include="Services\DependencyInjector.cs" />
     <Compile Include="VSPackage.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
