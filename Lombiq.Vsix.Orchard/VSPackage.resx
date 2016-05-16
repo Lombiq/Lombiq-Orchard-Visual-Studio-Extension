@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="110" xml:space="preserve">
-    <value>Lombiq Visual Studio Extension</value>
+    <value>Lombiq Orchard Visual Studio Extension</value>
   </data>
   <data name="112" xml:space="preserve">
     <value>Visual Studio extension with many features and templates frequently used by the Lombiq developers. Contains Orchard-related as well as generic goodies.</value>
