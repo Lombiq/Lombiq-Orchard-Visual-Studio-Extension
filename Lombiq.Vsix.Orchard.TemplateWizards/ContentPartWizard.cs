@@ -7,8 +7,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
 using System.Linq;
-using System.Reflection;
 using System.Xml.Linq;
+using Microsoft.VisualStudio.Shell;
+using Microsoft.VisualStudio.Shell.Interop;
 
 namespace Lombiq.Vsix.Orchard.TemplateWizards
 {
@@ -51,24 +52,37 @@ namespace Lombiq.Vsix.Orchard.TemplateWizards
 
         public void RunStarted(object automationObject, Dictionary<string, string> replacementsDictionary, WizardRunKind runKind, object[] customParams)
         {
+            IVsActivityLog logger = null;
             try
             {
                 // Create and initialize the context first.
                 _context = new ContentPartWizardContext();
 
                 var dte = automationObject as DTE;
-                if (dte != null)
+
+                if (dte == null)
                 {
-                    var activeProjects = (Array)dte.ActiveSolutionProjects;
+                    MessageBox.Show("Something unexpected happened. Couldn't create the items.", "Create items", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
-                    if (activeProjects.Length > 0)
-                    {
-                        var activeProject = (Project)activeProjects.GetValue(0);
+                    _context.Cancelled = true;
 
-                        _context.TargetProjectPath = Path.GetDirectoryName(activeProject.FullName);
-                    }
+                    return;
                 }
 
+                var activeProjects = (Array)dte.ActiveSolutionProjects;
+
+                if (activeProjects.Length > 0)
+                {
+                    var activeProject = (Project)activeProjects.GetValue(0);
+
+                    _context.TargetProjectPath = Path.GetDirectoryName(activeProject.FullName);
+                }
+
+                var serviceProvider = new ServiceProvider(dte as Microsoft.VisualStudio.OLE.Interop.IServiceProvider);
+                if (serviceProvider != null)
+                {
+                    logger = serviceProvider.GetService(typeof(SVsActivityLog)) as IVsActivityLog;
+                }
 
                 // Gather additional information from the user.
                 using (var dialog = new ContentPartWizardDialog())
@@ -118,7 +132,12 @@ namespace Lombiq.Vsix.Orchard.TemplateWizards
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.ToString());
+                if (logger != null)
+                {
+                    logger.LogEntry((uint)__ACTIVITYLOG_ENTRYTYPE.ALE_ERROR, this.ToString(), ex.ToString());
+                }
+
+                MessageBox.Show("Something unexpected happened. For further information check the activity log.", "Create items", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -320,6 +339,8 @@ namespace Lombiq.Vsix.Orchard.TemplateWizards
             public IEnumerable<PropertyItem> PropertyItems { get; set; }
             public bool UpdatePlacementInfoIfExists { get; set; }
             public bool Cancelled { get; set; }
+
+            public Action<string> LogError { get; set; }
 
 
             public ContentPartWizardContext()
