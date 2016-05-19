@@ -90,7 +90,6 @@ namespace Lombiq.Vsix.Orchard
                                 DialogHelpers.Warning("Could not inject dependency.", injectDependencyCaption);
                                 break;
                         }
-                        DialogHelpers.Warning(result.ErrorCode);
                     }
                 }
             }
