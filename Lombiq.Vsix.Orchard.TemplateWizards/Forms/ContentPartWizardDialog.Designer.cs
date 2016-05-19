@@ -105,7 +105,7 @@
             this.updatePlacementCheckBox.Name = "updatePlacementCheckBox";
             this.updatePlacementCheckBox.Size = new System.Drawing.Size(171, 17);
             this.updatePlacementCheckBox.TabIndex = 14;
-            this.updatePlacementCheckBox.Text = "Update Placement.info if exists";
+            this.updatePlacementCheckBox.Text = "Update Placement.info if it exists";
             this.updatePlacementCheckBox.UseVisualStyleBackColor = true;
             this.updatePlacementCheckBox.CheckedChanged += new System.EventHandler(this.updatePlacementCheckBox_CheckedChanged);
             // 
