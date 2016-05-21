@@ -123,16 +123,16 @@ namespace Lombiq.Vsix.Orchard.TemplateWizards
 
 
                 // Create the necessary replacements.
-                var contentPartNameWithoutSuffix = string.Empty;
-                replacementsDictionary.TryGetValue("$safeitemname$", out contentPartNameWithoutSuffix);
+                var safeItemName = string.Empty;
+                replacementsDictionary.TryGetValue("$safeitemname$", out safeItemName);
 
-                _context.ContentPartNameWithoutSuffix = contentPartNameWithoutSuffix.TrimEnd("Part");
+                _context.ContentPartNameWithoutSuffix = safeItemName.TrimEnd("Part");
                 _context.FullContentPartName = _context.ContentPartNameWithoutSuffix + "Part";
 
                 var settingsPartName = _context.ContentPartNameWithoutSuffix.TrimEnd("Settings");
 
                 // Add custom parameters.
-                replacementsDictionary.Add("$contentpartname$", contentPartNameWithoutSuffix);
+                replacementsDictionary.Add("$contentpartname$", _context.ContentPartNameWithoutSuffix);
                 replacementsDictionary.Add("$settingscontentpartname$", settingsPartName);
 
                 replacementsDictionary.Add("$infosetproperties$", BuildInfosetPropertiesReplacement(_context));
