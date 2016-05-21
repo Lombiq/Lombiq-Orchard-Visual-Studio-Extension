@@ -57,4 +57,4 @@ You can also use other template parameters, see the [MSDN documentation](https:/
 
 Optionally you can use [wizards](https://msdn.microsoft.com/en-us/library/ms185301.aspx) to implement some operations in the different phases of the project/item generation.
 
-IMPORTANT: Don't remove the added csproj file in the main project. It is being created by the SideWaffle template generator.
+IMPORTANT: don't remove the added csproj file in the main project. It is being created by the SideWaffle template generator.

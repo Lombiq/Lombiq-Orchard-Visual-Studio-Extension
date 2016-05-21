@@ -146,7 +146,7 @@ namespace Lombiq.Vsix.Orchard.TemplateWizards
             {
                 _logger.Error(this.ToString(), "Couldn't start generating items. Exception: " + ex.ToString());
 
-                MessageBox.Show("Couldn't start generating items caused by an unexpected exception. For further information check the activity log.", "Create items", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Couldn't start generating items because of an unexpected exception. For further information check the activity log.", "Create items", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -192,7 +192,7 @@ namespace Lombiq.Vsix.Orchard.TemplateWizards
                 {
                     _logger.Error(this.ToString(), "Couldn't update Placement.info. Exception: " + ex.ToString());
 
-                    MessageBox.Show("Couldn't update Placement.info caused by an unexpected exception. For further information check the activity log.", "Create items", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Couldn't update Placement.info because of an unexpected exception. For further information check the activity log.", "Create items", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
 
