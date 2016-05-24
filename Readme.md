@@ -2,7 +2,9 @@
 
 
 
-Visual Studio extension with many features and templates frequently used by the [Lombiq](http://lombiq.com/) developers. Contains [Orchard](http://orchardproject.net/)-related as well as generic goodies.
+Visual Studio extension with many features and templates frequently used by  [Lombiq](http://lombiq.com/) developers. Contains [Orchard](http://orchardproject.net/)-related as well as generic goodies.
+
+The extension can also be installed from the Visual Studio Gallery, including installing directly from inside Visual Studio from under Tools &gt; Extensions and Updates.
 
 
 ## Tools

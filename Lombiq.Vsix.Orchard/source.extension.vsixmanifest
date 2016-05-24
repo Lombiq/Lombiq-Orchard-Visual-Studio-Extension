@@ -3,7 +3,7 @@
   <Metadata>
     <Identity Id="1a2f7a53-92bd-4396-b49c-98a9bfcc1d41" Version="1.0" Language="en-US" Publisher="Lombiq" />
     <DisplayName>Lombiq Orchard Visual Studio Extension</DisplayName>
-    <Description xml:space="preserve">Visual Studio extension with many features and templates frequently used by the Lombiq developers. Contains Orchard-related as well as generic goodies.</Description>
+    <Description xml:space="preserve">Visual Studio extension with many features and templates frequently used by Lombiq developers. Contains Orchard-related as well as generic goodies.</Description>
     <MoreInfo>https://github.com/Lombiq/Lombiq-Visual-Studio-Extension</MoreInfo>
     <Icon>Package.ico</Icon>
     <PreviewImage>Lombiq.png</PreviewImage>

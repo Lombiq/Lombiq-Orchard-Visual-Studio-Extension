@@ -61,7 +61,7 @@ namespace Lombiq.Vsix.Orchard {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Lombiq Visual Studio Extension.
+        ///   Looks up a localized string similar to Lombiq Orchard Visual Studio Extension.
         /// </summary>
         internal static string _110 {
             get {
@@ -70,7 +70,7 @@ namespace Lombiq.Vsix.Orchard {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Visual Studio extension with many features and templates frequently used by the Lombiq developers. Contains Orchard-related as well as generic goodies..
+        ///   Looks up a localized string similar to Visual Studio extension with many features and templates frequently used by Lombiq developers. Contains Orchard-related as well as generic goodies..
         /// </summary>
         internal static string _112 {
             get {
