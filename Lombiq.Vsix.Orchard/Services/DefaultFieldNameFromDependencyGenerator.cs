@@ -1,34 +1,23 @@
-﻿using System.Linq;
-
-namespace Lombiq.Vsix.Orchard.Services
+﻿namespace Lombiq.Vsix.Orchard.Services
 {
-    public class DefaultFieldNameFromDependencyGenerator : IFieldNameFromDependencyGenerator
+    public class DefaultFieldNameFromDependencyGenerator : FieldNameFromDependencyGeneratorBase
     {
-        public double Priority { get { return 1; } }
+        public override double Priority { get { return 1; } }
 
 
-        public bool CanGenerate(string dependency) { return true; }
+        public override bool CanGenerate(string dependency) { return true; }
 
-        public string Generate(string dependency, bool useShortName)
+        public override string Generate(string dependency, bool useShortName)
         {
-            if (dependency.Length < 2) return "_" + dependency.ToLowerInvariant();
+            if (dependency.Length < 2) return GetLowerInvariantStringWithUnderscore(dependency);
 
-            var cleanedDependency = dependency.Length > 1 && dependency.StartsWith("I") && char.IsUpper(dependency[1]) ? 
-                dependency.Substring(1) : 
-                string.Copy(dependency);
+            var cleanedDependency = RemoveFirstLetterIfInterface(dependency);
 
-            if (dependency.Length < 2) return "_" + dependency.ToLowerInvariant();
+            if (dependency.Length < 2) return GetLowerInvariantStringWithUnderscore(dependency);
 
-            if (useShortName)
-            {
-                var upperCasedLetters = cleanedDependency.Where(letter => char.IsUpper(letter));
+            if (useShortName) GetShortNameWithUnderscore(cleanedDependency);
 
-                return upperCasedLetters.Any() ? 
-                    ("_" + new string(upperCasedLetters.ToArray())).ToLowerInvariant() : 
-                    "_" + cleanedDependency[0];
-            }
-
-            return "_" + char.ToLower(cleanedDependency[0]) + cleanedDependency.Substring(1);
+            return GetStringWithUnderscore(GetCamelCased(cleanedDependency));
         }
     }
 }

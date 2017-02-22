@@ -27,7 +27,11 @@ namespace Lombiq.Vsix.Orchard
         public LombiqOrchardVisualStudioExtensionPackage()
         {
             _dependencyInjector = new DependencyInjector();
-            _fieldNameGenerators = new[] { new DefaultFieldNameFromDependencyGenerator() };
+            _fieldNameGenerators = new IFieldNameFromDependencyGenerator[] 
+            {
+                new DefaultFieldNameFromDependencyGenerator(),
+                new FieldNameFromGenericTypeGenerator()
+            };
             _dte = Package.GetGlobalService(typeof(SDTE)) as DTE;
         }
 
