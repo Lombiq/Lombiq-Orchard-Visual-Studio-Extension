@@ -6,6 +6,7 @@ using Lombiq.Vsix.Orchard.Services;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.Design;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
@@ -19,12 +20,14 @@ namespace Lombiq.Vsix.Orchard
     public sealed class LombiqOrchardVisualStudioExtensionPackage : Package
     {
         private readonly IDependencyInjector _dependencyInjector;
+        private readonly IEnumerable<IFieldNameFromDependencyGenerator> _fieldNameGenerators;
         private readonly DTE _dte;
 
 
         public LombiqOrchardVisualStudioExtensionPackage()
         {
             _dependencyInjector = new DependencyInjector();
+            _fieldNameGenerators = new[] { new DefaultFieldNameFromDependencyGenerator() };
             _dte = Package.GetGlobalService(typeof(SDTE)) as DTE;
         }
 
@@ -56,7 +59,7 @@ namespace Lombiq.Vsix.Orchard
                 return;
             }
 
-            using (var injectDependencyDialog = new InjectDependencyDialog())
+            using (var injectDependencyDialog = new InjectDependencyDialog(_fieldNameGenerators))
             {
                 if (injectDependencyDialog.ShowDialog() == DialogResult.OK)
                 {

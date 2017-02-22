@@ -233,6 +233,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Constants\CommandIds.cs" />
     <Compile Include="Services\DependencyInjector.cs" />
+    <Compile Include="Services\DefaultFieldNameFromDependencyGenerator.cs" />
+    <Compile Include="Services\IFieldNameFromDependencyGenerator.cs" />
     <Compile Include="VSPackage.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
