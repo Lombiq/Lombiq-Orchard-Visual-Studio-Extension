@@ -2,7 +2,7 @@
 
 namespace Lombiq.Vsix.Orchard.Services
 {
-    public class FieldNameFromGenericTypeGenerator : FieldNameFromDependencyGeneratorBase
+    public class FieldNameFromGenericTypeGenerator : FieldNameFromGenericTypeGeneratorBase
     {
         private const string GenericTypeNameRegexPattern = @"^[A-Z_]+[a-zA-Z0-9_]*[<]+[a-zA-Z_]+[a-zA-Z0-9_]*[>]+$";
 
@@ -14,16 +14,11 @@ namespace Lombiq.Vsix.Orchard.Services
 
         public override string Generate(string dependency, bool useShortName)
         {
-            var splittedDependency = dependency.Split('<');
-            var genericType = splittedDependency[0];
-            var genericParameter = splittedDependency[1].Substring(0, splittedDependency[1].Length - 1);
-
-            var cleanedGenericType = RemoveFirstLetterIfInterface(genericType);
-            var cleanedGenericParameter = RemoveFirstLetterIfInterface(genericParameter);
+            var segments = GetGenericTypeSegments(dependency);
 
             return useShortName ? 
-                    GetShortNameWithUnderscore(cleanedGenericParameter) + GetShortName(cleanedGenericType) : 
-                    GetStringWithUnderscore(GetCamelCased(cleanedGenericParameter)) + cleanedGenericType;
+                    GetShortNameWithUnderscore(segments.CleanedGenericParameterName) + GetShortName(segments.CleanedGenericTypeName) : 
+                    GetStringWithUnderscore(GetCamelCased(segments.CleanedGenericParameterName)) + segments.CleanedGenericTypeName;
         }
     }
 }

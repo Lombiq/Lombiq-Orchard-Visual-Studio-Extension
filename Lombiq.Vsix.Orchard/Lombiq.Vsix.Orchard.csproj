@@ -233,6 +233,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Constants\CommandIds.cs" />
     <Compile Include="Services\FieldNameFromDependencyGeneratorBase.cs" />
+    <Compile Include="Services\FieldNameFromGenericTypeGeneratorBase.cs" />
     <Compile Include="Services\FieldNameFromIEnumerableGenerator.cs" />
     <Compile Include="Services\FieldNameFromGenericTypeGenerator.cs" />
     <Compile Include="Services\DependencyInjector.cs" />
