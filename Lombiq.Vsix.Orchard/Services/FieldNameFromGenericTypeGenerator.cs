@@ -21,11 +21,9 @@ namespace Lombiq.Vsix.Orchard.Services
             var cleanedGenericType = RemoveFirstLetterIfInterface(genericType);
             var cleanedGenericParameter = RemoveFirstLetterIfInterface(genericParameter);
 
-            if (dependency.Length < 2) return GetLowerInvariantStringWithUnderscore(dependency);
-
-            if (useShortName) return GetShortNameWithUnderscore(cleanedGenericParameter) + GetShortName(cleanedGenericType);
-
-            return GetStringWithUnderscore(GetCamelCased(cleanedGenericParameter)) + cleanedGenericType;
+            return useShortName ? 
+                    GetShortNameWithUnderscore(cleanedGenericParameter) + GetShortName(cleanedGenericType) : 
+                    GetStringWithUnderscore(GetCamelCased(cleanedGenericParameter)) + cleanedGenericType;
         }
     }
 }
