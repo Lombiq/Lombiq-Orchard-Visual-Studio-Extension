@@ -14,6 +14,8 @@ namespace Lombiq.Vsix.Orchard.Services
 
         public override string Generate(string dependency, bool useShortName)
         {
+            // This implementation handles only the dependencies with IEnumerable<T> generic types. It places the
+            // generic parameter right after the underscore using its plural form.
             var segments = GetGenericTypeSegments(dependency);
             
             return (useShortName ? 

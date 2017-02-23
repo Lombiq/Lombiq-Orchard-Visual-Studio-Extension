@@ -6,16 +6,16 @@
     public interface IFieldNameFromDependencyGenerator
     {
         /// <summary>
-        /// Priority number used to decide which implementation needs to run.
+        /// Priority number used to decide which implementation needs to run first.
         /// </summary>
         double Priority { get; }
 
 
         /// <summary>
-        /// Returns true if the field name can be generated from the given dependency.
+        /// Determines if the field name can be generated from the given dependency.
         /// </summary>
         /// <param name="dependency">Name of the dependency that has been injected to the constructor.</param>
-        /// <returns>True if the field name can be generated from the given dependency.</returns>
+        /// <returns>Returns <c>true</c> if the field name can be generated from the given dependency.</returns>
         bool CanGenerate(string dependency);
 
         /// <summary>

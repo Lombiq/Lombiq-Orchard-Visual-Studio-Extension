@@ -14,6 +14,8 @@ namespace Lombiq.Vsix.Orchard.Services
 
         public override string Generate(string dependency, bool useShortName)
         {
+            // Default implementation to handle dependencies with generic types. It places the generic parameter right
+            // after the underscore and the generic type to the end.
             var segments = GetGenericTypeSegments(dependency);
 
             return useShortName ? 
