@@ -235,7 +235,7 @@
     <Compile Include="Services\FieldNameFromDependencyGeneratorBase.cs" />
     <Compile Include="Services\FieldNameFromGenericTypeGeneratorBase.cs" />
     <Compile Include="Services\FieldNameFromIEnumerableGenerator.cs" />
-    <Compile Include="Services\FieldNameFromGenericTypeGenerator.cs" />
+    <Compile Include="Services\DefaultFieldNameFromGenericTypeGenerator.cs" />
     <Compile Include="Services\DependencyInjector.cs" />
     <Compile Include="Services\DefaultFieldNameFromDependencyGenerator.cs" />
     <Compile Include="Services\IFieldNameFromDependencyGenerator.cs" />

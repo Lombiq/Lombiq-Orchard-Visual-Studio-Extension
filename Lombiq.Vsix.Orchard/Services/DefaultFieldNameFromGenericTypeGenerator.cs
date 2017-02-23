@@ -2,7 +2,7 @@
 
 namespace Lombiq.Vsix.Orchard.Services
 {
-    public class FieldNameFromGenericTypeGenerator : FieldNameFromGenericTypeGeneratorBase
+    public class DefaultFieldNameFromGenericTypeGenerator : FieldNameFromGenericTypeGeneratorBase
     {
         private const string GenericTypeNameRegexPattern = @"^[A-Z_]+[a-zA-Z0-9_]*[<]+[a-zA-Z_]+[a-zA-Z0-9_]*[>]+$";
 

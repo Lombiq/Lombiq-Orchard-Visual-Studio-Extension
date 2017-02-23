@@ -30,7 +30,7 @@ namespace Lombiq.Vsix.Orchard
             _fieldNameGenerators = new IFieldNameFromDependencyGenerator[] 
             {
                 new DefaultFieldNameFromDependencyGenerator(),
-                new FieldNameFromGenericTypeGenerator(),
+                new DefaultFieldNameFromGenericTypeGenerator(),
                 new FieldNameFromIEnumerableGenerator()
             };
             _dte = Package.GetGlobalService(typeof(SDTE)) as DTE;
