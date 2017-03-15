@@ -83,9 +83,6 @@ namespace Lombiq.Vsix.Orchard
                             case DependencyInjectorErrorCodes.ClassNotFound:
                                 DialogHelpers.Warning("Could not inject depencency because the class was not found in this file.", injectDependencyCaption);
                                 break;
-                            case DependencyInjectorErrorCodes.ConstructorNotFound:
-                                DialogHelpers.Warning("Could not inject depencency because the constructor was not found.", injectDependencyCaption);
-                                break;
                             default:
                                 DialogHelpers.Warning("Could not inject dependency.", injectDependencyCaption);
                                 break;
