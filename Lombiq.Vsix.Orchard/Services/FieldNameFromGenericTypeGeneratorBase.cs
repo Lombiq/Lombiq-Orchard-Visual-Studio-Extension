@@ -1,6 +1,4 @@
-﻿using System.Text.RegularExpressions;
-
-namespace Lombiq.Vsix.Orchard.Services
+﻿namespace Lombiq.Vsix.Orchard.Services
 {
     public abstract class FieldNameFromGenericTypeGeneratorBase : FieldNameFromDependencyGeneratorBase
     {

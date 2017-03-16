@@ -1,4 +1,6 @@
-﻿using System.Text.RegularExpressions;
+﻿using System.Data.Entity.Design.PluralizationServices;
+using System.Globalization;
+using System.Text.RegularExpressions;
 
 namespace Lombiq.Vsix.Orchard.Services
 {
@@ -17,11 +19,16 @@ namespace Lombiq.Vsix.Orchard.Services
             // This implementation handles only the dependencies with IEnumerable<T> generic types. It places the
             // generic parameter right after the underscore using its plural form.
             var segments = GetGenericTypeSegments(dependency);
-            
-            return (useShortName ? 
-                GetShortNameWithUnderscore(segments.CleanedGenericParameterName) : 
-                GetStringWithUnderscore(GetCamelCased(segments.CleanedGenericParameterName))) 
-                + "s";
+
+            var fieldNameWithoutUnderscore = useShortName ?
+                GetShortName(segments.CleanedGenericParameterName) :
+                GetCamelCased(segments.CleanedGenericParameterName);
+
+            var pluralizedFieldNameWithoutUnderscore = PluralizationService
+                .CreateService(CultureInfo.GetCultureInfo("en-GB"))
+                .Pluralize(fieldNameWithoutUnderscore);
+
+            return GetStringWithUnderscore(pluralizedFieldNameWithoutUnderscore);
         }
     }
 }
