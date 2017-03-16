@@ -10,7 +10,10 @@ namespace Lombiq.Vsix.Orchard.Services
         public override double Priority { get { return 10; } }
 
 
-        public override bool CanGenerate(string dependency) { return Regex.IsMatch(dependency, GenericTypeNameRegexPattern); }
+        public override bool CanGenerate(string dependency)
+        {
+            return Regex.IsMatch(dependency, GenericTypeNameRegexPattern);
+        }
 
         public override string Generate(string dependency, bool useShortName)
         {
@@ -18,8 +21,8 @@ namespace Lombiq.Vsix.Orchard.Services
             // after the underscore and the generic type to the end.
             var segments = GetGenericTypeSegments(dependency);
 
-            return useShortName ? 
-                    GetShortNameWithUnderscore(segments.CleanedGenericParameterName) + GetShortName(segments.CleanedGenericTypeName) : 
+            return useShortName ?
+                    GetShortNameWithUnderscore(segments.CleanedGenericParameterName) + GetShortName(segments.CleanedGenericTypeName) :
                     GetStringWithUnderscore(GetCamelCased(segments.CleanedGenericParameterName)) + segments.CleanedGenericTypeName;
         }
     }
