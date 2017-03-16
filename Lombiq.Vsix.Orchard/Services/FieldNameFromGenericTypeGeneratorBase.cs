@@ -6,9 +6,9 @@ namespace Lombiq.Vsix.Orchard.Services
     {
         protected virtual CleanedGenericTypeSegments GetGenericTypeSegments(string dependency)
         {
-            var splittedDependency = dependency.Split('<');
-            var genericType = splittedDependency[0];
-            var genericParameter = splittedDependency[1].Substring(0, splittedDependency[1].Length - 1);
+            var splitDependency = dependency.Split('<');
+            var genericType = splitDependency[0];
+            var genericParameter = splitDependency[1].Substring(0, splitDependency[1].Length - 1);
 
             return new CleanedGenericTypeSegments
             {
@@ -16,8 +16,7 @@ namespace Lombiq.Vsix.Orchard.Services
                 CleanedGenericParameterName = RemoveFirstLetterIfInterface(genericParameter)
             };
         }
-
-
+        
 
         protected class CleanedGenericTypeSegments
         {
