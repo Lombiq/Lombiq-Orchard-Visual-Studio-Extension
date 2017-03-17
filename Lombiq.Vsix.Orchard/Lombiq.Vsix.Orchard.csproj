@@ -265,7 +265,9 @@
     <Resource Include="ItemTemplates\Orchard\ContentPartWithType\Icon.png" />
     <Content Include="ItemTemplates\Orchard\ContentPartWithRecord\Definitions\CSharp.vstemplate" />
     <Resource Include="ItemTemplates\Orchard\ContentPartWithRecord\Icon.png" />
-    <Content Include="ItemTemplates\Orchard\ContentPart\Definitions\CSharp.vstemplate" />
+    <Content Include="ItemTemplates\Orchard\ContentPart\Definitions\CSharp.vstemplate">
+      <SubType>Designer</SubType>
+    </Content>
     <None Include="packages.config" />
     <None Include="Properties\template-builder.props" />
     <None Include="source.extension.vsixmanifest">
