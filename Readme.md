@@ -35,6 +35,16 @@ Bug reports, feature requests and comments are warmly welcome, **please do so vi
 This project is developed by [Lombiq Technologies Ltd](http://lombiq.com/). Commercial-grade support is available through Lombiq.
 
 
+## Release notes
+
+- 1.1, 18.03.2016
+	- The Dependency Injector tool now creates the constructor if it doesn't exist (i.e. it can be used even if there's no constructor already).
+	- `IEnumerable&lt;T&gt;` and other generic types are handled when generating injected dependency names; e.g. for `IEnumerable&lt;IDependency&gt;` the field name `_dependencies` will be generated.
+- 1.0, 24.05.2016
+	- Dependency Injector tool
+	- Templates for content part, shape template, injected dependency, Orchard 1.9 and 1.10 module
+
+
 ## How to add a new (Orchard) project template
 
 For adding project templates the [SideWaffle](https://github.com/ligershark/side-waffle) library is used in this Visual Studio extension. If you want to create a new one just follow the steps below.

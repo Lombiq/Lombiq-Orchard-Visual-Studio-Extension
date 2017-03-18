@@ -52,11 +52,11 @@ namespace Lombiq.Vsix.Orchard.Services
                 return Result.FailedResult(DependencyInjectorErrorCodes.ClassNotFound);
             }
 
-            // Find the initial line of the first constructor.
+            // Find the initial line of the first constructor. If it hasn't been created yet then create it.
             GetConstructorLineIndex(context);
             if (context.ConstructorLineIndex == -1)
             {
-                return Result.FailedResult(DependencyInjectorErrorCodes.ConstructorNotFound);
+                CreateConstructor(context);
             }
 
             // Update inner code of the constructor first.
@@ -75,7 +75,7 @@ namespace Lombiq.Vsix.Orchard.Services
         }
 
 
-        private void GetCodeLines(DependencyInjectionContext context)
+        private static void GetCodeLines(DependencyInjectionContext context)
         {
             var textDocument = context.Document.Object() as TextDocument;
             context.StartEditPoint = textDocument.StartPoint.CreateEditPoint();
@@ -137,11 +137,46 @@ namespace Lombiq.Vsix.Orchard.Services
             }
         }
 
+        private static void CreateConstructor(DependencyInjectionContext context)
+        {
+            var classStartIndentSize = GetIndentSizeOfLine(context.CodeLines[context.ClassStartLineIndex]);
+            var createConstructorFromIndex = context.ClassStartLineIndex + (context.BraceStyle == BraceStyles.OpenInNewLine ? 2 : 1);
+
+            // Add two empty lines before and after to separate the constructor from the field and the other parts of the code.
+            var constructorCodeLines = context.BraceStyle == BraceStyles.OpenInNewLine ? 
+                new[]
+                {
+                    "",
+                    "",
+                    IndentText(classStartIndentSize, 2, "public " + context.ClassName + "()"),
+                    IndentText(classStartIndentSize, 2, "{"),
+                    IndentText(classStartIndentSize, 2, "}"),
+                    "",
+                    ""
+                } :
+                new[]
+                {
+                    "",
+                    "",
+                    IndentText(classStartIndentSize, 2, "public " + context.ClassName + "() {"),
+                    IndentText(classStartIndentSize, 2, "}"),
+                    "",
+                    ""
+                };
+
+            for (int i = 0; i < constructorCodeLines.Length; i++)
+            {
+                context.CodeLines.Insert(createConstructorFromIndex + i, constructorCodeLines[i]);
+            }
+
+            context.ConstructorLineIndex = createConstructorFromIndex + 2;
+        }
+
         private static void InsertConstructorCodeLine(DependencyInjectionContext context)
         {
             var constructorLine = context.CodeLines[context.ConstructorLineIndex];
             var constructorIndentSize = GetIndentSizeOfLine(constructorLine);
-            var constructorCodeLine = new string(' ', Convert.ToInt32(constructorIndentSize * 1.5)) + context.FieldName + " = " + context.VariableName + ";";
+            var constructorCodeLine = IndentText(constructorIndentSize, 1.5, context.FieldName + " = " + context.VariableName + ";");
 
             var constructorCodeStartIndex = -1;
             for (int i = context.ConstructorLineIndex; i < context.CodeLines.Count(); i++)
@@ -207,7 +242,7 @@ namespace Lombiq.Vsix.Orchard.Services
                     afterClosing = context.CodeLines[i].Substring(indexOfClosing);
 
                     context.CodeLines.RemoveAt(i);
-                    context.CodeLines.Insert(i, new string(' ', Convert.ToInt32(indentSize * 1.5)) + injection + afterClosing);
+                    context.CodeLines.Insert(i, IndentText(indentSize, 1.5, injection + afterClosing));
                     context.CodeLines.Insert(i, beforeClosing + ",");
 
                     break;
@@ -251,6 +286,11 @@ namespace Lombiq.Vsix.Orchard.Services
             }
 
             return indentSize;
+        }
+
+        private static string IndentText(int baseIndentSize, double indentSizeMultiplier, string text)
+        {
+            return new string(' ', Convert.ToInt32(baseIndentSize * indentSizeMultiplier)) + text;
         }
 
 
