@@ -79,6 +79,24 @@ namespace Lombiq.Vsix.Orchard {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Lombiq Orchard Visual Studio Extension.
+        /// </summary>
+        internal static string _120 {
+            get {
+                return ResourceManager.GetString("120", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to General.
+        /// </summary>
+        internal static string _121 {
+            get {
+                return ResourceManager.GetString("121", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
         /// </summary>
         internal static System.Drawing.Icon _400 {
