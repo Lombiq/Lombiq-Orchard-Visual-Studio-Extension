@@ -1,4 +1,5 @@
 ﻿using EnvDTE;
+using System;
 using System.IO;
 
 namespace Lombiq.Vsix.Orchard.Services.LogWatcher
@@ -20,8 +21,9 @@ namespace Lombiq.Vsix.Orchard.Services.LogWatcher
         {
             var logFilePath = _logWatcherSettingsAccessor.GetSettings().LogFileFolderPath;
             var solutionPath = _dte.Solution == null ? "" : Path.GetDirectoryName(_dte.Solution.FileName);
+            var errorLogFileName = "orchard-error-" + DateTime.Today.ToString("yyyy.MM.dd") + ".log";
 
-            return Path.Combine(solutionPath, logFilePath);
+            return Path.Combine(solutionPath, logFilePath, errorLogFileName);
         }
     }
 }
