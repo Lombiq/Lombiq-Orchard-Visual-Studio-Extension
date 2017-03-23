@@ -222,6 +222,7 @@
     </Compile>
     <Compile Include="Constants\PackageGuids.cs" />
     <Compile Include="Helpers\DialogHelpers.cs" />
+    <Compile Include="Models\LogWatcherSettings.cs" />
     <Compile Include="Models\Result.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="LombiqOrchardVisualStudioExtensionPackage.cs" />
@@ -236,7 +237,11 @@
     <Compile Include="Services\DefaultFieldNameFromGenericTypeGenerator.cs" />
     <Compile Include="Services\DependencyInjector.cs" />
     <Compile Include="Services\DefaultFieldNameFromDependencyGenerator.cs" />
+    <Compile Include="Services\ErrorLogFileWatcher.cs" />
     <Compile Include="Services\IFieldNameFromDependencyGenerator.cs" />
+    <Compile Include="Services\ILogWatcherSettingsAccessor.cs" />
+    <Compile Include="Services\LogFileWatcherBase.cs" />
+    <Compile Include="Services\ILogWatcher.cs" />
     <Compile Include="VSPackage.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

@@ -1,4 +1,5 @@
 ﻿using Lombiq.Vsix.Orchard.Constants;
+using Lombiq.Vsix.Orchard.Models;
 using Microsoft.VisualStudio.Shell;
 using System;
 using System.ComponentModel;
@@ -7,7 +8,7 @@ using System.Runtime.InteropServices;
 namespace Lombiq.Vsix.Orchard.Options
 {
     [Guid(PackageGuids.LogWatcherOptionsPageGuidString)]
-    public class LogWatcherOptionsPage : DialogPage
+    public class LogWatcherOptionsPage : DialogPage, ILogWatcherSettings
     {
         public const string DefaultLogFileFolderPath = @"src\Orchard.Web\App_Data\Logs";
 

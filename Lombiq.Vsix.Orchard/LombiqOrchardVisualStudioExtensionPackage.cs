@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.ComponentModel.Design;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
+using Lombiq.Vsix.Orchard.Models;
 
 namespace Lombiq.Vsix.Orchard
 {
@@ -19,7 +20,7 @@ namespace Lombiq.Vsix.Orchard
     [ProvideMenuResource("Menus.ctmenu", 1)]
     [ProvideOptionPage(typeof(LogWatcherOptionsPage), "Lombiq Orchard Visual Studio Extension", "General", 120, 121, true)]
     [Guid(PackageGuids.LombiqOrchardVisualStudioExtensionPackageGuidString)]
-    public sealed class LombiqOrchardVisualStudioExtensionPackage : Package
+    public sealed class LombiqOrchardVisualStudioExtensionPackage : Package, ILogWatcherSettingsAccessor
     {
         private readonly IDependencyInjector _dependencyInjector;
         private readonly IEnumerable<IFieldNameFromDependencyGenerator> _fieldNameGenerators;
@@ -101,5 +102,14 @@ namespace Lombiq.Vsix.Orchard
                 }
             }
         }
+
+        #region ILogWatcherSettings Members
+
+        ILogWatcherSettings ILogWatcherSettingsAccessor.GetSettings()
+        {
+            return (ILogWatcherSettings)GetDialogPage(typeof(LogWatcherOptionsPage));
+        }
+
+        #endregion
     }
 }
