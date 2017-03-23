@@ -4,13 +4,13 @@ using System.IO;
 
 namespace Lombiq.Vsix.Orchard.Services.LogWatcher
 {
-    public class ErrorLogFileWatcher : LogFileWatcherBase
+    public class OrchardErrorLogFileWatcher : LogFileWatcherBase
     {
         private readonly ILogWatcherSettingsAccessor _logWatcherSettingsAccessor;
         private readonly DTE _dte;
 
 
-        public ErrorLogFileWatcher(ILogWatcherSettingsAccessor logWatcherSettingsAccessor, DTE dte)
+        public OrchardErrorLogFileWatcher(ILogWatcherSettingsAccessor logWatcherSettingsAccessor, DTE dte)
         {
             _logWatcherSettingsAccessor = logWatcherSettingsAccessor;
             _dte = dte;
