@@ -73,7 +73,7 @@ namespace Lombiq.Vsix.Orchard.Services
                 new LogChangedEventArgs
                 {
                     HasContent = HasContent(),
-                    Source = GetLogFileName()
+                    FileName = GetLogFileName()
                 });
         }
     }

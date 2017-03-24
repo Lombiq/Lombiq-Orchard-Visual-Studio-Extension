@@ -13,7 +13,8 @@
             <Group guid="LombiqOrchardVisualStudioExtensionCommandSetGuid" id="ToolsMenuGroupId" priority="0x0600">
                 <Parent guid="guidSHLMainMenu" id="IDM_VS_MENU_TOOLS"/>
             </Group>
-            
+
+            <!-- Create toolbar group for the Log Watcher feature. -->
             <Group guid="LombiqOrchardVisualStudioExtensionCommandSetGuid" id="LogWatcherToolbarGroup" priority="0x0000">
                 <Parent guid="LombiqOrchardVisualStudioExtensionCommandSetGuid" id="LogWatcherToolbar"/>
             </Group>
@@ -29,6 +30,7 @@
                 </Strings>
             </Button>
 
+            <!-- Add buttons to the created Log Watcher toolbar. -->
             <Button guid="LombiqOrchardVisualStudioExtensionCommandSetGuid" id="OpenErrorLogCommandId" priority="0x0100" type="Button">
                 <Parent guid= "LombiqOrchardVisualStudioExtensionCommandSetGuid" id="LogWatcherToolbarGroup" />
                 <Icon guid="OrchardImagesGuid" id="OrchardSmallBitmapId" />
