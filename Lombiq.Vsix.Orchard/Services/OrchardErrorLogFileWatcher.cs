@@ -2,7 +2,7 @@
 using System;
 using System.IO;
 
-namespace Lombiq.Vsix.Orchard.Services.LogWatcher
+namespace Lombiq.Vsix.Orchard.Services
 {
     public class OrchardErrorLogFileWatcher : LogFileWatcherBase
     {
@@ -19,11 +19,13 @@ namespace Lombiq.Vsix.Orchard.Services.LogWatcher
 
         protected override string GetLogFileName()
         {
-            var logFilePath = _logWatcherSettingsAccessor.GetSettings().LogFileFolderPath;
-            var solutionPath = _dte.Solution == null ? "" : Path.GetDirectoryName(_dte.Solution.FileName);
-            var errorLogFileName = "orchard-error-" + DateTime.Today.ToString("yyyy.MM.dd") + ".log";
+            //var logFilePath = _logWatcherSettingsAccessor.GetSettings().LogFileFolderPath;
+            //var solutionPath = _dte.Solution == null ? "" : Path.GetDirectoryName(_dte.Solution.FileName);
+            //var errorLogFileName = "orchard-error-" + DateTime.Today.ToString("yyyy.MM.dd") + ".log";
 
-            return Path.Combine(solutionPath, logFilePath, errorLogFileName);
+            //return Path.Combine(solutionPath, logFilePath, errorLogFileName);
+
+            return @"c:\Logtest\log.txt";
         }
     }
 }

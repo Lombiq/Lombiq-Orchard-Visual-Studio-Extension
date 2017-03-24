@@ -1,12 +1,14 @@
-﻿using System;
+﻿using Lombiq.Vsix.Orchard.Models;
+using System;
 
 namespace Lombiq.Vsix.Orchard.Services
 {
-    public interface ILogWatcher
+    public interface ILogWatcher : IDisposable
     {
-        event EventHandler LogUpdated;
+        event EventHandler<ILogChangedContext> LogUpdated;
 
         void StartWatching();
         void StopWatching();
+        bool HasContent();
     }
 }

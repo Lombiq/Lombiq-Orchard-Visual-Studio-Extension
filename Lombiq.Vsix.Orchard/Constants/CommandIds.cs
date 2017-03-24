@@ -4,5 +4,6 @@
     {
         // These IDs are also defined in the LombiqOrchardVisualStudioExtension.vsct file.
         public const uint InjectDependencyCommandId = 0x100;
+        public const uint OpenErrorLogCommandId = 0x101;
     };
 }

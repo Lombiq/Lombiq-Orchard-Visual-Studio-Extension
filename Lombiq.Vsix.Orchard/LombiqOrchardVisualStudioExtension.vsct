@@ -29,12 +29,13 @@
                 </Strings>
             </Button>
 
-            <Button guid="LombiqOrchardVisualStudioExtensionCommandSetGuid" id="OpenLogCommandId" priority="0x0100" type="Button">
+            <Button guid="LombiqOrchardVisualStudioExtensionCommandSetGuid" id="OpenErrorLogCommandId" priority="0x0100" type="Button">
                 <Parent guid= "LombiqOrchardVisualStudioExtensionCommandSetGuid" id="LogWatcherToolbarGroup" />
                 <Icon guid="ImagesGuid" id="LombiqSmallBitmapId" />
                 <Strings>
                     <ButtonText>Open Error Log</ButtonText>
                 </Strings>
+                <CommandFlag>DefaultDisabled</CommandFlag>
             </Button>
         </Buttons>
 
@@ -64,7 +65,7 @@
         <GuidSymbol name="LombiqOrchardVisualStudioExtensionCommandSetGuid" value="{0fe301eb-0ad4-4fb4-bbd9-c2545e74dde5}">
             <IDSymbol name="ToolsMenuGroupId" value="0x1020" />
             <IDSymbol name="InjectDependencyCommandId" value="0x0100" />
-            <IDSymbol name="OpenLogCommandId" value="0x0101" />
+            <IDSymbol name="OpenErrorLogCommandId" value="0x0101" />
             <IDSymbol name="LogWatcherToolbar" value="0x1030" />
             <IDSymbol name="LogWatcherToolbarGroup" value="0x1035" />
         </GuidSymbol>
