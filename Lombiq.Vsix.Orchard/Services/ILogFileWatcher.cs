@@ -3,7 +3,7 @@ using System;
 
 namespace Lombiq.Vsix.Orchard.Services
 {
-    public interface ILogWatcher : IDisposable
+    public interface ILogFileWatcher : IDisposable
     {
         event EventHandler<ILogChangedContext> LogUpdated;
 

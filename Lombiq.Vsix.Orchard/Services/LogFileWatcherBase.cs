@@ -4,7 +4,7 @@ using System.IO;
 
 namespace Lombiq.Vsix.Orchard.Services
 {
-    public abstract class LogFileWatcherBase : ILogWatcher
+    public abstract class LogFileWatcherBase : ILogFileWatcher
     {
         private readonly FileSystemWatcher _fileSystemWatcher;
         private bool _isWatching;

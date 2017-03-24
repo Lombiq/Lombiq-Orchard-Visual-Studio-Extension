@@ -27,7 +27,7 @@ namespace Lombiq.Vsix.Orchard
         private readonly IDependencyInjector _dependencyInjector;
         private readonly IEnumerable<IFieldNameFromDependencyGenerator> _fieldNameGenerators;
         private readonly DTE _dte;
-        private readonly ILogWatcher _logWatcher;
+        private readonly ILogFileWatcher _logWatcher;
         private OleMenuCommand _openErrorLogCommand;
 
 
