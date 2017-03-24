@@ -23,7 +23,7 @@
             <!-- Add menu items to the created menu item group in the Tools menu. -->
             <Button guid="LombiqOrchardVisualStudioExtensionCommandSetGuid" id="InjectDependencyCommandId" priority="0x0100" type="Button">
                 <Parent guid="LombiqOrchardVisualStudioExtensionCommandSetGuid" id="ToolsMenuGroupId" />
-                <Icon guid="ImagesGuid" id="LombiqSmallBitmapId" />
+                <Icon guid="LombiqImagesGuid" id="LombiqSmallBitmapId" />
                 <Strings>
                     <ButtonText>Inject Dependency</ButtonText>
                 </Strings>
@@ -31,7 +31,7 @@
 
             <Button guid="LombiqOrchardVisualStudioExtensionCommandSetGuid" id="OpenErrorLogCommandId" priority="0x0100" type="Button">
                 <Parent guid= "LombiqOrchardVisualStudioExtensionCommandSetGuid" id="LogWatcherToolbarGroup" />
-                <Icon guid="ImagesGuid" id="LombiqSmallBitmapId" />
+                <Icon guid="OrchardImagesGuid" id="OrchardSmallBitmapId" />
                 <Strings>
                     <ButtonText>Open Error Log</ButtonText>
                 </Strings>
@@ -41,7 +41,14 @@
 
         <Bitmaps>
             <!-- Define Lombiq logo image for not Orchard-related commands. -->
-            <Bitmap guid="ImagesGuid" href="Resources\Lombiq16x16.png" usedList="LombiqSmallBitmapId"/>
+            <Bitmap guid="LombiqImagesGuid" href="Resources\Lombiq16x16.png" usedList="LombiqSmallBitmapId"/>
+            
+            <!-- Define Orchard logo image for Orchard-related commands. -->
+            <Bitmap guid="OrchardImagesGuid" href="Resources\Orchard16x16.png" usedList="OrchardSmallBitmapId"/>
+        </Bitmaps>
+
+        <Bitmaps>
+            
         </Bitmaps>
         
         <Menus>
@@ -70,8 +77,12 @@
             <IDSymbol name="LogWatcherToolbarGroup" value="0x1035" />
         </GuidSymbol>
 
-        <GuidSymbol name="ImagesGuid" value="{59308fb6-b1c7-47bf-a970-a73360c0607a}" >
+        <GuidSymbol name="LombiqImagesGuid" value="{59308fb6-b1c7-47bf-a970-a73360c0607a}" >
             <IDSymbol name="LombiqSmallBitmapId" value="1" />
+        </GuidSymbol>
+
+        <GuidSymbol name="OrchardImagesGuid" value="{7368d2ee-c896-4f0e-918e-c2711c577d80}" >
+            <IDSymbol name="OrchardSmallBitmapId" value="1" />
         </GuidSymbol>
 
     </Symbols>
