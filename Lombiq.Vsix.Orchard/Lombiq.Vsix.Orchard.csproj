@@ -241,7 +241,6 @@
     <Compile Include="Services\OrchardErrorLogFileWatcher.cs" />
     <Compile Include="Services\IFieldNameFromDependencyGenerator.cs" />
     <Compile Include="Services\ILogWatcherSettingsAccessor.cs" />
-    <Compile Include="Services\LogFileWatcherBase.cs" />
     <Compile Include="Services\ILogFileWatcher.cs" />
     <Compile Include="VSPackage.Designer.cs">
       <AutoGen>True</AutoGen>
