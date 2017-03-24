@@ -10,5 +10,16 @@ namespace Lombiq.Vsix.Orchard.Services
         void StartWatching();
         void StopWatching();
         bool HasContent();
+        string GetLogFileName();
+    }
+
+
+    public static class LogFileWatcherExtensions
+    {
+        public static void RestartWatching(this ILogFileWatcher logFileWatcher)
+        {
+            logFileWatcher.StopWatching();
+            logFileWatcher.StartWatching();
+        }
     }
 }

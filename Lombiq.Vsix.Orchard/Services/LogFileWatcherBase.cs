@@ -18,6 +18,9 @@ namespace Lombiq.Vsix.Orchard.Services
             _fileSystemWatcher = new FileSystemWatcher();
         }
 
+
+        public abstract string GetLogFileName();
+
         public virtual void StartWatching()
         {
             if (_isWatching) return;
@@ -61,9 +64,7 @@ namespace Lombiq.Vsix.Orchard.Services
 
             _fileSystemWatcher.Dispose();
         }
-
-
-        protected abstract string GetLogFileName();
+        
         
         protected virtual void LogFileUpdated(object sender, FileSystemEventArgs e)
         {

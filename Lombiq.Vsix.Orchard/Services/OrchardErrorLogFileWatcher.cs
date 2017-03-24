@@ -17,7 +17,7 @@ namespace Lombiq.Vsix.Orchard.Services
         }
 
 
-        protected override string GetLogFileName()
+        public override string GetLogFileName()
         {
             //var logFilePath = _logWatcherSettingsAccessor.GetSettings().LogFileFolderPath;
             //var solutionPath = _dte.Solution == null ? "" : Path.GetDirectoryName(_dte.Solution.FileName);

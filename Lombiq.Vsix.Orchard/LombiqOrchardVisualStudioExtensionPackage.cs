@@ -13,6 +13,7 @@ using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using Lombiq.Vsix.Orchard.Models;
 using Microsoft.VisualStudio;
+using System.IO;
 
 namespace Lombiq.Vsix.Orchard
 {
@@ -34,7 +35,7 @@ namespace Lombiq.Vsix.Orchard
         public LombiqOrchardVisualStudioExtensionPackage()
         {
             _dependencyInjector = new DependencyInjector();
-            _fieldNameGenerators = new IFieldNameFromDependencyGenerator[] 
+            _fieldNameGenerators = new IFieldNameFromDependencyGenerator[]
             {
                 new DefaultFieldNameFromDependencyGenerator(),
                 new DefaultFieldNameFromGenericTypeGenerator(),
@@ -48,7 +49,7 @@ namespace Lombiq.Vsix.Orchard
         protected override void Initialize()
         {
             base.Initialize();
-            
+
             _dte.Events.SolutionEvents.Opened += SolutionOpenedCallback;
             _dte.Events.SolutionEvents.AfterClosing += SolutionClosedCallback;
             _logWatcher.LogUpdated += LogFileUpdatedCallback;
@@ -64,9 +65,9 @@ namespace Lombiq.Vsix.Orchard
 
                 // Initialize "Open Error Log" toolbar button.
                 _openErrorLogCommand = new OleMenuCommand(
-                    OpenErrorLogCallback, 
+                    OpenErrorLogCallback,
                     new CommandID(
-                        PackageGuids.LombiqOrchardVisualStudioExtensionCommandSetGuid, 
+                        PackageGuids.LombiqOrchardVisualStudioExtensionCommandSetGuid,
                         (int)CommandIds.OpenErrorLogCommandId));
 
                 menuCommandService.AddCommand(_openErrorLogCommand);
@@ -106,7 +107,16 @@ namespace Lombiq.Vsix.Orchard
 
         private void OpenErrorLogCallback(object sender, EventArgs e)
         {
-            DialogHelpers.Information("Clicked");
+            var logFileName = _logWatcher.GetLogFileName();
+
+            if (File.Exists(logFileName))
+            {
+                System.Diagnostics.Process.Start(_logWatcher.GetLogFileName());
+            }
+            else
+            {
+                DialogHelpers.Error("The log file doesn't exists.", "Open Error Log");
+            }
         }
 
         private void InjectDependencyCallback(object sender, EventArgs e)
@@ -158,9 +168,9 @@ namespace Lombiq.Vsix.Orchard
 
         private void UpdateOpenErrorLogCommandAccessibility(ILogChangedContext context = null)
         {
-            _openErrorLogCommand.Enabled = _dte.Solution.IsOpen && 
-                (context != null ? 
-                    context.HasContent : 
+            _openErrorLogCommand.Enabled = _dte.Solution.IsOpen &&
+                (context != null ?
+                    context.HasContent :
                     _logWatcher.HasContent());
         }
 
