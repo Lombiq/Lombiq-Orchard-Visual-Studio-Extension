@@ -75,7 +75,7 @@ namespace Lombiq.Vsix.Orchard.Services
         private string GetLogFileName()
         {
             var logFilePath = _logWatcherSettingsAccessor.GetSettings().LogFileFolderPath;
-            var solutionPath = _dte.Solution.IsOpen ? Path.GetDirectoryName(_dte.Solution.FileName) : "";
+            var solutionPath = IsSolutionOpened() ? Path.GetDirectoryName(_dte.Solution.FileName) : "";
             var errorLogFileName = "orchard-error-" + DateTime.Today.ToString("yyyy.MM.dd") + ".log";
 
             return Path.Combine(solutionPath, logFilePath, errorLogFileName);
@@ -83,6 +83,8 @@ namespace Lombiq.Vsix.Orchard.Services
         
         private void LogWatcherTimerElapsedCallback(object sender, ElapsedEventArgs e)
         {
+            if (!IsSolutionOpened()) return;
+
             var logFileStatus = GetLogFileStatus();
 
             if (!logFileStatus.Equals(_previousLogFileStatus))
@@ -97,5 +99,8 @@ namespace Lombiq.Vsix.Orchard.Services
                 _previousLogFileStatus = logFileStatus;
             }
         }
+
+        private bool IsSolutionOpened() =>
+            _dte.Solution.IsOpen;
     }
 }
