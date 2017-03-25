@@ -2,8 +2,11 @@
 using Lombiq.Vsix.Orchard.Constants;
 using Lombiq.Vsix.Orchard.Forms;
 using Lombiq.Vsix.Orchard.Helpers;
+using Lombiq.Vsix.Orchard.Models;
 using Lombiq.Vsix.Orchard.Options;
 using Lombiq.Vsix.Orchard.Services;
+using Microsoft.VisualStudio;
+using Microsoft.VisualStudio.CommandBars;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 using System;
@@ -11,10 +14,6 @@ using System.Collections.Generic;
 using System.ComponentModel.Design;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
-using Lombiq.Vsix.Orchard.Models;
-using Microsoft.VisualStudio;
-using System.IO;
-using Microsoft.VisualStudio.CommandBars;
 
 namespace Lombiq.Vsix.Orchard
 {
@@ -104,15 +103,11 @@ namespace Lombiq.Vsix.Orchard
             _logWatcher.Dispose();
         }
 
-        private void OpenErrorLogCommandBeforeQueryStatusCallback(object sender, EventArgs e)
-        {
+        private void OpenErrorLogCommandBeforeQueryStatusCallback(object sender, EventArgs e) =>
             UpdateOpenErrorLogCommandAccessibility();
-        }
 
-        private void LogFileUpdatedCallback(object sender, LogChangedEventArgs context)
-        {
+        private void LogFileUpdatedCallback(object sender, LogChangedEventArgs context) =>
             UpdateOpenErrorLogCommandAccessibility(context.LogFileStatus);
-        }
 
         private void StartLogWatcherAferSolutionOpenedCallback()
         {

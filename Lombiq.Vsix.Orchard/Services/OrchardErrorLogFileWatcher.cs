@@ -1,7 +1,6 @@
 ﻿using EnvDTE;
 using Lombiq.Vsix.Orchard.Models;
 using System;
-using System.Diagnostics;
 using System.IO;
 using System.Timers;
 

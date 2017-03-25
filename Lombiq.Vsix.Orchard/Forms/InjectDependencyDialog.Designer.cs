@@ -74,7 +74,7 @@
             this.dependencyNameTextBox.Name = "dependencyNameTextBox";
             this.dependencyNameTextBox.Size = new System.Drawing.Size(260, 20);
             this.dependencyNameTextBox.TabIndex = 3;
-            this.dependencyNameTextBox.TextChanged += new System.EventHandler(this.dependencyNameTextBox_TextChanged);
+            this.dependencyNameTextBox.TextChanged += new System.EventHandler(this.DependencyNameTextBoxTextChanged);
             // 
             // separatorLabel
             // 
@@ -110,7 +110,7 @@
             this.generateShortFieldNameCheckBox.TabIndex = 7;
             this.generateShortFieldNameCheckBox.Text = "Generate short field name";
             this.generateShortFieldNameCheckBox.UseVisualStyleBackColor = true;
-            this.generateShortFieldNameCheckBox.CheckedChanged += new System.EventHandler(this.dependencyNameTextBox_TextChanged);
+            this.generateShortFieldNameCheckBox.CheckedChanged += new System.EventHandler(this.DependencyNameTextBoxTextChanged);
             // 
             // hintLabel
             // 
