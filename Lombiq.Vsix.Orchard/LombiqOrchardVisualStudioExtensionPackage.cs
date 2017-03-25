@@ -149,13 +149,11 @@ namespace Lombiq.Vsix.Orchard
             UpdateOpenErrorLogCommandAccessibility();
         }
 
-        private void UpdateOpenErrorLogCommandAccessibility(ILogFileStatus logFileStatus = null)
-        {
+        private void UpdateOpenErrorLogCommandAccessibility(ILogFileStatus logFileStatus = null) =>
             _openErrorLogCommand.Enabled = !_errorLogSeen &&
                 _dte.Solution.IsOpen &&
                 GetLogWatcherSettings().LogWatcherEnabled &&
                 (logFileStatus ?? GetLogFileStatus()).HasContent;
-        }
 
         private ILogWatcherSettings GetLogWatcherSettings() =>
             _logWatcherSettingsAccessor.GetSettings();
