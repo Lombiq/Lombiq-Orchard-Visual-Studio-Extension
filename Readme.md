@@ -10,6 +10,7 @@ The extension can also be installed from the [Visual Studio Gallery](https://vis
 ## Tools
 
 - Dependency Injector: when a class is opened in the editor you can inject a dependency with this feature. Type the dependency name, hit Enter and it will be injected. Can be invoked from under the Tools menu as "Inject Dependency".
+- Orchard Error Log Watcher: watches the Orchard error log and if the log file exists and is not empty then makes a button in the "Orchard Log Watcher" toolbar enabled which opens the error log using the default application. The feature can be turned off in the Options -> Orchard Log Watcher page. Turning the feature on and off also makes the related toolbar visible or hidden on the toolbar strip.
 
 
 ## Templates
