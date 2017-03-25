@@ -7,11 +7,14 @@ namespace Lombiq.Vsix.Orchard.Models
     /// </summary>
     public interface ILogWatcherSettings
     {
-        event EventHandler SettingsUpdated;
+        /// <summary>
+        /// Indicated whether the log watcher is enabled and need to check if the log file has new entries. 
+        /// </summary>
+        bool LogWatcherEnabled { get; }
 
         /// <summary>
         /// Relative path of the folder where the log file is located.
         /// </summary>
-        string LogFileFolderPath { get; set; }
+        string LogFileFolderPath { get; }
     }
 }

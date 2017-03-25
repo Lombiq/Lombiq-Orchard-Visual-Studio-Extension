@@ -213,6 +213,7 @@
     <None Include="ItemTemplates\Orchard\ContentPart\DisplayTemplate.cshtml.template" />
     <None Include="ItemTemplates\Orchard\ContentPart\EditorTemplate.cshtml.template" />
     <None Include="ItemTemplates\Orchard\ContentPartWithRecord\Migrations.cs.template" />
+    <Compile Include="Constants\CommandBarNames.cs" />
     <Compile Include="Constants\DependencyInjectorErrorCodes.cs" />
     <Compile Include="Exceptions\DependencyToConstructorInjectorException.cs" />
     <Compile Include="Forms\InjectDependencyDialog.cs">
@@ -223,6 +224,7 @@
     </Compile>
     <Compile Include="Constants\PackageGuids.cs" />
     <Compile Include="Helpers\DialogHelpers.cs" />
+    <Compile Include="Models\LogWatcherSettingsUpdatedEventArgs.cs" />
     <Compile Include="Models\LogChangedEventArgs.cs" />
     <Compile Include="Models\ILogWatcherSettings.cs" />
     <Compile Include="Models\LogFileStatus.cs" />
@@ -240,6 +242,7 @@
     <Compile Include="Services\DefaultFieldNameFromGenericTypeGenerator.cs" />
     <Compile Include="Services\DependencyInjector.cs" />
     <Compile Include="Services\DefaultFieldNameFromDependencyGenerator.cs" />
+    <Compile Include="Models\ILogWatcherSettingsEvents.cs" />
     <Compile Include="Services\OrchardErrorLogFileWatcher.cs" />
     <Compile Include="Services\IFieldNameFromDependencyGenerator.cs" />
     <Compile Include="Services\ILogWatcherSettingsAccessor.cs" />

@@ -1,6 +1,7 @@
 ﻿using EnvDTE;
 using Lombiq.Vsix.Orchard.Models;
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Timers;
 
@@ -8,6 +9,9 @@ namespace Lombiq.Vsix.Orchard.Services
 {
     public class OrchardErrorLogFileWatcher : ILogFileWatcher
     {
+        private const int DefaultLogWatcherTimerIntervalInMilliseconds = 1000;
+
+
         private readonly ILogWatcherSettingsAccessor _logWatcherSettingsAccessor;
         private readonly DTE _dte;
         private readonly Timer _timer;
@@ -30,7 +34,7 @@ namespace Lombiq.Vsix.Orchard.Services
         {
             if (_isWatching) return;
 
-            _timer.Interval = 3000;
+            _timer.Interval = DefaultLogWatcherTimerIntervalInMilliseconds;
             _timer.AutoReset = true;
             _timer.Elapsed += LogWatcherTimerElapsedCallback;
             _timer.Start();
@@ -70,7 +74,7 @@ namespace Lombiq.Vsix.Orchard.Services
 
         private string GetLogFileName()
         {
-            var logFilePath = GetSettings().LogFileFolderPath;
+            var logFilePath = _logWatcherSettingsAccessor.GetSettings().LogFileFolderPath;
             var solutionPath = _dte.Solution != null && _dte.Solution.IsOpen ? Path.GetDirectoryName(_dte.Solution.FileName) : "";
             var errorLogFileName = "orchard-error-" + DateTime.Today.ToString("yyyy.MM.dd") + ".log";
 
@@ -83,7 +87,7 @@ namespace Lombiq.Vsix.Orchard.Services
 
             if (logFileStatus != _previousLogFileStatus)
             {
-                LogUpdated(
+                LogUpdated?.Invoke(
                     this,
                     new LogChangedEventArgs
                     {
@@ -93,8 +97,5 @@ namespace Lombiq.Vsix.Orchard.Services
                 _previousLogFileStatus = logFileStatus;
             }
         }
-        
-        private ILogWatcherSettings GetSettings() => 
-            _logWatcherSettingsAccessor.GetSettings();
     }
 }

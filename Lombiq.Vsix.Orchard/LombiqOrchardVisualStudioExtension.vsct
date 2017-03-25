@@ -50,11 +50,12 @@
         </Bitmaps>
         
         <Menus>
+            <!-- Create a toolbar for the Log Watcher feature. -->
             <Menu guid="LombiqOrchardVisualStudioExtensionCommandSetGuid" id="LogWatcherToolbar" type="Toolbar" >
                 <CommandFlag>DefaultDocked</CommandFlag>
                 <Strings>
                     <ButtonText>Orchard Log Watcher</ButtonText>
-                    <CommandName>Orchard Log Watcher</CommandName>
+                    <CommandName>Orchard Log Watcher Toolbar</CommandName>
                 </Strings>
             </Menu>
         </Menus>
