@@ -165,6 +165,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
+    <Resource Include="Resources\OrchardError16x16.png" />
     <Resource Include="Resources\Lombiq16x16.png" />
     <None Include="ItemTemplates\Orchard\ContentPartWithRecord\Placement.info.template">
       <SubType>Designer</SubType>

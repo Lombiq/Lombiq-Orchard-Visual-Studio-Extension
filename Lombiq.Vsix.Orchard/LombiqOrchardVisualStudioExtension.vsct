@@ -33,7 +33,7 @@
             <!-- Add buttons to the created Log Watcher toolbar. -->
             <Button guid="LombiqOrchardVisualStudioExtensionCommandSetGuid" id="OpenErrorLogCommandId" priority="0x0100" type="Button">
                 <Parent guid= "LombiqOrchardVisualStudioExtensionCommandSetGuid" id="LogWatcherToolbarGroup" />
-                <Icon guid="OrchardImagesGuid" id="OrchardSmallBitmapId" />
+                <Icon guid="OrchardLogWatcherImagesGuid" id="OrchardErrorSmallBitmapId" />
                 <Strings>
                     <ButtonText>Open Error Log</ButtonText>
                 </Strings>
@@ -46,11 +46,7 @@
             <Bitmap guid="LombiqImagesGuid" href="Resources\Lombiq16x16.png" usedList="LombiqSmallBitmapId"/>
             
             <!-- Define Orchard logo image for Orchard-related commands. -->
-            <Bitmap guid="OrchardImagesGuid" href="Resources\Orchard16x16.png" usedList="OrchardSmallBitmapId"/>
-        </Bitmaps>
-
-        <Bitmaps>
-            
+            <Bitmap guid="OrchardLogWatcherImagesGuid" href="Resources\OrchardError16x16.png" usedList="OrchardErrorSmallBitmapId"/>
         </Bitmaps>
         
         <Menus>
@@ -83,8 +79,8 @@
             <IDSymbol name="LombiqSmallBitmapId" value="1" />
         </GuidSymbol>
 
-        <GuidSymbol name="OrchardImagesGuid" value="{7368d2ee-c896-4f0e-918e-c2711c577d80}" >
-            <IDSymbol name="OrchardSmallBitmapId" value="1" />
+        <GuidSymbol name="OrchardLogWatcherImagesGuid" value="{7368d2ee-c896-4f0e-918e-c2711c577d80}" >
+            <IDSymbol name="OrchardErrorSmallBitmapId" value="1" />
         </GuidSymbol>
 
     </Symbols>
