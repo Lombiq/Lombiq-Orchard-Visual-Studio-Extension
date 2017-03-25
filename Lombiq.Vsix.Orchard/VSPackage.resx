@@ -124,8 +124,8 @@
     <value>Visual Studio extension with many features and templates frequently used by Lombiq developers. Contains Orchard-related as well as generic goodies.</value>
   </data>
   <data name="120" xml:space="preserve">
-    <value>Lombiq Orchard Visual Studio Extension</value>
-    <comment>Options category</comment>
+    <value>Orchard Log Watcher</value>
+    <comment>Orchard log watcher options category</comment>
   </data>
   <data name="121" xml:space="preserve">
     <value>General</value>

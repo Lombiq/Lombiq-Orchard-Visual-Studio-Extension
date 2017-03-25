@@ -21,7 +21,7 @@ namespace Lombiq.Vsix.Orchard
     [PackageRegistration(UseManagedResourcesOnly = true)]
     [InstalledProductRegistration("#110", "#112", "1.0", IconResourceID = 400)]
     [ProvideMenuResource("Menus.ctmenu", 1)]
-    [ProvideOptionPage(typeof(LogWatcherOptionsPage), "Lombiq Orchard Visual Studio Extension", "General", 120, 121, true)]
+    [ProvideOptionPage(typeof(LogWatcherOptionsPage), "Orchard Log Watcher", "General", 120, 121, true)]
     [Guid(PackageGuids.LombiqOrchardVisualStudioExtensionPackageGuidString)]
     public sealed class LombiqOrchardVisualStudioExtensionPackage : Package, ILogWatcherSettingsAccessor
     {

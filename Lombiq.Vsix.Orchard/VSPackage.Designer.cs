@@ -79,7 +79,7 @@ namespace Lombiq.Vsix.Orchard {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Lombiq Orchard Visual Studio Extension.
+        ///   Looks up a localized string similar to Orchard Log Watcher.
         /// </summary>
         internal static string _120 {
             get {

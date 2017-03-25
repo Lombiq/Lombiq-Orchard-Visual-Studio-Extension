@@ -35,7 +35,7 @@
                 <Parent guid= "LombiqOrchardVisualStudioExtensionCommandSetGuid" id="LogWatcherToolbarGroup" />
                 <Icon guid="OrchardLogWatcherImagesGuid" id="OrchardErrorSmallBitmapId" />
                 <Strings>
-                    <ButtonText>Open Error Log</ButtonText>
+                    <ButtonText>Open Orchard Error Log</ButtonText>
                 </Strings>
                 <CommandFlag>DefaultDisabled</CommandFlag>
             </Button>
@@ -53,8 +53,8 @@
             <Menu guid="LombiqOrchardVisualStudioExtensionCommandSetGuid" id="LogWatcherToolbar" type="Toolbar" >
                 <CommandFlag>DefaultDocked</CommandFlag>
                 <Strings>
-                    <ButtonText>Log Watcher Toolbar</ButtonText>
-                    <CommandName>Log Watcher Toolbar</CommandName>
+                    <ButtonText>Orchard Log Watcher</ButtonText>
+                    <CommandName>Orchard Log Watcher</CommandName>
                 </Strings>
             </Menu>
         </Menus>
