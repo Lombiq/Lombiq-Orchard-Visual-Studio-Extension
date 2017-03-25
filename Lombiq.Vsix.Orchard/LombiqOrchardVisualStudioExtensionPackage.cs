@@ -141,7 +141,7 @@ namespace Lombiq.Vsix.Orchard
             {
                 StopLogFileWatching();
             }
-            else if (_dte.Solution.IsOpen)
+            else
             {
                 StartLogFileWatching();
             }

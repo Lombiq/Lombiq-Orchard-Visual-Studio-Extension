@@ -49,6 +49,8 @@ namespace Lombiq.Vsix.Orchard.Services
             _timer.Elapsed -= LogWatcherTimerElapsedCallback;
 
             _isWatching = false;
+
+            _previousLogFileStatus = null;
         }
 
         public ILogFileStatus GetLogFileStatus()
