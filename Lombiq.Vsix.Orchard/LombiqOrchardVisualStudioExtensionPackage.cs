@@ -33,6 +33,7 @@ namespace Lombiq.Vsix.Orchard
         private readonly ILogWatcherSettingsAccessor _logWatcherSettingsAccessor;
         private OleMenuCommand _openErrorLogCommand;
         private CommandBar _orchardLogWatcherToolbar;
+        private bool _errorLogSeen;
 
 
         public LombiqOrchardVisualStudioExtensionPackage()
@@ -71,11 +72,14 @@ namespace Lombiq.Vsix.Orchard
 
         private void InitializeLogWatcher()
         {
-            _dte.Events.SolutionEvents.Opened += StartLogWatcherAferSolutionOpenedCallback;
-            _dte.Events.SolutionEvents.AfterClosing += StopLogWatcherAfterSolutionClosedCallback;
             _logWatcher.LogUpdated += LogFileUpdatedCallback;
             GetLogWatcherSettingsEvents().SettingsUpdated += LogWatcherSettingsUpdatedCallback;
-            
+
+            if (GetLogWatcherSettings().LogWatcherEnabled)
+            {
+                StartLogFileWatching();
+            }
+
             if (_menuCommandService != null)
             {
                 // Initialize "Open Error Log" toolbar button.
@@ -95,8 +99,6 @@ namespace Lombiq.Vsix.Orchard
         
         private void DisposeLogWatcher()
         {
-            _dte.Events.SolutionEvents.Opened -= StartLogWatcherAferSolutionOpenedCallback;
-            _dte.Events.SolutionEvents.AfterClosing -= StopLogWatcherAfterSolutionClosedCallback;
             _logWatcher.LogUpdated -= LogFileUpdatedCallback;
             GetLogWatcherSettingsEvents().SettingsUpdated -= LogWatcherSettingsUpdatedCallback;
 
@@ -106,27 +108,11 @@ namespace Lombiq.Vsix.Orchard
         private void OpenErrorLogCommandBeforeQueryStatusCallback(object sender, EventArgs e) =>
             UpdateOpenErrorLogCommandAccessibility();
 
-        private void LogFileUpdatedCallback(object sender, LogChangedEventArgs context) =>
+        private void LogFileUpdatedCallback(object sender, LogChangedEventArgs context)
+        {
+            _errorLogSeen = false;
+
             UpdateOpenErrorLogCommandAccessibility(context.LogFileStatus);
-
-        private void StartLogWatcherAferSolutionOpenedCallback()
-        {
-            if (GetLogWatcherSettings().LogWatcherEnabled)
-            {
-                StartLogFileWatching();
-
-                UpdateOpenErrorLogCommandAccessibility();
-            }
-        }
-
-        private void StopLogWatcherAfterSolutionClosedCallback()
-        {
-            if (GetLogWatcherSettings().LogWatcherEnabled)
-            {
-                StopLogFileWatching();
-
-                UpdateOpenErrorLogCommandAccessibility();
-            }
         }
 
         private void OpenErrorLogCallback(object sender, EventArgs e)
@@ -141,6 +127,10 @@ namespace Lombiq.Vsix.Orchard
             {
                 DialogHelpers.Error("The log file doesn't exists.", "Open Orchard Error Log");
             }
+
+            _errorLogSeen = true;
+
+            UpdateOpenErrorLogCommandAccessibility();
         }
 
         private void LogWatcherSettingsUpdatedCallback(object sender, LogWatcherSettingsUpdatedEventArgs e)
@@ -161,11 +151,10 @@ namespace Lombiq.Vsix.Orchard
 
         private void UpdateOpenErrorLogCommandAccessibility(ILogFileStatus logFileStatus = null)
         {
-            logFileStatus = logFileStatus ?? GetLogFileStatus();
-
-            _openErrorLogCommand.Enabled = _dte.Solution.IsOpen &&
+            _openErrorLogCommand.Enabled = !_errorLogSeen &&
+                _dte.Solution.IsOpen &&
                 GetLogWatcherSettings().LogWatcherEnabled &&
-                logFileStatus.HasContent;
+                (logFileStatus ?? GetLogFileStatus()).HasContent;
         }
 
         private ILogWatcherSettings GetLogWatcherSettings() =>

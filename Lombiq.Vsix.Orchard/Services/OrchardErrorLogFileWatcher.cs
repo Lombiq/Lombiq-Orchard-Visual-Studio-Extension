@@ -59,7 +59,8 @@ namespace Lombiq.Vsix.Orchard.Services
             {
                 Exists = fileInfo.Exists,
                 HasContent = fileInfo.Exists && fileInfo.Length > 0,
-                FileName = fileInfo.FullName
+                FileName = fileInfo.FullName,
+                LastUpdatedUtc = fileInfo.Exists ? (DateTime?)fileInfo.LastWriteTimeUtc : null
             };
         }
 
@@ -74,7 +75,7 @@ namespace Lombiq.Vsix.Orchard.Services
         private string GetLogFileName()
         {
             var logFilePath = _logWatcherSettingsAccessor.GetSettings().LogFileFolderPath;
-            var solutionPath = _dte.Solution != null && _dte.Solution.IsOpen ? Path.GetDirectoryName(_dte.Solution.FileName) : "";
+            var solutionPath = _dte.Solution.IsOpen ? Path.GetDirectoryName(_dte.Solution.FileName) : "";
             var errorLogFileName = "orchard-error-" + DateTime.Today.ToString("yyyy.MM.dd") + ".log";
 
             return Path.Combine(solutionPath, logFilePath, errorLogFileName);
@@ -84,7 +85,7 @@ namespace Lombiq.Vsix.Orchard.Services
         {
             var logFileStatus = GetLogFileStatus();
 
-            if (logFileStatus != _previousLogFileStatus)
+            if (!logFileStatus.Equals(_previousLogFileStatus))
             {
                 LogUpdated?.Invoke(
                     this,

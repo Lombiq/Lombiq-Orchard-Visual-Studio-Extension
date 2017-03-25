@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Lombiq.Vsix.Orchard.Models
 {
@@ -21,6 +22,11 @@ namespace Lombiq.Vsix.Orchard.Models
         /// Full name of the log file.
         /// </summary>
         string FileName { get; }
+
+        /// <summary>
+        /// Last time when the log file has been updated in UTC.
+        /// </summary>
+        DateTime? LastUpdatedUtc { get; }
     }
 
     public class LogFileStatus : ILogFileStatus
@@ -28,8 +34,9 @@ namespace Lombiq.Vsix.Orchard.Models
         public bool HasContent { get; set; }
         public bool Exists { get; set; }
         public string FileName { get; set; }
-    
-        
+        public DateTime? LastUpdatedUtc { get; set; }
+
+
         public override bool Equals(object logFileStatusObject)
         {
             var logFileStatus = logFileStatusObject as ILogFileStatus;
@@ -38,7 +45,8 @@ namespace Lombiq.Vsix.Orchard.Models
 
             return HasContent == logFileStatus.HasContent && 
                 Exists == logFileStatus.Exists &&
-                FileName == logFileStatus.FileName;
+                FileName == logFileStatus.FileName &&
+                LastUpdatedUtc == logFileStatus.LastUpdatedUtc;
         }
 
         public override int GetHashCode() =>
