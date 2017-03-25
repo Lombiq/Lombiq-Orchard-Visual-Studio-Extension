@@ -2,26 +2,27 @@
 using Lombiq.Vsix.Orchard.Models;
 using System;
 using System.IO;
+using System.Timers;
 
 namespace Lombiq.Vsix.Orchard.Services
 {
     public class OrchardErrorLogFileWatcher : ILogFileWatcher
     {
-        private readonly FileSystemWatcher _fileSystemWatcher;
         private readonly ILogWatcherSettingsAccessor _logWatcherSettingsAccessor;
         private readonly DTE _dte;
+        private readonly Timer _timer;
         private bool _isWatching;
+        private ILogFileStatus _previousLogFileStatus;
 
 
-        public event EventHandler<ILogChangedContext> LogUpdated;
+        public event EventHandler<LogChangedEventArgs> LogUpdated;
 
 
         public OrchardErrorLogFileWatcher(ILogWatcherSettingsAccessor logWatcherSettingsAccessor, DTE dte)
         {
             _logWatcherSettingsAccessor = logWatcherSettingsAccessor;
             _dte = dte;
-
-            _fileSystemWatcher = new FileSystemWatcher();
+            _timer = new Timer();
         }
 
 
@@ -29,84 +30,71 @@ namespace Lombiq.Vsix.Orchard.Services
         {
             if (_isWatching) return;
 
-            var logFileName = GetLogFileName();
-            UpdateFileNameInWatcher(logFileName);
-            _fileSystemWatcher.NotifyFilter = NotifyFilters.LastWrite | NotifyFilters.Size | NotifyFilters.FileName;
-            _fileSystemWatcher.EnableRaisingEvents = true;
-
-            _fileSystemWatcher.Changed += LogFileUpdated;
-            _fileSystemWatcher.Created += LogFileUpdated;
-            _fileSystemWatcher.Deleted += LogFileUpdated;
-            _fileSystemWatcher.Renamed += LogFileUpdated;
+            _timer.Interval = 3000;
+            _timer.AutoReset = true;
+            _timer.Elapsed += LogWatcherTimerElapsedCallback;
+            _timer.Start();
 
             _isWatching = true;
-
-            GetSettings().SettingsUpdated += SettingsUpdated;
         }
 
         public void StopWatching()
         {
             if (!_isWatching) return;
 
-            _fileSystemWatcher.Changed -= LogFileUpdated;
-            _fileSystemWatcher.Created -= LogFileUpdated;
-            _fileSystemWatcher.Deleted -= LogFileUpdated;
-            _fileSystemWatcher.Renamed -= LogFileUpdated;
+            _timer.Stop();
+            _timer.Elapsed -= LogWatcherTimerElapsedCallback;
 
             _isWatching = false;
-
-            GetSettings().SettingsUpdated -= SettingsUpdated;
         }
 
-        public string GetLogFileName()
+        public ILogFileStatus GetLogFileStatus()
         {
-            var logFilePath = _logWatcherSettingsAccessor.GetSettings().LogFileFolderPath;
-            var solutionPath = _dte.Solution == null ? "" : Path.GetDirectoryName(_dte.Solution.FileName);
-            var errorLogFileName = "orchard-error-" + DateTime.Today.ToString("yyyy.MM.dd") + ".log";
+            var fileInfo = new FileInfo(GetLogFileName());
 
-            return Path.Combine(solutionPath, logFilePath, errorLogFileName);
-        }
-
-        public bool HasContent()
-        {
-            var errorLogFileInfo = new FileInfo(GetLogFileName());
-
-            return errorLogFileInfo.Exists && errorLogFileInfo.Length > 0;
+            return new LogFileStatus
+            {
+                Exists = fileInfo.Exists,
+                HasContent = fileInfo.Exists && fileInfo.Length > 0,
+                FileName = fileInfo.FullName
+            };
         }
 
         public void Dispose()
         {
             StopWatching();
 
-            _fileSystemWatcher.Dispose();
+            _timer.Dispose();
         }
 
 
-        private ILogWatcherSettings GetSettings()
+        private string GetLogFileName()
         {
-            return _logWatcherSettingsAccessor.GetSettings();
-        }
+            var logFilePath = GetSettings().LogFileFolderPath;
+            var solutionPath = _dte.Solution != null && _dte.Solution.IsOpen ? Path.GetDirectoryName(_dte.Solution.FileName) : "";
+            var errorLogFileName = "orchard-error-" + DateTime.Today.ToString("yyyy.MM.dd") + ".log";
 
-        private void UpdateFileNameInWatcher(string fileName)
-        {
-            _fileSystemWatcher.Path = Path.GetDirectoryName(fileName);
-            _fileSystemWatcher.Filter = Path.GetFileName(fileName);
+            return Path.Combine(solutionPath, logFilePath, errorLogFileName);
         }
+        
+        private void LogWatcherTimerElapsedCallback(object sender, ElapsedEventArgs e)
+        {
+            var logFileStatus = GetLogFileStatus();
 
-        private void LogFileUpdated(object sender, FileSystemEventArgs e)
-        {
-            LogUpdated(
-                this,
-                new LogChangedEventArgs
-                {
-                    HasContent = HasContent(),
-                    FileName = GetLogFileName()
-                });
-        }
+            if (logFileStatus != _previousLogFileStatus)
+            {
+                LogUpdated(
+                    this,
+                    new LogChangedEventArgs
+                    {
+                        LogFileStatus = logFileStatus
+                    });
 
-        private void SettingsUpdated(object sender, EventArgs e)
-        {
-            UpdateFileNameInWatcher(GetLogFileName());
+                _previousLogFileStatus = logFileStatus;
+            }
         }
+        
+        private ILogWatcherSettings GetSettings() => 
+            _logWatcherSettingsAccessor.GetSettings();
     }
 }

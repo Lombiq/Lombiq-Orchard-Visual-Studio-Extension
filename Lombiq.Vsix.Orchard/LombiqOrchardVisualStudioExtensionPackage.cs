@@ -86,9 +86,9 @@ namespace Lombiq.Vsix.Orchard
         }
 
 
-        private void LogFileUpdatedCallback(object sender, ILogChangedContext context)
+        private void LogFileUpdatedCallback(object sender, LogChangedEventArgs context)
         {
-            UpdateOpenErrorLogCommandAccessibility(context);
+            UpdateOpenErrorLogCommandAccessibility(context.LogFileStatus);
         }
 
         private void SolutionOpenedCallback()
@@ -107,15 +107,15 @@ namespace Lombiq.Vsix.Orchard
 
         private void OpenErrorLogCallback(object sender, EventArgs e)
         {
-            var logFileName = _logWatcher.GetLogFileName();
+            var status = _logWatcher.GetLogFileStatus();
 
-            if (File.Exists(logFileName))
+            if (status.Exists)
             {
-                System.Diagnostics.Process.Start(_logWatcher.GetLogFileName());
+                System.Diagnostics.Process.Start(status.FileName);
             }
             else
             {
-                DialogHelpers.Error("The log file doesn't exists.", "Open Error Log");
+                DialogHelpers.Error("The log file doesn't exists.", "Open Orchard Error Log");
             }
         }
 
@@ -166,20 +166,17 @@ namespace Lombiq.Vsix.Orchard
             }
         }
 
-        private void UpdateOpenErrorLogCommandAccessibility(ILogChangedContext context = null)
+        private void UpdateOpenErrorLogCommandAccessibility(ILogFileStatus logFileStatus = null)
         {
-            _openErrorLogCommand.Enabled = _dte.Solution.IsOpen &&
-                (context != null ?
-                    context.HasContent :
-                    _logWatcher.HasContent());
+            logFileStatus = logFileStatus ?? _logWatcher.GetLogFileStatus();
+
+            _openErrorLogCommand.Enabled = _dte.Solution.IsOpen && logFileStatus.HasContent;
         }
 
         #region ILogWatcherSettings Members
 
-        ILogWatcherSettings ILogWatcherSettingsAccessor.GetSettings()
-        {
-            return (ILogWatcherSettings)GetDialogPage(typeof(LogWatcherOptionsPage));
-        }
+        ILogWatcherSettings ILogWatcherSettingsAccessor.GetSettings() => 
+            (ILogWatcherSettings)GetDialogPage(typeof(LogWatcherOptionsPage));
 
         #endregion
     }

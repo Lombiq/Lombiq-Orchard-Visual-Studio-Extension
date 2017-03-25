@@ -11,7 +11,7 @@ namespace Lombiq.Vsix.Orchard.Services
         /// <summary>
         /// Event that is fired if the log file has changed or removed. It's only fired if the watching is active.
         /// </summary>
-        event EventHandler<ILogChangedContext> LogUpdated;
+        event EventHandler<LogChangedEventArgs> LogUpdated;
 
         /// <summary>
         /// Starts watching the log file.
@@ -24,16 +24,10 @@ namespace Lombiq.Vsix.Orchard.Services
         void StopWatching();
 
         /// <summary>
-        /// Returns true if the log file exists and is not empty.
+        /// Checks if the log file exists and has content.
         /// </summary>
-        /// <returns>Returns true if the log file exists and is not empty.</returns>
-        bool HasContent();
-
-        /// <summary>
-        /// Returns the file name of the log file being watched by this log watcher instance.
-        /// </summary>
-        /// <returns>Full file name of the log file.</returns>
-        string GetLogFileName();
+        /// <returns>Log file status and details.</returns>
+        ILogFileStatus GetLogFileStatus();
     }
 
 
