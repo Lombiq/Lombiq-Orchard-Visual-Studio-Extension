@@ -12,7 +12,7 @@ namespace Lombiq.Vsix.Orchard.Options
     public class LogWatcherOptionsPage : DialogPage, ILogWatcherSettings
     {
         private const bool DefaultLogWatcherEnabled = true;
-        private const string DefaultLogFileFolderPath = @"Orchard.Web\App_Data\Logs";
+        private const string DefaultLogFileFolderPath = @"Orchard.Web/App_Data/Logs";
 
 
         public event EventHandler<LogWatcherSettingsUpdatedEventArgs> SettingsUpdated;
