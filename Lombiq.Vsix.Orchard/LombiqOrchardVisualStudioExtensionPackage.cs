@@ -73,12 +73,8 @@ namespace Lombiq.Vsix.Orchard
         private void InitializeLogWatcher()
         {
             _logWatcher.LogUpdated += LogFileUpdatedCallback;
-            GetLogWatcherSettings().SettingsUpdated += LogWatcherSettingsUpdatedCallback;
-
-            if (GetLogWatcherSettings().LogWatcherEnabled)
-            {
-                StartLogFileWatching();
-            }
+            var logWatcherSettings = GetLogWatcherSettings();
+            logWatcherSettings.SettingsUpdated += LogWatcherSettingsUpdatedCallback;
 
             if (_menuCommandService != null)
             {
@@ -94,6 +90,13 @@ namespace Lombiq.Vsix.Orchard
 
                 // Store Log Watcher toolbar in a variable to be able to show or hide depending on the Log Watcher settings.
                 _orchardLogWatcherToolbar = ((CommandBars)_dte.CommandBars)[CommandBarNames.OrchardLogWatcherToolbarName];
+
+                if (logWatcherSettings.LogWatcherEnabled)
+                {
+                    _openErrorLogCommand.Visible = true;
+
+                    StartLogFileWatching();
+                }
             }
         }
         
