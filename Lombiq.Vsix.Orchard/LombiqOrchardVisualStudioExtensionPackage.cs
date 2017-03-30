@@ -121,7 +121,7 @@ namespace Lombiq.Vsix.Orchard
 
             if (status.Exists)
             {
-                System.Diagnostics.Process.Start(status.FileName);
+                System.Diagnostics.Process.Start(status.Path);
             }
             else
             {

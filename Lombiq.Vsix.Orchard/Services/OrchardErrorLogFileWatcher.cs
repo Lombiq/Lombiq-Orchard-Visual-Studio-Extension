@@ -61,7 +61,7 @@ namespace Lombiq.Vsix.Orchard.Services
             {
                 Exists = fileInfo.Exists,
                 HasContent = fileInfo.Exists && fileInfo.Length > 0,
-                FileName = fileInfo.FullName,
+                Path = fileInfo.FullName,
                 LastUpdatedUtc = fileInfo.Exists ? (DateTime?)fileInfo.LastWriteTimeUtc : null
             };
         }

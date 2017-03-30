@@ -19,9 +19,9 @@ namespace Lombiq.Vsix.Orchard.Models
         bool Exists { get; }
 
         /// <summary>
-        /// Full name of the log file.
+        /// Full path of the log file.
         /// </summary>
-        string FileName { get; }
+        string Path { get; }
 
         /// <summary>
         /// Last time when the log file has been updated in UTC.
@@ -33,7 +33,7 @@ namespace Lombiq.Vsix.Orchard.Models
     {
         public bool HasContent { get; set; }
         public bool Exists { get; set; }
-        public string FileName { get; set; }
+        public string Path { get; set; }
         public DateTime? LastUpdatedUtc { get; set; }
 
 
@@ -45,7 +45,7 @@ namespace Lombiq.Vsix.Orchard.Models
 
             return HasContent == logFileStatus.HasContent && 
                 Exists == logFileStatus.Exists &&
-                FileName == logFileStatus.FileName &&
+                Path == logFileStatus.Path &&
                 LastUpdatedUtc == logFileStatus.LastUpdatedUtc;
         }
 
