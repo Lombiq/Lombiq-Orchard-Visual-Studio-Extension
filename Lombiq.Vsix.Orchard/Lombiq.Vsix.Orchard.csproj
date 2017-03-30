@@ -242,7 +242,6 @@
     <Compile Include="Services\DefaultFieldNameFromGenericTypeGenerator.cs" />
     <Compile Include="Services\DependencyInjector.cs" />
     <Compile Include="Services\DefaultFieldNameFromDependencyGenerator.cs" />
-    <Compile Include="Models\ILogWatcherSettingsEvents.cs" />
     <Compile Include="Services\OrchardErrorLogFileWatcher.cs" />
     <Compile Include="Services\IFieldNameFromDependencyGenerator.cs" />
     <Compile Include="Services\ILogWatcherSettingsAccessor.cs" />

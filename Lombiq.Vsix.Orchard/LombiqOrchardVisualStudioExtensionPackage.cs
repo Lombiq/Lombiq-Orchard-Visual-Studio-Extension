@@ -73,7 +73,7 @@ namespace Lombiq.Vsix.Orchard
         private void InitializeLogWatcher()
         {
             _logWatcher.LogUpdated += LogFileUpdatedCallback;
-            GetLogWatcherSettingsEvents().SettingsUpdated += LogWatcherSettingsUpdatedCallback;
+            GetLogWatcherSettings().SettingsUpdated += LogWatcherSettingsUpdatedCallback;
 
             if (GetLogWatcherSettings().LogWatcherEnabled)
             {
@@ -100,7 +100,7 @@ namespace Lombiq.Vsix.Orchard
         private void DisposeLogWatcher()
         {
             _logWatcher.LogUpdated -= LogFileUpdatedCallback;
-            GetLogWatcherSettingsEvents().SettingsUpdated -= LogWatcherSettingsUpdatedCallback;
+            GetLogWatcherSettings().SettingsUpdated -= LogWatcherSettingsUpdatedCallback;
 
             _logWatcher.Dispose();
         }
@@ -157,9 +157,6 @@ namespace Lombiq.Vsix.Orchard
 
         private ILogWatcherSettings GetLogWatcherSettings() =>
             _logWatcherSettingsAccessor.GetSettings();
-
-        private ILogWatcherSettingsEvents GetLogWatcherSettingsEvents() =>
-            _logWatcherSettingsAccessor.GetEvents();
 
         private ILogFileStatus GetLogFileStatus() =>
             _logWatcher.GetLogFileStatus();
@@ -239,9 +236,6 @@ namespace Lombiq.Vsix.Orchard
 
         ILogWatcherSettings ILogWatcherSettingsAccessor.GetSettings() => 
             (ILogWatcherSettings)GetDialogPage(typeof(LogWatcherOptionsPage));
-
-        ILogWatcherSettingsEvents ILogWatcherSettingsAccessor.GetEvents() =>
-            (ILogWatcherSettingsEvents)GetDialogPage(typeof(LogWatcherOptionsPage));
 
         #endregion
     }

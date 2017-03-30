@@ -8,6 +8,11 @@ namespace Lombiq.Vsix.Orchard.Models
     public interface ILogWatcherSettings
     {
         /// <summary>
+        /// Fired after the log watcher settings have been updated.
+        /// </summary>
+        event EventHandler<LogWatcherSettingsUpdatedEventArgs> SettingsUpdated;
+
+        /// <summary>
         /// Indicated whether the log watcher is enabled and need to check if the log file has new entries. 
         /// </summary>
         bool LogWatcherEnabled { get; }

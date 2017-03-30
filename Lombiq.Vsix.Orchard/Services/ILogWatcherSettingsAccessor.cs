@@ -12,11 +12,5 @@ namespace Lombiq.Vsix.Orchard.Services
         /// </summary>
         /// <returns>Log watcher settings.</returns>
         ILogWatcherSettings GetSettings();
-
-        /// <summary>
-        /// Returns log watcher settings-related events.
-        /// </summary>
-        /// <returns>Log watcher settings-related events.</returns>
-        ILogWatcherSettingsEvents GetEvents();
     }
 }
