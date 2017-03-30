@@ -3,17 +3,17 @@
 namespace Lombiq.Vsix.Orchard.Models
 {
     /// <summary>
-    /// Contains settings for the log watcher feature like log file path.
+    /// Contains settings for the Log Watcher feature like log file path.
     /// </summary>
     public interface ILogWatcherSettings
     {
         /// <summary>
-        /// Fired after the log watcher settings have been updated.
+        /// Fired after the Log Watcher settings have been updated.
         /// </summary>
         event EventHandler<LogWatcherSettingsUpdatedEventArgs> SettingsUpdated;
 
         /// <summary>
-        /// Indicated whether the log watcher is enabled and need to check if the log file has new entries. 
+        /// Indicates whether the Log Watcher is enabled and need to check if the log file has new entries. 
         /// </summary>
         bool LogWatcherEnabled { get; }
 

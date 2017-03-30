@@ -27,7 +27,7 @@ namespace Lombiq.Vsix.Orchard.Options
 
         [DisplayName("Enabled")]
         [Category("General Log Watcher Options")]
-        [Description("Enable/disable log watcher feature. With this option turned off the log watcher won't check if the log file has any new entry.")]
+        [Description("Enable/disable Log Watcher feature. With this option turned off the Log Watcher won't check if the log file has any new entry.")]
         public bool LogWatcherEnabled { get; set; }
 
         [DisplayName("Log file folder path")]
@@ -43,14 +43,14 @@ namespace Lombiq.Vsix.Orchard.Options
             // Check if the log file folder path is empty only if the feature is enabled. Don't allow invalid paths at all.
             if (LogWatcherEnabled && string.IsNullOrEmpty(LogFileFolderPath))
             {
-                DialogHelpers.Warning("Log file folder path is required if the feature is enabled.", "Log watcher settings");
+                DialogHelpers.Warning("Log file folder path is required if the feature is enabled.", "Log Watcher settings");
 
                 e.Cancel = true;
             }
 
             if (!Uri.IsWellFormedUriString(LogFileFolderPath, UriKind.Relative))
             {
-                DialogHelpers.Warning("The given log file folder path is invalid.", "Log watcher settings");
+                DialogHelpers.Warning("The given log file folder path is invalid.", "Log Watcher settings");
 
                 e.Cancel = true;
             }

@@ -92,7 +92,7 @@ namespace Lombiq.Vsix.Orchard
 
                 _menuCommandService.AddCommand(_openErrorLogCommand);
 
-                // Store log watcher toolbar in a variable to be able to show or hide depending on the log watcher settings.
+                // Store Log Watcher toolbar in a variable to be able to show or hide depending on the Log Watcher settings.
                 _orchardLogWatcherToolbar = ((CommandBars)_dte.CommandBars)[CommandBarNames.OrchardLogWatcherToolbarName];
             }
         }
