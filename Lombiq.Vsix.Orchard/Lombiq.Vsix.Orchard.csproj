@@ -249,7 +249,6 @@
     <Compile Include="Services\IFieldNameFromDependencyGenerator.cs" />
     <Compile Include="Services\ILogWatcherSettingsAccessor.cs" />
     <Compile Include="Services\ILogFileWatcher.cs" />
-    <Compile Include="Services\PackageRegistratorBase.cs" />
     <Compile Include="VSPackage.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

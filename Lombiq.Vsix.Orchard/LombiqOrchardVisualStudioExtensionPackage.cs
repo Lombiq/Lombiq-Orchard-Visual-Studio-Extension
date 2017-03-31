@@ -21,13 +21,15 @@ namespace Lombiq.Vsix.Orchard
     [Guid(PackageGuids.LombiqOrchardVisualStudioExtensionPackageGuidString)]
     public sealed class LombiqOrchardVisualStudioExtensionPackage : Package, ILogWatcherSettingsAccessor
     {
+        private readonly DTE _dte;
+        private readonly IMenuCommandService _menuCommandService;
         private readonly IEnumerable<IPackageRegistrator> _packageRegistrators;
 
 
         public LombiqOrchardVisualStudioExtensionPackage()
         {
-            var dte = GetGlobalService(typeof(SDTE)) as DTE;
-            var menuCommandService = GetService(typeof(IMenuCommandService)) as OleMenuCommandService;
+            _dte = GetGlobalService(typeof(SDTE)) as DTE;
+            _menuCommandService = GetService(typeof(IMenuCommandService)) as OleMenuCommandService;
 
             var dependencyInjector = new DependencyInjector();
             var fieldNameGenerators = new IFieldNameFromDependencyGenerator[]
@@ -38,17 +40,13 @@ namespace Lombiq.Vsix.Orchard
             };
 
             var dependencyInjectorPackageRegistrator = new DependencyInjectorPackageRegistrator(
-                dte,
-                menuCommandService,
                 dependencyInjector,
                 fieldNameGenerators);
 
             var logWatcherSettingsAccessor = this;
-            var logWatcher = new OrchardErrorLogFileWatcher(logWatcherSettingsAccessor, dte);
+            var logWatcher = new OrchardErrorLogFileWatcher(logWatcherSettingsAccessor, _dte);
 
             var logWatcherPackageRegistrator = new LogWatcherPackageRegistrator(
-                dte,
-                menuCommandService,
                 logWatcherSettingsAccessor,
                 logWatcher);
 
@@ -66,7 +64,7 @@ namespace Lombiq.Vsix.Orchard
 
             foreach (var registrator in _packageRegistrators)
             {
-                registrator.RegisterCommands();
+                registrator.RegisterCommands(_dte, _menuCommandService);
             }
         }
 

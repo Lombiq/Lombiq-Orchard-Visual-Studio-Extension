@@ -9,32 +9,36 @@ using System.Windows.Forms;
 
 namespace Lombiq.Vsix.Orchard.Services
 {
-    public class DependencyInjectorPackageRegistrator : PackageRegistratorBase
+    public class DependencyInjectorPackageRegistrator : IPackageRegistrator
     {
         private readonly IDependencyInjector _dependencyInjector;
         private readonly IEnumerable<IFieldNameFromDependencyGenerator> _fieldNameGenerators;
+        private DTE _dte;
+        private IMenuCommandService _menuCommandService;
 
 
         public DependencyInjectorPackageRegistrator(
-            DTE dte,
-            IMenuCommandService menuCommandService,
             IDependencyInjector dependencyInjector,
-            IEnumerable<IFieldNameFromDependencyGenerator> fieldNameGenerators) :
-            base(dte, menuCommandService)
+            IEnumerable<IFieldNameFromDependencyGenerator> fieldNameGenerators)
         {
             _dependencyInjector = dependencyInjector;
             _fieldNameGenerators = fieldNameGenerators;
         }
 
 
-        public override void RegisterCommands()
+        public void RegisterCommands(DTE dte, IMenuCommandService menuCommandService)
         {
+            _dte = dte;
+            _menuCommandService = menuCommandService;
+
             // Initialize "Inject Dependency" menu item.
-            _menuCommandService?.AddCommand(
+            _menuCommandService.AddCommand(
                 new MenuCommand(
                     InjectDependencyCallback,
                     new CommandID(PackageGuids.LombiqOrchardVisualStudioExtensionCommandSetGuid, (int)CommandIds.InjectDependencyCommandId)));
         }
+
+        public void Dispose() { }
 
 
         private void InjectDependencyCallback(object sender, EventArgs e)

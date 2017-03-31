@@ -9,30 +9,30 @@ using System.ComponentModel.Design;
 
 namespace Lombiq.Vsix.Orchard.Services
 {
-    public class LogWatcherPackageRegistrator : PackageRegistratorBase
+    public class LogWatcherPackageRegistrator : IPackageRegistrator
     {
         private readonly Lazy<ILogWatcherSettings> _lazyLogWatcherSettings;
         private readonly ILogFileWatcher _logWatcher;
+        private DTE _dte;
+        private IMenuCommandService _menuCommandService;
         private OleMenuCommand _openErrorLogCommand;
         private CommandBar _orchardLogWatcherToolbar;
         private bool _errorLogSeen;
 
 
         public LogWatcherPackageRegistrator(
-            DTE dte,
-            IMenuCommandService menuCommandService,
             ILogWatcherSettingsAccessor logWatcherSettingsAccessor,
-            ILogFileWatcher logFileWatcher) : 
-            base(dte, menuCommandService)
+            ILogFileWatcher logFileWatcher)
         {
             _lazyLogWatcherSettings = new Lazy<ILogWatcherSettings>(logWatcherSettingsAccessor.GetSettings);
             _logWatcher = logFileWatcher;
         }
         
 
-        public override void RegisterCommands()
+        public void RegisterCommands(DTE dte, IMenuCommandService menuCommandService)
         {
-            base.RegisterCommands();
+            _dte = dte;
+            _menuCommandService = menuCommandService;
 
             _logWatcher.LogUpdated += LogFileUpdatedCallback;
             _lazyLogWatcherSettings.Value.SettingsUpdated += LogWatcherSettingsUpdatedCallback;
@@ -61,14 +61,12 @@ namespace Lombiq.Vsix.Orchard.Services
             }
         }
 
-        public override void Dispose()
+        public void Dispose()
         {
             _logWatcher.LogUpdated -= LogFileUpdatedCallback;
             _lazyLogWatcherSettings.Value.SettingsUpdated -= LogWatcherSettingsUpdatedCallback;
 
             _logWatcher.Dispose();
-
-            base.Dispose();
         }
 
 

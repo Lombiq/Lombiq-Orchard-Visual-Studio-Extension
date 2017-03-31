@@ -1,4 +1,6 @@
-﻿using System;
+﻿using EnvDTE;
+using System;
+using System.ComponentModel.Design;
 
 namespace Lombiq.Vsix.Orchard.Services
 {
@@ -10,6 +12,8 @@ namespace Lombiq.Vsix.Orchard.Services
         /// <summary>
         /// Registers commands and related components. Also registers the related event handlers.
         /// </summary>
-        void RegisterCommands();
+        /// <param name="dte"><see cref="DTE"/> instance required for acquiring general details about the environment.</param>
+        /// <param name="menuCommandService"><see cref="IMenuCommandService"/> instance required for registering commands.</param>
+        void RegisterCommands(DTE dte, IMenuCommandService menuCommandService);
     }
 }
