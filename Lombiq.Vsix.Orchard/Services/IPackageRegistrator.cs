@@ -3,7 +3,7 @@
 namespace Lombiq.Vsix.Orchard.Services
 {
     /// <summary>
-    /// Registers components required to the package (e.g. registers commands, event listeners etc.).
+    /// Registers components required for the package (e.g. registers commands, event listeners etc.).
     /// </summary>
     public interface IPackageRegistrator : IDisposable
     {
