@@ -236,16 +236,20 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Constants\CommandIds.cs" />
+    <Compile Include="Services\DependencyInjectorPackageRegistrator.cs" />
     <Compile Include="Services\FieldNameFromDependencyGeneratorBase.cs" />
     <Compile Include="Services\FieldNameFromGenericTypeGeneratorBase.cs" />
     <Compile Include="Services\FieldNameFromIEnumerableGenerator.cs" />
     <Compile Include="Services\DefaultFieldNameFromGenericTypeGenerator.cs" />
     <Compile Include="Services\DependencyInjector.cs" />
     <Compile Include="Services\DefaultFieldNameFromDependencyGenerator.cs" />
+    <Compile Include="Services\IPackageRegistrator.cs" />
+    <Compile Include="Services\LogWatcherPackageRegistrator.cs" />
     <Compile Include="Services\OrchardErrorLogFileWatcher.cs" />
     <Compile Include="Services\IFieldNameFromDependencyGenerator.cs" />
     <Compile Include="Services\ILogWatcherSettingsAccessor.cs" />
     <Compile Include="Services\ILogFileWatcher.cs" />
+    <Compile Include="Services\PackageRegistratorBase.cs" />
     <Compile Include="VSPackage.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
