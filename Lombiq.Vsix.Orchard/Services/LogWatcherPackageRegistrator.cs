@@ -27,7 +27,7 @@ namespace Lombiq.Vsix.Orchard.Services
             _lazyLogWatcherSettings = new Lazy<ILogWatcherSettings>(logWatcherSettingsAccessor.GetSettings);
             _logWatcher = logFileWatcher;
         }
-        
+
 
         public void RegisterCommands(DTE dte, IMenuCommandService menuCommandService)
         {
@@ -37,27 +37,24 @@ namespace Lombiq.Vsix.Orchard.Services
             _logWatcher.LogUpdated += LogFileUpdatedCallback;
             _lazyLogWatcherSettings.Value.SettingsUpdated += LogWatcherSettingsUpdatedCallback;
 
-            if (_menuCommandService != null)
+            // Initialize "Open Error Log" toolbar button.
+            _openErrorLogCommand = new OleMenuCommand(
+                OpenErrorLogCallback,
+                new CommandID(
+                    PackageGuids.LombiqOrchardVisualStudioExtensionCommandSetGuid,
+                    (int)CommandIds.OpenErrorLogCommandId));
+            _openErrorLogCommand.BeforeQueryStatus += OpenErrorLogCommandBeforeQueryStatusCallback;
+
+            _menuCommandService.AddCommand(_openErrorLogCommand);
+
+            // Store Log Watcher toolbar in a variable to be able to show or hide depending on the Log Watcher settings.
+            _orchardLogWatcherToolbar = ((CommandBars)_dte.CommandBars)[CommandBarNames.OrchardLogWatcherToolbarName];
+
+            if (_lazyLogWatcherSettings.Value.LogWatcherEnabled)
             {
-                // Initialize "Open Error Log" toolbar button.
-                _openErrorLogCommand = new OleMenuCommand(
-                    OpenErrorLogCallback,
-                    new CommandID(
-                        PackageGuids.LombiqOrchardVisualStudioExtensionCommandSetGuid,
-                        (int)CommandIds.OpenErrorLogCommandId));
-                _openErrorLogCommand.BeforeQueryStatus += OpenErrorLogCommandBeforeQueryStatusCallback;
+                _openErrorLogCommand.Visible = true;
 
-                _menuCommandService.AddCommand(_openErrorLogCommand);
-
-                // Store Log Watcher toolbar in a variable to be able to show or hide depending on the Log Watcher settings.
-                _orchardLogWatcherToolbar = ((CommandBars)_dte.CommandBars)[CommandBarNames.OrchardLogWatcherToolbarName];
-
-                if (_lazyLogWatcherSettings.Value.LogWatcherEnabled)
-                {
-                    _openErrorLogCommand.Visible = true;
-
-                    StartLogFileWatching();
-                }
+                StartLogFileWatching();
             }
         }
 
