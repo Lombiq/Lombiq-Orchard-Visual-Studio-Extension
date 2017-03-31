@@ -35,9 +35,10 @@
                 <Parent guid= "LombiqOrchardVisualStudioExtensionCommandSetGuid" id="LogWatcherToolbarGroup" />
                 <Icon guid="OrchardLogWatcherImagesGuid" id="OrchardErrorSmallBitmapId" />
                 <Strings>
-                    <ButtonText>Open Orchard error log</ButtonText>
+                    <ButtonText>Solution is not open</ButtonText>
                 </Strings>
                 <CommandFlag>DefaultDisabled</CommandFlag>
+                <CommandFlag>TextChanges</CommandFlag>
             </Button>
         </Buttons>
 
