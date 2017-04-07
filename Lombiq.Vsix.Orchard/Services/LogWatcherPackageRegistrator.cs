@@ -130,7 +130,7 @@ namespace Lombiq.Vsix.Orchard.Services
             else
             {
                 _openErrorLogCommand.Enabled = false;
-                _openErrorLogCommand.Text = "Orchard error log not exists or hasn't updated";
+                _openErrorLogCommand.Text = "Orchard error log doesn't exist or hasn't been updated";
             }
         }
 
