@@ -13,8 +13,6 @@ namespace Lombiq.Vsix.Orchard.Services
     {
         private readonly IDependencyInjector _dependencyInjector;
         private readonly IEnumerable<IFieldNameFromDependencyGenerator> _fieldNameGenerators;
-        private DTE _dte;
-        private IMenuCommandService _menuCommandService;
 
 
         public DependencyInjectorPackageRegistrator(
@@ -28,64 +26,60 @@ namespace Lombiq.Vsix.Orchard.Services
 
         public void RegisterCommands(DTE dte, IMenuCommandService menuCommandService)
         {
-            _dte = dte;
-            _menuCommandService = menuCommandService;
-
             // Initialize "Inject Dependency" menu item.
-            _menuCommandService.AddCommand(
+            var injectDependencyCallback = new EventHandler((sender, e) =>
+            {
+                var injectDependencyCaption = "Inject Dependency";
+
+                if (dte.ActiveDocument == null)
+                {
+                    DialogHelpers.Error("Open a code file first.", injectDependencyCaption);
+
+                    return;
+                }
+
+                using (var injectDependencyDialog = new InjectDependencyDialog(_fieldNameGenerators))
+                {
+                    if (injectDependencyDialog.ShowDialog() == DialogResult.OK)
+                    {
+                        if (string.IsNullOrEmpty(injectDependencyDialog.DependencyName))
+                        {
+                            DialogHelpers.Warning("Dependency name cannot be empty.", injectDependencyCaption);
+
+                            return;
+                        }
+
+                        if (string.IsNullOrEmpty(injectDependencyDialog.PrivateFieldName))
+                        {
+                            DialogHelpers.Warning("Private field name cannot be empty.", injectDependencyCaption);
+
+                            return;
+                        }
+
+                        var result = _dependencyInjector.Inject(dte.ActiveDocument, injectDependencyDialog.DependencyName, injectDependencyDialog.PrivateFieldName);
+
+                        if (!result.Success)
+                        {
+                            switch (result.ErrorCode)
+                            {
+                                case DependencyInjectorErrorCodes.ClassNotFound:
+                                    DialogHelpers.Warning("Could not inject depencency because the class was not found in this file.", injectDependencyCaption);
+                                    break;
+                                default:
+                                    DialogHelpers.Warning("Could not inject dependency.", injectDependencyCaption);
+                                    break;
+                            }
+                        }
+                    }
+                }
+            });
+
+            menuCommandService.AddCommand(
                 new MenuCommand(
-                    InjectDependencyCallback,
+                    injectDependencyCallback,
                     new CommandID(PackageGuids.LombiqOrchardVisualStudioExtensionCommandSetGuid, (int)CommandIds.InjectDependencyCommandId)));
         }
 
         public void Dispose() { }
-
-
-        private void InjectDependencyCallback(object sender, EventArgs e)
-        {
-            var injectDependencyCaption = "Inject Dependency";
-
-            if (_dte.ActiveDocument == null)
-            {
-                DialogHelpers.Error("Open a code file first.", injectDependencyCaption);
-
-                return;
-            }
-
-            using (var injectDependencyDialog = new InjectDependencyDialog(_fieldNameGenerators))
-            {
-                if (injectDependencyDialog.ShowDialog() == DialogResult.OK)
-                {
-                    if (string.IsNullOrEmpty(injectDependencyDialog.DependencyName))
-                    {
-                        DialogHelpers.Warning("Dependency name cannot be empty.", injectDependencyCaption);
-
-                        return;
-                    }
-
-                    if (string.IsNullOrEmpty(injectDependencyDialog.PrivateFieldName))
-                    {
-                        DialogHelpers.Warning("Private field name cannot be empty.", injectDependencyCaption);
-
-                        return;
-                    }
-
-                    var result = _dependencyInjector.Inject(_dte.ActiveDocument, injectDependencyDialog.DependencyName, injectDependencyDialog.PrivateFieldName);
-
-                    if (!result.Success)
-                    {
-                        switch (result.ErrorCode)
-                        {
-                            case DependencyInjectorErrorCodes.ClassNotFound:
-                                DialogHelpers.Warning("Could not inject depencency because the class was not found in this file.", injectDependencyCaption);
-                                break;
-                            default:
-                                DialogHelpers.Warning("Could not inject dependency.", injectDependencyCaption);
-                                break;
-                        }
-                    }
-                }
-            }
-        }
     }
 }
