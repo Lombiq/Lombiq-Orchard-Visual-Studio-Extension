@@ -33,6 +33,8 @@ namespace Lombiq.Vsix.Orchard.Services
         {
             if (_isWatching) return;
 
+            _previousLogFileStatus = GetLogFileStatus();
+
             _timer.Interval = DefaultLogWatcherTimerIntervalInMilliseconds;
             _timer.AutoReset = true;
             _timer.Elapsed += LogWatcherTimerElapsedCallback;

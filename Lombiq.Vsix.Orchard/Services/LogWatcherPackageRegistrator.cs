@@ -17,7 +17,7 @@ namespace Lombiq.Vsix.Orchard.Services
         private IMenuCommandService _menuCommandService;
         private OleMenuCommand _openErrorLogCommand;
         private CommandBar _orchardLogWatcherToolbar;
-        private bool _errorLogSeen;
+        private bool _hasUnseenErrorLogUpdate;
 
 
         public LogWatcherPackageRegistrator(
@@ -33,6 +33,8 @@ namespace Lombiq.Vsix.Orchard.Services
         {
             _dte = dte;
             _menuCommandService = menuCommandService;
+
+            _hasUnseenErrorLogUpdate = false;
 
             _logWatcher.LogUpdated += LogFileUpdatedCallback;
             _lazyLogWatcherSettings.Value.SettingsUpdated += LogWatcherSettingsUpdatedCallback;
@@ -72,13 +74,15 @@ namespace Lombiq.Vsix.Orchard.Services
 
         private void LogFileUpdatedCallback(object sender, LogChangedEventArgs context)
         {
-            _errorLogSeen = false;
+            _hasUnseenErrorLogUpdate = context.LogFileStatus.HasContent;
 
             UpdateOpenErrorLogCommandAccessibilityAndText(context.LogFileStatus);
         }
 
         private void OpenErrorLogCallback(object sender, EventArgs e)
         {
+            _hasUnseenErrorLogUpdate = false;
+
             var status = GetLogFileStatus();
 
             if (status.Exists)
@@ -89,8 +93,6 @@ namespace Lombiq.Vsix.Orchard.Services
             {
                 DialogHelpers.Error("The log file doesn't exists.", "Open Orchard Error Log");
             }
-
-            _errorLogSeen = true;
 
             UpdateOpenErrorLogCommandAccessibilityAndText();
         }
@@ -118,9 +120,9 @@ namespace Lombiq.Vsix.Orchard.Services
                 _openErrorLogCommand.Enabled = false;
                 _openErrorLogCommand.Text = "Solution is not open";
             }
-            else if (!_errorLogSeen &&
-                _lazyLogWatcherSettings.Value.LogWatcherEnabled &&
-                (logFileStatus ?? GetLogFileStatus()).HasContent)
+            else if (_lazyLogWatcherSettings.Value.LogWatcherEnabled && 
+                ((logFileStatus?.HasContent ?? false) || 
+                _hasUnseenErrorLogUpdate))
             {
                 _openErrorLogCommand.Enabled = true;
                 _openErrorLogCommand.Text = "Open Orchard error log";
