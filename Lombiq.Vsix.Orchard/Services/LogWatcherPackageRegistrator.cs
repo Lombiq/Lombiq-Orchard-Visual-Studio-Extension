@@ -17,7 +17,7 @@ namespace Lombiq.Vsix.Orchard.Services
         private IMenuCommandService _menuCommandService;
         private OleMenuCommand _openErrorLogCommand;
         private CommandBar _orchardLogWatcherToolbar;
-        private bool _hasUnseenErrorLogUpdate;
+        private bool _hasSeenErrorLogUpdate;
 
 
         public LogWatcherPackageRegistrator(
@@ -33,8 +33,8 @@ namespace Lombiq.Vsix.Orchard.Services
         {
             _dte = dte;
             _menuCommandService = menuCommandService;
-
-            _hasUnseenErrorLogUpdate = false;
+            
+            _hasSeenErrorLogUpdate = true;
 
             _logWatcher.LogUpdated += LogFileUpdatedCallback;
             _lazyLogWatcherSettings.Value.SettingsUpdated += LogWatcherSettingsUpdatedCallback;
@@ -74,14 +74,14 @@ namespace Lombiq.Vsix.Orchard.Services
 
         private void LogFileUpdatedCallback(object sender, LogChangedEventArgs context)
         {
-            _hasUnseenErrorLogUpdate = context.LogFileStatus.HasContent;
+            _hasSeenErrorLogUpdate = !context.LogFileStatus.HasContent;
 
             UpdateOpenErrorLogCommandAccessibilityAndText(context.LogFileStatus);
         }
 
         private void OpenErrorLogCallback(object sender, EventArgs e)
         {
-            _hasUnseenErrorLogUpdate = false;
+            _hasSeenErrorLogUpdate = true;
 
             var status = GetLogFileStatus();
 
@@ -122,7 +122,7 @@ namespace Lombiq.Vsix.Orchard.Services
             }
             else if (_lazyLogWatcherSettings.Value.LogWatcherEnabled && 
                 ((logFileStatus?.HasContent ?? false) || 
-                _hasUnseenErrorLogUpdate))
+                !_hasSeenErrorLogUpdate))
             {
                 _openErrorLogCommand.Enabled = true;
                 _openErrorLogCommand.Text = "Open Orchard error log";
