@@ -117,11 +117,13 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="110" xml:space="preserve">
+  <data name="120" xml:space="preserve">
     <value>Lombiq Orchard Visual Studio Extension</value>
+    <comment>Lombiq Orchard Visual Studio extension options category</comment>
   </data>
-  <data name="112" xml:space="preserve">
-    <value>Visual Studio extension with many features and templates frequently used by Lombiq developers. Contains Orchard-related as well as generic goodies.</value>
+  <data name="121" xml:space="preserve">
+    <value>Orchard Log Watcher</value>
+    <comment>Orchard Log Watcher options page</comment>
   </data>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="400" type="System.Resources.ResXFileRef, System.Windows.Forms">
@@ -129,5 +131,11 @@
   </data>
   <data name="Lombiq" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Lombiq.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="LombiqOrchardVisualStudioExtensionDescription" xml:space="preserve">
+    <value>Visual Studio extension with many features and templates frequently used by Lombiq developers. Contains Orchard-related as well as generic goodies.</value>
+  </data>
+  <data name="LombiqOrchardVisualStudioExtensionName" xml:space="preserve">
+    <value>Lombiq Orchard Visual Studio Extension</value>
   </data>
 </root>

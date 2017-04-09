@@ -10,6 +10,7 @@ The extension can also be installed from the [Visual Studio Gallery](https://vis
 ## Tools
 
 - Dependency Injector: when a class is opened in the editor you can inject a dependency with this feature. Type the dependency name, hit Enter and it will be injected. Can be invoked from under the Tools menu as "Inject Dependency".
+- Orchard Error Log Watcher: watches the Orchard error log and if the log file exists and is not empty then notifies the user by making a button in the "Orchard Log Watcher" toolbar enabled. Clicking this button will open the error log using the default application. The feature can be turned off in the Options -> Orchard Log Watcher page. Turning the feature on and off also makes the related toolbar visible or hidden on the toolbar strip.
 
 
 ## Templates
@@ -37,7 +38,9 @@ This project is developed by [Lombiq Technologies Ltd](http://lombiq.com/). Comm
 
 ## Release notes
 
-- 1.1, 18.03.2016
+- 1.2, 09.04.2017
+    - New Orchard Error Log Watcher feature.
+- 1.1, 18.03.2017
 	- The Dependency Injector tool now creates the constructor if it doesn't exist (i.e. it can be used even if there's no constructor already).
 	- `IEnumerable&lt;T&gt;` and other generic types are handled when generating injected dependency names; e.g. for `IEnumerable&lt;IDependency&gt;` the field name `_dependencies` will be generated.
 - 1.0, 24.05.2016

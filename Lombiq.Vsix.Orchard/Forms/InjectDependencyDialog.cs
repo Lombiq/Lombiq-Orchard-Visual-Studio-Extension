@@ -11,8 +11,8 @@ namespace Lombiq.Vsix.Orchard.Forms
         private readonly IEnumerable<IFieldNameFromDependencyGenerator> _fieldNameGenerators;
 
 
-        public string DependencyName { get { return dependencyNameTextBox.Text; } }
-        public string PrivateFieldName { get { return fieldNameTextBox.Text; } }
+        public string DependencyName => dependencyNameTextBox.Text;
+        public string PrivateFieldName => fieldNameTextBox.Text;
 
 
         public InjectDependencyDialog(IEnumerable<IFieldNameFromDependencyGenerator> fieldNameGenerators)
@@ -37,20 +37,13 @@ namespace Lombiq.Vsix.Orchard.Forms
         {
             base.OnLoad(e);
 
-            this.ActiveControl = dependencyNameTextBox;
+            ActiveControl = dependencyNameTextBox;
         }
 
 
-        private void dependencyNameTextBox_TextChanged(object sender, EventArgs e)
-        {
-            if (DependencyName.Length == 0)
-            {
-                fieldNameTextBox.Text = string.Empty;
-            }
-            else
-            {
-                fieldNameTextBox.Text = GenerateFieldName(DependencyName, generateShortFieldNameCheckBox.Checked);
-            }
-        }
+        private void DependencyNameTextBoxTextChanged(object sender, EventArgs e) =>
+            fieldNameTextBox.Text = DependencyName.Length == 0 ? 
+                string.Empty : 
+                GenerateFieldName(DependencyName, generateShortFieldNameCheckBox.Checked);
     }
 }

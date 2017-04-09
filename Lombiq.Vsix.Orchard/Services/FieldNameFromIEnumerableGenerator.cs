@@ -9,10 +9,11 @@ namespace Lombiq.Vsix.Orchard.Services
         private const string IEnumerableNameRegexPattern = @"^IEnumerable[<]+[a-zA-Z_]+[a-zA-Z0-9_]*[>]+$";
 
 
-        public override double Priority { get { return 15; } }
+        public override double Priority => 15;
 
 
-        public override bool CanGenerate(string dependency) { return Regex.IsMatch(dependency, IEnumerableNameRegexPattern); }
+        public override bool CanGenerate(string dependency) => 
+            Regex.IsMatch(dependency, IEnumerableNameRegexPattern);
 
         public override string Generate(string dependency, bool useShortName)
         {

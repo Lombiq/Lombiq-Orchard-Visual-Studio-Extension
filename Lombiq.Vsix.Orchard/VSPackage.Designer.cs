@@ -63,18 +63,18 @@ namespace Lombiq.Vsix.Orchard {
         /// <summary>
         ///   Looks up a localized string similar to Lombiq Orchard Visual Studio Extension.
         /// </summary>
-        internal static string _110 {
+        internal static string _120 {
             get {
-                return ResourceManager.GetString("110", resourceCulture);
+                return ResourceManager.GetString("120", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Visual Studio extension with many features and templates frequently used by Lombiq developers. Contains Orchard-related as well as generic goodies..
+        ///   Looks up a localized string similar to Orchard Log Watcher.
         /// </summary>
-        internal static string _112 {
+        internal static string _121 {
             get {
-                return ResourceManager.GetString("112", resourceCulture);
+                return ResourceManager.GetString("121", resourceCulture);
             }
         }
         
@@ -95,6 +95,24 @@ namespace Lombiq.Vsix.Orchard {
             get {
                 object obj = ResourceManager.GetObject("Lombiq", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Visual Studio extension with many features and templates frequently used by Lombiq developers. Contains Orchard-related as well as generic goodies..
+        /// </summary>
+        internal static string LombiqOrchardVisualStudioExtensionDescription {
+            get {
+                return ResourceManager.GetString("LombiqOrchardVisualStudioExtensionDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Lombiq Orchard Visual Studio Extension.
+        /// </summary>
+        internal static string LombiqOrchardVisualStudioExtensionName {
+            get {
+                return ResourceManager.GetString("LombiqOrchardVisualStudioExtensionName", resourceCulture);
             }
         }
     }

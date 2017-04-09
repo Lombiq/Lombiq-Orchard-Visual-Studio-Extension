@@ -7,13 +7,11 @@ namespace Lombiq.Vsix.Orchard.Services
         private const string GenericTypeNameRegexPattern = @"^[A-Z_]+[a-zA-Z0-9_]*[<]+[a-zA-Z_]+[a-zA-Z0-9_]*[>]+$";
 
 
-        public override double Priority { get { return 10; } }
+        public override double Priority => 10;
 
 
-        public override bool CanGenerate(string dependency)
-        {
-            return Regex.IsMatch(dependency, GenericTypeNameRegexPattern);
-        }
+        public override bool CanGenerate(string dependency) => 
+            Regex.IsMatch(dependency, GenericTypeNameRegexPattern);
 
         public override string Generate(string dependency, bool useShortName)
         {

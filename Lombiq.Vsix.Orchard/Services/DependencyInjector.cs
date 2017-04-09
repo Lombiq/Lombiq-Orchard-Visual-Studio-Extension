@@ -1,6 +1,5 @@
 ﻿using EnvDTE;
 using Lombiq.Vsix.Orchard.Constants;
-using Lombiq.Vsix.Orchard.Exceptions;
 using Lombiq.Vsix.Orchard.Models;
 using System;
 using System.Collections.Generic;
@@ -288,10 +287,8 @@ namespace Lombiq.Vsix.Orchard.Services
             return indentSize;
         }
 
-        private static string IndentText(int baseIndentSize, double indentSizeMultiplier, string text)
-        {
-            return new string(' ', Convert.ToInt32(baseIndentSize * indentSizeMultiplier)) + text;
-        }
+        private static string IndentText(int baseIndentSize, double indentSizeMultiplier, string text) => 
+            new string(' ', Convert.ToInt32(baseIndentSize * indentSizeMultiplier)) + text;
 
 
         private enum BraceStyles
