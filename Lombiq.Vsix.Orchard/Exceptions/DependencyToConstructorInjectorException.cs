@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Lombiq.Vsix.Orchard.Exceptions
 {
@@ -14,7 +10,7 @@ namespace Lombiq.Vsix.Orchard.Exceptions
 
     public class DependencyToConstructorInjectorException : Exception
     {
-        public string ErrorCode { get; private set; }
+        public string ErrorCode { get; }
 
 
         public DependencyToConstructorInjectorException(string errorCode, string message)

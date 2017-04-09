@@ -2,10 +2,10 @@
 {
     public class DefaultFieldNameFromDependencyGenerator : FieldNameFromDependencyGeneratorBase
     {
-        public override double Priority { get { return 1; } }
+        public override double Priority => 1;
 
 
-        public override bool CanGenerate(string dependency) { return true; }
+        public override bool CanGenerate(string dependency) => true;
 
         public override string Generate(string dependency, bool useShortName)
         {

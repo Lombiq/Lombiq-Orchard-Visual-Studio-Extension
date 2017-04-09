@@ -13,20 +13,14 @@ namespace Lombiq.Vsix.Orchard.Services
         public abstract string Generate(string dependency, bool useShortName);
 
 
-        protected virtual string GetStringWithUnderscore(string value)
-        {
-            return "_" + value;
-        }
+        protected virtual string GetStringWithUnderscore(string value) => 
+            "_" + value;
 
-        protected virtual string GetLowerInvariantString(string value)
-        {
-            return value.ToLowerInvariant();
-        }
+        protected virtual string GetLowerInvariantString(string value) => 
+            value.ToLowerInvariant();
 
-        protected virtual string GetLowerInvariantStringWithUnderscore(string value)
-        {
-            return GetStringWithUnderscore(GetLowerInvariantString(value));
-        }
+        protected virtual string GetLowerInvariantStringWithUnderscore(string value) => 
+            GetStringWithUnderscore(GetLowerInvariantString(value));
 
         protected virtual string GetShortName(string value)
         {
@@ -45,13 +39,11 @@ namespace Lombiq.Vsix.Orchard.Services
                 GetLowerInvariantStringWithUnderscore(new string(upperCasedLetters.ToArray())) :
                 GetStringWithUnderscore(value[0].ToString());
         }
-        
-        protected virtual string RemoveFirstLetterIfInterface(string interfaceName)
-        {
-            return interfaceName.Length > 1 && interfaceName.StartsWith("I") && char.IsUpper(interfaceName[1]) ?
-                   interfaceName.Substring(1) :
-                   string.Copy(interfaceName);
-        }
+
+        protected virtual string RemoveFirstLetterIfInterface(string interfaceName) => 
+            interfaceName.Length > 1 && interfaceName.StartsWith("I") && char.IsUpper(interfaceName[1]) ?
+                interfaceName.Substring(1) :
+                string.Copy(interfaceName);
 
         protected virtual string GetCamelCased(string value)
         {
@@ -61,9 +53,7 @@ namespace Lombiq.Vsix.Orchard.Services
         }
 
 
-        private IEnumerable<char> GetUpperCasedLetters(string value)
-        {
-            return value.Where(letter => char.IsUpper(letter));
-        }
+        private IEnumerable<char> GetUpperCasedLetters(string value) => 
+            value.Where(letter => char.IsUpper(letter));
     }
 }

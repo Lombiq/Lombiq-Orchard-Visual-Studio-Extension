@@ -22,10 +22,8 @@
             }
         }
 
-        public static IResult FailedResult(string errorCode)
-        {
-            return new Result { Success = false, ErrorCode = errorCode };
-        }
+        public static IResult FailedResult(string errorCode) => 
+            new Result { Success = false, ErrorCode = errorCode };
 
 
         public bool Success { get; set; }
