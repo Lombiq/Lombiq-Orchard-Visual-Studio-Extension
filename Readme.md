@@ -38,7 +38,9 @@ This project is developed by [Lombiq Technologies Ltd](http://lombiq.com/). Comm
 
 ## Release notes
 
-- 1.1, 18.03.2016
+- 1.2, 09.04.2017
+    - New Orchard Error Log Watcher feature.
+- 1.1, 18.03.2017
 	- The Dependency Injector tool now creates the constructor if it doesn't exist (i.e. it can be used even if there's no constructor already).
 	- `IEnumerable&lt;T&gt;` and other generic types are handled when generating injected dependency names; e.g. for `IEnumerable&lt;IDependency&gt;` the field name `_dependencies` will be generated.
 - 1.0, 24.05.2016
