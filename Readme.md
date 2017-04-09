@@ -4,7 +4,7 @@
 
 Visual Studio extension with many features and templates frequently used by  [Lombiq](http://lombiq.com/) developers. Contains [Orchard](http://orchardproject.net/)-related as well as generic goodies.
 
-The extension can also be installed from the [Visual Studio Gallery](https://visualstudiogallery.msdn.microsoft.com/243f1a44-0c6d-4354-ba5f-4a1604a4680f), including installing directly from inside Visual Studio from under Tools &gt; Extensions and Updates.
+The extension can also be installed from the [Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=LombiqVisualStudioExtension.LombiqOrchardVisualStudioExtension), including installing directly from inside Visual Studio from under Tools &gt; Extensions and Updates.
 
 
 ## Tools
