@@ -1,15 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Orchard Templates", "Orchard Templates", "{1D7A6C1E-AEA0-4C03-9306-022D4393E37A}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{06173993-19D3-4CCA-9CA1-E9560C43293E}"
-	ProjectSection(SolutionItems) = preProject
-		Licence.md = Licence.md
-		Readme.md = Readme.md
-	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Orchard.ModuleTemplate.1.9", "OrchardTemplates\Orchard.ModuleTemplate.1.9\Orchard.ModuleTemplate.1.9.csproj", "{85B7A83C-29C9-4BE4-89DD-94A22F127BEE}"
 EndProject
