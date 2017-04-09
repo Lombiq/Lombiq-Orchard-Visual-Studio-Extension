@@ -38,6 +38,8 @@ This project is developed by [Lombiq Technologies Ltd](http://lombiq.com/). Comm
 
 ## Release notes
 
+- 1.2.1, 09.04.2017
+    - Fixing short dependency name generation in the Dependency Injector feature.
 - 1.2, 09.04.2017
     - New Orchard Error Log Watcher feature.
 - 1.1, 18.03.2017
