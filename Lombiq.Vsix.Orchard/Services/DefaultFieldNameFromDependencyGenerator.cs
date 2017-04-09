@@ -17,7 +17,7 @@
 
             if (dependency.Length < 2) return GetLowerInvariantStringWithUnderscore(dependency);
 
-            if (useShortName) GetShortNameWithUnderscore(cleanedDependency);
+            if (useShortName) return GetShortNameWithUnderscore(cleanedDependency);
 
             return GetStringWithUnderscore(GetCamelCased(cleanedDependency));
         }

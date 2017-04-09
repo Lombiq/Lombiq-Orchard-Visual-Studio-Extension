@@ -4,7 +4,7 @@
 
 Visual Studio extension with many features and templates frequently used by  [Lombiq](http://lombiq.com/) developers. Contains [Orchard](http://orchardproject.net/)-related as well as generic goodies.
 
-The extension can also be installed from the [Visual Studio Gallery](https://visualstudiogallery.msdn.microsoft.com/243f1a44-0c6d-4354-ba5f-4a1604a4680f), including installing directly from inside Visual Studio from under Tools &gt; Extensions and Updates.
+The extension can also be installed from the [Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=LombiqVisualStudioExtension.LombiqOrchardVisualStudioExtension), including installing directly from inside Visual Studio from under Tools &gt; Extensions and Updates.
 
 
 ## Tools
@@ -38,6 +38,8 @@ This project is developed by [Lombiq Technologies Ltd](http://lombiq.com/). Comm
 
 ## Release notes
 
+- 1.2.1, 09.04.2017
+    - Fixing short dependency name generation in the Dependency Injector feature.
 - 1.2, 09.04.2017
     - New Orchard Error Log Watcher feature.
 - 1.1, 18.03.2017
