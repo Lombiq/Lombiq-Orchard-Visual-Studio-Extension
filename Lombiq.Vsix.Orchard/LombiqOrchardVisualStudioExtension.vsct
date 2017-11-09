@@ -51,7 +51,7 @@
         </Bitmaps>
         
         <Menus>
-            <!-- Create a toolbar for the Log Watcher feature. -->
+            <!-- Create a toolbar for the Dependency Injector feature. -->
             <Menu guid="LombiqOrchardVisualStudioExtensionCommandSetGuid" id="DependencyInjectorToolbar" type="Toolbar" >
                 <CommandFlag>DefaultDocked</CommandFlag>
                 <Strings>
