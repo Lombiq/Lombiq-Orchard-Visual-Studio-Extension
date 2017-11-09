@@ -3,6 +3,6 @@
     internal static class CommandBarNames
     {
         // These names are also defined and used in the LombiqOrchardVisualStudioExtension.vsct file.
-        public const string OrchardLogWatcherToolbarName = "Orchard Log Watcher Toolbar";
+        public const string OrchardLogWatcherToolbarName = "Orchard Log Watcher";
     };
 }

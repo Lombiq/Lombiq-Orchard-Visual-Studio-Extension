@@ -56,7 +56,7 @@
                 <CommandFlag>DefaultDocked</CommandFlag>
                 <Strings>
                     <ButtonText>Inject Dependency</ButtonText>
-                    <CommandName>Dependency Injector Toolbar</CommandName>
+                    <CommandName>Dependency Injector</CommandName>
                 </Strings>
             </Menu>
           
@@ -65,7 +65,7 @@
                 <CommandFlag>DefaultDocked</CommandFlag>
                 <Strings>
                     <ButtonText>Orchard Log Watcher</ButtonText>
-                    <CommandName>Orchard Log Watcher Toolbar</CommandName>
+                    <CommandName>Orchard Log Watcher</CommandName>
                 </Strings>
             </Menu>
         </Menus>
