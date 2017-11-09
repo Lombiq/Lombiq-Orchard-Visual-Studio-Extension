@@ -9,9 +9,9 @@
     <Commands package="LombiqOrchardVisualStudioExtensionPackageGuid">
 
         <Groups>
-            <!-- Create menu item group in the Tools menu. -->
-            <Group guid="LombiqOrchardVisualStudioExtensionCommandSetGuid" id="ToolsMenuGroupId" priority="0x0600">
-                <Parent guid="guidSHLMainMenu" id="IDM_VS_MENU_TOOLS"/>
+            <!-- Create toolbar group for the Dependency Injector feature. -->
+            <Group guid="LombiqOrchardVisualStudioExtensionCommandSetGuid" id="DependencyInjectorToolbarGroup" priority="0x0000">
+                <Parent guid="LombiqOrchardVisualStudioExtensionCommandSetGuid" id="DependencyInjectorToolbar"/>
             </Group>
 
             <!-- Create toolbar group for the Log Watcher feature. -->
@@ -21,16 +21,16 @@
         </Groups>
 
         <Buttons>
-            <!-- Add menu items to the created menu item group in the Tools menu. -->
+            <!-- Add buttons to the Dependency Injector toolbar. -->
             <Button guid="LombiqOrchardVisualStudioExtensionCommandSetGuid" id="InjectDependencyCommandId" priority="0x0100" type="Button">
-                <Parent guid="LombiqOrchardVisualStudioExtensionCommandSetGuid" id="ToolsMenuGroupId" />
+                <Parent guid="LombiqOrchardVisualStudioExtensionCommandSetGuid" id="DependencyInjectorToolbarGroup" />
                 <Icon guid="LombiqImagesGuid" id="LombiqSmallBitmapId" />
                 <Strings>
                     <ButtonText>Inject Dependency</ButtonText>
                 </Strings>
             </Button>
 
-            <!-- Add buttons to the created Log Watcher toolbar. -->
+            <!-- Add buttons to the Log Watcher toolbar. -->
             <Button guid="LombiqOrchardVisualStudioExtensionCommandSetGuid" id="OpenErrorLogCommandId" priority="0x0100" type="Button">
                 <Parent guid= "LombiqOrchardVisualStudioExtensionCommandSetGuid" id="LogWatcherToolbarGroup" />
                 <Icon guid="OrchardLogWatcherImagesGuid" id="OrchardErrorSmallBitmapId" />
@@ -52,6 +52,15 @@
         
         <Menus>
             <!-- Create a toolbar for the Log Watcher feature. -->
+            <Menu guid="LombiqOrchardVisualStudioExtensionCommandSetGuid" id="DependencyInjectorToolbar" type="Toolbar" >
+                <CommandFlag>DefaultDocked</CommandFlag>
+                <Strings>
+                    <ButtonText>Inject Dependency</ButtonText>
+                    <CommandName>Dependency Injector Toolbar</CommandName>
+                </Strings>
+            </Menu>
+          
+            <!-- Create a toolbar for the Log Watcher feature. -->
             <Menu guid="LombiqOrchardVisualStudioExtensionCommandSetGuid" id="LogWatcherToolbar" type="Toolbar" >
                 <CommandFlag>DefaultDocked</CommandFlag>
                 <Strings>
@@ -71,8 +80,9 @@
         <GuidSymbol name="LombiqOrchardVisualStudioExtensionPackageGuid" value="{1a2f7a53-92bd-4396-b49c-98a9bfcc1d41}" />
 
         <GuidSymbol name="LombiqOrchardVisualStudioExtensionCommandSetGuid" value="{0fe301eb-0ad4-4fb4-bbd9-c2545e74dde5}">
-            <IDSymbol name="ToolsMenuGroupId" value="0x1020" />
             <IDSymbol name="InjectDependencyCommandId" value="0x0100" />
+            <IDSymbol name="DependencyInjectorToolbar" value="0x1020" />
+            <IDSymbol name="DependencyInjectorToolbarGroup" value="0x1025" />
             <IDSymbol name="OpenErrorLogCommandId" value="0x0101" />
             <IDSymbol name="LogWatcherToolbar" value="0x1030" />
             <IDSymbol name="LogWatcherToolbarGroup" value="0x1035" />
