@@ -38,6 +38,10 @@ This project is developed by [Lombiq Technologies Ltd](http://lombiq.com/). Comm
 
 ## Release notes
 
+- 1.2.2, 09.11.2017
+	- Visual Studio 2017 compatibility added.
+	- "Inject Dependency" moved from under "Tools" to a separate toolbar called "Dependency Injector".
+	- The toolbar "Orchard Log Watcher Toolbar" is renamed to "Orchard Log Watcher".
 - 1.2.1, 09.04.2017
     - Fixing short dependency name generation in the Dependency Injector feature.
 - 1.2, 09.04.2017

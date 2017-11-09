@@ -93,18 +93,12 @@ namespace Lombiq.Vsix.Orchard.Services
 
             if (!logFileStatus.Equals(_previousLogFileStatus))
             {
-                LogUpdated?.Invoke(
-                    this,
-                    new LogChangedEventArgs
-                    {
-                        LogFileStatus = logFileStatus
-                    });
+                LogUpdated?.Invoke(this, new LogChangedEventArgs { LogFileStatus = logFileStatus });
 
                 _previousLogFileStatus = logFileStatus;
             }
         }
 
-        private bool IsSolutionOpen() =>
-            _dte.Solution.IsOpen;
+        private bool IsSolutionOpen() => _dte.Solution.IsOpen;
     }
 }

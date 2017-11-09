@@ -91,7 +91,7 @@ namespace Lombiq.Vsix.Orchard.Services
             }
             else
             {
-                DialogHelpers.Error("The log file doesn't exists.", "Open Orchard Error Log");
+                DialogHelpers.Error("The log file doesn't exist.", "Open Orchard Error Log");
             }
 
             UpdateOpenErrorLogCommandAccessibilityAndText();
