@@ -267,6 +267,7 @@
     <None Include="ItemTemplates\Orchard\CP\DisplayTemplate.cshtml.template" />
     <None Include="ItemTemplates\Orchard\CP\EditorTemplate.cshtml.template" />
     <None Include="ItemTemplates\Orchard\CPWR\Migrations.cs.template" />
+    <Compile Include="Commands\InjectDependencyCommand.cs" />
     <Compile Include="Constants\CommandBarNames.cs" />
     <Compile Include="Constants\DependencyInjectorErrorCodes.cs" />
     <Compile Include="Exceptions\DependencyToConstructorInjectorException.cs" />
@@ -290,7 +291,6 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Constants\CommandIds.cs" />
-    <Compile Include="Services\DependencyInjectorPackageRegistrator.cs" />
     <Compile Include="Services\FieldNameFromDependencyGeneratorBase.cs" />
     <Compile Include="Services\FieldNameFromGenericTypeGeneratorBase.cs" />
     <Compile Include="Services\FieldNameFromIEnumerableGenerator.cs" />

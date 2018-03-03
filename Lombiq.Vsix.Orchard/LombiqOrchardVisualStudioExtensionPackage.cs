@@ -1,4 +1,5 @@
 ﻿using EnvDTE;
+using Lombiq.Vsix.Orchard.Commands;
 using Lombiq.Vsix.Orchard.Constants;
 using Lombiq.Vsix.Orchard.Models;
 using Lombiq.Vsix.Orchard.Options;
@@ -13,6 +14,8 @@ using System.Runtime.InteropServices;
 
 namespace Lombiq.Vsix.Orchard
 {
+    [ProvideService(typeof(IDependencyInjector))]
+    [ProvideService(typeof(IFieldNameFromDependencyGenerator))]
     [ProvideAutoLoad(VSConstants.UICONTEXT.SolutionExists_string)]
     [PackageRegistration(UseManagedResourcesOnly = true)]
     [InstalledProductRegistration("#LombiqOrchardVisualStudioExtensionName", "#LombiqOrchardVisualStudioExtensionDescription", "1.0", IconResourceID = 400)]
@@ -31,17 +34,12 @@ namespace Lombiq.Vsix.Orchard
             _dte = GetGlobalService(typeof(SDTE)) as DTE;
             _menuCommandService = GetService(typeof(IMenuCommandService)) as OleMenuCommandService;
 
-            var dependencyInjector = new DependencyInjector();
             var fieldNameGenerators = new IFieldNameFromDependencyGenerator[]
             {
                 new DefaultFieldNameFromDependencyGenerator(),
                 new DefaultFieldNameFromGenericTypeGenerator(),
                 new FieldNameFromIEnumerableGenerator()
             };
-
-            var dependencyInjectorPackageRegistrator = new DependencyInjectorPackageRegistrator(
-                dependencyInjector,
-                fieldNameGenerators);
 
             var logWatcherSettingsAccessor = this;
             var logWatcher = new OrchardErrorLogFileWatcher(logWatcherSettingsAccessor, _dte);
@@ -50,9 +48,8 @@ namespace Lombiq.Vsix.Orchard
                 logWatcherSettingsAccessor,
                 logWatcher);
 
-            _packageRegistrators = new IPackageRegistrator[] 
+            _packageRegistrators = new IPackageRegistrator[]
                 {
-                    dependencyInjectorPackageRegistrator,
                     logWatcherPackageRegistrator
                 };
         }
@@ -61,6 +58,10 @@ namespace Lombiq.Vsix.Orchard
         protected override void Initialize()
         {
             base.Initialize();
+
+            RegisterServices();
+
+            InjectDependencyCommand.Initialize(this);
 
             foreach (var registrator in _packageRegistrators)
             {
@@ -77,11 +78,26 @@ namespace Lombiq.Vsix.Orchard
 
             base.Dispose(disposing);
         }
-        
+
+
+        private void RegisterServices()
+        {
+            var serviceContainer = (IServiceContainer)this;
+
+            serviceContainer.AddService(typeof(IDependencyInjector), new DependencyInjector());
+            serviceContainer.AddService(typeof(IEnumerable<IFieldNameFromDependencyGenerator>),
+                new IFieldNameFromDependencyGenerator[]
+                {
+                    new DefaultFieldNameFromDependencyGenerator(),
+                    new DefaultFieldNameFromGenericTypeGenerator(),
+                    new FieldNameFromIEnumerableGenerator()
+                });
+        }
+
 
         #region ILogWatcherSettings Members
 
-        ILogWatcherSettings ILogWatcherSettingsAccessor.GetSettings() => 
+        ILogWatcherSettings ILogWatcherSettingsAccessor.GetSettings() =>
             (ILogWatcherSettings)GetDialogPage(typeof(LogWatcherOptionsPage));
 
         #endregion
