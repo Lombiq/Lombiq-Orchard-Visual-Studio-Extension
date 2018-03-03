@@ -7,6 +7,7 @@ using Microsoft.VisualStudio.CommandBars;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.Design;
 using System.IO;
 
@@ -23,7 +24,7 @@ namespace Lombiq.Vsix.Orchard.Commands
         private readonly IMenuCommandService _menuCommandService;
         private readonly DTE _dte;
         private readonly Lazy<ILogWatcherSettings> _lazyLogWatcherSettings;
-        private readonly ILogFileWatcher _logWatcher;
+        private readonly IEnumerable<ILogFileWatcher> _logWatchers;
         private OleMenuCommand _openErrorLogCommand;
         private CommandBar _orchardLogWatcherToolbar;
         private bool _hasSeenErrorLogUpdate;
@@ -39,7 +40,7 @@ namespace Lombiq.Vsix.Orchard.Commands
             _menuCommandService = _serviceProvider.GetService<IMenuCommandService>();
             _lazyLogWatcherSettings = new Lazy<ILogWatcherSettings>(
                 _serviceProvider.GetService<ILogWatcherSettingsAccessor>().GetSettings);
-            _logWatcher = _serviceProvider.GetService<ILogFileWatcher>();
+            _logWatchers = _serviceProvider.GetServices<ILogFileWatcher>();
 
             Initialize();
         }
@@ -47,10 +48,13 @@ namespace Lombiq.Vsix.Orchard.Commands
 
         public void Dispose()
         {
-            _logWatcher.LogUpdated -= LogFileUpdatedCallback;
-            _lazyLogWatcherSettings.Value.SettingsUpdated -= LogWatcherSettingsUpdatedCallback;
+            foreach (var watcher in _logWatchers)
+            {
+                watcher.LogUpdated -= LogFileUpdatedCallback;
+                watcher.Dispose();
+            }
 
-            _logWatcher.Dispose();
+            _lazyLogWatcherSettings.Value.SettingsUpdated -= LogWatcherSettingsUpdatedCallback;
         }
 
 
@@ -58,7 +62,11 @@ namespace Lombiq.Vsix.Orchard.Commands
         {
             _hasSeenErrorLogUpdate = true;
 
-            _logWatcher.LogUpdated += LogFileUpdatedCallback;
+            foreach (var watcher in _logWatchers)
+            {
+                watcher.LogUpdated += LogFileUpdatedCallback;
+            }
+
             _lazyLogWatcherSettings.Value.SettingsUpdated += LogWatcherSettingsUpdatedCallback;
 
             _openErrorLogCommand = new OleMenuCommand(OpenErrorLogCallback, new CommandID(CommandSet, CommandId));
@@ -141,11 +149,21 @@ namespace Lombiq.Vsix.Orchard.Commands
             }
         }
 
-        private void StartLogFileWatching() =>
-            _logWatcher.StartWatching();
+        private void StartLogFileWatching()
+        {
+            foreach (var watcher in _logWatchers)
+            {
+                watcher.StartWatching();
+            }
+        }
 
-        private void StopLogFileWatching() =>
-            _logWatcher.StopWatching();
+        private void StopLogFileWatching()
+        {
+            foreach (var watcher in _logWatchers)
+            {
+                watcher.StopWatching();
+            }
+        }
 
 
         public static OpenErrorLogCommand Instance { get; private set; }

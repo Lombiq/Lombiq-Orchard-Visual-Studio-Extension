@@ -49,16 +49,15 @@ namespace Lombiq.Vsix.Orchard
         {
             var serviceContainer = (IServiceContainer)this;
 
-            serviceContainer.AddService(typeof(IDependencyInjector), new DependencyInjector());
-            serviceContainer.AddService(typeof(IEnumerable<IFieldNameFromDependencyGenerator>),
-                new IFieldNameFromDependencyGenerator[]
-                {
-                    new DefaultFieldNameFromDependencyGenerator(),
-                    new DefaultFieldNameFromGenericTypeGenerator(),
-                    new FieldNameFromIEnumerableGenerator()
-                });
-            serviceContainer.AddService(typeof(ILogWatcherSettingsAccessor), this);
-            serviceContainer.AddService(typeof(ILogFileWatcher), new OrchardErrorLogFileWatcher(this));
+            serviceContainer.AddService<IDependencyInjector>(new DependencyInjector());
+            serviceContainer.AddServices<IFieldNameFromDependencyGenerator>(
+                new DefaultFieldNameFromDependencyGenerator(),
+                new DefaultFieldNameFromGenericTypeGenerator(),
+                new FieldNameFromIEnumerableGenerator());
+            serviceContainer.AddService<ILogWatcherSettingsAccessor>(this);
+            serviceContainer.AddServices<ILogFileWatcher>(
+                new OrchardErrorLogFileWatcher(this),
+                new OrchardCoreLogFileWatcher(this));
         }
 
 

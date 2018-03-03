@@ -272,6 +272,7 @@
     <Compile Include="Constants\CommandBarNames.cs" />
     <Compile Include="Constants\DependencyInjectorErrorCodes.cs" />
     <Compile Include="Exceptions\DependencyToConstructorInjectorException.cs" />
+    <Compile Include="Extensions\ServiceContainerExtensions.cs" />
     <Compile Include="Extensions\ServiceProviderExtensions.cs" />
     <Compile Include="Forms\InjectDependencyDialog.cs">
       <SubType>Form</SubType>
@@ -299,6 +300,8 @@
     <Compile Include="Services\DefaultFieldNameFromGenericTypeGenerator.cs" />
     <Compile Include="Services\DependencyInjector.cs" />
     <Compile Include="Services\DefaultFieldNameFromDependencyGenerator.cs" />
+    <Compile Include="Services\LogFileWatcherBase.cs" />
+    <Compile Include="Services\OrchardCoreLogFileWatcher.cs" />
     <Compile Include="Services\OrchardErrorLogFileWatcher.cs" />
     <Compile Include="Services\IFieldNameFromDependencyGenerator.cs" />
     <Compile Include="Services\ILogWatcherSettingsAccessor.cs" />

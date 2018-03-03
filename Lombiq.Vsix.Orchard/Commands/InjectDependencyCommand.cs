@@ -34,7 +34,7 @@ namespace Lombiq.Vsix.Orchard.Commands
 
             _dte = Package.GetGlobalService(typeof(SDTE)) as DTE;
             _dependencyInjector = _serviceProvider.GetService<IDependencyInjector>();
-            _fieldNameGenerators = _serviceProvider.GetService<IEnumerable<IFieldNameFromDependencyGenerator>>();
+            _fieldNameGenerators = _serviceProvider.GetServices<IFieldNameFromDependencyGenerator>();
             _menuCommandService = _serviceProvider.GetService<IMenuCommandService>();
 
             Initialize();
