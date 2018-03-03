@@ -221,52 +221,52 @@
     <Resource Include="Resources\OrchardError16x16.png" />
     <Resource Include="Resources\Lombiq16x16.png" />
     <None Include="app.config" />
-    <None Include="ItemTemplates\Orchard\ContentPartWithRecord\Placement.info.template">
+    <None Include="ItemTemplates\Orchard\CPWR\Placement.info.template">
       <SubType>Designer</SubType>
     </None>
-    <None Include="ItemTemplates\Orchard\ContentPartWithTypeAndRecord\Constants.cs.template" />
-    <None Include="ItemTemplates\Orchard\ContentPartWithTypeAndRecord\ContentHandler.cs.template" />
-    <None Include="ItemTemplates\Orchard\ContentPartWithTypeAndRecord\ContentPart.cs.template" />
-    <None Include="ItemTemplates\Orchard\ContentPartWithTypeAndRecord\ContentPartDriver.cs.template" />
-    <None Include="ItemTemplates\Orchard\ContentPartWithTypeAndRecord\DisplayTemplate.cshtml.template" />
-    <None Include="ItemTemplates\Orchard\ContentPartWithTypeAndRecord\EditorTemplate.cshtml.template" />
-    <None Include="ItemTemplates\Orchard\ContentPartWithTypeAndRecord\Migrations.cs.template" />
-    <None Include="ItemTemplates\Orchard\ContentPartWithTypeAndRecord\Placement.info.template">
+    <None Include="ItemTemplates\Orchard\CPWTAR\Constants.cs.template" />
+    <None Include="ItemTemplates\Orchard\CPWTAR\ContentHandler.cs.template" />
+    <None Include="ItemTemplates\Orchard\CPWTAR\ContentPart.cs.template" />
+    <None Include="ItemTemplates\Orchard\CPWTAR\ContentPartDriver.cs.template" />
+    <None Include="ItemTemplates\Orchard\CPWTAR\DisplayTemplate.cshtml.template" />
+    <None Include="ItemTemplates\Orchard\CPWTAR\EditorTemplate.cshtml.template" />
+    <None Include="ItemTemplates\Orchard\CPWTAR\Migrations.cs.template" />
+    <None Include="ItemTemplates\Orchard\CPWTAR\Placement.info.template">
       <SubType>Designer</SubType>
     </None>
-    <None Include="ItemTemplates\Orchard\ContentPartWithType\Placement.info.template">
+    <None Include="ItemTemplates\Orchard\CPWT\Placement.info.template">
       <SubType>Designer</SubType>
     </None>
-    <None Include="ItemTemplates\Orchard\ContentPart\Placement.info.template">
+    <None Include="ItemTemplates\Orchard\CP\Placement.info.template">
       <SubType>Designer</SubType>
     </None>
     <None Include="ItemTemplates\Orchard\Dependency\Dependency.cs.template" />
-    <None Include="ItemTemplates\Orchard\SettingsContentPart\Placement.info.template">
+    <None Include="ItemTemplates\Orchard\SCP\Placement.info.template">
       <SubType>Designer</SubType>
     </None>
-    <None Include="ItemTemplates\Orchard\ShapeTemplateFile\ShapeTemplate.cshtml.template" />
-    <None Include="ItemTemplates\Orchard\SettingsContentPart\ContentHandler.cs.template" />
-    <None Include="ItemTemplates\Orchard\SettingsContentPart\ContentPart.cs.template" />
-    <None Include="ItemTemplates\Orchard\SettingsContentPart\ContentPartDriver.cs.template" />
-    <None Include="ItemTemplates\Orchard\SettingsContentPart\EditorTemplate.cshtml.template" />
-    <None Include="ItemTemplates\Orchard\ContentPartWithType\ContentHandler.cs.template" />
-    <None Include="ItemTemplates\Orchard\ContentPartWithType\ContentPart.cs.template" />
-    <None Include="ItemTemplates\Orchard\ContentPartWithType\ContentPartDriver.cs.template" />
-    <None Include="ItemTemplates\Orchard\ContentPartWithType\DisplayTemplate.cshtml.template" />
-    <None Include="ItemTemplates\Orchard\ContentPartWithType\EditorTemplate.cshtml.template" />
-    <None Include="ItemTemplates\Orchard\ContentPartWithRecord\ContentHandler.cs.template" />
-    <None Include="ItemTemplates\Orchard\ContentPartWithRecord\ContentPart.cs.template" />
-    <None Include="ItemTemplates\Orchard\ContentPartWithRecord\ContentPartDriver.cs.template" />
-    <None Include="ItemTemplates\Orchard\ContentPartWithRecord\DisplayTemplate.cshtml.template" />
-    <None Include="ItemTemplates\Orchard\ContentPartWithRecord\EditorTemplate.cshtml.template" />
-    <None Include="ItemTemplates\Orchard\ContentPartWithType\Constants.cs.template" />
-    <None Include="ItemTemplates\Orchard\ContentPartWithType\Migrations.cs.template" />
-    <None Include="ItemTemplates\Orchard\ContentPart\ContentHandler.cs.template" />
-    <None Include="ItemTemplates\Orchard\ContentPart\ContentPartDriver.cs.template" />
-    <None Include="ItemTemplates\Orchard\ContentPart\ContentPart.cs.template" />
-    <None Include="ItemTemplates\Orchard\ContentPart\DisplayTemplate.cshtml.template" />
-    <None Include="ItemTemplates\Orchard\ContentPart\EditorTemplate.cshtml.template" />
-    <None Include="ItemTemplates\Orchard\ContentPartWithRecord\Migrations.cs.template" />
+    <None Include="ItemTemplates\Orchard\STF\ShapeTemplate.cshtml.template" />
+    <None Include="ItemTemplates\Orchard\SCP\ContentHandler.cs.template" />
+    <None Include="ItemTemplates\Orchard\SCP\ContentPart.cs.template" />
+    <None Include="ItemTemplates\Orchard\SCP\ContentPartDriver.cs.template" />
+    <None Include="ItemTemplates\Orchard\SCP\EditorTemplate.cshtml.template" />
+    <None Include="ItemTemplates\Orchard\CPWT\ContentHandler.cs.template" />
+    <None Include="ItemTemplates\Orchard\CPWT\ContentPart.cs.template" />
+    <None Include="ItemTemplates\Orchard\CPWT\ContentPartDriver.cs.template" />
+    <None Include="ItemTemplates\Orchard\CPWT\DisplayTemplate.cshtml.template" />
+    <None Include="ItemTemplates\Orchard\CPWT\EditorTemplate.cshtml.template" />
+    <None Include="ItemTemplates\Orchard\CPWR\ContentHandler.cs.template" />
+    <None Include="ItemTemplates\Orchard\CPWR\ContentPart.cs.template" />
+    <None Include="ItemTemplates\Orchard\CPWR\ContentPartDriver.cs.template" />
+    <None Include="ItemTemplates\Orchard\CPWR\DisplayTemplate.cshtml.template" />
+    <None Include="ItemTemplates\Orchard\CPWR\EditorTemplate.cshtml.template" />
+    <None Include="ItemTemplates\Orchard\CPWT\Constants.cs.template" />
+    <None Include="ItemTemplates\Orchard\CPWT\Migrations.cs.template" />
+    <None Include="ItemTemplates\Orchard\CP\ContentHandler.cs.template" />
+    <None Include="ItemTemplates\Orchard\CP\ContentPartDriver.cs.template" />
+    <None Include="ItemTemplates\Orchard\CP\ContentPart.cs.template" />
+    <None Include="ItemTemplates\Orchard\CP\DisplayTemplate.cshtml.template" />
+    <None Include="ItemTemplates\Orchard\CP\EditorTemplate.cshtml.template" />
+    <None Include="ItemTemplates\Orchard\CPWR\Migrations.cs.template" />
     <Compile Include="Constants\CommandBarNames.cs" />
     <Compile Include="Constants\DependencyInjectorErrorCodes.cs" />
     <Compile Include="Exceptions\DependencyToConstructorInjectorException.cs" />
@@ -322,19 +322,19 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="ItemTemplates\Orchard\ContentPartWithTypeAndRecord\Definitions\CSharp.vstemplate" />
-    <Resource Include="ItemTemplates\Orchard\ContentPartWithTypeAndRecord\Icon.png" />
+    <Content Include="ItemTemplates\Orchard\CPWTAR\Definitions\CSharp.vstemplate" />
+    <Resource Include="ItemTemplates\Orchard\CPWTAR\Icon.png" />
     <Content Include="ItemTemplates\Orchard\Dependency\Definitions\CSharp.vstemplate" />
     <Resource Include="ItemTemplates\Orchard\Dependency\Icon.png" />
-    <Content Include="ItemTemplates\Orchard\ShapeTemplateFile\Definitions\CSharp.vstemplate" />
-    <Resource Include="ItemTemplates\Orchard\ShapeTemplateFile\Icon.png" />
-    <Content Include="ItemTemplates\Orchard\SettingsContentPart\Definitions\CSharp.vstemplate" />
-    <Resource Include="ItemTemplates\Orchard\SettingsContentPart\Icon.png" />
-    <Content Include="ItemTemplates\Orchard\ContentPartWithType\Definitions\CSharp.vstemplate" />
-    <Resource Include="ItemTemplates\Orchard\ContentPartWithType\Icon.png" />
-    <Content Include="ItemTemplates\Orchard\ContentPartWithRecord\Definitions\CSharp.vstemplate" />
-    <Resource Include="ItemTemplates\Orchard\ContentPartWithRecord\Icon.png" />
-    <Content Include="ItemTemplates\Orchard\ContentPart\Definitions\CSharp.vstemplate">
+    <Content Include="ItemTemplates\Orchard\STF\Definitions\CSharp.vstemplate" />
+    <Resource Include="ItemTemplates\Orchard\STF\Icon.png" />
+    <Content Include="ItemTemplates\Orchard\SCP\Definitions\CSharp.vstemplate" />
+    <Resource Include="ItemTemplates\Orchard\SCP\Icon.png" />
+    <Content Include="ItemTemplates\Orchard\CPWT\Definitions\CSharp.vstemplate" />
+    <Resource Include="ItemTemplates\Orchard\CPWT\Icon.png" />
+    <Content Include="ItemTemplates\Orchard\CPWR\Definitions\CSharp.vstemplate" />
+    <Resource Include="ItemTemplates\Orchard\CPWR\Icon.png" />
+    <Content Include="ItemTemplates\Orchard\CP\Definitions\CSharp.vstemplate">
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Licence.md">
@@ -362,7 +362,7 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Orchard16x16.png" />
-    <Resource Include="ItemTemplates\Orchard\ContentPart\Icon.png" />
+    <Resource Include="ItemTemplates\Orchard\CP\Icon.png" />
   </ItemGroup>
   <ItemGroup>
     <TemplateReference Include="Orchard.ModuleTemplate.1.10.csproj">
