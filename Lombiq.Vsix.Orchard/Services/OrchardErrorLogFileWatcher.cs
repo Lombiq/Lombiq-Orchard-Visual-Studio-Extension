@@ -3,7 +3,9 @@ using Lombiq.Vsix.Orchard.Models;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Timers;
 
 namespace Lombiq.Vsix.Orchard.Services
@@ -17,7 +19,7 @@ namespace Lombiq.Vsix.Orchard.Services
         private readonly DTE _dte;
         private readonly Timer _timer;
         private bool _isWatching;
-        private ILogFileStatus _previousLogFileStatus;
+        private IList<ILogFileStatus> _previousLogFileStatuses;
 
 
         public event EventHandler<LogChangedEventArgs> LogUpdated;
@@ -36,7 +38,7 @@ namespace Lombiq.Vsix.Orchard.Services
         {
             if (_isWatching) return;
 
-            _previousLogFileStatus = GetLogFileStatus();
+            _previousLogFileStatuses = GetLogFileStatuses().ToList();
 
             _timer.Interval = DefaultLogWatcherTimerIntervalInMilliseconds;
             _timer.AutoReset = true;
@@ -55,20 +57,21 @@ namespace Lombiq.Vsix.Orchard.Services
 
             _isWatching = false;
 
-            _previousLogFileStatus = null;
+            _previousLogFileStatuses = Enumerable.Empty<ILogFileStatus>().ToList();
         }
 
-        public ILogFileStatus GetLogFileStatus()
+        public IEnumerable<ILogFileStatus> GetLogFileStatuses()
         {
-            var fileInfo = new FileInfo(GetLogFileName());
-
-            return new LogFileStatus
-            {
-                Exists = fileInfo.Exists,
-                HasContent = fileInfo.Exists && fileInfo.Length > 0,
-                Path = fileInfo.FullName,
-                LastUpdatedUtc = fileInfo.Exists ? (DateTime?)fileInfo.LastWriteTimeUtc : null
-            };
+            var fileInfos = GetLogFileNames().Select(fileName => new FileInfo(fileName));
+            
+            return fileInfos.Select(fileInfo =>
+                new LogFileStatus
+                {
+                    Exists = fileInfo.Exists,
+                    HasContent = fileInfo.Exists && fileInfo.Length > 0,
+                    Path = fileInfo.FullName,
+                    LastUpdatedUtc = fileInfo.Exists ? (DateTime?)fileInfo.LastWriteTimeUtc : null
+                });
         }
 
         public void Dispose()
@@ -79,26 +82,32 @@ namespace Lombiq.Vsix.Orchard.Services
         }
 
 
-        private string GetLogFileName()
+        private IEnumerable<string> GetLogFileNames()
         {
-            var logFilePath = _logWatcherSettingsAccessor.GetSettings().LogFileFolderPath;
+            var logFilePaths = _logWatcherSettingsAccessor.GetSettings().GetLogFileFolderPaths();
             var solutionPath = IsSolutionOpen() ? Path.GetDirectoryName(_dte.Solution.FileName) : "";
             var errorLogFileName = "orchard-error-" + DateTime.Today.ToString("yyyy.MM.dd") + ".log";
 
-            return Path.Combine(solutionPath, logFilePath, errorLogFileName);
+            return logFilePaths.Select(path => Path.Combine(solutionPath, path, errorLogFileName));
         }
         
         private void LogWatcherTimerElapsedCallback(object sender, ElapsedEventArgs e)
         {
             if (!IsSolutionOpen()) return;
 
-            var logFileStatus = GetLogFileStatus();
+            var logFileStatuses = GetLogFileStatuses().ToList();
+            var previous = _previousLogFileStatuses;
 
-            if (!logFileStatus.Equals(_previousLogFileStatus))
+            for (var i = 0; i < logFileStatuses.ToList().Count; i++)
             {
-                LogUpdated?.Invoke(this, new LogChangedEventArgs { LogFileStatus = logFileStatus });
+                var currentStatus = logFileStatuses[i];
+                
+                if (!currentStatus.Equals(previous[i]))
+                {
+                    LogUpdated?.Invoke(this, new LogChangedEventArgs { LogFileStatus = currentStatus });
 
-                _previousLogFileStatus = logFileStatus;
+                    _previousLogFileStatuses = logFileStatuses;
+                }
             }
         }
 

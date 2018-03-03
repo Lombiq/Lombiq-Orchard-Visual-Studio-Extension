@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Lombiq.Vsix.Orchard.Models
 {
@@ -18,8 +19,8 @@ namespace Lombiq.Vsix.Orchard.Models
         bool LogWatcherEnabled { get; }
 
         /// <summary>
-        /// Relative path of the folder where the log file is located.
+        /// Returns the relative paths of the folders where the log files can be located.
         /// </summary>
-        string LogFileFolderPath { get; }
+        IEnumerable<string> GetLogFileFolderPaths();
     }
 }

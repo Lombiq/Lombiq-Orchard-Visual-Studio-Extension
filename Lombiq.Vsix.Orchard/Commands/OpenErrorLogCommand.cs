@@ -8,6 +8,7 @@ using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 using System;
 using System.ComponentModel.Design;
+using System.IO;
 
 namespace Lombiq.Vsix.Orchard.Commands
 {
@@ -26,6 +27,7 @@ namespace Lombiq.Vsix.Orchard.Commands
         private OleMenuCommand _openErrorLogCommand;
         private CommandBar _orchardLogWatcherToolbar;
         private bool _hasSeenErrorLogUpdate;
+        private ILogFileStatus _latestUpdatedLogFileStatus;
 
 
         private OpenErrorLogCommand(Package package)
@@ -81,6 +83,7 @@ namespace Lombiq.Vsix.Orchard.Commands
         private void LogFileUpdatedCallback(object sender, LogChangedEventArgs context)
         {
             _hasSeenErrorLogUpdate = !context.LogFileStatus.HasContent;
+            _latestUpdatedLogFileStatus = context.LogFileStatus;
 
             UpdateOpenErrorLogCommandAccessibilityAndText(context.LogFileStatus);
         }
@@ -89,11 +92,9 @@ namespace Lombiq.Vsix.Orchard.Commands
         {
             _hasSeenErrorLogUpdate = true;
 
-            var status = GetLogFileStatus();
-
-            if (status.Exists)
+            if (_latestUpdatedLogFileStatus != null && File.Exists(_latestUpdatedLogFileStatus.Path))
             {
-                System.Diagnostics.Process.Start(status.Path);
+                System.Diagnostics.Process.Start(_latestUpdatedLogFileStatus.Path);
             }
             else
             {
@@ -139,9 +140,6 @@ namespace Lombiq.Vsix.Orchard.Commands
                 _openErrorLogCommand.Text = "Orchard error log doesn't exist or hasn't been updated";
             }
         }
-
-        private ILogFileStatus GetLogFileStatus() =>
-            _logWatcher.GetLogFileStatus();
 
         private void StartLogFileWatching() =>
             _logWatcher.StartWatching();
