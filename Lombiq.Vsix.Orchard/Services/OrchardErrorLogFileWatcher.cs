@@ -1,5 +1,7 @@
 ﻿using EnvDTE;
 using Lombiq.Vsix.Orchard.Models;
+using Microsoft.VisualStudio.Shell;
+using Microsoft.VisualStudio.Shell.Interop;
 using System;
 using System.IO;
 using System.Timers;
@@ -21,10 +23,11 @@ namespace Lombiq.Vsix.Orchard.Services
         public event EventHandler<LogChangedEventArgs> LogUpdated;
 
 
-        public OrchardErrorLogFileWatcher(ILogWatcherSettingsAccessor logWatcherSettingsAccessor, DTE dte)
+        public OrchardErrorLogFileWatcher(IServiceProvider serviceProvider)
         {
-            _logWatcherSettingsAccessor = logWatcherSettingsAccessor;
-            _dte = dte;
+            _logWatcherSettingsAccessor = serviceProvider.GetService<ILogWatcherSettingsAccessor>();
+            _dte = Package.GetGlobalService(typeof(SDTE)) as DTE;
+
             _timer = new Timer();
         }
 

@@ -267,10 +267,12 @@
     <None Include="ItemTemplates\Orchard\CP\DisplayTemplate.cshtml.template" />
     <None Include="ItemTemplates\Orchard\CP\EditorTemplate.cshtml.template" />
     <None Include="ItemTemplates\Orchard\CPWR\Migrations.cs.template" />
+    <Compile Include="Commands\OpenErrorLogCommand.cs" />
     <Compile Include="Commands\InjectDependencyCommand.cs" />
     <Compile Include="Constants\CommandBarNames.cs" />
     <Compile Include="Constants\DependencyInjectorErrorCodes.cs" />
     <Compile Include="Exceptions\DependencyToConstructorInjectorException.cs" />
+    <Compile Include="Extensions\ServiceProviderExtensions.cs" />
     <Compile Include="Forms\InjectDependencyDialog.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -297,8 +299,6 @@
     <Compile Include="Services\DefaultFieldNameFromGenericTypeGenerator.cs" />
     <Compile Include="Services\DependencyInjector.cs" />
     <Compile Include="Services\DefaultFieldNameFromDependencyGenerator.cs" />
-    <Compile Include="Services\IPackageRegistrator.cs" />
-    <Compile Include="Services\LogWatcherPackageRegistrator.cs" />
     <Compile Include="Services\OrchardErrorLogFileWatcher.cs" />
     <Compile Include="Services\IFieldNameFromDependencyGenerator.cs" />
     <Compile Include="Services\ILogWatcherSettingsAccessor.cs" />

@@ -2,53 +2,64 @@
 using Lombiq.Vsix.Orchard.Constants;
 using Lombiq.Vsix.Orchard.Helpers;
 using Lombiq.Vsix.Orchard.Models;
+using Lombiq.Vsix.Orchard.Services;
 using Microsoft.VisualStudio.CommandBars;
 using Microsoft.VisualStudio.Shell;
+using Microsoft.VisualStudio.Shell.Interop;
 using System;
-using System.Collections;
 using System.ComponentModel.Design;
 
-namespace Lombiq.Vsix.Orchard.Services
+namespace Lombiq.Vsix.Orchard.Commands
 {
-    public class LogWatcherPackageRegistrator : IPackageRegistrator
+    internal sealed class OpenErrorLogCommand : IDisposable
     {
+        public const int CommandId = CommandIds.OpenErrorLogCommandId;
+        public static readonly Guid CommandSet = PackageGuids.LombiqOrchardVisualStudioExtensionCommandSetGuid;
+
+
+        private readonly Package _package;
+        private readonly IServiceProvider _serviceProvider;
+        private readonly IMenuCommandService _menuCommandService;
+        private readonly DTE _dte;
         private readonly Lazy<ILogWatcherSettings> _lazyLogWatcherSettings;
         private readonly ILogFileWatcher _logWatcher;
-        private DTE _dte;
-        private IMenuCommandService _menuCommandService;
         private OleMenuCommand _openErrorLogCommand;
         private CommandBar _orchardLogWatcherToolbar;
         private bool _hasSeenErrorLogUpdate;
 
 
-        public LogWatcherPackageRegistrator(
-            ILogWatcherSettingsAccessor logWatcherSettingsAccessor,
-            ILogFileWatcher logFileWatcher)
+        private OpenErrorLogCommand(Package package)
         {
-            _lazyLogWatcherSettings = new Lazy<ILogWatcherSettings>(logWatcherSettingsAccessor.GetSettings);
-            _logWatcher = logFileWatcher;
+            _package = package;
+            _serviceProvider = package;
+
+            _dte = Package.GetGlobalService(typeof(SDTE)) as DTE;
+            _menuCommandService = _serviceProvider.GetService<IMenuCommandService>();
+            _lazyLogWatcherSettings = new Lazy<ILogWatcherSettings>(
+                _serviceProvider.GetService<ILogWatcherSettingsAccessor>().GetSettings);
+            _logWatcher = _serviceProvider.GetService<ILogFileWatcher>();
+
+            Initialize();
         }
 
 
-        public void RegisterCommands(DTE dte, IMenuCommandService menuCommandService)
+        public void Dispose()
         {
-            _dte = dte;
-            _menuCommandService = menuCommandService;
+            _logWatcher.LogUpdated -= LogFileUpdatedCallback;
+            _lazyLogWatcherSettings.Value.SettingsUpdated -= LogWatcherSettingsUpdatedCallback;
 
-            var test = _dte.CommandBars as IEnumerable;
+            _logWatcher.Dispose();
+        }
 
 
+        private void Initialize()
+        {
             _hasSeenErrorLogUpdate = true;
 
             _logWatcher.LogUpdated += LogFileUpdatedCallback;
             _lazyLogWatcherSettings.Value.SettingsUpdated += LogWatcherSettingsUpdatedCallback;
 
-            // Initialize "Open Error Log" toolbar button.
-            _openErrorLogCommand = new OleMenuCommand(
-                OpenErrorLogCallback,
-                new CommandID(
-                    PackageGuids.LombiqOrchardVisualStudioExtensionCommandSetGuid,
-                    (int)CommandIds.OpenErrorLogCommandId));
+            _openErrorLogCommand = new OleMenuCommand(OpenErrorLogCallback, new CommandID(CommandSet, CommandId));
             _openErrorLogCommand.BeforeQueryStatus += OpenErrorLogCommandBeforeQueryStatusCallback;
 
             _menuCommandService.AddCommand(_openErrorLogCommand);
@@ -63,15 +74,6 @@ namespace Lombiq.Vsix.Orchard.Services
                 StartLogFileWatching();
             }
         }
-
-        public void Dispose()
-        {
-            _logWatcher.LogUpdated -= LogFileUpdatedCallback;
-            _lazyLogWatcherSettings.Value.SettingsUpdated -= LogWatcherSettingsUpdatedCallback;
-
-            _logWatcher.Dispose();
-        }
-
 
         private void OpenErrorLogCommandBeforeQueryStatusCallback(object sender, EventArgs e) =>
             UpdateOpenErrorLogCommandAccessibilityAndText();
@@ -124,8 +126,8 @@ namespace Lombiq.Vsix.Orchard.Services
                 _openErrorLogCommand.Enabled = false;
                 _openErrorLogCommand.Text = "Solution is not open";
             }
-            else if (_lazyLogWatcherSettings.Value.LogWatcherEnabled && 
-                ((logFileStatus?.HasContent ?? false) || 
+            else if (_lazyLogWatcherSettings.Value.LogWatcherEnabled &&
+                ((logFileStatus?.HasContent ?? false) ||
                 !_hasSeenErrorLogUpdate))
             {
                 _openErrorLogCommand.Enabled = true;
@@ -146,5 +148,13 @@ namespace Lombiq.Vsix.Orchard.Services
 
         private void StopLogFileWatching() =>
             _logWatcher.StopWatching();
+
+
+        public static OpenErrorLogCommand Instance { get; private set; }
+
+        public static void Initialize(Package package)
+        {
+            Instance = Instance ?? new OpenErrorLogCommand(package);
+        }
     }
 }

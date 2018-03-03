@@ -21,7 +21,7 @@ namespace Lombiq.Vsix.Orchard.Commands
 
         private readonly Package _package;
         private readonly IServiceProvider _serviceProvider;
-        private readonly OleMenuCommandService _menuCommandService;
+        private readonly IMenuCommandService _menuCommandService;
         private readonly IDependencyInjector _dependencyInjector;
         private readonly IEnumerable<IFieldNameFromDependencyGenerator> _fieldNameGenerators;
         private readonly DTE _dte;
@@ -33,9 +33,9 @@ namespace Lombiq.Vsix.Orchard.Commands
             _serviceProvider = package;
 
             _dte = Package.GetGlobalService(typeof(SDTE)) as DTE;
-            _dependencyInjector = _serviceProvider.GetService(typeof(IDependencyInjector)) as IDependencyInjector;
-            _fieldNameGenerators = _serviceProvider.GetService(typeof(IEnumerable<IFieldNameFromDependencyGenerator>)) as IEnumerable<IFieldNameFromDependencyGenerator>;
-            _menuCommandService = _serviceProvider.GetService(typeof(IMenuCommandService)) as OleMenuCommandService;
+            _dependencyInjector = _serviceProvider.GetService<IDependencyInjector>();
+            _fieldNameGenerators = _serviceProvider.GetService<IEnumerable<IFieldNameFromDependencyGenerator>>();
+            _menuCommandService = _serviceProvider.GetService<IMenuCommandService>();
 
             Initialize();
         }
@@ -101,7 +101,7 @@ namespace Lombiq.Vsix.Orchard.Commands
 
         public static void Initialize(Package package)
         {
-            Instance = new InjectDependencyCommand(package);
+            Instance = Instance ?? new InjectDependencyCommand(package);
         }
     }
 }
