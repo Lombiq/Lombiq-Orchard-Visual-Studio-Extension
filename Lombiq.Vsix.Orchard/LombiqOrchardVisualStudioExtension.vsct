@@ -26,7 +26,7 @@
                 <Parent guid="LombiqOrchardVisualStudioExtensionCommandSetGuid" id="DependencyInjectorToolbarGroup" />
                 <Icon guid="LombiqImagesGuid" id="LombiqSmallBitmapId" />
                 <Strings>
-                    <ButtonText>Inject Dependency</ButtonText>
+                    <ButtonText>Inject Dependency (test)</ButtonText>
                 </Strings>
             </Button>
 

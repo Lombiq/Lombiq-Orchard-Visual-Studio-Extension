@@ -5,6 +5,7 @@ using Lombiq.Vsix.Orchard.Models;
 using Microsoft.VisualStudio.CommandBars;
 using Microsoft.VisualStudio.Shell;
 using System;
+using System.Collections;
 using System.ComponentModel.Design;
 
 namespace Lombiq.Vsix.Orchard.Services
@@ -33,7 +34,10 @@ namespace Lombiq.Vsix.Orchard.Services
         {
             _dte = dte;
             _menuCommandService = menuCommandService;
-            
+
+            var test = _dte.CommandBars as IEnumerable;
+
+
             _hasSeenErrorLogUpdate = true;
 
             _logWatcher.LogUpdated += LogFileUpdatedCallback;
