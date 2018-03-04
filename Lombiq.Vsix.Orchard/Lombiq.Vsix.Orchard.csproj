@@ -368,8 +368,8 @@
     <Resource Include="ItemTemplates\Orchard\CP\Icon.png" />
   </ItemGroup>
   <ItemGroup>
-    <TemplateReference Include="Orchard.ModuleTemplate.1.10.csproj">
-      <PathToProject>../OrchardTemplates/Orchard.ModuleTemplate.1.10/Orchard.ModuleTemplate.1.10.csproj</PathToProject>
+    <TemplateReference Include="Orchard.ModuleTemplate.1.10.2.csproj">
+      <PathToProject>../OrchardTemplates/Orchard.ModuleTemplate.1.10.2/Orchard.ModuleTemplate.1.10.2.csproj</PathToProject>
     </TemplateReference>
     <TemplateReference Include="Orchard.ModuleTemplate.1.9.csproj">
       <PathToProject>../OrchardTemplates\Orchard.ModuleTemplate.1.9/Orchard.ModuleTemplate.1.9.csproj</PathToProject>
