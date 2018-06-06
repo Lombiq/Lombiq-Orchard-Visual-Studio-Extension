@@ -1,6 +1,8 @@
 # Lombiq Orchard Visual Studio Extension readme
 
 
+![image.png](https://github.com/tjulises/Lombiq-Orchard-Visual-Studio-Extension/blob/master/Logo/1.png?raw=true)
+
 
 Visual Studio extension with many features and templates frequently used by  [Lombiq](https://lombiq.com/) developers. Contains [Orchard](http://orchardproject.net/)-related as well as generic goodies.
 
