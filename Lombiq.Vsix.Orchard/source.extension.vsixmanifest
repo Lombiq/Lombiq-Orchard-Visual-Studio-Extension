@@ -24,6 +24,7 @@
         <Asset Type="Microsoft.VisualStudio.ItemTemplate" Path="Output\ItemTempl" />
         <Asset Type="Microsoft.VisualStudio.ProjectTemplate" Path="Output\ProjectTempl" />
         <Asset Type="Microsoft.VisualStudio.Assembly" d:Source="Project" d:ProjectName="%CurrentProject%.TemplateWizards" Path="|Lombiq.Vsix.Orchard.TemplateWizards|" AssemblyName="|Lombiq.Vsix.Orchard.TemplateWizards;AssemblyName|" />
+        <Asset Type="Microsoft.VisualStudio.Assembly" d:Source="File" Path="TemplateBuilder.dll" AssemblyName="TemplateBuilder, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" />
     </Assets>
     <Prerequisites>
         <Prerequisite Id="Microsoft.VisualStudio.Component.CoreEditor" Version="[15.0.26606.0,16.0)" DisplayName="Visual Studio core editor" />
