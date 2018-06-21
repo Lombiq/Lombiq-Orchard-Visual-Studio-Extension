@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27130.2036
+VisualStudioVersion = 15.0.27703.2026
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Orchard Templates", "Orchard Templates", "{1D7A6C1E-AEA0-4C03-9306-022D4393E37A}"
 EndProject
@@ -14,6 +14,11 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TempVSIXProject", "TempVSIXProject\TempVSIXProject.csproj", "{FF660579-E03C-4AC1-A37C-90E5555A0B8D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Orchard.ModuleTemplate.1.10.2", "OrchardTemplates\Orchard.ModuleTemplate.1.10.2\Orchard.ModuleTemplate.1.10.2.csproj", "{02943620-8EE1-4A28-9EFE-08B18B0AAFEE}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{C8659693-2378-4A5D-B136-4983D0CDD7EE}"
+	ProjectSection(SolutionItems) = preProject
+		Readme.md = Readme.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -47,6 +52,6 @@ Global
 		{02943620-8EE1-4A28-9EFE-08B18B0AAFEE} = {1D7A6C1E-AEA0-4C03-9306-022D4393E37A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {70220338-B482-484E-A94B-CC2B3B50B0BA}
+		SolutionGuid = {53B49BEA-6574-4868-B17B-B81D370899B1}
 	EndGlobalSection
 EndGlobal
