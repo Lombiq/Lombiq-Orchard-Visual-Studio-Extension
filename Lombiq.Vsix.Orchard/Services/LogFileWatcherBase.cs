@@ -87,8 +87,8 @@ namespace Lombiq.Vsix.Orchard.Services
         protected virtual IEnumerable<string> GetLogFileNames()
         {
             var logFilePaths = _logWatcherSettingsAccessor.GetSettings().GetLogFileFolderPaths();
-            var solutionPath = IsSolutionOpen() ? Path.GetDirectoryName(_dte.Solution.FileName) : "";
-            //var errorLogFileName = "orchard-error-" + DateTime.Today.ToString("yyyy.MM.dd") + ".log";
+            var solutionPath = IsSolutionOpen() && !string.IsNullOrEmpty(_dte.Solution.FileName) ? 
+                Path.GetDirectoryName(_dte.Solution.FileName) : "";
 
             return logFilePaths.Select(path => Path.Combine(solutionPath, path, GetLogFileName()));
         }

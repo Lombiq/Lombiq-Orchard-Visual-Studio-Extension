@@ -1,9 +1,0 @@
-﻿@model $rootnamespace$.Models.$contentpartname$Part
-
-<fieldset>
-    <legend>@T("$contentpartname$")</legend>
-
-    <ol>
-$shapepropertyeditors$
-    </ol>
-</fieldset>

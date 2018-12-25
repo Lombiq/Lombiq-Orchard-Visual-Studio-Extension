@@ -2,7 +2,7 @@
 
 
 
-Visual Studio extension with many features and templates frequently used by  [Lombiq](https://lombiq.com/) developers. Contains [Orchard](http://orchardproject.net/)-related as well as generic goodies.
+Visual Studio extension with many features frequently used by  [Lombiq](https://lombiq.com/) developers. Contains [Orchard](http://orchardproject.net/)-related as well as generic goodies.
 
 The extension can also be installed from the [Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=LombiqVisualStudioExtension.LombiqOrchardVisualStudioExtension), including installing directly from inside Visual Studio from under Tools &gt; Extensions and Updates.
 
@@ -11,17 +11,6 @@ The extension can also be installed from the [Visual Studio Marketplace](https:/
 
 - Dependency Injector: when a class is opened in the editor you can inject a dependency with this feature. Type the dependency name, hit Enter and it will be injected. Can be invoked from under the Tools menu as "Inject Dependency".
 - Orchard Error Log Watcher: watches the Orchard error log and if the log file exists and is not empty then notifies the user by making a button in the "Orchard Log Watcher" toolbar enabled. Clicking this button will open the error log using the default application. The feature can be turned off in the Options -> Orchard Log Watcher page. Turning the feature on and off also makes the related toolbar visible or hidden on the toolbar strip.
-
-
-## Templates
-
-Item templates can be found in "Add" &gt; "New Item" and in "Visual C#" &gt; "Orchard" categories. Project templates can be found in "Add" &gt; "New Project" and in "Visual C#" &gt; "Web" categories.
-
-- Content Part templates: IMPORTANT: Always select the project itself before you are planning to add one of this kind of templates. These templates are to help your content part development. Eg. Content Part with or without record, Content Part with a generated Content Type etc. Every necessary file is generated (ie. Drivers, Handlers, Migrations etc.). You can also specify properties right after setting the name of the template, so all of the necessary code will be also generated. NOTE: Placement.info won't be created. :-(
-- Empty Shape Template File: generates an empty cshtml file.
-- Dependency Template File: generates an interface inherited from IDependency and a class that implements this interface. Those will be in one single file and the file name will be the class' name.
-- Orchard 1.9 Module Template: scaffolds an Orchard 1.9 module into your solution. NOTE: make sure that the folder you selected is the Modules folder.
-- Orchard 1.10 Module Template: scaffolds an Orchard 1.10 module, see the description above.
 
 
 ## Source repositories

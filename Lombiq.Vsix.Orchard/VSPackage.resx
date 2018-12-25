@@ -133,7 +133,7 @@
     <value>Lombiq.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="LombiqOrchardVisualStudioExtensionDescription" xml:space="preserve">
-    <value>Visual Studio extension with many features and templates frequently used by Lombiq developers. Contains Orchard-related as well as generic goodies.</value>
+    <value>Visual Studio extension with many features frequently used by Lombiq developers. Contains Orchard-related as well as generic goodies.</value>
   </data>
   <data name="LombiqOrchardVisualStudioExtensionName" xml:space="preserve">
     <value>Lombiq Orchard Visual Studio Extension</value>
