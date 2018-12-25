@@ -1,7 +1,7 @@
 <VSTemplate Version="3.0.0" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" Type="Project">
 	<TemplateData>
-		<Name>Orchard 1.10 Module</Name>
-		<Description>Adding an Orchard 1.10 module to your solution.</Description>
+		<Name>Orchard 1.10.2 Module</Name>
+		<Description>Adding an Orchard 1.10.2 module to your solution.</Description>
 		<DefaultName>Orchard.MyModule</DefaultName>
 		<ProjectType>CSharp</ProjectType>
 		<ProjectSubType>Orchard</ProjectSubType>
@@ -16,7 +16,7 @@
 		<NumberOfParentCategoriesToRollUp>1</NumberOfParentCategoriesToRollUp>
 	</TemplateData>
 	<TemplateContent>
-		<Project File="Orchard.ModuleTemplate.1.10.csproj" ReplaceParameters="true">
+		<Project File="Orchard.ModuleTemplate.1.10.2.csproj" ReplaceParameters="true">
 		</Project>
 	</TemplateContent>
 </VSTemplate>
