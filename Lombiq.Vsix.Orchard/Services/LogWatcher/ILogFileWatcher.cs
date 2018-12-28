@@ -1,6 +1,5 @@
 ﻿using Lombiq.Vsix.Orchard.Models;
 using System;
-using System.Collections.Generic;
 
 namespace Lombiq.Vsix.Orchard.Services.LogWatcher
 {
@@ -25,10 +24,10 @@ namespace Lombiq.Vsix.Orchard.Services.LogWatcher
         void StopWatching();
 
         /// <summary>
-        /// Checks if the log files exist in any possible log paths and has content.
+        /// Checks if the log file exists in any possible log paths and has content.
         /// </summary>
-        /// <returns>Log file statuses and details.</returns>
-        IEnumerable<ILogFileStatus> GetLogFileStatuses();
+        /// <returns>Log file status and details.</returns>
+        ILogFileStatus GetLogFileStatus();
     }
 
 
