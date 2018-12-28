@@ -93,7 +93,7 @@ namespace Lombiq.Vsix.Orchard.Commands
                         switch (result.ErrorCode)
                         {
                             case DependencyInjectorErrorCodes.ClassNotFound:
-                                DialogHelpers.Warning("Could not inject depencency because the class was not found in this file.", injectDependencyCaption);
+                                DialogHelpers.Warning("Could not inject dependency because the class was not found in this file.", injectDependencyCaption);
                                 break;
                             default:
                                 DialogHelpers.Warning("Could not inject dependency.", injectDependencyCaption);
