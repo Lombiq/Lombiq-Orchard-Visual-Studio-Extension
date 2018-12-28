@@ -2,7 +2,7 @@
 using Lombiq.Vsix.Orchard.Constants;
 using Lombiq.Vsix.Orchard.Models;
 using Lombiq.Vsix.Orchard.Options;
-using Lombiq.Vsix.Orchard.Services;
+using Lombiq.Vsix.Orchard.Services.DependencyInjector;
 using Lombiq.Vsix.Orchard.Services.LogWatcher;
 using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.Shell;

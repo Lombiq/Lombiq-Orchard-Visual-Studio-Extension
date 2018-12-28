@@ -1,4 +1,4 @@
-﻿namespace Lombiq.Vsix.Orchard.Services
+﻿namespace Lombiq.Vsix.Orchard.Services.DependencyInjector
 {
     public class DefaultFieldNameFromDependencyGenerator : FieldNameFromDependencyGeneratorBase
     {

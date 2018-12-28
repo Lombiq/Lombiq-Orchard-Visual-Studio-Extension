@@ -1,4 +1,4 @@
-﻿namespace Lombiq.Vsix.Orchard.Services
+﻿namespace Lombiq.Vsix.Orchard.Services.DependencyInjector
 {
     /// <summary>
     /// Service for generating a private field name from a dependency after injecting it.

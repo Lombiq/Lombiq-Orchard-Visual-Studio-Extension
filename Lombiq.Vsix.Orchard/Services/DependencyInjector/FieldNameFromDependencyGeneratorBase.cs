@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace Lombiq.Vsix.Orchard.Services
+namespace Lombiq.Vsix.Orchard.Services.DependencyInjector
 {
     public abstract class FieldNameFromDependencyGeneratorBase : IFieldNameFromDependencyGenerator
     {

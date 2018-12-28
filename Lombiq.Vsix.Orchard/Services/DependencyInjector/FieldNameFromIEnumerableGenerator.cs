@@ -2,7 +2,7 @@
 using System.Globalization;
 using System.Text.RegularExpressions;
 
-namespace Lombiq.Vsix.Orchard.Services
+namespace Lombiq.Vsix.Orchard.Services.DependencyInjector
 {
     public class FieldNameFromIEnumerableGenerator : FieldNameFromGenericTypeGeneratorBase
     {

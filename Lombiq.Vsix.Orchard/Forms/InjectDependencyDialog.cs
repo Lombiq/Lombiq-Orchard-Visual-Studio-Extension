@@ -1,4 +1,4 @@
-﻿using Lombiq.Vsix.Orchard.Services;
+﻿using Lombiq.Vsix.Orchard.Services.DependencyInjector;
 using System;
 using System.Collections.Generic;
 using System.Linq;

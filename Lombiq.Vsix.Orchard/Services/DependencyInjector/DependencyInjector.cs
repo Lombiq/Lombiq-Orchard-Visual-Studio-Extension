@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-namespace Lombiq.Vsix.Orchard.Services
+namespace Lombiq.Vsix.Orchard.Services.DependencyInjector
 {
     /// <summary>
     /// Injects dependency to the constructor and inserts the necessary code lines.

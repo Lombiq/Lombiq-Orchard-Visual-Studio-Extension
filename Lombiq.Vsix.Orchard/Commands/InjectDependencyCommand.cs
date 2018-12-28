@@ -3,6 +3,7 @@ using Lombiq.Vsix.Orchard.Constants;
 using Lombiq.Vsix.Orchard.Forms;
 using Lombiq.Vsix.Orchard.Helpers;
 using Lombiq.Vsix.Orchard.Services;
+using Lombiq.Vsix.Orchard.Services.DependencyInjector;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 using System;
