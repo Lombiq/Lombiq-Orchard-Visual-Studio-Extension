@@ -54,6 +54,8 @@ namespace Lombiq.Vsix.Orchard
                 new DefaultFieldNameFromDependencyGenerator(),
                 new DefaultFieldNameFromGenericTypeGenerator(),
                 new FieldNameFromIEnumerableGenerator());
+            serviceContainer.AddServices<IDependencyNameProvider>(
+                new CommonDependencyNamesProvider());
             serviceContainer.AddService<ILogWatcherSettingsAccessor>(this);
             serviceContainer.AddServices<ILogFileWatcher>(
                 new OrchardErrorLogFileWatcher(this),

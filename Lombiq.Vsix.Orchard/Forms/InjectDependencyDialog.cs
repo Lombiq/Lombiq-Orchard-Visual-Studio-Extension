@@ -9,15 +9,22 @@ namespace Lombiq.Vsix.Orchard.Forms
     public partial class InjectDependencyDialog : Form
     {
         private readonly IEnumerable<IFieldNameFromDependencyGenerator> _fieldNameGenerators;
+        private readonly IEnumerable<IDependencyNameProvider> _dependencyNameProviders;
+        private readonly string _className;
 
 
         public string DependencyName => dependencyNameTextBox.Text;
         public string PrivateFieldName => fieldNameTextBox.Text;
 
 
-        public InjectDependencyDialog(IEnumerable<IFieldNameFromDependencyGenerator> fieldNameGenerators)
+        public InjectDependencyDialog(
+            IEnumerable<IFieldNameFromDependencyGenerator> fieldNameGenerators,
+            IEnumerable<IDependencyNameProvider> dependencyNameProviders,
+            string className = "")
         {
             _fieldNameGenerators = fieldNameGenerators;
+            _dependencyNameProviders = dependencyNameProviders;
+            _className = className;
 
             InitializeComponent();
         }
@@ -38,6 +45,17 @@ namespace Lombiq.Vsix.Orchard.Forms
             base.OnLoad(e);
 
             ActiveControl = dependencyNameTextBox;
+            
+            var suggestedDependencyNames = new AutoCompleteStringCollection();
+            suggestedDependencyNames.AddRange(
+                _dependencyNameProviders
+                    .OrderBy(provider => provider.Priority)
+                    .SelectMany(provider => provider.GetDependencyNames(_className))
+                    .Distinct(StringComparer.OrdinalIgnoreCase)
+                    .ToArray());
+            dependencyNameTextBox.AutoCompleteCustomSource = suggestedDependencyNames;
+            dependencyNameTextBox.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+            dependencyNameTextBox.AutoCompleteSource = AutoCompleteSource.CustomSource;
         }
 
 

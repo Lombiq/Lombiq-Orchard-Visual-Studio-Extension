@@ -21,6 +21,13 @@ namespace Lombiq.Vsix.Orchard.Services.DependencyInjector
         /// <param name="fieldName">Name of the private readonly field that needs to be created.</param>
         /// <returns>Result of the dependency injection.</returns>
         IResult Inject(Document document, string dependencyName, string fieldName);
+
+        /// <summary>
+        /// Returns the expected class name where the dependency needs to be injected.
+        /// </summary>
+        /// <param name="document">Visual Studio document containing the class where the dependency needs to be injected.</param>
+        /// <returns>Expected class name.</returns>
+        string GetExpectedClassName(Document document);
     }
 
 
@@ -34,7 +41,7 @@ namespace Lombiq.Vsix.Orchard.Services.DependencyInjector
                 FieldName = correctFieldName,
                 VariableName = correctFieldName.Substring(1),
                 DependencyName = dependecyName,
-                ClassName = Path.GetFileNameWithoutExtension(document.FullName),
+                ClassName = GetExpectedClassName(document),
                 Document = document
             };
 
@@ -72,6 +79,9 @@ namespace Lombiq.Vsix.Orchard.Services.DependencyInjector
 
             return Result.SuccessResult;
         }
+
+        public string GetExpectedClassName(Document document) =>
+            Path.GetFileNameWithoutExtension(document.FullName);
 
 
         private static void GetCodeLines(DependencyInjectionContext context)

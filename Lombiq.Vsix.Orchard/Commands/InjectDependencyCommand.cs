@@ -25,6 +25,7 @@ namespace Lombiq.Vsix.Orchard.Commands
         private readonly IMenuCommandService _menuCommandService;
         private readonly IDependencyInjector _dependencyInjector;
         private readonly IEnumerable<IFieldNameFromDependencyGenerator> _fieldNameGenerators;
+        private readonly IEnumerable<IDependencyNameProvider> _dependencyNameProviders;
         private readonly DTE _dte;
 
         
@@ -36,6 +37,7 @@ namespace Lombiq.Vsix.Orchard.Commands
             _dte = Package.GetGlobalService(typeof(SDTE)) as DTE;
             _dependencyInjector = _serviceProvider.GetService<IDependencyInjector>();
             _fieldNameGenerators = _serviceProvider.GetServices<IFieldNameFromDependencyGenerator>();
+            _dependencyNameProviders = _serviceProvider.GetServices<IDependencyNameProvider>();
             _menuCommandService = _serviceProvider.GetService<IMenuCommandService>();
 
             Initialize();
@@ -61,7 +63,10 @@ namespace Lombiq.Vsix.Orchard.Commands
                 return;
             }
 
-            using (var injectDependencyDialog = new InjectDependencyDialog(_fieldNameGenerators))
+            using (var injectDependencyDialog = new InjectDependencyDialog(
+                _fieldNameGenerators, 
+                _dependencyNameProviders,
+                _dependencyInjector.GetExpectedClassName(_dte.ActiveDocument)))
             {
                 if (injectDependencyDialog.ShowDialog() == DialogResult.OK)
                 {
@@ -79,14 +84,19 @@ namespace Lombiq.Vsix.Orchard.Commands
                         return;
                     }
 
-                    var result = _dependencyInjector.Inject(_dte.ActiveDocument, injectDependencyDialog.DependencyName, injectDependencyDialog.PrivateFieldName);
+                    var result = _dependencyInjector.Inject(
+                        _dte.ActiveDocument, 
+                        injectDependencyDialog.DependencyName, 
+                        injectDependencyDialog.PrivateFieldName);
 
                     if (!result.Success)
                     {
                         switch (result.ErrorCode)
                         {
                             case DependencyInjectorErrorCodes.ClassNotFound:
-                                DialogHelpers.Warning("Could not inject depencency because the class was not found in this file.", injectDependencyCaption);
+                                DialogHelpers.Warning(
+                                    "Could not inject dependency because the class was not found in this file.", 
+                                    injectDependencyCaption);
                                 break;
                             default:
                                 DialogHelpers.Warning("Could not inject dependency.", injectDependencyCaption);
