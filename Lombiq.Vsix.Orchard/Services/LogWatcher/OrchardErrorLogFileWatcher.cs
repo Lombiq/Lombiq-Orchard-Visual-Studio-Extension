@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Lombiq.Vsix.Orchard.Services
+namespace Lombiq.Vsix.Orchard.Services.LogWatcher
 {
     public class OrchardErrorLogFileWatcher : LogFileWatcherBase, ILogFileWatcher
     {

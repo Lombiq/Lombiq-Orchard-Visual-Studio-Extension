@@ -3,10 +3,10 @@ using Lombiq.Vsix.Orchard.Constants;
 using Lombiq.Vsix.Orchard.Models;
 using Lombiq.Vsix.Orchard.Options;
 using Lombiq.Vsix.Orchard.Services;
+using Lombiq.Vsix.Orchard.Services.LogWatcher;
 using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.Shell;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel.Design;
 using System.Runtime.InteropServices;
 

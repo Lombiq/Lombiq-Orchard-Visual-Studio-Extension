@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Lombiq.Vsix.Orchard.Services
+namespace Lombiq.Vsix.Orchard.Services.LogWatcher
 {
     /// <summary>
     /// Watches a specific log file and fires events if the log file has changed or removed.

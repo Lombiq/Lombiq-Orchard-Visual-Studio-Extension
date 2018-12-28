@@ -1,6 +1,6 @@
 ﻿using Lombiq.Vsix.Orchard.Models;
 
-namespace Lombiq.Vsix.Orchard.Services
+namespace Lombiq.Vsix.Orchard.Services.LogWatcher
 {
     /// <summary>
     /// Service for accessing the Log Watcher settings.

@@ -8,7 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Timers;
 
-namespace Lombiq.Vsix.Orchard.Services
+namespace Lombiq.Vsix.Orchard.Services.LogWatcher
 {
     public abstract class LogFileWatcherBase
     {

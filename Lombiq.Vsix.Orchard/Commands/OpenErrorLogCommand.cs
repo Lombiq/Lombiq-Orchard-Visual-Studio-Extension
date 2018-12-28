@@ -2,7 +2,7 @@
 using Lombiq.Vsix.Orchard.Constants;
 using Lombiq.Vsix.Orchard.Helpers;
 using Lombiq.Vsix.Orchard.Models;
-using Lombiq.Vsix.Orchard.Services;
+using Lombiq.Vsix.Orchard.Services.LogWatcher;
 using Microsoft.VisualStudio.CommandBars;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
