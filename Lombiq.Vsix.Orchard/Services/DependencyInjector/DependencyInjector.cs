@@ -17,10 +17,9 @@ namespace Lombiq.Vsix.Orchard.Services.DependencyInjector
         /// Injects the given dependency, creates the private readonly field and also inserts the assignment to the constructor.
         /// </summary>
         /// <param name="document">Visual Studio document containing the class where the dependency needs to be injected.</param>
-        /// <param name="dependencyName">Name of the dependency (eg. <c>IOrchardServices</c>).</param>
-        /// <param name="fieldName">Name of the private readonly field that needs to be created.</param>
+        /// <param name="injectedDependency">Field and constructor parameter type and name to be added to the code.</param>
         /// <returns>Result of the dependency injection.</returns>
-        IResult Inject(Document document, string dependencyName, string fieldName);
+        IResult Inject(Document document, DependencyInjectionData dependencyInjectionData);
 
         /// <summary>
         /// Returns the expected class name where the dependency needs to be injected.
@@ -33,14 +32,14 @@ namespace Lombiq.Vsix.Orchard.Services.DependencyInjector
 
     public class DependencyInjector : IDependencyInjector
     {
-        public IResult Inject(Document document, string dependecyName, string fieldName)
+        public IResult Inject(Document document, DependencyInjectionData dependencyInjectionData)
         {
-            var correctFieldName = fieldName[0] == '_' ? fieldName : ("_" + fieldName);
             var context = new DependencyInjectionContext
             {
-                FieldName = correctFieldName,
-                VariableName = correctFieldName.Substring(1),
-                DependencyName = dependecyName,
+                FieldName = dependencyInjectionData.FieldName,
+                VariableName = dependencyInjectionData.ConstructorParameterName,
+                FieldType = dependencyInjectionData.FieldType,
+                VariableType = dependencyInjectionData.ConstructorParameterType,
                 ClassName = GetExpectedClassName(document),
                 Document = document
             };
@@ -222,7 +221,7 @@ namespace Lombiq.Vsix.Orchard.Services.DependencyInjector
         {
             var constructorLine = context.CodeLines[context.ConstructorLineIndex];
             var indentSize = GetIndentSizeOfLine(constructorLine);
-            var injection = context.DependencyName + " " + context.VariableName;
+            var injection = context.VariableType + " " + context.VariableName;
 
             // CASE 1: No parameters in constructor.
             if (constructorLine.Contains("()"))
@@ -263,7 +262,7 @@ namespace Lombiq.Vsix.Orchard.Services.DependencyInjector
         {
             var classStartLine = context.CodeLines[context.ClassStartLineIndex];
             var indentSize = GetIndentSizeOfLine(classStartLine);
-            var privateFieldLine = new string(' ', indentSize * 2) + "private readonly " + context.DependencyName + " " + context.FieldName + ";";
+            var privateFieldLine = new string(' ', indentSize * 2) + "private readonly " + context.FieldType + " " + context.FieldName + ";";
 
             for (int i = context.ClassStartLineIndex + (context.BraceStyle == BraceStyles.OpenInNewLine ? 2 : 1); i < context.CodeLines.Count; i++)
             {
@@ -282,7 +281,7 @@ namespace Lombiq.Vsix.Orchard.Services.DependencyInjector
 
             var textSelection = context.Document.Selection as TextSelection;
             textSelection.GotoLine(context.ClassStartLineIndex + 3);
-            textSelection.FindPattern(context.DependencyName);
+            textSelection.FindPattern(context.FieldType);
         }
 
         private static int GetIndentSizeOfLine(string codeLine)
@@ -317,7 +316,8 @@ namespace Lombiq.Vsix.Orchard.Services.DependencyInjector
             public IList<string> CodeLines { get; set; }
             public string FieldName { get; set; }
             public string VariableName { get; set; }
-            public string DependencyName { get; set; }
+            public string VariableType { get; set; }
+            public string FieldType { get; set; }
             public string ClassName { get; set; }
             public int ClassStartLineIndex { get; set; }
             public int ConstructorLineIndex { get; set; }

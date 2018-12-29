@@ -1,4 +1,5 @@
-﻿using System.Data.Entity.Design.PluralizationServices;
+﻿using Lombiq.Vsix.Orchard.Models;
+using System.Data.Entity.Design.PluralizationServices;
 using System.Globalization;
 using System.Text.RegularExpressions;
 
@@ -15,7 +16,7 @@ namespace Lombiq.Vsix.Orchard.Services.DependencyInjector
         public override bool CanGenerate(string dependency) => 
             Regex.IsMatch(dependency, IEnumerableNameRegexPattern);
 
-        public override string Generate(string dependency, bool useShortName)
+        public override DependencyInjectionData Generate(string dependency, bool useShortName)
         {
             // This implementation handles only the dependencies with IEnumerable<T> generic types. It places the
             // generic parameter right after the underscore using its plural form.
@@ -29,7 +30,13 @@ namespace Lombiq.Vsix.Orchard.Services.DependencyInjector
                 .CreateService(CultureInfo.GetCultureInfo("en-GB"))
                 .Pluralize(fieldNameWithoutUnderscore);
 
-            return GetStringWithUnderscore(pluralizedFieldNameWithoutUnderscore);
+            return new DependencyInjectionData
+            {
+                FieldName = GetStringWithUnderscore(pluralizedFieldNameWithoutUnderscore),
+                FieldType = dependency,
+                ConstructorParameterName = pluralizedFieldNameWithoutUnderscore,
+                ConstructorParameterType = dependency
+            };
         }
     }
 }

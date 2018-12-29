@@ -1,4 +1,5 @@
-﻿using Lombiq.Vsix.Orchard.Services.DependencyInjector;
+﻿using Lombiq.Vsix.Orchard.Models;
+using Lombiq.Vsix.Orchard.Services.DependencyInjector;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +15,6 @@ namespace Lombiq.Vsix.Orchard.Forms
 
 
         public string DependencyName => dependencyNameTextBox.Text;
-        public string PrivateFieldName => fieldNameTextBox.Text;
 
 
         public InjectDependencyDialog(
@@ -30,14 +30,14 @@ namespace Lombiq.Vsix.Orchard.Forms
         }
 
 
-        public string GenerateFieldName(string dependency, bool useShortName = false)
-        {
-            var fieldNameGenerator = _fieldNameGenerators
-                .OrderByDescending(service => service.Priority)
-                .First(service => service.CanGenerate(dependency));
-
-            return fieldNameGenerator.Generate(dependency, useShortName);
-        }
+        public DependencyInjectionData GetDependencyInjectionData() =>
+            new DependencyInjectionData
+            {
+                FieldName = fieldNameTextBox.Text,
+                FieldType = fieldTypeTextBox.Text,
+                ConstructorParameterName = parameterNameTextBox.Text,
+                ConstructorParameterType = parameterTypeTextBox.Text
+            };
 
 
         protected override void OnLoad(EventArgs e)
@@ -59,9 +59,24 @@ namespace Lombiq.Vsix.Orchard.Forms
         }
 
 
-        private void DependencyNameTextBoxTextChanged(object sender, EventArgs e) =>
-            fieldNameTextBox.Text = DependencyName.Length == 0 ? 
-                string.Empty : 
-                GenerateFieldName(DependencyName, generateShortFieldNameCheckBox.Checked);
+        private DependencyInjectionData GenerateInjectedDependency(string dependency, bool useShortName = false)
+        {
+            var fieldNameGenerator = _fieldNameGenerators
+                .OrderByDescending(service => service.Priority)
+                .First(service => service.CanGenerate(dependency));
+
+            return fieldNameGenerator.Generate(dependency, useShortName);
+        }
+
+        private void DependencyNameTextBoxTextChanged(object sender, EventArgs e)
+        {
+            var injectedDependency = DependencyName.Length == 0 ? 
+                null : GenerateInjectedDependency(DependencyName, generateShortFieldNameCheckBox.Checked);
+
+            fieldNameTextBox.Text = injectedDependency?.FieldName ?? "";
+            fieldTypeTextBox.Text = injectedDependency?.FieldType ?? "";
+            parameterNameTextBox.Text = injectedDependency?.ConstructorParameterName ?? "";
+            parameterTypeTextBox.Text = injectedDependency?.ConstructorParameterType ?? "";
+        }
     }
 }

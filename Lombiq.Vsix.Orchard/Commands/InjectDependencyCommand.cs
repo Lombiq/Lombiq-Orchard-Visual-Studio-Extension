@@ -70,24 +70,21 @@ namespace Lombiq.Vsix.Orchard.Commands
             {
                 if (injectDependencyDialog.ShowDialog() == DialogResult.OK)
                 {
-                    if (string.IsNullOrEmpty(injectDependencyDialog.DependencyName))
-                    {
-                        DialogHelpers.Warning("Dependency name cannot be empty.", injectDependencyCaption);
+                    var dependencyInjectionData = injectDependencyDialog.GetDependencyInjectionData();
 
-                        return;
-                    }
-
-                    if (string.IsNullOrEmpty(injectDependencyDialog.PrivateFieldName))
+                    if (string.IsNullOrEmpty(dependencyInjectionData.FieldName) ||
+                        string.IsNullOrEmpty(dependencyInjectionData.FieldType) ||
+                        string.IsNullOrEmpty(dependencyInjectionData.ConstructorParameterName) ||
+                        string.IsNullOrEmpty(dependencyInjectionData.ConstructorParameterType))
                     {
-                        DialogHelpers.Warning("Private field name cannot be empty.", injectDependencyCaption);
+                        DialogHelpers.Warning("Field and constructor parameter names and types must be filled.", injectDependencyCaption);
 
                         return;
                     }
 
                     var result = _dependencyInjector.Inject(
                         _dte.ActiveDocument, 
-                        injectDependencyDialog.DependencyName, 
-                        injectDependencyDialog.PrivateFieldName);
+                        injectDependencyDialog.GetDependencyInjectionData());
 
                     if (!result.Success)
                     {

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Lombiq.Vsix.Orchard.Models;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Lombiq.Vsix.Orchard.Services.DependencyInjector
@@ -10,7 +11,7 @@ namespace Lombiq.Vsix.Orchard.Services.DependencyInjector
 
         public abstract bool CanGenerate(string dependency);
 
-        public abstract string Generate(string dependency, bool useShortName);
+        public abstract DependencyInjectionData Generate(string dependency, bool useShortName);
 
 
         protected virtual string GetStringWithUnderscore(string value) => 
