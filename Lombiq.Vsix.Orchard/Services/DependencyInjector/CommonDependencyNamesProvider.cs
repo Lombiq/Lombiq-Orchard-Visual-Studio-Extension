@@ -7,20 +7,42 @@ namespace Lombiq.Vsix.Orchard.Services.DependencyInjector
     {
         private static readonly IEnumerable<string> CommonDependencyNames = new[]
         {
-            "IWorkContextAccessor",
-            "IHttpContextAccessor",
-            "IOrchardServices",
+            "IAuthorizer",
+            "IClock",
+            "IContentDefinitionManager",
+            "IContentItemDisplayManager",
             "IContentManager",
+            "IDisplayManager<>",
+            "IEnumerable<>",
+            "IHtmlLocalizer<TClassName>",
+            "IHttpContextAccessor",
+            "IJsonConverter",
+            "ILogger<TClassName>",
+            "IMembershipService",
+            "INotifier",
+            "IOptions<>",
+            "IOrchardServices",
+            "IProjectionManager",
             "IRepository<>",
-            "ILogger<T>",
-            "IStringLocalizer<T>",
-            "IHtmlLocalizer<T>"
+            "IScheduledTaskManager",
+            "ISession",
+            "IShapeDisplay",
+            "IShapeFactory",
+            "ISiteService",
+            "IStringLocalizer<TClassName>",
+            "ITokenizer",
+            "ITransactionManager",
+            "IUserEventHandler",
+            "IUserService",
+            "IWorkContextAccessor",
+            "UrlHelper",
+            "UserManager<>",
         };
 
         public double Priority => 10;
 
 
         public IEnumerable<string> GetDependencyNames(string className = "") =>
-            CommonDependencyNames.Select(dependencyName => dependencyName.Replace("<T>", $"<{className}>"));
+            CommonDependencyNames.Select(dependencyName => dependencyName.Replace("<TClassName>", $"<{className}>"));
     }
 }
