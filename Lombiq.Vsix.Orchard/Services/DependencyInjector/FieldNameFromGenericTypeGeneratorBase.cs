@@ -10,6 +10,7 @@
 
             return new CleanedGenericTypeSegments
             {
+                GenericTypeName = genericType,
                 CleanedGenericTypeName = RemoveFirstLetterIfInterface(genericType),
                 CleanedGenericParameterName = RemoveFirstLetterIfInterface(genericParameter)
             };
@@ -18,6 +19,7 @@
 
         protected class CleanedGenericTypeSegments
         {
+            public string GenericTypeName { get; set; }
             public string CleanedGenericTypeName { get; set; }
             public string CleanedGenericParameterName { get; set; }
         }

@@ -243,6 +243,7 @@
     <Compile Include="Services\DependencyInjector\CommonDependencyNamesProvider.cs" />
     <Compile Include="Services\DependencyInjector\FieldNameFromDependencyGeneratorBase.cs" />
     <Compile Include="Services\DependencyInjector\FieldNameFromGenericTypeGeneratorBase.cs" />
+    <Compile Include="Services\DependencyInjector\FieldNameFromLocalizerGenerator.cs" />
     <Compile Include="Services\DependencyInjector\FieldNameFromIEnumerableGenerator.cs" />
     <Compile Include="Services\DependencyInjector\DefaultFieldNameFromGenericTypeGenerator.cs" />
     <Compile Include="Services\DependencyInjector\DependencyInjector.cs" />
