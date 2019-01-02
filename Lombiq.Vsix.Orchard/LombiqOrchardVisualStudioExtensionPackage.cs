@@ -54,7 +54,8 @@ namespace Lombiq.Vsix.Orchard
                 new DefaultFieldNameFromDependencyGenerator(),
                 new DefaultFieldNameFromGenericTypeGenerator(),
                 new FieldNameFromIEnumerableGenerator(),
-                new FieldNameFromLocalizerGenerator());
+                new FieldNameFromLocalizerGenerator(),
+                new SimplifiedFieldNameFromGenericTypeGenerator());
             serviceContainer.AddServices<IDependencyNameProvider>(
                 new CommonDependencyNamesProvider());
             serviceContainer.AddService<ILogWatcherSettingsAccessor>(this);

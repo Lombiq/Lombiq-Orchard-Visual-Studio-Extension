@@ -1,6 +1,4 @@
 ﻿using Lombiq.Vsix.Orchard.Models;
-using System.Data.Entity.Design.PluralizationServices;
-using System.Globalization;
 using System.Text.RegularExpressions;
 
 namespace Lombiq.Vsix.Orchard.Services.DependencyInjector
