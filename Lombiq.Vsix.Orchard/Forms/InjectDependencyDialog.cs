@@ -2,6 +2,7 @@
 using Lombiq.Vsix.Orchard.Services.DependencyInjector;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -56,10 +57,12 @@ namespace Lombiq.Vsix.Orchard.Forms
             dependencyNameTextBox.AutoCompleteCustomSource = suggestedDependencyNames;
             dependencyNameTextBox.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
             dependencyNameTextBox.AutoCompleteSource = AutoCompleteSource.CustomSource;
+
+            UpdateVisualizationPanel();
         }
 
 
-        private DependencyInjectionData GenerateInjectedDependency(string dependency, bool useShortName = false)
+        private DependencyInjectionData GenerateDependencyInjectionData(string dependency, bool useShortName = false)
         {
             var fieldNameGenerator = _fieldNameGenerators
                 .OrderByDescending(service => service.Priority)
@@ -71,12 +74,42 @@ namespace Lombiq.Vsix.Orchard.Forms
         private void DependencyNameTextBoxTextChanged(object sender, EventArgs e)
         {
             var injectedDependency = DependencyName.Length == 0 ? 
-                null : GenerateInjectedDependency(DependencyName, generateShortFieldNameCheckBox.Checked);
+                null : GenerateDependencyInjectionData(DependencyName, generateShortFieldNameCheckBox.Checked);
 
             fieldNameTextBox.Text = injectedDependency?.FieldName ?? "";
             fieldTypeTextBox.Text = injectedDependency?.FieldType ?? "";
             parameterNameTextBox.Text = injectedDependency?.ConstructorParameterName ?? "";
             parameterTypeTextBox.Text = injectedDependency?.ConstructorParameterType ?? "";
+        }
+
+        private void DependencyInjectionDataTextBoxTextChanged(object sender, EventArgs e)
+        {
+            UpdateVisualizationPanel();
+        }
+
+        private void UpdateVisualizationPanel()
+        {
+            visualizeFieldNameLabel.Text = fieldNameTextBox.Text + ";";
+            visualizeFieldTypeLabel.Text = fieldTypeTextBox.Text;
+            visualizeInjectedNameLabel.Text = parameterNameTextBox.Text;
+            visualizeInjectedTypeLabel.Text = parameterTypeTextBox.Text;
+            visualizeClassNameLabel.Text = _className + "(";
+
+            visualizeFieldNameLabel.Location = new Point(
+                visualizeFieldTypeLabel.Location.X + visualizeFieldTypeLabel.Size.Width,
+                visualizeFieldNameLabel.Location.Y);
+
+            visualizeInjectedTypeLabel.Location = new Point(
+                visualizeClassNameLabel.Location.X + visualizeClassNameLabel.Size.Width,
+                visualizeInjectedTypeLabel.Location.Y);
+
+            visualizeInjectedNameLabel.Location = new Point(
+                visualizeInjectedTypeLabel.Location.X + visualizeInjectedTypeLabel.Size.Width,
+                visualizeInjectedNameLabel.Location.Y);
+
+            visualizeConstructorClosingParenthesisLabel.Location = new Point(
+                visualizeInjectedNameLabel.Location.X + visualizeInjectedNameLabel.Size.Width,
+                visualizeConstructorClosingParenthesisLabel.Location.Y);
         }
     }
 }
