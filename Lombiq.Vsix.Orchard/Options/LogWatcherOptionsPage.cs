@@ -26,7 +26,7 @@ namespace Lombiq.Vsix.Orchard.Options
 
         [DisplayName("Log file folder path")]
         [Category("General Log Watcher Options")]
-        [Description("List of relative paths where the log files are located. Values must be relative to the solution file that is currently opened. Use the '|' character to separate values (e.g. App_Data/logs|AnotherFolder/App_Data/logs).")]
+        [Description("List of relative paths where the log files are located. Values must be relative to the solution file that is currently opened. Wildcards can be used. Use the '|' character to separate values. Example: App_Data/logs|*.Web/App_Data/logs.")]
         public string LogFileFolderPathsSerialized { get; set; }
 
 

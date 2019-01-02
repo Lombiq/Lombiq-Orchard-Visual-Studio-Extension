@@ -44,6 +44,14 @@ namespace Lombiq.Vsix.Orchard.Commands
         }
 
 
+        public static InjectDependencyCommand Instance { get; private set; }
+
+        public static void Initialize(Package package)
+        {
+            Instance = Instance ?? new InjectDependencyCommand(package);
+        }
+
+
         private void Initialize()
         {
             _menuCommandService.AddCommand(
@@ -102,14 +110,6 @@ namespace Lombiq.Vsix.Orchard.Commands
                     }
                 }
             }
-        }
-
-
-        public static InjectDependencyCommand Instance { get; private set; }
-
-        public static void Initialize(Package package)
-        {
-            Instance = Instance ?? new InjectDependencyCommand(package);
         }
     }
 }

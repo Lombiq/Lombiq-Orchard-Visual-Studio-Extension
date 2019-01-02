@@ -250,14 +250,12 @@
     <Compile Include="Services\DependencyInjector\DependencyInjector.cs" />
     <Compile Include="Services\DependencyInjector\DefaultFieldNameFromDependencyGenerator.cs" />
     <Compile Include="Services\DependencyInjector\IDependencyNameProvider.cs" />
-    <Compile Include="Services\ILogger.cs" />
     <Compile Include="Services\LogWatcher\LogFileWatcherBase.cs" />
     <Compile Include="Services\LogWatcher\OrchardCoreLogFileWatcher.cs" />
     <Compile Include="Services\LogWatcher\OrchardErrorLogFileWatcher.cs" />
     <Compile Include="Services\DependencyInjector\IFieldNameFromDependencyGenerator.cs" />
     <Compile Include="Services\LogWatcher\ILogWatcherSettingsAccessor.cs" />
     <Compile Include="Services\LogWatcher\ILogFileWatcher.cs" />
-    <Compile Include="Services\VisualStudioActivityLogger.cs" />
     <Compile Include="VSPackage.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
