@@ -46,6 +46,13 @@ namespace Lombiq.Vsix.Orchard.Commands
         }
 
 
+        public static OpenErrorLogCommand Instance { get; private set; }
+
+        public static void Initialize(Package package)
+        {
+            Instance = Instance ?? new OpenErrorLogCommand(package);
+        }
+        
         public void Dispose()
         {
             foreach (var watcher in _logWatchers)
@@ -163,14 +170,6 @@ namespace Lombiq.Vsix.Orchard.Commands
             {
                 watcher.StopWatching();
             }
-        }
-
-
-        public static OpenErrorLogCommand Instance { get; private set; }
-
-        public static void Initialize(Package package)
-        {
-            Instance = Instance ?? new OpenErrorLogCommand(package);
         }
     }
 }
