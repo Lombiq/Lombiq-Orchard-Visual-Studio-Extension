@@ -27,6 +27,12 @@ This project is developed by [Lombiq Technologies Ltd](http://lombiq.com/). Comm
 
 ## Release notes
 
+- 1.3, 01..2019
+    - "Inject Dependency" moved back to "Tools" so keyboard shortcuts can be assigned to it.
+    - Orchard Log Watcher log paths can be updated to contain multiple paths (e.g. Orchard Core).
+    - Orchard Log Watcher paths can contain wildcards (e.g. src/*.Web/App_Data/logs).
+    - Orchard module templates have been removed.
+    - Orchard item templates have been removed.
 - 1.2.2, 09.11.2017
 	- Visual Studio 2017 compatibility added.
 	- "Inject Dependency" moved from under "Tools" to a separate toolbar called "Dependency Injector".
