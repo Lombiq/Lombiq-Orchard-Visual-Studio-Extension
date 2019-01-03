@@ -9,15 +9,18 @@ using System.Linq;
 namespace Lombiq.Vsix.Orchard.Services.DependencyInjector
 {
     /// <summary>
-    /// Injects dependency to the constructor and inserts the necessary code lines.
+    /// Injects dependency into the constructor and inserts the necessary code lines.
     /// </summary>
     public interface IDependencyInjector
     {
         /// <summary>
-        /// Injects the given dependency, creates the private readonly field and also inserts the assignment to the constructor.
+        /// Injects the given dependency, creates the private readonly field and also inserts the assignment into the
+        /// constructor.
         /// </summary>
-        /// <param name="document">Visual Studio document containing the class where the dependency needs to be injected.</param>
-        /// <param name="injectedDependency">Field and constructor parameter type and name to be added to the code.</param>
+        /// <param name="document">Visual Studio document containing the class where the dependency needs to be
+        /// injected.</param>
+        /// <param name="injectedDependency">Field and constructor parameter type and name to be added to the
+        /// code.</param>
         /// <returns>Result of the dependency injection.</returns>
         IResult Inject(Document document, DependencyInjectionData dependencyInjectionData);
 
