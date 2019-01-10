@@ -22,7 +22,7 @@ namespace Lombiq.Vsix.Orchard.Forms
         public InjectDependencyDialog(
             IEnumerable<IFieldNameFromDependencyGenerator> fieldNameGenerators,
             IEnumerable<IDependencyNameProvider> dependencyNameProviders,
-            string className = "")
+            string className)
         {
             _fieldNameGenerators = fieldNameGenerators;
             _dependencyNameProviders = dependencyNameProviders;
