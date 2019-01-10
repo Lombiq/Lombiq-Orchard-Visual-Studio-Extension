@@ -31,7 +31,10 @@ This project is developed by [Lombiq Technologies Ltd](http://lombiq.com/). Comm
     - "Inject Dependency" moved back to "Tools" so keyboard shortcuts can be assigned to it.
     - Dependency Injector dialog provide more options to edit injected property and the private field.
     - Dependency Injector will suggest the commonly used dependency names.
-    - Dependency Injector contains a code preview.
+    - Dependency Injector dialog contains a code preview.
+    - Dependency Injector will recognize some dependencies and will use short name automatically.
+    - Dependency Injector will suggest field and constructor types and names in a more intelligent way (e.g. field name will be T if the IStringLocalizer is being injected).
+    - Dependency Injector will use the current class name as generic parameter in some suggested dependencies (e.g. IStringLocalizer<T>).
     - Orchard Log Watcher log paths can be updated to contain multiple paths (e.g. Orchard Core).
     - Orchard Log Watcher paths can contain wildcards (e.g. src/*.Web/App_Data/logs).
     - Orchard module templates have been removed.
