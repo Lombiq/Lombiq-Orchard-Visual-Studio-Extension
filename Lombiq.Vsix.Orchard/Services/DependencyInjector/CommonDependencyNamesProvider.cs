@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Lombiq.Vsix.Orchard.Models;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Lombiq.Vsix.Orchard.Services.DependencyInjector
@@ -15,7 +16,6 @@ namespace Lombiq.Vsix.Orchard.Services.DependencyInjector
             "IDisplayManager<>",
             "IEnumerable<>",
             "IHtmlLocalizer<TClassName>",
-            "IHttpContextAccessor",
             "IJsonConverter",
             "ILogger<TClassName>",
             "IMembershipService",
@@ -34,15 +34,31 @@ namespace Lombiq.Vsix.Orchard.Services.DependencyInjector
             "ITransactionManager",
             "IUserEventHandler",
             "IUserService",
-            "IWorkContextAccessor",
             "UrlHelper",
             "UserManager<>",
+        };
+
+        private static readonly IEnumerable<string> CommonDependencyNamesWhereShortNameShouldBeUsed = new[]
+        {
+            "IWorkContextAccessor",
+            "IHttpContextAccessor"
         };
 
         public double Priority => 10;
 
 
-        public IEnumerable<string> GetDependencyNames(string className = "") =>
-            CommonDependencyNames.Select(dependencyName => dependencyName.Replace("<TClassName>", $"<{className}>"));
+        public IEnumerable<DependencyName> GetDependencyNames(string className = "") =>
+            CommonDependencyNames
+                .Select(dependencyName => CreateDependencyName(dependencyName, className))
+                .Union(CommonDependencyNamesWhereShortNameShouldBeUsed
+                    .Select(dependencyName => CreateDependencyName(dependencyName, className, true)));
+
+
+        private DependencyName CreateDependencyName(string name, string className, bool shouldUseShortName = false) =>
+            new DependencyName
+            {
+                Name = name.Replace("<TClassName>", $"<{className}>"),
+                ShouldUseShortFieldNameByDefault = shouldUseShortName
+            };
     }
 }

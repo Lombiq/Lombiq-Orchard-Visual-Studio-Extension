@@ -13,7 +13,7 @@ namespace Lombiq.Vsix.Orchard.Forms
         private readonly IEnumerable<IFieldNameFromDependencyGenerator> _fieldNameGenerators;
         private readonly IEnumerable<IDependencyNameProvider> _dependencyNameProviders;
         private readonly string _className;
-        private IEnumerable<string> _suggestedDependencyNames;
+        private IEnumerable<DependencyName> _suggestedDependencyNames;
 
 
         public string DependencyName => dependencyNameTextBox.Text;
@@ -51,10 +51,11 @@ namespace Lombiq.Vsix.Orchard.Forms
             _suggestedDependencyNames =_dependencyNameProviders
                 .OrderBy(provider => provider.Priority)
                 .SelectMany(provider => provider.GetDependencyNames(_className))
-                .Distinct(StringComparer.OrdinalIgnoreCase);
+                .Distinct(new DependencyNameEqualityComparer());
 
             var suggestedDependencyNamesCollection = new AutoCompleteStringCollection();
-            suggestedDependencyNamesCollection.AddRange(_suggestedDependencyNames.ToArray());
+            suggestedDependencyNamesCollection
+                .AddRange(_suggestedDependencyNames.Select(dependencyName => dependencyName.Name).ToArray());
             dependencyNameTextBox.AutoCompleteCustomSource = suggestedDependencyNamesCollection;
             dependencyNameTextBox.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
             dependencyNameTextBox.AutoCompleteSource = AutoCompleteSource.CustomSource;
@@ -74,6 +75,10 @@ namespace Lombiq.Vsix.Orchard.Forms
 
         private void DependencyNameTextBoxTextChanged(object sender, EventArgs e)
         {
+            var suggestion = _suggestedDependencyNames
+                .FirstOrDefault(dependencyName => dependencyName.Name == DependencyName);
+            if (suggestion != null) generateShortFieldNameCheckBox.Checked = suggestion.ShouldUseShortFieldNameByDefault;
+
             var injectedDependency = DependencyName.Length == 0 ? 
                 null : GenerateDependencyInjectionData(DependencyName, generateShortFieldNameCheckBox.Checked);
 
@@ -88,10 +93,13 @@ namespace Lombiq.Vsix.Orchard.Forms
 
         private void DependencyNameTextBoxPreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
         {
-            if (e.KeyCode == Keys.Tab && !string.IsNullOrEmpty(dependencyNameTextBox.SelectedText))
+            if ((e.KeyCode == Keys.Tab || e.KeyCode == Keys.Enter) && 
+                !string.IsNullOrEmpty(dependencyNameTextBox.SelectedText))
             {
-                var matchingDependencyName = _suggestedDependencyNames.FirstOrDefault(
-                    dependency => dependency.Equals(dependencyNameTextBox.Text, StringComparison.OrdinalIgnoreCase));
+                var matchingDependencyName = _suggestedDependencyNames
+                    .Select(dependencyName => dependencyName.Name)
+                    .FirstOrDefault(dependency => 
+                        dependency.Equals(dependencyNameTextBox.Text, StringComparison.OrdinalIgnoreCase));
                 
                 if (!string.IsNullOrEmpty(matchingDependencyName)) dependencyNameTextBox.Text = matchingDependencyName;
             }
