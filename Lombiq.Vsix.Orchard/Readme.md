@@ -29,6 +29,9 @@ This project is developed by [Lombiq Technologies Ltd](http://lombiq.com/). Comm
 
 - 1.3, .01.2019
     - "Inject Dependency" moved back to "Tools" so keyboard shortcuts can be assigned to it.
+    - Dependency Injector dialog provide more options to edit injected property and the private field.
+    - Dependency Injector will suggest the commonly used dependency names.
+    - Dependency Injector contains a code preview.
     - Orchard Log Watcher log paths can be updated to contain multiple paths (e.g. Orchard Core).
     - Orchard Log Watcher paths can contain wildcards (e.g. src/*.Web/App_Data/logs).
     - Orchard module templates have been removed.
