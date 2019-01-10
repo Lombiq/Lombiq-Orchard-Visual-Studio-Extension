@@ -45,14 +45,14 @@
             this.parameterTypeLabel = new System.Windows.Forms.Label();
             this.injectedDependencyAndFieldDataGroupBox = new System.Windows.Forms.GroupBox();
             this.visualizePanel = new System.Windows.Forms.Panel();
-            this.visualizePrivateReadonlyTextLabel = new System.Windows.Forms.Label();
-            this.visualizeFieldTypeLabel = new System.Windows.Forms.Label();
-            this.visualizeConstructorPublicLabel = new System.Windows.Forms.Label();
-            this.visualizeClassNameLabel = new System.Windows.Forms.Label();
-            this.visualizeInjectedTypeLabel = new System.Windows.Forms.Label();
-            this.visualizeFieldNameLabel = new System.Windows.Forms.Label();
-            this.visualizeInjectedNameLabel = new System.Windows.Forms.Label();
             this.visualizeConstructorClosingParenthesisLabel = new System.Windows.Forms.Label();
+            this.visualizeInjectedNameLabel = new System.Windows.Forms.Label();
+            this.visualizeFieldNameLabel = new System.Windows.Forms.Label();
+            this.visualizeInjectedTypeLabel = new System.Windows.Forms.Label();
+            this.visualizeClassNameLabel = new System.Windows.Forms.Label();
+            this.visualizeConstructorPublicLabel = new System.Windows.Forms.Label();
+            this.visualizeFieldTypeLabel = new System.Windows.Forms.Label();
+            this.visualizePrivateReadonlyTextLabel = new System.Windows.Forms.Label();
             this.injectedDependencyAndFieldDataGroupBox.SuspendLayout();
             this.visualizePanel.SuspendLayout();
             this.SuspendLayout();
@@ -97,6 +97,7 @@
             this.dependencyNameTextBox.Size = new System.Drawing.Size(366, 20);
             this.dependencyNameTextBox.TabIndex = 3;
             this.dependencyNameTextBox.TextChanged += new System.EventHandler(this.DependencyNameTextBoxTextChanged);
+            this.dependencyNameTextBox.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.DependencyNameTextBoxPreviewKeyDown);
             // 
             // separatorLabel
             // 
@@ -245,52 +246,38 @@
             this.visualizePanel.Size = new System.Drawing.Size(459, 100);
             this.visualizePanel.TabIndex = 19;
             // 
-            // visualizePrivateReadonlyTextLabel
+            // visualizeConstructorClosingParenthesisLabel
             // 
-            this.visualizePrivateReadonlyTextLabel.AutoSize = true;
-            this.visualizePrivateReadonlyTextLabel.BackColor = System.Drawing.Color.Transparent;
-            this.visualizePrivateReadonlyTextLabel.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.visualizePrivateReadonlyTextLabel.ForeColor = System.Drawing.Color.Blue;
-            this.visualizePrivateReadonlyTextLabel.Location = new System.Drawing.Point(17, 24);
-            this.visualizePrivateReadonlyTextLabel.Name = "visualizePrivateReadonlyTextLabel";
-            this.visualizePrivateReadonlyTextLabel.Size = new System.Drawing.Size(109, 13);
-            this.visualizePrivateReadonlyTextLabel.TabIndex = 0;
-            this.visualizePrivateReadonlyTextLabel.Text = "private readonly ";
+            this.visualizeConstructorClosingParenthesisLabel.AutoSize = true;
+            this.visualizeConstructorClosingParenthesisLabel.BackColor = System.Drawing.Color.Transparent;
+            this.visualizeConstructorClosingParenthesisLabel.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.visualizeConstructorClosingParenthesisLabel.Location = new System.Drawing.Point(276, 59);
+            this.visualizeConstructorClosingParenthesisLabel.Name = "visualizeConstructorClosingParenthesisLabel";
+            this.visualizeConstructorClosingParenthesisLabel.Size = new System.Drawing.Size(13, 13);
+            this.visualizeConstructorClosingParenthesisLabel.TabIndex = 23;
+            this.visualizeConstructorClosingParenthesisLabel.Text = ")";
             // 
-            // visualizeFieldTypeLabel
+            // visualizeInjectedNameLabel
             // 
-            this.visualizeFieldTypeLabel.AutoSize = true;
-            this.visualizeFieldTypeLabel.BackColor = System.Drawing.Color.Transparent;
-            this.visualizeFieldTypeLabel.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.visualizeFieldTypeLabel.ForeColor = System.Drawing.Color.DarkCyan;
-            this.visualizeFieldTypeLabel.Location = new System.Drawing.Point(119, 24);
-            this.visualizeFieldTypeLabel.Name = "visualizeFieldTypeLabel";
-            this.visualizeFieldTypeLabel.Size = new System.Drawing.Size(97, 13);
-            this.visualizeFieldTypeLabel.TabIndex = 1;
-            this.visualizeFieldTypeLabel.Text = "IContentManager";
+            this.visualizeInjectedNameLabel.AutoSize = true;
+            this.visualizeInjectedNameLabel.BackColor = System.Drawing.Color.Transparent;
+            this.visualizeInjectedNameLabel.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.visualizeInjectedNameLabel.Location = new System.Drawing.Point(187, 59);
+            this.visualizeInjectedNameLabel.Name = "visualizeInjectedNameLabel";
+            this.visualizeInjectedNameLabel.Size = new System.Drawing.Size(91, 13);
+            this.visualizeInjectedNameLabel.TabIndex = 22;
+            this.visualizeInjectedNameLabel.Text = "contentManager";
             // 
-            // visualizeConstructorPublicLabel
+            // visualizeFieldNameLabel
             // 
-            this.visualizeConstructorPublicLabel.AutoSize = true;
-            this.visualizeConstructorPublicLabel.BackColor = System.Drawing.Color.Transparent;
-            this.visualizeConstructorPublicLabel.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.visualizeConstructorPublicLabel.ForeColor = System.Drawing.Color.Blue;
-            this.visualizeConstructorPublicLabel.Location = new System.Drawing.Point(17, 59);
-            this.visualizeConstructorPublicLabel.Name = "visualizeConstructorPublicLabel";
-            this.visualizeConstructorPublicLabel.Size = new System.Drawing.Size(43, 13);
-            this.visualizeConstructorPublicLabel.TabIndex = 3;
-            this.visualizeConstructorPublicLabel.Text = "public";
-            // 
-            // visualizeClassNameLabel
-            // 
-            this.visualizeClassNameLabel.AutoSize = true;
-            this.visualizeClassNameLabel.BackColor = System.Drawing.Color.Transparent;
-            this.visualizeClassNameLabel.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.visualizeClassNameLabel.Location = new System.Drawing.Point(58, 59);
-            this.visualizeClassNameLabel.Name = "visualizeClassNameLabel";
-            this.visualizeClassNameLabel.Size = new System.Drawing.Size(37, 13);
-            this.visualizeClassNameLabel.TabIndex = 4;
-            this.visualizeClassNameLabel.Text = "Test(";
+            this.visualizeFieldNameLabel.AutoSize = true;
+            this.visualizeFieldNameLabel.BackColor = System.Drawing.Color.Transparent;
+            this.visualizeFieldNameLabel.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.visualizeFieldNameLabel.Location = new System.Drawing.Point(214, 24);
+            this.visualizeFieldNameLabel.Name = "visualizeFieldNameLabel";
+            this.visualizeFieldNameLabel.Size = new System.Drawing.Size(103, 13);
+            this.visualizeFieldNameLabel.TabIndex = 21;
+            this.visualizeFieldNameLabel.Text = "_contentManager;";
             // 
             // visualizeInjectedTypeLabel
             // 
@@ -304,38 +291,52 @@
             this.visualizeInjectedTypeLabel.TabIndex = 20;
             this.visualizeInjectedTypeLabel.Text = "IContentManager";
             // 
-            // visualizeFieldNameLabel
+            // visualizeClassNameLabel
             // 
-            this.visualizeFieldNameLabel.AutoSize = true;
-            this.visualizeFieldNameLabel.BackColor = System.Drawing.Color.Transparent;
-            this.visualizeFieldNameLabel.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.visualizeFieldNameLabel.Location = new System.Drawing.Point(214, 24);
-            this.visualizeFieldNameLabel.Name = "visualizeFieldNameLabel";
-            this.visualizeFieldNameLabel.Size = new System.Drawing.Size(103, 13);
-            this.visualizeFieldNameLabel.TabIndex = 21;
-            this.visualizeFieldNameLabel.Text = "_contentManager;";
+            this.visualizeClassNameLabel.AutoSize = true;
+            this.visualizeClassNameLabel.BackColor = System.Drawing.Color.Transparent;
+            this.visualizeClassNameLabel.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.visualizeClassNameLabel.Location = new System.Drawing.Point(58, 59);
+            this.visualizeClassNameLabel.Name = "visualizeClassNameLabel";
+            this.visualizeClassNameLabel.Size = new System.Drawing.Size(37, 13);
+            this.visualizeClassNameLabel.TabIndex = 4;
+            this.visualizeClassNameLabel.Text = "Test(";
             // 
-            // visualizeInjectedNameLabel
+            // visualizeConstructorPublicLabel
             // 
-            this.visualizeInjectedNameLabel.AutoSize = true;
-            this.visualizeInjectedNameLabel.BackColor = System.Drawing.Color.Transparent;
-            this.visualizeInjectedNameLabel.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.visualizeInjectedNameLabel.Location = new System.Drawing.Point(187, 59);
-            this.visualizeInjectedNameLabel.Name = "visualizeInjectedNameLabel";
-            this.visualizeInjectedNameLabel.Size = new System.Drawing.Size(91, 13);
-            this.visualizeInjectedNameLabel.TabIndex = 22;
-            this.visualizeInjectedNameLabel.Text = "contentManager";
+            this.visualizeConstructorPublicLabel.AutoSize = true;
+            this.visualizeConstructorPublicLabel.BackColor = System.Drawing.Color.Transparent;
+            this.visualizeConstructorPublicLabel.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.visualizeConstructorPublicLabel.ForeColor = System.Drawing.Color.Blue;
+            this.visualizeConstructorPublicLabel.Location = new System.Drawing.Point(17, 59);
+            this.visualizeConstructorPublicLabel.Name = "visualizeConstructorPublicLabel";
+            this.visualizeConstructorPublicLabel.Size = new System.Drawing.Size(43, 13);
+            this.visualizeConstructorPublicLabel.TabIndex = 3;
+            this.visualizeConstructorPublicLabel.Text = "public";
             // 
-            // visualizeConstructorClosingParenthesisLabel
+            // visualizeFieldTypeLabel
             // 
-            this.visualizeConstructorClosingParenthesisLabel.AutoSize = true;
-            this.visualizeConstructorClosingParenthesisLabel.BackColor = System.Drawing.Color.Transparent;
-            this.visualizeConstructorClosingParenthesisLabel.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.visualizeConstructorClosingParenthesisLabel.Location = new System.Drawing.Point(276, 59);
-            this.visualizeConstructorClosingParenthesisLabel.Name = "visualizeConstructorClosingParenthesisLabel";
-            this.visualizeConstructorClosingParenthesisLabel.Size = new System.Drawing.Size(13, 13);
-            this.visualizeConstructorClosingParenthesisLabel.TabIndex = 23;
-            this.visualizeConstructorClosingParenthesisLabel.Text = ")";
+            this.visualizeFieldTypeLabel.AutoSize = true;
+            this.visualizeFieldTypeLabel.BackColor = System.Drawing.Color.Transparent;
+            this.visualizeFieldTypeLabel.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.visualizeFieldTypeLabel.ForeColor = System.Drawing.Color.DarkCyan;
+            this.visualizeFieldTypeLabel.Location = new System.Drawing.Point(119, 24);
+            this.visualizeFieldTypeLabel.Name = "visualizeFieldTypeLabel";
+            this.visualizeFieldTypeLabel.Size = new System.Drawing.Size(97, 13);
+            this.visualizeFieldTypeLabel.TabIndex = 1;
+            this.visualizeFieldTypeLabel.Text = "IContentManager";
+            // 
+            // visualizePrivateReadonlyTextLabel
+            // 
+            this.visualizePrivateReadonlyTextLabel.AutoSize = true;
+            this.visualizePrivateReadonlyTextLabel.BackColor = System.Drawing.Color.Transparent;
+            this.visualizePrivateReadonlyTextLabel.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.visualizePrivateReadonlyTextLabel.ForeColor = System.Drawing.Color.Blue;
+            this.visualizePrivateReadonlyTextLabel.Location = new System.Drawing.Point(17, 24);
+            this.visualizePrivateReadonlyTextLabel.Name = "visualizePrivateReadonlyTextLabel";
+            this.visualizePrivateReadonlyTextLabel.Size = new System.Drawing.Size(109, 13);
+            this.visualizePrivateReadonlyTextLabel.TabIndex = 0;
+            this.visualizePrivateReadonlyTextLabel.Text = "private readonly ";
             // 
             // InjectDependencyDialog
             // 
@@ -352,7 +353,7 @@
             this.Controls.Add(this.dependencyLabel);
             this.Controls.Add(this.cancelButton);
             this.Controls.Add(this.okButton);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
             this.Name = "InjectDependencyDialog";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Inject Dependency";

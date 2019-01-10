@@ -13,6 +13,7 @@ namespace Lombiq.Vsix.Orchard.Forms
         private readonly IEnumerable<IFieldNameFromDependencyGenerator> _fieldNameGenerators;
         private readonly IEnumerable<IDependencyNameProvider> _dependencyNameProviders;
         private readonly string _className;
+        private IEnumerable<string> _suggestedDependencyNames;
 
 
         public string DependencyName => dependencyNameTextBox.Text;
@@ -46,15 +47,15 @@ namespace Lombiq.Vsix.Orchard.Forms
             base.OnLoad(e);
 
             ActiveControl = dependencyNameTextBox;
-            
-            var suggestedDependencyNames = new AutoCompleteStringCollection();
-            suggestedDependencyNames.AddRange(
-                _dependencyNameProviders
-                    .OrderBy(provider => provider.Priority)
-                    .SelectMany(provider => provider.GetDependencyNames(_className))
-                    .Distinct(StringComparer.OrdinalIgnoreCase)
-                    .ToArray());
-            dependencyNameTextBox.AutoCompleteCustomSource = suggestedDependencyNames;
+
+            _suggestedDependencyNames =_dependencyNameProviders
+                .OrderBy(provider => provider.Priority)
+                .SelectMany(provider => provider.GetDependencyNames(_className))
+                .Distinct(StringComparer.OrdinalIgnoreCase);
+
+            var suggestedDependencyNamesCollection = new AutoCompleteStringCollection();
+            suggestedDependencyNamesCollection.AddRange(_suggestedDependencyNames.ToArray());
+            dependencyNameTextBox.AutoCompleteCustomSource = suggestedDependencyNamesCollection;
             dependencyNameTextBox.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
             dependencyNameTextBox.AutoCompleteSource = AutoCompleteSource.CustomSource;
 
@@ -82,9 +83,18 @@ namespace Lombiq.Vsix.Orchard.Forms
             parameterTypeTextBox.Text = injectedDependency?.ConstructorParameterType ?? "";
         }
 
-        private void DependencyInjectionDataTextBoxTextChanged(object sender, EventArgs e)
-        {
+        private void DependencyInjectionDataTextBoxTextChanged(object sender, EventArgs e) =>
             UpdateVisualizationPanel();
+
+        private void DependencyNameTextBoxPreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+        {
+            if (e.KeyCode == Keys.Tab && !string.IsNullOrEmpty(dependencyNameTextBox.SelectedText))
+            {
+                var matchingDependencyName = _suggestedDependencyNames.FirstOrDefault(
+                    dependency => dependency.Equals(dependencyNameTextBox.Text, StringComparison.OrdinalIgnoreCase));
+                
+                if (!string.IsNullOrEmpty(matchingDependencyName)) dependencyNameTextBox.Text = matchingDependencyName;
+            }
         }
 
         private void UpdateVisualizationPanel()
