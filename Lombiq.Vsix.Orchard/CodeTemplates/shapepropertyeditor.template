@@ -1,5 +1,0 @@
-﻿        <li>
-          @Html.LabelFor(model => model.#propertyname#, T("#propertyname#"))
-          @Html.#editortype#For(model => model.#propertyname#)
-          @Html.Hint(T(""))
-        </li>

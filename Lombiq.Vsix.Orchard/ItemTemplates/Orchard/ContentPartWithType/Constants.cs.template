@@ -1,7 +1,0 @@
-﻿namespace $rootnamespace$.Constants
-{
-    public class $contentpartname$Constants
-    {
-        public const string ContentType = "$contentpartname$";
-    }
-}
