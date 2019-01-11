@@ -227,6 +227,8 @@
     </Compile>
     <Compile Include="Constants\PackageGuids.cs" />
     <Compile Include="Helpers\DialogHelpers.cs" />
+    <Compile Include="Models\DependencyName.cs" />
+    <Compile Include="Models\DependencyInjectionData.cs" />
     <Compile Include="Models\LogWatcherSettingsUpdatedEventArgs.cs" />
     <Compile Include="Models\LogChangedEventArgs.cs" />
     <Compile Include="Models\ILogWatcherSettings.cs" />
@@ -239,16 +241,20 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Constants\CommandIds.cs" />
-    <Compile Include="Services\FieldNameFromDependencyGeneratorBase.cs" />
-    <Compile Include="Services\FieldNameFromGenericTypeGeneratorBase.cs" />
-    <Compile Include="Services\FieldNameFromIEnumerableGenerator.cs" />
-    <Compile Include="Services\DefaultFieldNameFromGenericTypeGenerator.cs" />
-    <Compile Include="Services\DependencyInjector.cs" />
-    <Compile Include="Services\DefaultFieldNameFromDependencyGenerator.cs" />
+    <Compile Include="Services\DependencyInjector\CommonDependencyNamesProvider.cs" />
+    <Compile Include="Services\DependencyInjector\SimplifiedFieldNameFromGenericTypeGenerator.cs" />
+    <Compile Include="Services\DependencyInjector\FieldNameFromDependencyGeneratorBase.cs" />
+    <Compile Include="Services\DependencyInjector\FieldNameFromGenericTypeGeneratorBase.cs" />
+    <Compile Include="Services\DependencyInjector\FieldNameFromLocalizerGenerator.cs" />
+    <Compile Include="Services\DependencyInjector\FieldNameFromIEnumerableGenerator.cs" />
+    <Compile Include="Services\DependencyInjector\DefaultFieldNameFromGenericTypeGenerator.cs" />
+    <Compile Include="Services\DependencyInjector\DependencyInjector.cs" />
+    <Compile Include="Services\DependencyInjector\DefaultFieldNameFromDependencyGenerator.cs" />
+    <Compile Include="Services\DependencyInjector\IDependencyNameProvider.cs" />
     <Compile Include="Services\LogWatcher\LogFileWatcherBase.cs" />
     <Compile Include="Services\LogWatcher\OrchardCoreLogFileWatcher.cs" />
     <Compile Include="Services\LogWatcher\OrchardErrorLogFileWatcher.cs" />
-    <Compile Include="Services\IFieldNameFromDependencyGenerator.cs" />
+    <Compile Include="Services\DependencyInjector\IFieldNameFromDependencyGenerator.cs" />
     <Compile Include="Services\LogWatcher\ILogWatcherSettingsAccessor.cs" />
     <Compile Include="Services\LogWatcher\ILogFileWatcher.cs" />
     <Compile Include="VSPackage.Designer.cs">

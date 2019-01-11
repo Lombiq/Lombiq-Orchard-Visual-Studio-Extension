@@ -3,6 +3,7 @@ using Lombiq.Vsix.Orchard.Constants;
 using Lombiq.Vsix.Orchard.Forms;
 using Lombiq.Vsix.Orchard.Helpers;
 using Lombiq.Vsix.Orchard.Services;
+using Lombiq.Vsix.Orchard.Services.DependencyInjector;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 using System;
@@ -24,6 +25,7 @@ namespace Lombiq.Vsix.Orchard.Commands
         private readonly IMenuCommandService _menuCommandService;
         private readonly IDependencyInjector _dependencyInjector;
         private readonly IEnumerable<IFieldNameFromDependencyGenerator> _fieldNameGenerators;
+        private readonly IEnumerable<IDependencyNameProvider> _dependencyNameProviders;
         private readonly DTE _dte;
 
         
@@ -35,6 +37,7 @@ namespace Lombiq.Vsix.Orchard.Commands
             _dte = Package.GetGlobalService(typeof(SDTE)) as DTE;
             _dependencyInjector = _serviceProvider.GetService<IDependencyInjector>();
             _fieldNameGenerators = _serviceProvider.GetServices<IFieldNameFromDependencyGenerator>();
+            _dependencyNameProviders = _serviceProvider.GetServices<IDependencyNameProvider>();
             _menuCommandService = _serviceProvider.GetService<IMenuCommandService>();
 
             Initialize();
@@ -68,32 +71,37 @@ namespace Lombiq.Vsix.Orchard.Commands
                 return;
             }
 
-            using (var injectDependencyDialog = new InjectDependencyDialog(_fieldNameGenerators))
+            using (var injectDependencyDialog = new InjectDependencyDialog(
+                _fieldNameGenerators, 
+                _dependencyNameProviders,
+                _dependencyInjector.GetExpectedClassName(_dte.ActiveDocument)))
             {
                 if (injectDependencyDialog.ShowDialog() == DialogResult.OK)
                 {
-                    if (string.IsNullOrEmpty(injectDependencyDialog.DependencyName))
+                    var dependencyInjectionData = injectDependencyDialog.GetDependencyInjectionData();
+
+                    if (string.IsNullOrEmpty(dependencyInjectionData.FieldName) ||
+                        string.IsNullOrEmpty(dependencyInjectionData.FieldType) ||
+                        string.IsNullOrEmpty(dependencyInjectionData.ConstructorParameterName) ||
+                        string.IsNullOrEmpty(dependencyInjectionData.ConstructorParameterType))
                     {
-                        DialogHelpers.Warning("Dependency name cannot be empty.", injectDependencyCaption);
+                        DialogHelpers.Warning("Field and constructor parameter names and types must be filled.", injectDependencyCaption);
 
                         return;
                     }
 
-                    if (string.IsNullOrEmpty(injectDependencyDialog.PrivateFieldName))
-                    {
-                        DialogHelpers.Warning("Private field name cannot be empty.", injectDependencyCaption);
-
-                        return;
-                    }
-
-                    var result = _dependencyInjector.Inject(_dte.ActiveDocument, injectDependencyDialog.DependencyName, injectDependencyDialog.PrivateFieldName);
+                    var result = _dependencyInjector.Inject(
+                        _dte.ActiveDocument, 
+                        injectDependencyDialog.GetDependencyInjectionData());
 
                     if (!result.Success)
                     {
                         switch (result.ErrorCode)
                         {
                             case DependencyInjectorErrorCodes.ClassNotFound:
-                                DialogHelpers.Warning("Could not inject dependency because the class was not found in this file.", injectDependencyCaption);
+                                DialogHelpers.Warning(
+                                    "Could not inject dependency because the class was not found in this file.", 
+                                    injectDependencyCaption);
                                 break;
                             default:
                                 DialogHelpers.Warning("Could not inject dependency.", injectDependencyCaption);

@@ -2,7 +2,7 @@
 using Lombiq.Vsix.Orchard.Constants;
 using Lombiq.Vsix.Orchard.Models;
 using Lombiq.Vsix.Orchard.Options;
-using Lombiq.Vsix.Orchard.Services;
+using Lombiq.Vsix.Orchard.Services.DependencyInjector;
 using Lombiq.Vsix.Orchard.Services.LogWatcher;
 using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.Shell;
@@ -53,7 +53,11 @@ namespace Lombiq.Vsix.Orchard
             serviceContainer.AddServices<IFieldNameFromDependencyGenerator>(
                 new DefaultFieldNameFromDependencyGenerator(),
                 new DefaultFieldNameFromGenericTypeGenerator(),
-                new FieldNameFromIEnumerableGenerator());
+                new FieldNameFromIEnumerableGenerator(),
+                new FieldNameFromLocalizerGenerator(),
+                new SimplifiedFieldNameFromGenericTypeGenerator());
+            serviceContainer.AddServices<IDependencyNameProvider>(
+                new CommonDependencyNamesProvider());
             serviceContainer.AddService<ILogWatcherSettingsAccessor>(this);
             serviceContainer.AddServices<ILogFileWatcher>(
                 new OrchardErrorLogFileWatcher(this),
