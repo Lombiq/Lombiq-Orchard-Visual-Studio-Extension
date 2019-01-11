@@ -27,7 +27,7 @@ This project is developed by [Lombiq Technologies Ltd](http://lombiq.com/). Comm
 
 ## Release notes
 
-- 1.3, .01.2019
+- 1.3, 11.01.2019
     - "Inject Dependency" moved back to "Tools" so keyboard shortcuts can be assigned to it.
     - Dependency Injector dialog provide more options to edit injected property and the private field.
     - Dependency Injector will suggest the commonly used dependency names.
