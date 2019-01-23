@@ -27,8 +27,8 @@ This project is developed by [Lombiq Technologies Ltd](http://lombiq.com/). Comm
 
 ## Release notes
 
-1.3.1, .01.2019
-    - Fixing that short field name check-box can't be unchecked if the dependencies are `IWorkContextAccessor` or `IHttpContextAccessor`.
+- 1.3.1, 23.01.2019
+    - Fixing that the short field name check-box can't be unchecked if the dependencies are `IWorkContextAccessor` or `IHttpContextAccessor`.
 - 1.3, 11.01.2019
     - "Inject Dependency" moved back to "Tools" so keyboard shortcuts can be assigned to it.
     - Dependency Injector dialog provide more options to edit injected property and the private field.
