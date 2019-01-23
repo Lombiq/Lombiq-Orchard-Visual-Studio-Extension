@@ -77,7 +77,10 @@ namespace Lombiq.Vsix.Orchard.Forms
         {
             var suggestion = _suggestedDependencyNames
                 .FirstOrDefault(dependencyName => dependencyName.Name == DependencyName);
-            if (suggestion != null) generateShortFieldNameCheckBox.Checked = suggestion.ShouldUseShortFieldNameByDefault;
+            if (suggestion != null && sender == dependencyNameTextBox)
+            {
+                generateShortFieldNameCheckBox.Checked = suggestion.ShouldUseShortFieldNameByDefault;
+            }
 
             var injectedDependency = DependencyName.Length == 0 ? 
                 null : GenerateDependencyInjectionData(DependencyName, generateShortFieldNameCheckBox.Checked);

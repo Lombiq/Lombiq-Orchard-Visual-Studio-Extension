@@ -2,7 +2,7 @@
 
 
 
-Visual Studio extension with many features frequently used by  [Lombiq](https://lombiq.com/) developers. Contains [Orchard](https://orchardproject.net/)-related as well as generic goodies.
+Visual Studio extension with many features frequently used by  [Lombiq](https://lombiq.com/) developers. Contains [Orchard](https://orchardproject.net/)-related (including Orchard Core) as well as generic goodies.
 
 The extension can also be installed from the [Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=LombiqVisualStudioExtension.LombiqOrchardVisualStudioExtension), including installing directly from inside Visual Studio from under Tools &gt; Extensions and Updates.
 
@@ -27,6 +27,8 @@ This project is developed by [Lombiq Technologies Ltd](http://lombiq.com/). Comm
 
 ## Release notes
 
+- 1.3.1, 23.01.2019
+    - Fixing that the short field name check-box can't be unchecked if the dependencies are `IWorkContextAccessor` or `IHttpContextAccessor`.
 - 1.3, 11.01.2019
     - "Inject Dependency" moved back to "Tools" so keyboard shortcuts can be assigned to it.
     - Dependency Injector dialog provide more options to edit injected property and the private field.
