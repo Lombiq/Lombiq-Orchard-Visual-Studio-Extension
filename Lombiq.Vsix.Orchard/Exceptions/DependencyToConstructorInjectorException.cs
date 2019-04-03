@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.Serialization;
 
 namespace Lombiq.Vsix.Orchard.Exceptions
 {
@@ -8,6 +9,7 @@ namespace Lombiq.Vsix.Orchard.Exceptions
     }
 
 
+    [Serializable]
     public class DependencyToConstructorInjectorException : Exception
     {
         public string ErrorCode { get; }
@@ -17,6 +19,14 @@ namespace Lombiq.Vsix.Orchard.Exceptions
             : base(message)
         {
             ErrorCode = errorCode;
+        }
+
+
+        public override void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            base.GetObjectData(info, context);
+
+            info.AddValue(nameof(ErrorCode), ErrorCode);
         }
     }
 }
