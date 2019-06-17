@@ -10,7 +10,7 @@ using System.Timers;
 
 namespace Lombiq.Vsix.Orchard.Services.LogWatcher
 {
-    public abstract class LogFileWatcherBase
+    public abstract class LogFileWatcherBase : ILogFileWatcher
     {
         private const int DefaultLogWatcherTimerIntervalInMilliseconds = 1000;
 
@@ -69,7 +69,7 @@ namespace Lombiq.Vsix.Orchard.Services.LogWatcher
             if (string.IsNullOrEmpty(logFilePath)) return null;
 
             var fileInfo = new FileInfo(logFilePath);
-            
+
             return new LogFileStatus
             {
                 Exists = fileInfo.Exists,
@@ -79,18 +79,27 @@ namespace Lombiq.Vsix.Orchard.Services.LogWatcher
             };
         }
 
-        public virtual void Dispose()
+        public void Dispose()
         {
-            StopWatching();
-
-            _timer.Dispose();
+            Dispose(true);
+            GC.SuppressFinalize(this);
         }
 
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                StopWatching();
+
+                _timer.Dispose();
+            }
+        }
 
         protected virtual string GetExistingLogFilePath()
         {
             var logFilePaths = _logWatcherSettingsAccessor.GetSettings().GetLogFileFolderPaths();
-            var solutionPath = IsSolutionOpen() && !string.IsNullOrEmpty(_dte.Solution.FileName) ? 
+            var solutionPath = IsSolutionOpen() && !string.IsNullOrEmpty(_dte.Solution.FileName) ?
                 Path.GetDirectoryName(_dte.Solution.FileName) : "";
 
             return GetAllMatchingPaths(solutionPath, logFilePaths, GetLogFileName()).FirstOrDefault();
@@ -127,10 +136,10 @@ namespace Lombiq.Vsix.Orchard.Services.LogWatcher
         }
 
         protected bool IsSolutionOpen() => _dte.Solution.IsOpen;
-        
+
         protected static IEnumerable<string> GetAllMatchingPaths(
-            string root, 
-            IEnumerable<string> patterns, 
+            string root,
+            IEnumerable<string> patterns,
             string logFileName)
         {
             var fullPaths = patterns.Select(pattern => Path.Combine(root, pattern, logFileName).Replace("/", "\\"));
@@ -140,7 +149,7 @@ namespace Lombiq.Vsix.Orchard.Services.LogWatcher
                 var parts = fullPath.Split(Path.DirectorySeparatorChar);
 
                 return GetAllMatchingPathsInternal(
-                    string.Join(Path.DirectorySeparatorChar.ToString(), parts.Skip(1)), 
+                    string.Join(Path.DirectorySeparatorChar.ToString(), parts.Skip(1)),
                     parts[0]);
             });
         }
@@ -155,15 +164,15 @@ namespace Lombiq.Vsix.Orchard.Services.LogWatcher
                 // If this part of the path is a wildcard that needs expanding.
                 if (parts[i].Contains('*') || parts[i].Contains('?'))
                 {
-                    var combined = root + 
-                        Path.DirectorySeparatorChar + 
+                    var combined = root +
+                        Path.DirectorySeparatorChar +
                         string.Join(Path.DirectorySeparatorChar.ToString(), parts.Take(i));
 
                     // Create an absolute path up to the current wildcard and check if it exists.
                     if (!Directory.Exists(combined)) return Enumerable.Empty<string>();
-                    
+
                     // If this is the end of the path (a file name).
-                    if (i == parts.Length - 1) 
+                    if (i == parts.Length - 1)
                     {
                         return Directory.EnumerateFiles(combined, parts[i], SearchOption.TopDirectoryOnly);
                     }
@@ -171,12 +180,12 @@ namespace Lombiq.Vsix.Orchard.Services.LogWatcher
                     else
                     {
                         var directories = Directory.EnumerateDirectories(
-                            combined, 
-                            parts[i], 
+                            combined,
+                            parts[i],
                             SearchOption.TopDirectoryOnly);
                         var paths = directories.SelectMany(directory =>
                             GetAllMatchingPathsInternal(
-                                string.Join(Path.DirectorySeparatorChar.ToString(), parts.Skip(i + 1)), 
+                                string.Join(Path.DirectorySeparatorChar.ToString(), parts.Skip(i + 1)),
                                 directory));
 
                         return paths;
