@@ -27,7 +27,7 @@ This project is developed by [Lombiq Technologies Ltd](http://lombiq.com/). Comm
 
 ## Release notes
 
-- 1.4, 03.06.2019
+- 1.4, 17.06.2019
     - Visual Studio 2019 compatibility added.
 - 1.3.1, 23.01.2019
     - Fixing that the short field name check-box can't be unchecked if the dependencies are `IWorkContextAccessor` or `IHttpContextAccessor`.
