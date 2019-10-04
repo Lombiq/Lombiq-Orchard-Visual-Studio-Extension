@@ -9,29 +9,32 @@ using Microsoft.VisualStudio.Shell;
 using System;
 using System.ComponentModel.Design;
 using System.Runtime.InteropServices;
+using System.Threading;
 
 namespace Lombiq.Vsix.Orchard
 {
-    [ProvideService(typeof(IDependencyInjector))]
-    [ProvideService(typeof(IFieldNameFromDependencyGenerator))]
-    [ProvideService(typeof(ILogWatcherSettingsAccessor))]
-    [ProvideService(typeof(ILogFileWatcher))]
-    [ProvideAutoLoad(VSConstants.UICONTEXT.SolutionExists_string)]
-    [PackageRegistration(UseManagedResourcesOnly = true)]
+    [ProvideService(typeof(IDependencyInjector), IsAsyncQueryable = true)]
+    [ProvideService(typeof(IFieldNameFromDependencyGenerator), IsAsyncQueryable = true)]
+    [ProvideService(typeof(ILogWatcherSettingsAccessor), IsAsyncQueryable = true)]
+    [ProvideService(typeof(ILogFileWatcher), IsAsyncQueryable = true)]
+    [ProvideAutoLoad(VSConstants.UICONTEXT.SolutionExists_string, PackageAutoLoadFlags.BackgroundLoad)]
+    [PackageRegistration(UseManagedResourcesOnly = true, AllowsBackgroundLoading = true)]
     [InstalledProductRegistration("#LombiqOrchardVisualStudioExtensionName", "#LombiqOrchardVisualStudioExtensionDescription", "1.0", IconResourceID = 400)]
     [ProvideMenuResource("Menus.ctmenu", 1)]
     [ProvideOptionPage(typeof(LogWatcherOptionsPage), "Lombiq Orchard Visual Studio Extension", "Orchard Log Watcher", 120, 121, true)]
     [Guid(PackageGuids.LombiqOrchardVisualStudioExtensionPackageGuidString)]
-    public sealed class LombiqOrchardVisualStudioExtensionPackage : Package, ILogWatcherSettingsAccessor
+    public sealed class LombiqOrchardVisualStudioExtensionPackage : AsyncPackage, ILogWatcherSettingsAccessor
     {
-        protected override void Initialize()
+        protected override async System.Threading.Tasks.Task InitializeAsync(CancellationToken cancellationToken, IProgress<ServiceProgressData> progress)
         {
-            base.Initialize();
+            await base.InitializeAsync(cancellationToken, progress);
 
             RegisterServices();
 
             InjectDependencyCommand.Initialize(this);
             OpenErrorLogCommand.Initialize(this);
+
+            await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync(cancellationToken);
         }
 
         protected override void Dispose(bool disposing)
