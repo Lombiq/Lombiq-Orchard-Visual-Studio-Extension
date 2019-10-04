@@ -25,7 +25,7 @@ namespace Lombiq.Vsix.Orchard.Services.LogWatcher
         public event EventHandler<LogChangedEventArgs> LogUpdated;
 
 
-        public LogFileWatcherBase(IServiceProvider serviceProvider)
+        protected LogFileWatcherBase(IServiceProvider serviceProvider)
         {
             _logWatcherSettingsAccessor = serviceProvider.GetService<ILogWatcherSettingsAccessor>();
             _dte = Package.GetGlobalService(typeof(SDTE)) as DTE;
