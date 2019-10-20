@@ -19,7 +19,6 @@ namespace Lombiq.Vsix.Orchard.Commands
         public static readonly Guid CommandSet = PackageGuids.LombiqOrchardVisualStudioExtensionCommandSetGuid;
 
 
-        private readonly Package _package;
         private readonly IServiceProvider _serviceProvider;
         private readonly IMenuCommandService _menuCommandService;
         private readonly DTE _dte;
@@ -33,7 +32,6 @@ namespace Lombiq.Vsix.Orchard.Commands
 
         private OpenErrorLogCommand(Package package)
         {
-            _package = package;
             _serviceProvider = package;
 
             _dte = Package.GetGlobalService(typeof(SDTE)) as DTE;

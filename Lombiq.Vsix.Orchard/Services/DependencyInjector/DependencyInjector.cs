@@ -138,7 +138,6 @@ namespace Lombiq.Vsix.Orchard.Services.DependencyInjector
 
             for (int i = 0; i < context.CodeLines.Count; i++)
             {
-                var trimmedLine = context.CodeLines[i].Trim();
                 if (context.CodeLines[i].Trim().StartsWith(expectedConstructorStart, StringComparison.OrdinalIgnoreCase))
                 {
                     context.ConstructorLineIndex = i;
@@ -247,10 +246,8 @@ namespace Lombiq.Vsix.Orchard.Services.DependencyInjector
 
                     if (indexOfClosing < 0) continue;
 
-                    var beforeClosing = "";
-                    var afterClosing = "";
-                    beforeClosing = context.CodeLines[i].Substring(0, indexOfClosing);
-                    afterClosing = context.CodeLines[i].Substring(indexOfClosing);
+                    var beforeClosing = context.CodeLines[i].Substring(0, indexOfClosing);
+                    var afterClosing = context.CodeLines[i].Substring(indexOfClosing);
 
                     context.CodeLines.RemoveAt(i);
                     context.CodeLines.Insert(i, IndentText(indentSize, 1.5, injection + afterClosing));
