@@ -28,7 +28,7 @@ This project is developed by [Lombiq Technologies Ltd](http://lombiq.com/). Comm
 ## Release notes
 
 - 1.4.2, 23.10.2019
-    - Fixing incompatibility issues with Visual Studio 2019.
+    - Fixing Visual Studio 2019 incompatibility issues.
 - 1.4.1, 21.10.2019
     - Fixing incompatibility issues with Visual Studio 2019.
 - 1.4, 17.06.2019
