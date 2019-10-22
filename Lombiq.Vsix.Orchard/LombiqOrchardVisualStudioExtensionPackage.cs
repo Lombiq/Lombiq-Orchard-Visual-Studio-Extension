@@ -29,12 +29,12 @@ namespace Lombiq.Vsix.Orchard
         {
             await base.InitializeAsync(cancellationToken, progress);
 
+            await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync(cancellationToken);
+
             RegisterServices();
 
             InjectDependencyCommand.Initialize(this);
             OpenErrorLogCommand.Initialize(this);
-
-            await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync(cancellationToken);
         }
 
         protected override void Dispose(bool disposing)
