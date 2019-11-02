@@ -97,23 +97,5 @@ namespace Lombiq.Vsix.Orchard {
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Visual Studio extension with many features frequently used by Lombiq developers. Contains Orchard-related as well as generic goodies..
-        /// </summary>
-        internal static string LombiqOrchardVisualStudioExtensionDescription {
-            get {
-                return ResourceManager.GetString("LombiqOrchardVisualStudioExtensionDescription", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Lombiq Orchard Visual Studio Extension.
-        /// </summary>
-        internal static string LombiqOrchardVisualStudioExtensionName {
-            get {
-                return ResourceManager.GetString("LombiqOrchardVisualStudioExtensionName", resourceCulture);
-            }
-        }
     }
 }
