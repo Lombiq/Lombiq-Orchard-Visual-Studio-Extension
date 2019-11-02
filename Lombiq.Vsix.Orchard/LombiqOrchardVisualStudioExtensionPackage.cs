@@ -20,7 +20,7 @@ namespace Lombiq.Vsix.Orchard
     [ProvideAutoLoad(VSConstants.UICONTEXT.SolutionExists_string, PackageAutoLoadFlags.BackgroundLoad)]
     [PackageRegistration(UseManagedResourcesOnly = true, AllowsBackgroundLoading = true)]
     [InstalledProductRegistration(
-        // Such values can supposedly come from resx files (see: https://docs.microsoft.com/en-us/visualstudio/extensibility/how-to-update-a-visual-studio-extension?view=vs-2015&redirectedfrom=MSDN)
+        // Such values can supposedly come from resx files (see: https://docs.microsoft.com/en-us/visualstudio/extensibility/creating-an-extension-with-a-vspackage?view=vs-2019)
         // but that code doesn't work.
         "Lombiq Orchard Visual Studio Extension", 
         "Visual Studio extension with many features frequently used by Lombiq developers. Contains Orchard-related as well as generic goodies.",
