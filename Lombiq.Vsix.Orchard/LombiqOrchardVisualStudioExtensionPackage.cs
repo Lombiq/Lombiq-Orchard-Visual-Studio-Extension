@@ -20,7 +20,13 @@ namespace Lombiq.Vsix.Orchard
     [ProvideService(typeof(ILogFileWatcher), IsAsyncQueryable = true)]
     [ProvideAutoLoad(VSConstants.UICONTEXT.SolutionExists_string, PackageAutoLoadFlags.BackgroundLoad)]
     [PackageRegistration(UseManagedResourcesOnly = true, AllowsBackgroundLoading = true)]
-    [InstalledProductRegistration("#LombiqOrchardVisualStudioExtensionName", "#LombiqOrchardVisualStudioExtensionDescription", "1.0", IconResourceID = 400)]
+    [InstalledProductRegistration(
+        // Such values can supposedly come from resx files (see: https://docs.microsoft.com/en-us/visualstudio/extensibility/creating-an-extension-with-a-vspackage?view=vs-2019)
+        // but that code doesn't work.
+        "Lombiq Orchard Visual Studio Extension", 
+        "Visual Studio extension with many features frequently used by Lombiq developers. Contains Orchard-related as well as generic goodies.",
+        ExtensionVersion.Current,
+        IconResourceID = 400)]
     [ProvideMenuResource("Menus.ctmenu", 1)]
     [ProvideOptionPage(typeof(LogWatcherOptionsPage), "Lombiq Orchard Visual Studio Extension", "Orchard Log Watcher", 120, 121, true)]
     [Guid(PackageGuids.LombiqOrchardVisualStudioExtensionPackageGuidString)]

@@ -214,6 +214,7 @@
     <Compile Include="Commands\InjectDependencyCommand.cs" />
     <Compile Include="Constants\CommandBarNames.cs" />
     <Compile Include="Constants\DependencyInjectorErrorCodes.cs" />
+    <Compile Include="Constants\ExtensionVersion.cs" />
     <Compile Include="Exceptions\DependencyToConstructorInjectorException.cs" />
     <Compile Include="Extensions\ServiceContainerExtensions.cs" />
     <Compile Include="Extensions\ServiceProviderExtensions.cs" />
