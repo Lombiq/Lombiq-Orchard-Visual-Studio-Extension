@@ -4,7 +4,7 @@
 
 Visual Studio extension with many features frequently used by  [Lombiq](https://lombiq.com/) developers. Contains [Orchard](https://orchardproject.net/)-related (including Orchard Core) as well as generic goodies.
 
-The extension can also be installed from the [Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=LombiqVisualStudioExtension.LombiqOrchardVisualStudioExtension), including installing directly from inside Visual Studio from under Tools &gt; Extensions and Updates.
+The extension can also be installed from the [Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=LombiqVisualStudioExtension.LombiqOrchardVisualStudioExtension), including installing directly from inside Visual Studio from under Extensions &gt; Manage Extensions.
 
 
 ## Tools
@@ -27,6 +27,8 @@ This project is developed by [Lombiq Technologies Ltd](http://lombiq.com/). Comm
 
 ## Release notes
 
+- 1.4.2, 06.11.2019
+    - Fixing Visual Studio 2017 incompatibility issues.
 - 1.4.1, 20.10.2019
     - Fixing incompatibility issues with Visual Studio 2019.
 - 1.4, 17.06.2019
@@ -55,7 +57,7 @@ This project is developed by [Lombiq Technologies Ltd](http://lombiq.com/). Comm
     - New Orchard Error Log Watcher feature.
 - 1.1, 18.03.2017
     - The Dependency Injector tool now creates the constructor if it doesn't exist (i.e. it can be used even if there's no constructor already).
-    - `IEnumerable&lt;T&gt;` and other generic types are handled when generating injected dependency names; e.g. for `IEnumerable&lt;IDependency&gt;` the field name `_dependencies` will be generated.
+    - `IEnumerable<T>` and other generic types are handled when generating injected dependency names; e.g. for `IEnumerable<IDependency>` the field name `_dependencies` will be generated.
 - 1.0, 24.05.2016
     - Dependency Injector tool
     - Templates for content part, shape template, injected dependency, Orchard 1.9 and 1.10 module
