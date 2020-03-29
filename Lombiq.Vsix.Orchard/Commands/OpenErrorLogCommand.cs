@@ -1,4 +1,5 @@
-﻿using EnvDTE;
+﻿using BlinkStickDotNet;
+using EnvDTE;
 using Lombiq.Vsix.Orchard.Constants;
 using Lombiq.Vsix.Orchard.Helpers;
 using Lombiq.Vsix.Orchard.Models;
@@ -27,6 +28,8 @@ namespace Lombiq.Vsix.Orchard.Commands
         private OleMenuCommand _openErrorLogCommand;
         private CommandBar _orchardLogWatcherToolbar;
         private bool _hasSeenErrorLogUpdate;
+        private bool _errorIndicatorStateChanged;
+        private BlinkStick _blinkStick = null;
         private ILogFileStatus _latestUpdatedLogFileStatus;
 
 
@@ -50,9 +53,11 @@ namespace Lombiq.Vsix.Orchard.Commands
         {
             Instance = Instance ?? new OpenErrorLogCommand(package);
         }
-        
+
         public void Dispose()
         {
+            _blinkStick?.Dispose();
+
             foreach (var watcher in _logWatchers)
             {
                 watcher.LogUpdated -= LogFileUpdatedCallback;
@@ -66,6 +71,7 @@ namespace Lombiq.Vsix.Orchard.Commands
         private void Initialize()
         {
             _hasSeenErrorLogUpdate = true;
+            _errorIndicatorStateChanged = true;
 
             foreach (var watcher in _logWatchers)
             {
@@ -81,6 +87,8 @@ namespace Lombiq.Vsix.Orchard.Commands
 
             // Store Log Watcher toolbar in a variable to be able to show or hide depending on the Log Watcher settings.
             _orchardLogWatcherToolbar = ((CommandBars)_dte.CommandBars)[CommandBarNames.OrchardLogWatcherToolbarName];
+
+            _blinkStick = BlinkStick.FindFirst();
 
             if (_lazyLogWatcherSettings.Value.LogWatcherEnabled)
             {
@@ -146,11 +154,19 @@ namespace Lombiq.Vsix.Orchard.Commands
             {
                 _openErrorLogCommand.Enabled = true;
                 _openErrorLogCommand.Text = "Open Orchard error log";
+
+                if (_errorIndicatorStateChanged)
+                {
+                    RunForBlinkStickIfPresent(() => _blinkStick.SetColor("red"));
+                    _errorIndicatorStateChanged = false;
+                }
             }
             else
             {
                 _openErrorLogCommand.Enabled = false;
                 _openErrorLogCommand.Text = "Orchard error log doesn't exist or hasn't been updated";
+                RunForBlinkStickIfPresent(() => _blinkStick.TurnOff());
+                _errorIndicatorStateChanged = true;
             }
         }
 
@@ -168,6 +184,11 @@ namespace Lombiq.Vsix.Orchard.Commands
             {
                 watcher.StopWatching();
             }
+        }
+
+        private void RunForBlinkStickIfPresent(Action proces)
+        {
+            if (_blinkStick != null && _blinkStick.OpenDevice()) proces();
         }
     }
 }
