@@ -1,5 +1,4 @@
-﻿using BlinkStickDotNet;
-using EnvDTE;
+﻿using EnvDTE;
 using Lombiq.Vsix.Orchard.Constants;
 using Lombiq.Vsix.Orchard.Helpers;
 using Lombiq.Vsix.Orchard.Models;
@@ -25,11 +24,11 @@ namespace Lombiq.Vsix.Orchard.Commands
         private readonly DTE _dte;
         private readonly Lazy<ILogWatcherSettings> _lazyLogWatcherSettings;
         private readonly IEnumerable<ILogFileWatcher> _logWatchers;
+        private readonly BlinkStickManager _blinkStickManager;
         private OleMenuCommand _openErrorLogCommand;
         private CommandBar _orchardLogWatcherToolbar;
         private bool _hasSeenErrorLogUpdate;
         private bool _errorIndicatorStateChanged;
-        private BlinkStick _blinkStick = null;
         private ILogFileStatus _latestUpdatedLogFileStatus;
 
 
@@ -42,6 +41,7 @@ namespace Lombiq.Vsix.Orchard.Commands
             _lazyLogWatcherSettings = new Lazy<ILogWatcherSettings>(
                 _serviceProvider.GetService<ILogWatcherSettingsAccessor>().GetSettings);
             _logWatchers = _serviceProvider.GetServices<ILogFileWatcher>();
+            _blinkStickManager = new BlinkStickManager();
 
             Initialize();
         }
@@ -56,7 +56,7 @@ namespace Lombiq.Vsix.Orchard.Commands
 
         public void Dispose()
         {
-            _blinkStick?.Dispose();
+            _blinkStickManager.Dispose();
 
             foreach (var watcher in _logWatchers)
             {
@@ -87,8 +87,6 @@ namespace Lombiq.Vsix.Orchard.Commands
 
             // Store Log Watcher toolbar in a variable to be able to show or hide depending on the Log Watcher settings.
             _orchardLogWatcherToolbar = ((CommandBars)_dte.CommandBars)[CommandBarNames.OrchardLogWatcherToolbarName];
-
-            _blinkStick = BlinkStick.FindFirst();
 
             if (_lazyLogWatcherSettings.Value.LogWatcherEnabled)
             {
@@ -143,12 +141,14 @@ namespace Lombiq.Vsix.Orchard.Commands
 
         private void UpdateOpenErrorLogCommandAccessibilityAndText(ILogFileStatus logFileStatus = null)
         {
+            var logWatcherSettings = _lazyLogWatcherSettings.Value;
+
             if (!_dte.Solution.IsOpen)
             {
                 _openErrorLogCommand.Enabled = false;
                 _openErrorLogCommand.Text = "Solution is not open";
             }
-            else if (_lazyLogWatcherSettings.Value.LogWatcherEnabled &&
+            else if (logWatcherSettings.LogWatcherEnabled &&
                 ((logFileStatus?.HasContent ?? false) ||
                 !_hasSeenErrorLogUpdate))
             {
@@ -157,7 +157,8 @@ namespace Lombiq.Vsix.Orchard.Commands
 
                 if (_errorIndicatorStateChanged)
                 {
-                    RunForBlinkStickIfPresent(() => _blinkStick.SetColor("red"));
+                    if (logWatcherSettings.BlinkBlinkStick) _blinkStickManager.Blink(logWatcherSettings.BlinkStickColor);
+                    else _blinkStickManager.TurnOn(logWatcherSettings.BlinkStickColor);
                     _errorIndicatorStateChanged = false;
                 }
             }
@@ -165,7 +166,7 @@ namespace Lombiq.Vsix.Orchard.Commands
             {
                 _openErrorLogCommand.Enabled = false;
                 _openErrorLogCommand.Text = "Orchard error log doesn't exist or hasn't been updated";
-                RunForBlinkStickIfPresent(() => _blinkStick.TurnOff());
+                _blinkStickManager.TurnOff();
                 _errorIndicatorStateChanged = true;
             }
         }
@@ -184,11 +185,6 @@ namespace Lombiq.Vsix.Orchard.Commands
             {
                 watcher.StopWatching();
             }
-        }
-
-        private void RunForBlinkStickIfPresent(Action proces)
-        {
-            if (_blinkStick != null && _blinkStick.OpenDevice()) proces();
         }
     }
 }

@@ -19,6 +19,17 @@ namespace Lombiq.Vsix.Orchard.Models
         bool LogWatcherEnabled { get; }
 
         /// <summary>
+        /// The color, as a hex value or noun, to use with an attached BlinkStick USB LED stick if present.
+        /// </summary>
+        string BlinkStickColor { get; }
+
+        /// <summary>
+        /// Indicates whether an attached BlinkStick USB LED stick, if present, will blink (<c>true</c>) or light up
+        /// continuously (<c>false</c>) when a new error log entry is detected.
+        /// </summary>
+        bool BlinkBlinkStick { get; }
+
+        /// <summary>
         /// Returns the relative paths of the folders where the log files can be located.
         /// </summary>
         IEnumerable<string> GetLogFileFolderPaths();
