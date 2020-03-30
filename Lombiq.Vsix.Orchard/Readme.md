@@ -2,7 +2,7 @@
 
 
 
-Visual Studio extension with many features frequently used by  [Lombiq](https://lombiq.com/) developers. Contains [Orchard](https://orchardproject.net/)-related (including Orchard Core) as well as generic goodies.
+Visual Studio extension with many features frequently used by  [Lombiq](https://lombiq.com/) developers. Contains [Orchard](https://orchardproject.net/)-related (including Orchard Core) as well as generic goodies. For Orchard developers and for other .NET developers alike!
 
 The extension can also be installed from the [Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=LombiqVisualStudioExtension.LombiqOrchardVisualStudioExtension), including installing directly from inside Visual Studio from under Extensions &gt; Manage Extensions.
 
@@ -10,7 +10,7 @@ The extension can also be installed from the [Visual Studio Marketplace](https:/
 ## Tools
 
 - Dependency Injector: when a class is opened in the editor you can inject a dependency with this feature. Type the dependency name, hit Enter and it will be injected. Can be invoked from under the Tools menu as "Inject Dependency".
-- Orchard Error Log Watcher: watches the Orchard error log and if the log file exists and is not empty then notifies the user by making a button in the "Orchard Log Watcher" toolbar enabled. Clicking this button will open the error log using the default application. The feature can be turned off in the Options -> Orchard Log Watcher page. Turning the feature on and off also makes the related toolbar visible or hidden on the toolbar strip. And wait, there's more! This feature also supports [BlinkStick](https://www.blinkstick.com/) USB LED sticks that can light up when an error happens! Just plug in your BlinkStick (all of them should be compatible but only tested with [Nano](https://www.blinkstick.com/products/blinkstick-nano)) and it'll work.
+- Orchard Error Log Watcher: watches the Orchard error log and if the log file exists and is not empty then notifies the user by making a button in the "Orchard Log Watcher" toolbar enabled. Clicking this button will open the error log using the default application. The feature can be turned off in the Options -> Orchard Log Watcher page. Turning the feature on and off also makes the related toolbar visible or hidden on the toolbar strip. And wait, there's more! This feature also supports [BlinkStick](https://www.blinkstick.com/) USB LED sticks that can light up when an error happens! Just plug in your BlinkStick before starting VS (all of them should be compatible but only tested with the [Nano](https://www.blinkstick.com/products/blinkstick-nano) and [Strip](https://www.blinkstick.com/products/blinkstick-strip)) and it'll work.
 
 
 ## Source repositories
