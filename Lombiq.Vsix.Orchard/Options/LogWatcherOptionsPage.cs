@@ -29,12 +29,12 @@ namespace Lombiq.Vsix.Orchard.Options
 
         [DisplayName("Color for the BlinkStick LED stick")]
         [Category("Log Watcher BlinkStick Options")]
-        [Description("You can use your BlinkStick USB LED stick (see the Readme) so it lights up when a new log entry is detected. Set the color for it here. Use either a hex value or one of the names listed here: https://github.com/arvydas/BlinkStickDotNet/blob/master/BlinkStickDotNet/RgbColor.cs#L30.")]
+        [Description("Set the color for the BlinkStick USB LED stick here. Use either a hex value or one of the names listed here: https://github.com/arvydas/BlinkStickDotNet/blob/master/BlinkStickDotNet/RgbColor.cs#L30.")]
         public string BlinkStickColor { get; set; } = "red";
 
         [DisplayName("Blink BlinkStick LED stick")]
         [Category("Log Watcher BlinkStick Options")]
-        [Description("Enable/disable whether to make the BlinkStick USB LED stick blink when a new long entry is detected. When disabled the BlinkStick will light up continuously.")]
+        [Description("You can use your BlinkStick USB LED stick (see the Readme) so it lights up when a new log entry is detected. Enable/disable whether to make it blink when a new long entry is detected. When disabled the BlinkStick will light up continuously.")]
         public bool BlinkBlinkStick { get; set; } = false;
 
 

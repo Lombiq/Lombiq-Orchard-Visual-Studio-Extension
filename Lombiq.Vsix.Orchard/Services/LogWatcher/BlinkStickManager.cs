@@ -16,6 +16,7 @@ namespace Lombiq.Vsix.Orchard.Services.LogWatcher
 
         public void TurnOn(string color) => RunForBlinkStickIfPresent(() => _blinkStick.SetColor(color));
 
+        // Blink if you're not a lamp! https://youtu.be/_zCDvOsdL9Q?t=56
         public void Blink(string color)
         {
             // Since the built-in Blink() method blocks the thread we need to start a new one and do the blinking in a
