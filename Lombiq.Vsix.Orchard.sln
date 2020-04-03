@@ -1,12 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27703.2026
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29905.134
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lombiq.Vsix.Orchard", "Lombiq.Vsix.Orchard\Lombiq.Vsix.Orchard.csproj", "{EF02401B-9EB3-4E06-8C34-8411700E4B58}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{C8659693-2378-4A5D-B136-4983D0CDD7EE}"
 	ProjectSection(SolutionItems) = preProject
+		NuGet.config = NuGet.config
 		Readme.md = Readme.md
 	EndProjectSection
 EndProject

@@ -24,9 +24,11 @@ namespace Lombiq.Vsix.Orchard.Commands
         private readonly DTE _dte;
         private readonly Lazy<ILogWatcherSettings> _lazyLogWatcherSettings;
         private readonly IEnumerable<ILogFileWatcher> _logWatchers;
+        private readonly IBlinkStickManager _blinkStickManager;
         private OleMenuCommand _openErrorLogCommand;
         private CommandBar _orchardLogWatcherToolbar;
         private bool _hasSeenErrorLogUpdate;
+        private bool _errorIndicatorStateChanged;
         private ILogFileStatus _latestUpdatedLogFileStatus;
 
 
@@ -39,6 +41,7 @@ namespace Lombiq.Vsix.Orchard.Commands
             _lazyLogWatcherSettings = new Lazy<ILogWatcherSettings>(
                 _serviceProvider.GetService<ILogWatcherSettingsAccessor>().GetSettings);
             _logWatchers = _serviceProvider.GetServices<ILogFileWatcher>();
+            _blinkStickManager = _serviceProvider.GetService<IBlinkStickManager>();
 
             Initialize();
         }
@@ -50,9 +53,11 @@ namespace Lombiq.Vsix.Orchard.Commands
         {
             Instance = Instance ?? new OpenErrorLogCommand(package);
         }
-        
+
         public void Dispose()
         {
+            _blinkStickManager.Dispose();
+
             foreach (var watcher in _logWatchers)
             {
                 watcher.LogUpdated -= LogFileUpdatedCallback;
@@ -66,6 +71,7 @@ namespace Lombiq.Vsix.Orchard.Commands
         private void Initialize()
         {
             _hasSeenErrorLogUpdate = true;
+            _errorIndicatorStateChanged = true;
 
             foreach (var watcher in _logWatchers)
             {
@@ -135,22 +141,33 @@ namespace Lombiq.Vsix.Orchard.Commands
 
         private void UpdateOpenErrorLogCommandAccessibilityAndText(ILogFileStatus logFileStatus = null)
         {
+            var logWatcherSettings = _lazyLogWatcherSettings.Value;
+
             if (!_dte.Solution.IsOpen)
             {
                 _openErrorLogCommand.Enabled = false;
-                _openErrorLogCommand.Text = "Solution is not open";
+                _openErrorLogCommand.Text = "Solution is initializing";
             }
-            else if (_lazyLogWatcherSettings.Value.LogWatcherEnabled &&
+            else if (logWatcherSettings.LogWatcherEnabled &&
                 ((logFileStatus?.HasContent ?? false) ||
                 !_hasSeenErrorLogUpdate))
             {
                 _openErrorLogCommand.Enabled = true;
                 _openErrorLogCommand.Text = "Open Orchard error log";
+
+                if (_errorIndicatorStateChanged)
+                {
+                    if (logWatcherSettings.BlinkBlinkStick) _blinkStickManager.Blink(logWatcherSettings.BlinkStickColor);
+                    else _blinkStickManager.TurnOn(logWatcherSettings.BlinkStickColor);
+                    _errorIndicatorStateChanged = false;
+                }
             }
             else
             {
                 _openErrorLogCommand.Enabled = false;
                 _openErrorLogCommand.Text = "Orchard error log doesn't exist or hasn't been updated";
+                _blinkStickManager.TurnOff();
+                _errorIndicatorStateChanged = true;
             }
         }
 
