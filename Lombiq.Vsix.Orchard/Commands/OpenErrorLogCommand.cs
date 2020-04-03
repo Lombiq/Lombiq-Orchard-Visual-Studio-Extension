@@ -146,7 +146,7 @@ namespace Lombiq.Vsix.Orchard.Commands
             if (!_dte.Solution.IsOpen)
             {
                 _openErrorLogCommand.Enabled = false;
-                _openErrorLogCommand.Text = "Solution is not open";
+                _openErrorLogCommand.Text = "Solution is initializing";
             }
             else if (logWatcherSettings.LogWatcherEnabled &&
                 ((logFileStatus?.HasContent ?? false) ||
