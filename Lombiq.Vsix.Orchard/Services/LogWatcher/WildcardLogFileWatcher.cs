@@ -17,8 +17,6 @@ namespace Lombiq.Vsix.Orchard.Services.LogWatcher
         {
             var allMatchingFiles = base.GetAllMatchingPaths(root, patterns, logFileName);
 
-            var z = allMatchingFiles.OrderByDescending(path => File.GetLastWriteTime(path)).FirstOrDefault();
-
             return allMatchingFiles.Skip(1).Any() ?
                 allMatchingFiles.OrderByDescending(path => File.GetLastWriteTime(path)).Take(1) :
                 allMatchingFiles;
