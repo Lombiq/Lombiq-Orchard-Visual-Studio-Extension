@@ -271,6 +271,7 @@
     <Compile Include="Services\DependencyInjector\IFieldNameFromDependencyGenerator.cs" />
     <Compile Include="Services\LogWatcher\ILogWatcherSettingsAccessor.cs" />
     <Compile Include="Services\LogWatcher\ILogFileWatcher.cs" />
+    <Compile Include="Services\LogWatcher\WildcardLogFileWatcher.cs" />
     <Compile Include="VSPackage.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

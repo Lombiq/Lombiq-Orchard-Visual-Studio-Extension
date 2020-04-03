@@ -21,11 +21,16 @@ namespace Lombiq.Vsix.Orchard.Options
         [Description("Enable/disable Log Watcher feature. With this option turned off the Log Watcher won't check if the log file has any new entry.")]
         public bool LogWatcherEnabled { get; set; } = true;
 
-        [DisplayName("Log file folder path")]
+        [DisplayName("Log file folder paths")]
         [Category("General Log Watcher Options")]
         [Description("List of relative paths where the log files are located. Values must be relative to the solution file that is currently opened. Wildcards can be used. Use the '|' character to separate values. Example: App_Data/logs|*.Web/App_Data/logs.")]
         public string LogFileFolderPathsSerialized { get; set; } =
             @"Orchard.Web/App_Data/Logs|src/OrchardCore.Cms.Web/App_Data/logs|*.Web/App_Data/logs|src/*.Web/App_Data/logs";
+
+        [DisplayName("Log file name search pattern")]
+        [Category("General Log Watcher Options")]
+        [Description("If your app doesn't the standard Orchard log file naming conventions of orchard-log-YYYY-MM-DD.log and orchard-error-YYYY-MM-DD.log then you can specify a single search pattern (as offered by Directory.EnumerateFiles(), something like \"*.log\") to look for files in the directories configured above. If multiple files are found then the most recently written one will be used. Note that with a large number of matching files this will be slow so empty the log directory often.")]
+        public string LogFileNameSearchPattern { get; set; } = string.Empty;
 
         [DisplayName("Color for the BlinkStick LED stick")]
         [Category("Log Watcher BlinkStick Options")]

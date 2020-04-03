@@ -70,7 +70,8 @@ namespace Lombiq.Vsix.Orchard
             serviceContainer.AddService<ILogWatcherSettingsAccessor>(this);
             serviceContainer.AddServices<ILogFileWatcher>(
                 new OrchardErrorLogFileWatcher(this),
-                new OrchardCoreLogFileWatcher(this));
+                new OrchardCoreLogFileWatcher(this),
+                new WildcardLogFileWatcher(this));
             serviceContainer.AddService<IBlinkStickManager>(new BlinkStickManager());
         }
 

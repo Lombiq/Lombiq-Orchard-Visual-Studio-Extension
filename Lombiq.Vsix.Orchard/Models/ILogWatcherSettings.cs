@@ -19,6 +19,12 @@ namespace Lombiq.Vsix.Orchard.Models
         bool LogWatcherEnabled { get; }
 
         /// <summary>
+        /// Log file name search pattern (as offered by Directory.EnumerateFiles()) to look for files in the
+        /// directories provided by <see cref="GetLogFileFolderPaths"/>.
+        /// </summary>
+        string LogFileNameSearchPattern { get; }
+
+        /// <summary>
         /// The color, as a hex value or noun, to use with an attached BlinkStick USB LED stick if present.
         /// </summary>
         string BlinkStickColor { get; }

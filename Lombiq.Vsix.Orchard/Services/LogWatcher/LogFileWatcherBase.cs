@@ -15,7 +15,7 @@ namespace Lombiq.Vsix.Orchard.Services.LogWatcher
         private const int DefaultLogWatcherTimerIntervalInMilliseconds = 1000;
 
 
-        private readonly ILogWatcherSettingsAccessor _logWatcherSettingsAccessor;
+        protected readonly ILogWatcherSettingsAccessor _logWatcherSettingsAccessor;
         private readonly DTE _dte;
         private readonly Timer _timer;
         private bool _isWatching;
@@ -34,6 +34,7 @@ namespace Lombiq.Vsix.Orchard.Services.LogWatcher
         }
 
 
+        // Note that there are no wildcards for files because if multiple files are matching we can
         protected abstract string GetLogFileName();
 
         public virtual void StartWatching()
@@ -100,9 +101,13 @@ namespace Lombiq.Vsix.Orchard.Services.LogWatcher
         {
             var logFilePaths = _logWatcherSettingsAccessor.GetSettings().GetLogFileFolderPaths();
             var solutionPath = IsSolutionOpen() && !string.IsNullOrEmpty(_dte.Solution.FileName) ?
-                Path.GetDirectoryName(_dte.Solution.FileName) : "";
+                Path.GetDirectoryName(_dte.Solution.FileName) : string.Empty;
 
-            return GetAllMatchingPaths(solutionPath, logFilePaths, GetLogFileName()).FirstOrDefault();
+            var logFileName = GetLogFileName();
+
+            if (string.IsNullOrEmpty(logFileName)) return null;
+
+            return GetAllMatchingPaths(solutionPath, logFilePaths, logFileName).FirstOrDefault();
         }
 
         protected virtual void LogWatcherTimerElapsedCallback(object sender, ElapsedEventArgs e)
@@ -137,7 +142,7 @@ namespace Lombiq.Vsix.Orchard.Services.LogWatcher
 
         protected bool IsSolutionOpen() => _dte.Solution.IsOpen;
 
-        protected static IEnumerable<string> GetAllMatchingPaths(
+        protected virtual IEnumerable<string> GetAllMatchingPaths(
             string root,
             IEnumerable<string> patterns,
             string logFileName)
