@@ -264,6 +264,7 @@
     <Compile Include="Services\DependencyInjector\DefaultFieldNameFromDependencyGenerator.cs" />
     <Compile Include="Services\DependencyInjector\IDependencyNameProvider.cs" />
     <Compile Include="Services\LogWatcher\BlinkStickManager.cs" />
+    <Compile Include="Services\LogWatcher\IBlinkStickManager.cs" />
     <Compile Include="Services\LogWatcher\LogFileWatcherBase.cs" />
     <Compile Include="Services\LogWatcher\OrchardCoreLogFileWatcher.cs" />
     <Compile Include="Services\LogWatcher\OrchardErrorLogFileWatcher.cs" />

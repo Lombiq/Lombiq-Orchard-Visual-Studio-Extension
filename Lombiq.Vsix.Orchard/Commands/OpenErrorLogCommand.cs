@@ -24,7 +24,7 @@ namespace Lombiq.Vsix.Orchard.Commands
         private readonly DTE _dte;
         private readonly Lazy<ILogWatcherSettings> _lazyLogWatcherSettings;
         private readonly IEnumerable<ILogFileWatcher> _logWatchers;
-        private readonly BlinkStickManager _blinkStickManager;
+        private readonly IBlinkStickManager _blinkStickManager;
         private OleMenuCommand _openErrorLogCommand;
         private CommandBar _orchardLogWatcherToolbar;
         private bool _hasSeenErrorLogUpdate;
@@ -41,7 +41,7 @@ namespace Lombiq.Vsix.Orchard.Commands
             _lazyLogWatcherSettings = new Lazy<ILogWatcherSettings>(
                 _serviceProvider.GetService<ILogWatcherSettingsAccessor>().GetSettings);
             _logWatchers = _serviceProvider.GetServices<ILogFileWatcher>();
-            _blinkStickManager = new BlinkStickManager();
+            _blinkStickManager = _serviceProvider.GetService<IBlinkStickManager>();
 
             Initialize();
         }
