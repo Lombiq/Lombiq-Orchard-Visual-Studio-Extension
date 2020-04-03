@@ -2,6 +2,6 @@
 {
     internal static class ExtensionVersion
     {
-        public const string Current = "1.4.2";
+        public const string Current = "1.5.0";
     }
 }

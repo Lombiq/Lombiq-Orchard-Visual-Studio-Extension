@@ -21,9 +21,10 @@ namespace Lombiq.Vsix.Orchard
     [ProvideAutoLoad(VSConstants.UICONTEXT.SolutionExists_string, PackageAutoLoadFlags.BackgroundLoad)]
     [PackageRegistration(UseManagedResourcesOnly = true, AllowsBackgroundLoading = true)]
     [InstalledProductRegistration(
-        // Such values can supposedly come from resx files (see: https://docs.microsoft.com/en-us/visualstudio/extensibility/creating-an-extension-with-a-vspackage?view=vs-2019)
+        // Such values can supposedly come from resx files (see:
+        // https://docs.microsoft.com/en-us/visualstudio/extensibility/creating-an-extension-with-a-vspackage?view=vs-2019)
         // but that code doesn't work.
-        "Lombiq Orchard Visual Studio Extension", 
+        "Lombiq Orchard Visual Studio Extension",
         "Visual Studio extension with many features frequently used by Lombiq developers. Contains Orchard-related as well as generic goodies.",
         ExtensionVersion.Current,
         IconResourceID = 400)]
@@ -69,7 +70,9 @@ namespace Lombiq.Vsix.Orchard
             serviceContainer.AddService<ILogWatcherSettingsAccessor>(this);
             serviceContainer.AddServices<ILogFileWatcher>(
                 new OrchardErrorLogFileWatcher(this),
-                new OrchardCoreLogFileWatcher(this));
+                new OrchardCoreLogFileWatcher(this),
+                new WildcardLogFileWatcher(this));
+            serviceContainer.AddService<IBlinkStickManager>(new BlinkStickManager());
         }
 
 
