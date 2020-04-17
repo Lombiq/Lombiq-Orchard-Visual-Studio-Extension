@@ -10,14 +10,16 @@ using System;
 using System.ComponentModel.Design;
 using System.Runtime.InteropServices;
 using System.Threading;
+using System.Threading.Tasks;
 using Task = System.Threading.Tasks.Task;
 
 namespace Lombiq.Vsix.Orchard
 {
     [ProvideService(typeof(IDependencyInjector), IsAsyncQueryable = true)]
     [ProvideService(typeof(IFieldNameFromDependencyGenerator), IsAsyncQueryable = true)]
-    [ProvideService(typeof(ILogWatcherSettingsAccessor), IsAsyncQueryable = true)]
+    [ProvideService(typeof(IDependencyNameProvider), IsAsyncQueryable = true)]
     [ProvideService(typeof(ILogFileWatcher), IsAsyncQueryable = true)]
+    [ProvideService(typeof(IBlinkStickManager), IsAsyncQueryable = true)]
     [ProvideAutoLoad(VSConstants.UICONTEXT.SolutionExists_string, PackageAutoLoadFlags.BackgroundLoad)]
     [PackageRegistration(UseManagedResourcesOnly = true, AllowsBackgroundLoading = true)]
     [InstalledProductRegistration(
@@ -33,11 +35,15 @@ namespace Lombiq.Vsix.Orchard
     [Guid(PackageGuids.LombiqOrchardVisualStudioExtensionPackageGuidString)]
     public sealed class LombiqOrchardVisualStudioExtensionPackage : AsyncPackage, ILogWatcherSettingsAccessor
     {
+        ILogWatcherSettings ILogWatcherSettingsAccessor.GetSettings() =>
+            (ILogWatcherSettings)GetDialogPage(typeof(LogWatcherOptionsPage));
+
+
         protected override async Task InitializeAsync(CancellationToken cancellationToken, IProgress<ServiceProgressData> progress)
         {
-            await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync(cancellationToken);
-
             RegisterServices();
+
+            await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync(cancellationToken);
 
             InjectDependencyCommand.Initialize(this);
             OpenErrorLogCommand.Initialize(this);
@@ -53,34 +59,53 @@ namespace Lombiq.Vsix.Orchard
             base.Dispose(disposing);
         }
 
-
         private void RegisterServices()
         {
-            var serviceContainer = (IServiceContainer)this;
+            // Note that all dependencies need to be added with IsAsyncQueryable = true above in attributes.
+            // The current object can't be registered as an ILogWatcherSettingsAccessor dependency because it can't be
+            // resolved in an async manner. So just using it directly.
 
-            serviceContainer.AddService<IDependencyInjector>(new DependencyInjector());
-            serviceContainer.AddServices<IFieldNameFromDependencyGenerator>(
+            AddService<IDependencyInjector, DependencyInjector>();
+
+            AddService<IFieldNameFromDependencyGenerator>(() => Task.FromResult((object)new IFieldNameFromDependencyGenerator[]
+            {
                 new DefaultFieldNameFromDependencyGenerator(),
                 new DefaultFieldNameFromGenericTypeGenerator(),
                 new FieldNameFromIEnumerableGenerator(),
                 new FieldNameFromLocalizerGenerator(),
-                new SimplifiedFieldNameFromGenericTypeGenerator());
-            serviceContainer.AddServices<IDependencyNameProvider>(
-                new CommonDependencyNamesProvider());
-            serviceContainer.AddService<ILogWatcherSettingsAccessor>(this);
-            serviceContainer.AddServices<ILogFileWatcher>(
-                new OrchardErrorLogFileWatcher(this),
-                new OrchardCoreLogFileWatcher(this),
-                new WildcardLogFileWatcher(this));
-            serviceContainer.AddService<IBlinkStickManager>(new BlinkStickManager());
+                new SimplifiedFieldNameFromGenericTypeGenerator()
+            }));
+
+            AddService<IDependencyNameProvider>(() => Task.FromResult((object)new IDependencyNameProvider[]
+            {
+                new CommonDependencyNamesProvider()
+            }));
+
+            AddService<ILogWatcherSettingsAccessor>(this);
+
+            AddService<ILogFileWatcher>(() =>
+            {
+                var dte = GetGlobalService(typeof(Microsoft.VisualStudio.Shell.Interop.SDTE)) as EnvDTE.DTE;
+
+                return Task.FromResult((object)new ILogFileWatcher[]
+                {
+                    new OrchardErrorLogFileWatcher(this, dte),
+                    new OrchardCoreLogFileWatcher(this, dte),
+                    new WildcardLogFileWatcher(this, dte)
+                });
+            });
+
+            AddService<IBlinkStickManager, BlinkStickManager>();
         }
 
+        private void AddService<T>(Func<Task<object>> resolver) =>
+            AddService(typeof(T), (container, cancellationToken, serviceType) => resolver());
 
-        #region ILogWatcherSettings Members
+        private void AddService<TService, TImplementation>() where TImplementation : new() =>
+            AddService<TService>(() => Task.FromResult((object)new TImplementation()));
 
-        ILogWatcherSettings ILogWatcherSettingsAccessor.GetSettings() =>
-            (ILogWatcherSettings)GetDialogPage(typeof(LogWatcherOptionsPage));
+        private void AddService<T>(T instance) => ((IServiceContainer)this).AddService(typeof(T), instance);
 
-        #endregion
+        private async Task<T> GetServiceAsync<T>() => (T)(await GetServiceAsync(typeof(T)));
     }
 }

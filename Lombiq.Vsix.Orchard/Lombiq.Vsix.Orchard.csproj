@@ -228,7 +228,6 @@
     <Compile Include="Constants\DependencyInjectorErrorCodes.cs" />
     <Compile Include="Constants\ExtensionVersion.cs" />
     <Compile Include="Exceptions\DependencyToConstructorInjectorException.cs" />
-    <Compile Include="Extensions\ServiceContainerExtensions.cs" />
     <Compile Include="Extensions\ServiceProviderExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Forms\InjectDependencyDialog.cs">
