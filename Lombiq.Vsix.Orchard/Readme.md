@@ -41,6 +41,8 @@ This project is developed by [Lombiq Technologies Ltd](http://lombiq.com/). Comm
 
 ## Release notes
 
+- 1.5.1
+    - Fixing startup performance issues. If you've previously seen a message like "Visual Studio stopped responding for x seconds. Disabling the extension Lombiq Orchard Visual Studio Extension 1.5.0 might help." when launching Visual Studio then that's gone now.
 - 1.5.0, 04.04.2020
     - Support for [BlinkStick](https://www.blinkstick.com/) USB LED sticks so they can light up when the Orchard Error Log Watcher detects a new log entry.
     - Added support for custom log file name patters for the Orchard Error Log Watcher so files not following Orchard naming conventions will be detected too.
