@@ -7,10 +7,8 @@ using Lombiq.Vsix.Orchard.Services.LogWatcher;
 using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.Shell;
 using System;
-using System.ComponentModel.Design;
 using System.Runtime.InteropServices;
 using System.Threading;
-using System.Threading.Tasks;
 using Task = System.Threading.Tasks.Task;
 
 namespace Lombiq.Vsix.Orchard
@@ -41,12 +39,19 @@ namespace Lombiq.Vsix.Orchard
 
         protected override async Task InitializeAsync(CancellationToken cancellationToken, IProgress<ServiceProgressData> progress)
         {
+            // On using AsyncPackage see:
+            // https://docs.microsoft.com/en-us/visualstudio/extensibility/how-to-provide-an-asynchronous-visual-studio-service
+            // https://docs.microsoft.com/en-us/visualstudio/extensibility/how-to-use-asyncpackage-to-load-vspackages-in-the-background
+
             RegisterServices();
+
+            await InjectDependencyCommand.Create(this);
+            await OpenErrorLogCommand.Create(this, this);
 
             await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync(cancellationToken);
 
-            InjectDependencyCommand.Initialize(this);
-            OpenErrorLogCommand.Initialize(this);
+            await InjectDependencyCommand.Instance.InitializeUI();
+            await OpenErrorLogCommand.Instance.InitializeUI();
         }
 
         protected override void Dispose(bool disposing)
@@ -65,9 +70,9 @@ namespace Lombiq.Vsix.Orchard
             // The current object can't be registered as an ILogWatcherSettingsAccessor dependency because it can't be
             // resolved in an async manner. So just using it directly.
 
-            AddService<IDependencyInjector, DependencyInjector>();
+            this.AddService<IDependencyInjector, DependencyInjector>();
 
-            AddService<IFieldNameFromDependencyGenerator>(() => Task.FromResult((object)new IFieldNameFromDependencyGenerator[]
+            this.AddService<IFieldNameFromDependencyGenerator>(() => Task.FromResult((object)new IFieldNameFromDependencyGenerator[]
             {
                 new DefaultFieldNameFromDependencyGenerator(),
                 new DefaultFieldNameFromGenericTypeGenerator(),
@@ -76,16 +81,14 @@ namespace Lombiq.Vsix.Orchard
                 new SimplifiedFieldNameFromGenericTypeGenerator()
             }));
 
-            AddService<IDependencyNameProvider>(() => Task.FromResult((object)new IDependencyNameProvider[]
+            this.AddService<IDependencyNameProvider>(() => Task.FromResult((object)new IDependencyNameProvider[]
             {
                 new CommonDependencyNamesProvider()
             }));
 
-            AddService<ILogWatcherSettingsAccessor>(this);
-
-            AddService<ILogFileWatcher>(() =>
+            this.AddService<ILogFileWatcher>(() =>
             {
-                var dte = GetGlobalService(typeof(Microsoft.VisualStudio.Shell.Interop.SDTE)) as EnvDTE.DTE;
+                var dte = this.GetDte();
 
                 return Task.FromResult((object)new ILogFileWatcher[]
                 {
@@ -95,17 +98,7 @@ namespace Lombiq.Vsix.Orchard
                 });
             });
 
-            AddService<IBlinkStickManager, BlinkStickManager>();
+            this.AddService<IBlinkStickManager, BlinkStickManager>();
         }
-
-        private void AddService<T>(Func<Task<object>> resolver) =>
-            AddService(typeof(T), (container, cancellationToken, serviceType) => resolver());
-
-        private void AddService<TService, TImplementation>() where TImplementation : new() =>
-            AddService<TService>(() => Task.FromResult((object)new TImplementation()));
-
-        private void AddService<T>(T instance) => ((IServiceContainer)this).AddService(typeof(T), instance);
-
-        private async Task<T> GetServiceAsync<T>() => (T)(await GetServiceAsync(typeof(T)));
     }
 }

@@ -5,11 +5,11 @@ using Lombiq.Vsix.Orchard.Models;
 using Lombiq.Vsix.Orchard.Services.LogWatcher;
 using Microsoft.VisualStudio.CommandBars;
 using Microsoft.VisualStudio.Shell;
-using Microsoft.VisualStudio.Shell.Interop;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.Design;
 using System.IO;
+using Task = System.Threading.Tasks.Task;
 
 namespace Lombiq.Vsix.Orchard.Commands
 {
@@ -19,12 +19,12 @@ namespace Lombiq.Vsix.Orchard.Commands
         public static readonly Guid CommandSet = PackageGuids.LombiqOrchardVisualStudioExtensionCommandSetGuid;
 
 
-        private readonly IServiceProvider _serviceProvider;
-        private readonly IMenuCommandService _menuCommandService;
+        private readonly AsyncPackage _package;
         private readonly DTE _dte;
         private readonly Lazy<ILogWatcherSettings> _lazyLogWatcherSettings;
         private readonly IEnumerable<ILogFileWatcher> _logWatchers;
         private readonly IBlinkStickManager _blinkStickManager;
+
         private OleMenuCommand _openErrorLogCommand;
         private CommandBar _orchardLogWatcherToolbar;
         private bool _hasSeenErrorLogUpdate;
@@ -32,26 +32,47 @@ namespace Lombiq.Vsix.Orchard.Commands
         private ILogFileStatus _latestUpdatedLogFileStatus;
 
 
-        private OpenErrorLogCommand(Package package)
+        private OpenErrorLogCommand(
+            AsyncPackage package,
+            DTE dte,
+            Lazy<ILogWatcherSettings> lazyLogWatcherSettings,
+            IEnumerable<ILogFileWatcher> logWatchers,
+            IBlinkStickManager blinkStickManager)
         {
-            _serviceProvider = package;
-
-            _dte = Package.GetGlobalService(typeof(SDTE)) as DTE;
-            _menuCommandService = _serviceProvider.GetService<IMenuCommandService>();
-            _lazyLogWatcherSettings = new Lazy<ILogWatcherSettings>(
-                _serviceProvider.GetService<ILogWatcherSettingsAccessor>().GetSettings);
-            _logWatchers = _serviceProvider.GetServices<ILogFileWatcher>();
-            _blinkStickManager = _serviceProvider.GetService<IBlinkStickManager>();
-
-            Initialize();
+            _package = package;
+            _dte = dte;
+            _lazyLogWatcherSettings = lazyLogWatcherSettings;
+            _logWatchers = logWatchers;
+            _blinkStickManager = blinkStickManager;
         }
 
 
         public static OpenErrorLogCommand Instance { get; private set; }
 
-        public static void Initialize(Package package)
+        public static async Task Create(AsyncPackage package, ILogWatcherSettingsAccessor logWatcherSettingsAccessor)
         {
-            Instance = Instance ?? new OpenErrorLogCommand(package);
+            Instance = Instance ?? new OpenErrorLogCommand(
+                package,
+                package.GetDte(),
+                new Lazy<ILogWatcherSettings>(logWatcherSettingsAccessor.GetSettings),
+                await package.GetServicesAsync<ILogFileWatcher>(),
+                await package.GetServiceAsync<IBlinkStickManager>());
+
+            Instance.InitalizeWatchers();
+        }
+
+
+        public async Task InitializeUI()
+        {
+            _openErrorLogCommand = new OleMenuCommand(OpenErrorLogCallback, new CommandID(CommandSet, CommandId));
+            _openErrorLogCommand.BeforeQueryStatus += OpenErrorLogCommandBeforeQueryStatusCallback;
+
+            (await _package.GetServiceAsync<IMenuCommandService>()).AddCommand(_openErrorLogCommand);
+
+            // Store Log Watcher toolbar in a variable to be able to show or hide depending on the Log Watcher settings.
+            _orchardLogWatcherToolbar = ((CommandBars)_dte.CommandBars)[CommandBarNames.OrchardLogWatcherToolbarName];
+
+            if (_lazyLogWatcherSettings.Value.LogWatcherEnabled) _openErrorLogCommand.Visible = true;
         }
 
         public void Dispose()
@@ -68,7 +89,7 @@ namespace Lombiq.Vsix.Orchard.Commands
         }
 
 
-        private void Initialize()
+        private void InitalizeWatchers()
         {
             _hasSeenErrorLogUpdate = true;
             _errorIndicatorStateChanged = true;
@@ -80,20 +101,7 @@ namespace Lombiq.Vsix.Orchard.Commands
 
             _lazyLogWatcherSettings.Value.SettingsUpdated += LogWatcherSettingsUpdatedCallback;
 
-            _openErrorLogCommand = new OleMenuCommand(OpenErrorLogCallback, new CommandID(CommandSet, CommandId));
-            _openErrorLogCommand.BeforeQueryStatus += OpenErrorLogCommandBeforeQueryStatusCallback;
-
-            _menuCommandService.AddCommand(_openErrorLogCommand);
-
-            // Store Log Watcher toolbar in a variable to be able to show or hide depending on the Log Watcher settings.
-            _orchardLogWatcherToolbar = ((CommandBars)_dte.CommandBars)[CommandBarNames.OrchardLogWatcherToolbarName];
-
-            if (_lazyLogWatcherSettings.Value.LogWatcherEnabled)
-            {
-                _openErrorLogCommand.Visible = true;
-
-                StartLogFileWatching();
-            }
+            if (_lazyLogWatcherSettings.Value.LogWatcherEnabled) StartLogFileWatching();
         }
 
         private void OpenErrorLogCommandBeforeQueryStatusCallback(object sender, EventArgs e) =>
@@ -166,8 +174,9 @@ namespace Lombiq.Vsix.Orchard.Commands
             {
                 _openErrorLogCommand.Enabled = false;
                 _openErrorLogCommand.Text = "Orchard error log doesn't exist or hasn't been updated";
-                _blinkStickManager.TurnOff();
+                if (!_errorIndicatorStateChanged) _blinkStickManager.TurnOff();
                 _errorIndicatorStateChanged = true;
+
             }
         }
 

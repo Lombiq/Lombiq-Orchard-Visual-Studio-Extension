@@ -2,15 +2,13 @@
 using Lombiq.Vsix.Orchard.Constants;
 using Lombiq.Vsix.Orchard.Forms;
 using Lombiq.Vsix.Orchard.Helpers;
-using Lombiq.Vsix.Orchard.Services;
 using Lombiq.Vsix.Orchard.Services.DependencyInjector;
 using Microsoft.VisualStudio.Shell;
-using Microsoft.VisualStudio.Shell.Interop;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.Design;
-using System.Linq;
 using System.Windows.Forms;
+using Task = System.Threading.Tasks.Task;
 
 namespace Lombiq.Vsix.Orchard.Commands
 {
@@ -19,44 +17,49 @@ namespace Lombiq.Vsix.Orchard.Commands
         public const int CommandId = CommandIds.InjectDependencyCommandId;
         public static readonly Guid CommandSet = PackageGuids.LombiqOrchardVisualStudioExtensionCommandSetGuid;
 
-
-        private readonly IServiceProvider _serviceProvider;
-        private readonly IMenuCommandService _menuCommandService;
+        private readonly AsyncPackage _package;
+        private readonly DTE _dte;
         private readonly IDependencyInjector _dependencyInjector;
         private readonly IEnumerable<IFieldNameFromDependencyGenerator> _fieldNameGenerators;
         private readonly IEnumerable<IDependencyNameProvider> _dependencyNameProviders;
-        private readonly DTE _dte;
-
-        
-        private InjectDependencyCommand(Package package)
-        {
-            _serviceProvider = package;
-
-            _dte = Package.GetGlobalService(typeof(SDTE)) as DTE;
-            _dependencyInjector = _serviceProvider.GetService<IDependencyInjector>();
-            _fieldNameGenerators = _serviceProvider.GetServices<IFieldNameFromDependencyGenerator>();
-            _dependencyNameProviders = _serviceProvider.GetServices<IDependencyNameProvider>();
-            _menuCommandService = _serviceProvider.GetService<IMenuCommandService>();
-
-            Initialize();
-        }
-
 
         public static InjectDependencyCommand Instance { get; private set; }
 
-        public static void Initialize(Package package)
+
+        private InjectDependencyCommand(
+            AsyncPackage package,
+            DTE dte,
+            IDependencyInjector dependencyInjector,
+            IEnumerable<IFieldNameFromDependencyGenerator> fieldNameGenerators,
+            IEnumerable<IDependencyNameProvider> dependencyNameProviders)
         {
-            Instance = Instance ?? new InjectDependencyCommand(package);
+            _package = package;
+            _dte = dte;
+            _dependencyInjector = dependencyInjector;
+            _fieldNameGenerators = fieldNameGenerators;
+            _dependencyNameProviders = dependencyNameProviders;
         }
 
 
-        private void Initialize()
+        public static async Task Create(AsyncPackage package)
         {
-            _menuCommandService.AddCommand(
+            Instance = Instance ?? new InjectDependencyCommand(
+                package,
+                package.GetDte(),
+                await package.GetServiceAsync<IDependencyInjector>(),
+                await package.GetServicesAsync<IFieldNameFromDependencyGenerator>(),
+                await package.GetServicesAsync<IDependencyNameProvider>());
+        }
+
+
+        public async Task InitializeUI()
+        {
+            (await _package.GetServiceAsync<IMenuCommandService>()).AddCommand(
                 new MenuCommand(
                     MenuItemCallback,
                     new CommandID(CommandSet, CommandId)));
         }
+
 
         private void MenuItemCallback(object sender, EventArgs e)
         {
@@ -70,7 +73,7 @@ namespace Lombiq.Vsix.Orchard.Commands
             }
 
             using (var injectDependencyDialog = new InjectDependencyDialog(
-                _fieldNameGenerators, 
+                _fieldNameGenerators,
                 _dependencyNameProviders,
                 _dependencyInjector.GetExpectedClassName(_dte.ActiveDocument)))
             {
@@ -89,7 +92,7 @@ namespace Lombiq.Vsix.Orchard.Commands
                     }
 
                     var result = _dependencyInjector.Inject(
-                        _dte.ActiveDocument, 
+                        _dte.ActiveDocument,
                         injectDependencyDialog.GetDependencyInjectionData());
 
                     if (!result.Success)
@@ -98,7 +101,7 @@ namespace Lombiq.Vsix.Orchard.Commands
                         {
                             case DependencyInjectorErrorCodes.ClassNotFound:
                                 DialogHelpers.Warning(
-                                    "Could not inject dependency because the class was not found in this file.", 
+                                    "Could not inject dependency because the class was not found in this file.",
                                     injectDependencyCaption);
                                 break;
                             default:
