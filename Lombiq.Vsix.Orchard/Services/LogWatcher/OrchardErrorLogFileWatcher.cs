@@ -7,6 +7,8 @@ namespace Lombiq.Vsix.Orchard.Services.LogWatcher
         protected override string GetLogFileName() => "orchard-error-" + DateTime.Today.ToString("yyyy.MM.dd") + ".log";
 
 
-        public OrchardErrorLogFileWatcher(IServiceProvider serviceProvider) : base(serviceProvider) { }
+        public OrchardErrorLogFileWatcher(ILogWatcherSettingsAccessor logWatcherSettingsAccessor, EnvDTE.DTE dte) :
+            base(logWatcherSettingsAccessor, dte)
+        { }
     }
 }

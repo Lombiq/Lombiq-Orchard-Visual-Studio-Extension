@@ -1,5 +1,6 @@
 ﻿using BlinkStickDotNet;
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -10,11 +11,30 @@ namespace Lombiq.Vsix.Orchard.Services.LogWatcher
         private readonly object _lock = new object();
         private BlinkStick _blinkStick = null;
         private bool _isInitialized = false;
-        private Task _blinkTask = null;
+        private Task _backgroundTask = null;
         private CancellationTokenSource _cancellationTokenSource = null;
 
 
-        public void TurnOn(string color) => RunForBlinkStickIfPresent(() => _blinkStick.SetColor(color));
+        public void TurnOn(string color)
+        {
+            // It's necessary to start a background thread to keep the light on otherwise it would just go out for some
+            // reason (possibly due to VS stopping the thread's execution due to it being in an AsyncPackage).
+            // Doing ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync() in the Task won't help (maybe a bit but
+            // the light still goes out after a few seconds).
+            _cancellationTokenSource = new CancellationTokenSource();
+            var cancellationToken = _cancellationTokenSource.Token;
+            _backgroundTask = Task.Run(() =>
+            {
+                while (!_cancellationTokenSource.Token.IsCancellationRequested)
+                {
+                    TurnOnWithoutCancellation(color);
+                    // For some reason Thread.Sleep() is better, with Task.Delay() the light will sometimes flicker.
+                    // Possibly because the thread is dispatched to work on something else.
+                    // This 10ms refresh causes no measurable CPU load.
+                    Thread.Sleep(10);
+                }
+            }, cancellationToken);
+        }
 
         // Blink if you're not a lamp! https://youtu.be/_zCDvOsdL9Q?t=56
         public void Blink(string color)
@@ -23,14 +43,15 @@ namespace Lombiq.Vsix.Orchard.Services.LogWatcher
             // safer way.
             _cancellationTokenSource = new CancellationTokenSource();
             var cancellationToken = _cancellationTokenSource.Token;
-            _blinkTask = Task.Run(async () =>
+            _backgroundTask = Task.Run(() =>
             {
                 while (!cancellationToken.IsCancellationRequested)
                 {
-                    TurnOn(color);
-                    if (!cancellationToken.IsCancellationRequested) await Task.Delay(500);
-                    TurnOffWithoutBlinkCancellation();
-                    if (!cancellationToken.IsCancellationRequested) await Task.Delay(500);
+                    TurnOnWithoutCancellation(color);
+                    // See the notes on why using Thread.Sleep() instead of Task.Delay() above.
+                    if (!cancellationToken.IsCancellationRequested) Thread.Sleep(500);
+                    TurnOffWithoutCancellation();
+                    if (!cancellationToken.IsCancellationRequested) Thread.Sleep(500);
                 }
             }, cancellationToken);
         }
@@ -38,7 +59,7 @@ namespace Lombiq.Vsix.Orchard.Services.LogWatcher
         public void TurnOff()
         {
             _cancellationTokenSource?.Cancel();
-            TurnOffWithoutBlinkCancellation();
+            TurnOffWithoutCancellation();
         }
 
         public void Dispose()
@@ -49,7 +70,7 @@ namespace Lombiq.Vsix.Orchard.Services.LogWatcher
             _blinkStick = null;
         }
 
-
+        [SuppressMessage("Design", "CA1031:Do not catch general exception types", Justification = "No other way to check the color.")]
         public static bool IsValidColor(string color)
         {
             // Unfortunately, no way to check the color without using exceptions.
@@ -65,7 +86,9 @@ namespace Lombiq.Vsix.Orchard.Services.LogWatcher
         }
 
 
-        private void TurnOffWithoutBlinkCancellation() => RunForBlinkStickIfPresent(() => _blinkStick.TurnOff());
+        private void TurnOnWithoutCancellation(string color) => RunForBlinkStickIfPresent(() => _blinkStick.SetColor(color));
+
+        private void TurnOffWithoutCancellation() => RunForBlinkStickIfPresent(() => _blinkStick.TurnOff());
 
         private void RunForBlinkStickIfPresent(Action proces)
         {

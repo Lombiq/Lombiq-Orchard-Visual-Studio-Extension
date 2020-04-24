@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
@@ -10,7 +9,9 @@ namespace Lombiq.Vsix.Orchard.Services.LogWatcher
         protected override string GetLogFileName() => _logWatcherSettingsAccessor.GetSettings().LogFileNameSearchPattern.Trim();
 
 
-        public WildcardLogFileWatcher(IServiceProvider serviceProvider) : base(serviceProvider) { }
+        public WildcardLogFileWatcher(ILogWatcherSettingsAccessor logWatcherSettingsAccessor, EnvDTE.DTE dte) :
+            base(logWatcherSettingsAccessor, dte)
+        { }
 
 
         protected override IEnumerable<string> GetAllMatchingPaths(string root, IEnumerable<string> patterns, string logFileName)

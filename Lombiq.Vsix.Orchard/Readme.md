@@ -4,7 +4,7 @@
 
 Visual Studio extension with many features frequently used by  [Lombiq](https://lombiq.com/) developers. Contains [Orchard CMS](https://www.orchardcore.net/)-related (including Orchard Core and Orchard 1.x) as well as generic goodies. For Orchard developers and for other .NET developers alike!
 
-The extension can also be installed from the [Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=LombiqVisualStudioExtension.LombiqOrchardVisualStudioExtension), including installing directly from inside Visual Studio from under Extensions &gt; Manage Extensions.
+The extension can be installed from the [Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=LombiqVisualStudioExtension.LombiqOrchardVisualStudioExtension), including installing directly from inside Visual Studio from under Extensions &gt; Manage Extensions.
 
 
 ## Tools
@@ -17,9 +17,9 @@ Can be invoked from under Tools &gt; Inject Dependency. You can also bind a hotk
 ### (Orchard) Error Log Watcher
 Watches the Orchard error log (or any other error log) and lights up an icon when a new entry was logged. And wait, there's more! This feature also supports [BlinkStick](https://www.blinkstick.com/) USB LED sticks that can blink or light up when an error happens. Check out [this video](https://www.youtube.com/watch?v=MQx5WpJqGi8) for a demo of the whole feature.
 
-If the log file exists, was recently updated and is not empty then this features notifies you by making a button in the Orchard Log Watcher toolbar light up in red. Clicking this button will open the error log using the default application for that file type. You can add this button anywhere in the Visual Studio toolbar from under View &gt; Toolbars &gt; Orchard Log Watcher.
+If the log file exists, was recently updated and is not empty then this features notifies you by making a button in the Orchard Log Watcher toolbar light up in red. Clicking this button will open the error log using the default application for that file type and turn off the notification (the same will happen if you delete the contents of the log file). You can add this button anywhere in the Visual Studio toolbar from under View &gt; Toolbars &gt; Orchard Log Watcher.
 
-If you have any [BlinkStick](https://www.blinkstick.com/) USB LED stick (all of them should be compatible but only tested with the [Nano](https://www.blinkstick.com/products/blinkstick-nano) and the [Strip](https://www.blinkstick.com/products/blinkstick-strip)) then just plug it in and it'll light up too.
+If you have any [BlinkStick](https://www.blinkstick.com/) USB LED stick (all of them should be compatible but only tested with the [Nano](https://www.blinkstick.com/products/blinkstick-nano) and the [Strip](https://www.blinkstick.com/products/blinkstick-strip)) then just plug it in and it'll light up too. This will also work if the button is not placed onto the toolbar.
 
 Settings:
 - The feature can be turned on or off on the Options &gt; Orchard Log Watcher page. This also makes the related toolbar visible or hidden on the toolbar strip.
@@ -41,6 +41,9 @@ This project is developed by [Lombiq Technologies Ltd](http://lombiq.com/). Comm
 
 ## Release notes
 
+- 1.5.1, 24.04.2020
+    - Fixing startup performance issues. If you've previously seen a message like "Visual Studio stopped responding for x seconds. Disabling the extension Lombiq Orchard Visual Studio Extension 1.5.0 might help." when launching Visual Studio then that's gone now.
+    - Updating Lombiq logo to the current one.
 - 1.5.0, 04.04.2020
     - Support for [BlinkStick](https://www.blinkstick.com/) USB LED sticks so they can light up when the Orchard Error Log Watcher detects a new log entry.
     - Added support for custom log file name patters for the Orchard Error Log Watcher so files not following Orchard naming conventions will be detected too.
