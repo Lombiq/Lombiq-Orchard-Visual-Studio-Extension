@@ -1,5 +1,6 @@
 ﻿using BlinkStickDotNet;
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -69,7 +70,7 @@ namespace Lombiq.Vsix.Orchard.Services.LogWatcher
             _blinkStick = null;
         }
 
-
+        [SuppressMessage("Design", "CA1031:Do not catch general exception types", Justification = "No other way to check the color.")]
         public static bool IsValidColor(string color)
         {
             // Unfortunately, no way to check the color without using exceptions.
