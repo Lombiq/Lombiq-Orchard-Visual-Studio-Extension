@@ -24,6 +24,7 @@ namespace Lombiq.Vsix.Orchard.Commands
         private readonly ILogWatcherSettingsAccessor _logWatcherSettingsAccessor;
         private readonly IEnumerable<ILogFileWatcher> _logWatchers;
         private readonly IBlinkStickManager _blinkStickManager;
+        private readonly object _settingsChangeLock = new object();
 
         private OleMenuCommand _openErrorLogCommand;
         private bool _hasSeenErrorLogUpdate;
@@ -129,17 +130,27 @@ namespace Lombiq.Vsix.Orchard.Commands
 
         private async void LogWatcherSettingsUpdatedCallback(object sender, LogWatcherSettingsUpdatedEventArgs e)
         {
+            var isEnabled = e.Settings.LogWatcherEnabled;
             var orchardLogWatcherToolbar = ((CommandBars)(await _package.GetDteAsync()).CommandBars)[CommandBarNames.OrchardLogWatcherToolbarName];
-            orchardLogWatcherToolbar.Visible = e.Settings.LogWatcherEnabled;
+            orchardLogWatcherToolbar.Visible = isEnabled;
 
-            if (!e.Settings.LogWatcherEnabled)
+            // Since this method will be called from the UI thread not blocking it with the watcher changes that can
+            // potentially take some time.
+            await Task.Run(() =>
             {
-                StopLogFileWatching();
-            }
-            else
-            {
-                StartLogFileWatching();
-            }
+                // If the settings are repeatedly change then wait for the first one to finish before starting the next.
+                lock (_settingsChangeLock)
+                {
+                    if (isEnabled)
+                    {
+                        StartLogFileWatching();
+                    }
+                    else
+                    {
+                        StopLogFileWatching();
+                    }
+                }
+            });
 
             await UpdateOpenErrorLogCommandAccessibilityAndText();
         }
