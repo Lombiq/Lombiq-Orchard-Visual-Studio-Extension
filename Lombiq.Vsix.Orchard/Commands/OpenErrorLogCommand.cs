@@ -165,8 +165,7 @@ namespace Lombiq.Vsix.Orchard.Commands
                 _openErrorLogCommand.Text = "Solution is initializing";
             }
             else if (logWatcherSettings.LogWatcherEnabled &&
-                ((logFileStatus?.HasContent ?? false) ||
-                !_hasSeenErrorLogUpdate))
+                ((logFileStatus?.HasContent ?? false) || !_hasSeenErrorLogUpdate))
             {
                 _openErrorLogCommand.Enabled = true;
                 _openErrorLogCommand.Text = "Open Orchard error log";
