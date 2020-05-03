@@ -5,8 +5,8 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
-using System.Timers;
 
 namespace Lombiq.Vsix.Orchard.Services.LogWatcher
 {
@@ -17,7 +17,7 @@ namespace Lombiq.Vsix.Orchard.Services.LogWatcher
 
         private readonly AsyncPackage _package;
         protected readonly ILogWatcherSettingsAccessor _logWatcherSettingsAccessor;
-        private readonly Timer _timer;
+        private Timer _timer;
         private bool _isWatching;
         private ILogFileStatus _previousLogFileStatus;
 
@@ -29,8 +29,6 @@ namespace Lombiq.Vsix.Orchard.Services.LogWatcher
         {
             _package = package;
             _logWatcherSettingsAccessor = logWatcherSettingsAccessor;
-
-            _timer = new Timer();
         }
 
 
@@ -42,10 +40,45 @@ namespace Lombiq.Vsix.Orchard.Services.LogWatcher
 
             _previousLogFileStatus = await GetLogFileStatus();
 
-            _timer.Interval = DefaultLogWatcherTimerIntervalInMilliseconds;
-            _timer.AutoReset = true;
-            _timer.Elapsed += LogWatcherTimerElapsedCallback;
-            _timer.Start();
+            // Using this pattern: https://stackoverflow.com/a/684208/220230 to prevent overlapping timer calls.
+            // Since Timer callbacks are executed in a ThreadPool thread 
+            // (https://docs.microsoft.com/en-us/dotnet/standard/threading/timers) they won't block the UI thread.
+            _timer = new Timer(async state =>
+            {
+                try
+                {
+                    if (!(await _package.GetDteAsync()).SolutionIsOpen()) return;
+
+                    var logFileStatus = await GetLogFileStatus();
+
+                    // Log file has been deleted.
+                    if (logFileStatus == null && _previousLogFileStatus != null)
+                    {
+                        LogUpdated?.Invoke(this, new LogChangedEventArgs
+                        {
+                            LogFileStatus = new LogFileStatus
+                            {
+                                Exists = false,
+                                LastUpdatedUtc = DateTime.UtcNow,
+                                HasContent = false,
+                                Path = _previousLogFileStatus.Path
+                            }
+                        });
+                    }
+                    // Log file has been added or changed.
+                    else if (_previousLogFileStatus == null && logFileStatus != null ||
+                        logFileStatus != null && !logFileStatus.Equals(_previousLogFileStatus))
+                    {
+                        LogUpdated?.Invoke(this, new LogChangedEventArgs { LogFileStatus = logFileStatus });
+                    }
+
+                    _previousLogFileStatus = logFileStatus;
+                }
+                finally
+                {
+                    _timer.Change(DefaultLogWatcherTimerIntervalInMilliseconds, Timeout.Infinite);
+                }
+            }, null, 0, Timeout.Infinite);
 
             _isWatching = true;
         }
@@ -54,8 +87,7 @@ namespace Lombiq.Vsix.Orchard.Services.LogWatcher
         {
             if (!_isWatching) return;
 
-            _timer.Stop();
-            _timer.Elapsed -= LogWatcherTimerElapsedCallback;
+            _timer.Dispose();
 
             _isWatching = false;
 
@@ -108,36 +140,6 @@ namespace Lombiq.Vsix.Orchard.Services.LogWatcher
             if (string.IsNullOrEmpty(logFileName)) return null;
 
             return GetAllMatchingPaths(solutionPath, logFilePaths, logFileName).FirstOrDefault();
-        }
-
-        protected virtual async void LogWatcherTimerElapsedCallback(object sender, ElapsedEventArgs e)
-        {
-            if (!(await _package.GetDteAsync()).SolutionIsOpen()) return;
-
-            var logFileStatus = await GetLogFileStatus();
-
-            // Log file has been deleted.
-            if (logFileStatus == null && _previousLogFileStatus != null)
-            {
-                LogUpdated?.Invoke(this, new LogChangedEventArgs
-                {
-                    LogFileStatus = new LogFileStatus
-                    {
-                        Exists = false,
-                        LastUpdatedUtc = DateTime.UtcNow,
-                        HasContent = false,
-                        Path = _previousLogFileStatus.Path
-                    }
-                });
-            }
-            // Log file has been added or changed.
-            else if (_previousLogFileStatus == null && logFileStatus != null ||
-                logFileStatus != null && !logFileStatus.Equals(_previousLogFileStatus))
-            {
-                LogUpdated?.Invoke(this, new LogChangedEventArgs { LogFileStatus = logFileStatus });
-            }
-
-            _previousLogFileStatus = logFileStatus;
         }
 
         protected virtual IEnumerable<string> GetAllMatchingPaths(
