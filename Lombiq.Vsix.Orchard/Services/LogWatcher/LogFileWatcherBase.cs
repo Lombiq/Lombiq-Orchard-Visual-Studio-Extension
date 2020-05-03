@@ -34,7 +34,6 @@ namespace Lombiq.Vsix.Orchard.Services.LogWatcher
         }
 
 
-        // Note that there are no wildcards for files because if multiple files are matching we can
         protected abstract Task<string> GetLogFileName();
 
         public virtual async System.Threading.Tasks.Task StartWatching()
