@@ -2,6 +2,8 @@
 
 
 
+## About
+
 Visual Studio extension with many features frequently used by  [Lombiq](https://lombiq.com/) developers. Contains [Orchard CMS](https://www.orchardcore.net/)-related (including Orchard Core and Orchard 1.x) as well as generic goodies. For Orchard developers and for other .NET developers alike!
 
 The extension can be installed from the [Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=LombiqVisualStudioExtension.LombiqOrchardVisualStudioExtension), including installing directly from inside Visual Studio from under Extensions &gt; Manage Extensions.
@@ -27,16 +29,11 @@ Settings:
 - For your BlinkStick LED you can specify the color and whether it should blink (or light up continuously).
 
 
-## Source repositories
+## Contributing and support
 
-The extension's source is available in two public source repositories, automatically mirrored in both directions with [Git-hg Mirror](https://githgmirror.com):
+Bug reports, feature requests, comments, questions, code contributions, and love letters are warmly welcome, please do so via GitHub issues and pull requests. Please adhere to our [open-source guidelines](https://lombiq.com/open-source-guidelines) while doing so.
 
-- [https://bitbucket.org/Lombiq/lombiq-visual-studio-extension](https://bitbucket.org/Lombiq/lombiq-visual-studio-extension) (Mercurial repository)
-- [https://github.com/Lombiq/Lombiq-Visual-Studio-Extension](https://github.com/Lombiq/Lombiq-Visual-Studio-Extension) (Git repository)
-
-Bug reports, feature requests and comments are warmly welcome, **please do so via GitHub**.
-
-This project is developed by [Lombiq Technologies Ltd](http://lombiq.com/). Commercial-grade support is available through Lombiq.
+This project is developed by [Lombiq Technologies](https://lombiq.com/). Commercial-grade support is available through Lombiq.
 
 
 ## Release notes
