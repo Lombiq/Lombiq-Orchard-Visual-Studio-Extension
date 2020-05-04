@@ -76,7 +76,14 @@ namespace Lombiq.Vsix.Orchard.Services.LogWatcher
                 }
                 finally
                 {
-                    _timer.Change(DefaultLogWatcherTimerIntervalInMilliseconds, Timeout.Infinite);
+                    try
+                    {
+                        _timer.Change(DefaultLogWatcherTimerIntervalInMilliseconds, Timeout.Infinite);
+                    }
+                    catch (ObjectDisposedException)
+                    {
+                        // This can happen when the Log Watcher is disabled. Just swallowing it not to cause any issues.
+                    }
                 }
             }, null, 0, Timeout.Infinite);
 
