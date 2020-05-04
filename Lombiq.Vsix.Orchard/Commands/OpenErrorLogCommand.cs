@@ -183,7 +183,6 @@ namespace Lombiq.Vsix.Orchard.Commands
                 _openErrorLogCommand.Text = "Orchard error log doesn't exist or hasn't been updated";
                 if (!_errorIndicatorStateChanged) _blinkStickManager.TurnOff();
                 _errorIndicatorStateChanged = true;
-
             }
         }
 
