@@ -1,5 +1,4 @@
-﻿using EnvDTE;
-using Lombiq.Vsix.Orchard.Constants;
+﻿using Lombiq.Vsix.Orchard.Constants;
 using Lombiq.Vsix.Orchard.Forms;
 using Lombiq.Vsix.Orchard.Helpers;
 using Lombiq.Vsix.Orchard.Services.DependencyInjector;
@@ -18,7 +17,6 @@ namespace Lombiq.Vsix.Orchard.Commands
         public static readonly Guid CommandSet = PackageGuids.LombiqOrchardVisualStudioExtensionCommandSetGuid;
 
         private readonly AsyncPackage _package;
-        private readonly DTE _dte;
         private readonly IDependencyInjector _dependencyInjector;
         private readonly IEnumerable<IFieldNameFromDependencyGenerator> _fieldNameGenerators;
         private readonly IEnumerable<IDependencyNameProvider> _dependencyNameProviders;
@@ -28,13 +26,11 @@ namespace Lombiq.Vsix.Orchard.Commands
 
         private InjectDependencyCommand(
             AsyncPackage package,
-            DTE dte,
             IDependencyInjector dependencyInjector,
             IEnumerable<IFieldNameFromDependencyGenerator> fieldNameGenerators,
             IEnumerable<IDependencyNameProvider> dependencyNameProviders)
         {
             _package = package;
-            _dte = dte;
             _dependencyInjector = dependencyInjector;
             _fieldNameGenerators = fieldNameGenerators;
             _dependencyNameProviders = dependencyNameProviders;
@@ -45,7 +41,6 @@ namespace Lombiq.Vsix.Orchard.Commands
         {
             Instance = Instance ?? new InjectDependencyCommand(
                 package,
-                package.GetDte(),
                 await package.GetServiceAsync<IDependencyInjector>(),
                 await package.GetServicesAsync<IFieldNameFromDependencyGenerator>(),
                 await package.GetServicesAsync<IDependencyNameProvider>());
@@ -54,6 +49,7 @@ namespace Lombiq.Vsix.Orchard.Commands
 
         public async Task InitializeUI()
         {
+            await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
             (await _package.GetServiceAsync<IMenuCommandService>()).AddCommand(
                 new MenuCommand(
                     MenuItemCallback,
@@ -61,11 +57,12 @@ namespace Lombiq.Vsix.Orchard.Commands
         }
 
 
-        private void MenuItemCallback(object sender, EventArgs e)
+        private async void MenuItemCallback(object sender, EventArgs e)
         {
             var injectDependencyCaption = "Inject Dependency";
+            var dte = await _package.GetDteAsync();
 
-            if (_dte.ActiveDocument == null)
+            if (dte.ActiveDocument == null)
             {
                 DialogHelpers.Error("Open a code file first.", injectDependencyCaption);
 
@@ -75,7 +72,7 @@ namespace Lombiq.Vsix.Orchard.Commands
             using (var injectDependencyDialog = new InjectDependencyDialog(
                 _fieldNameGenerators,
                 _dependencyNameProviders,
-                _dependencyInjector.GetExpectedClassName(_dte.ActiveDocument)))
+                _dependencyInjector.GetExpectedClassName(dte.ActiveDocument)))
             {
                 if (injectDependencyDialog.ShowDialog() == DialogResult.OK)
                 {
@@ -92,7 +89,7 @@ namespace Lombiq.Vsix.Orchard.Commands
                     }
 
                     var result = _dependencyInjector.Inject(
-                        _dte.ActiveDocument,
+                        dte.ActiveDocument,
                         injectDependencyDialog.GetDependencyInjectionData());
 
                     if (!result.Success)

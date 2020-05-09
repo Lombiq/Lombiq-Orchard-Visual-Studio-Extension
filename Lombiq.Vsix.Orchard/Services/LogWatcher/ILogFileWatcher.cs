@@ -1,5 +1,6 @@
 ﻿using Lombiq.Vsix.Orchard.Models;
 using System;
+using System.Threading.Tasks;
 
 namespace Lombiq.Vsix.Orchard.Services.LogWatcher
 {
@@ -16,7 +17,7 @@ namespace Lombiq.Vsix.Orchard.Services.LogWatcher
         /// <summary>
         /// Starts watching the log file.
         /// </summary>
-        void StartWatching();
+        Task StartWatching();
 
         /// <summary>
         /// Stops watching the log file.
@@ -27,7 +28,7 @@ namespace Lombiq.Vsix.Orchard.Services.LogWatcher
         /// Checks if the log file exists in any possible log paths and has content.
         /// </summary>
         /// <returns>Log file status and details.</returns>
-        ILogFileStatus GetLogFileStatus();
+        Task<ILogFileStatus> GetLogFileStatus();
     }
 
 

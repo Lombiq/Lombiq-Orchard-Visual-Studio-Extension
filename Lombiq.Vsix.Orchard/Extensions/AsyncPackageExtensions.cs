@@ -2,12 +2,13 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.Design;
+using System.Threading.Tasks;
 
 namespace Microsoft.VisualStudio.Shell
 {
     public static class AsyncPackageExtensions
     {
-        public static void AddService<T>(this AsyncPackage package, Func<System.Threading.Tasks.Task<object>> resolver) =>
+        public static void AddService<T>(this AsyncPackage package, Func<Task<object>> resolver) =>
             package.AddService(typeof(T), (container, cancellationToken, serviceType) => resolver());
 
         public static void AddService<TService, TImplementation>(this AsyncPackage package) where TImplementation : new() =>
@@ -16,13 +17,16 @@ namespace Microsoft.VisualStudio.Shell
         public static void AddService<T>(this AsyncPackage package, T instance) =>
             ((IServiceContainer)package).AddService(typeof(T), instance);
 
-        public static async System.Threading.Tasks.Task<T> GetServiceAsync<T>(this AsyncPackage package) =>
+        /// <summary>
+        /// Gets the DTE object describing the VS IDE instance. Can be called from a background thread too. Don't cache
+        /// it across scopes!
+        /// </summary>
+        public static Task<DTE> GetDteAsync(this AsyncPackage package) => package.GetServiceAsync<DTE>();
+
+        public static async Task<T> GetServiceAsync<T>(this AsyncPackage package) =>
             (T)(await package.GetServiceAsync(typeof(T)));
 
-        public static async System.Threading.Tasks.Task<IEnumerable<T>> GetServicesAsync<T>(this AsyncPackage package) =>
+        public static async Task<IEnumerable<T>> GetServicesAsync<T>(this AsyncPackage package) =>
             (IEnumerable<T>)(await package.GetServiceAsync(typeof(T)));
-
-        public static DTE GetDte(this AsyncPackage package) =>
-            Package.GetGlobalService(typeof(Microsoft.VisualStudio.Shell.Interop.SDTE)) as DTE;
     }
 }

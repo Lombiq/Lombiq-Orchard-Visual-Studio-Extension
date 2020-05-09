@@ -1,14 +1,17 @@
-﻿using System;
+﻿using Microsoft.VisualStudio.Shell;
+using System;
+using System.Threading.Tasks;
 
 namespace Lombiq.Vsix.Orchard.Services.LogWatcher
 {
     public sealed class OrchardErrorLogFileWatcher : LogFileWatcherBase
     {
-        protected override string GetLogFileName() => "orchard-error-" + DateTime.Today.ToString("yyyy.MM.dd") + ".log";
+        protected override Task<string> GetLogFileName() =>
+            System.Threading.Tasks.Task.FromResult("orchard-error-" + DateTime.Today.ToString("yyyy.MM.dd") + ".log");
 
 
-        public OrchardErrorLogFileWatcher(ILogWatcherSettingsAccessor logWatcherSettingsAccessor, EnvDTE.DTE dte) :
-            base(logWatcherSettingsAccessor, dte)
+        public OrchardErrorLogFileWatcher(AsyncPackage package, ILogWatcherSettingsAccessor logWatcherSettingsAccessor) :
+            base(package, logWatcherSettingsAccessor)
         { }
     }
 }
