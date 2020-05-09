@@ -1,16 +1,19 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.VisualStudio.Shell;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Lombiq.Vsix.Orchard.Services.LogWatcher
 {
     public sealed class WildcardLogFileWatcher : LogFileWatcherBase
     {
-        protected override string GetLogFileName() => _logWatcherSettingsAccessor.GetSettings().LogFileNameSearchPattern.Trim();
+        protected override async Task<string> GetLogFileName() =>
+            (await _logWatcherSettingsAccessor.GetSettings()).LogFileNameSearchPattern.Trim();
 
 
-        public WildcardLogFileWatcher(ILogWatcherSettingsAccessor logWatcherSettingsAccessor, EnvDTE.DTE dte) :
-            base(logWatcherSettingsAccessor, dte)
+        public WildcardLogFileWatcher(AsyncPackage package, ILogWatcherSettingsAccessor logWatcherSettingsAccessor) :
+            base(package, logWatcherSettingsAccessor)
         { }
 
 

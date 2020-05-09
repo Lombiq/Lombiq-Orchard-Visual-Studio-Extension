@@ -1,10 +1,12 @@
 ﻿using EnvDTE;
 using Lombiq.Vsix.Orchard.Models;
+using Microsoft.VisualStudio.Shell;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Timers;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Lombiq.Vsix.Orchard.Services.LogWatcher
 {
@@ -13,9 +15,9 @@ namespace Lombiq.Vsix.Orchard.Services.LogWatcher
         private const int DefaultLogWatcherTimerIntervalInMilliseconds = 1000;
 
 
+        private readonly AsyncPackage _package;
         protected readonly ILogWatcherSettingsAccessor _logWatcherSettingsAccessor;
-        private readonly DTE _dte;
-        private readonly Timer _timer;
+        private Timer _timer;
         private bool _isWatching;
         private ILogFileStatus _previousLogFileStatus;
 
@@ -23,28 +25,67 @@ namespace Lombiq.Vsix.Orchard.Services.LogWatcher
         public event EventHandler<LogChangedEventArgs> LogUpdated;
 
 
-        protected LogFileWatcherBase(ILogWatcherSettingsAccessor logWatcherSettingsAccessor, DTE dte)
+        protected LogFileWatcherBase(AsyncPackage package, ILogWatcherSettingsAccessor logWatcherSettingsAccessor)
         {
+            _package = package;
             _logWatcherSettingsAccessor = logWatcherSettingsAccessor;
-            _dte = dte;
-
-            _timer = new Timer();
         }
 
 
-        // Note that there are no wildcards for files because if multiple files are matching we can
-        protected abstract string GetLogFileName();
+        protected abstract Task<string> GetLogFileName();
 
-        public virtual void StartWatching()
+        public virtual async System.Threading.Tasks.Task StartWatching()
         {
             if (_isWatching) return;
 
-            _previousLogFileStatus = GetLogFileStatus();
+            _previousLogFileStatus = await GetLogFileStatus();
 
-            _timer.Interval = DefaultLogWatcherTimerIntervalInMilliseconds;
-            _timer.AutoReset = true;
-            _timer.Elapsed += LogWatcherTimerElapsedCallback;
-            _timer.Start();
+            // Using this pattern: https://stackoverflow.com/a/684208/220230 to prevent overlapping timer calls.
+            // Since Timer callbacks are executed in a ThreadPool thread 
+            // (https://docs.microsoft.com/en-us/dotnet/standard/threading/timers) they won't block the UI thread.
+            _timer = new Timer(async state =>
+            {
+                try
+                {
+                    if (!(await _package.GetDteAsync()).SolutionIsOpen()) return;
+
+                    var logFileStatus = await GetLogFileStatus();
+
+                    // Log file has been deleted.
+                    if (logFileStatus == null && _previousLogFileStatus != null)
+                    {
+                        LogUpdated?.Invoke(this, new LogChangedEventArgs
+                        {
+                            LogFileStatus = new LogFileStatus
+                            {
+                                Exists = false,
+                                LastUpdatedUtc = DateTime.UtcNow,
+                                HasContent = false,
+                                Path = _previousLogFileStatus.Path
+                            }
+                        });
+                    }
+                    // Log file has been added or changed.
+                    else if (_previousLogFileStatus == null && logFileStatus != null ||
+                        logFileStatus != null && !logFileStatus.Equals(_previousLogFileStatus))
+                    {
+                        LogUpdated?.Invoke(this, new LogChangedEventArgs { LogFileStatus = logFileStatus });
+                    }
+
+                    _previousLogFileStatus = logFileStatus;
+                }
+                finally
+                {
+                    try
+                    {
+                        _timer.Change(DefaultLogWatcherTimerIntervalInMilliseconds, Timeout.Infinite);
+                    }
+                    catch (ObjectDisposedException)
+                    {
+                        // This can happen when the Log Watcher is disabled. Just swallowing it not to cause any issues.
+                    }
+                }
+            }, null, 0, Timeout.Infinite);
 
             _isWatching = true;
         }
@@ -53,17 +94,16 @@ namespace Lombiq.Vsix.Orchard.Services.LogWatcher
         {
             if (!_isWatching) return;
 
-            _timer.Stop();
-            _timer.Elapsed -= LogWatcherTimerElapsedCallback;
+            _timer.Dispose();
 
             _isWatching = false;
 
             _previousLogFileStatus = null;
         }
 
-        public ILogFileStatus GetLogFileStatus()
+        public async Task<ILogFileStatus> GetLogFileStatus()
         {
-            var logFilePath = GetExistingLogFilePath();
+            var logFilePath = await GetExistingLogFilePath();
 
             if (string.IsNullOrEmpty(logFilePath)) return null;
 
@@ -95,50 +135,19 @@ namespace Lombiq.Vsix.Orchard.Services.LogWatcher
             }
         }
 
-        protected virtual string GetExistingLogFilePath()
+        protected virtual async Task<string> GetExistingLogFilePath()
         {
-            var logFilePaths = _logWatcherSettingsAccessor.GetSettings().GetLogFileFolderPaths();
-            var solutionPath = IsSolutionOpen() && !string.IsNullOrEmpty(_dte.Solution.FileName) ?
-                Path.GetDirectoryName(_dte.Solution.FileName) : string.Empty;
+            var logFilePaths = (await _logWatcherSettingsAccessor.GetSettings()).GetLogFileFolderPaths();
+            var dte = await _package.GetDteAsync();
+            var solutionPath = dte.SolutionIsOpen() && !string.IsNullOrEmpty(dte.Solution.FileName) ?
+                Path.GetDirectoryName(dte.Solution.FileName) : string.Empty;
 
-            var logFileName = GetLogFileName();
+            var logFileName = await GetLogFileName();
 
             if (string.IsNullOrEmpty(logFileName)) return null;
 
             return GetAllMatchingPaths(solutionPath, logFilePaths, logFileName).FirstOrDefault();
         }
-
-        protected virtual void LogWatcherTimerElapsedCallback(object sender, ElapsedEventArgs e)
-        {
-            if (!IsSolutionOpen()) return;
-
-            var logFileStatus = GetLogFileStatus();
-
-            // Log file has been deleted.
-            if (logFileStatus == null && _previousLogFileStatus != null)
-            {
-                LogUpdated?.Invoke(this, new LogChangedEventArgs
-                {
-                    LogFileStatus = new LogFileStatus
-                    {
-                        Exists = false,
-                        LastUpdatedUtc = DateTime.UtcNow,
-                        HasContent = false,
-                        Path = _previousLogFileStatus.Path
-                    }
-                });
-            }
-            // Log file has been added or changed.
-            else if (_previousLogFileStatus == null && logFileStatus != null ||
-                logFileStatus != null && !logFileStatus.Equals(_previousLogFileStatus))
-            {
-                LogUpdated?.Invoke(this, new LogChangedEventArgs { LogFileStatus = logFileStatus });
-            }
-
-            _previousLogFileStatus = logFileStatus;
-        }
-
-        protected bool IsSolutionOpen() => _dte.Solution.IsOpen;
 
         protected virtual IEnumerable<string> GetAllMatchingPaths(
             string root,

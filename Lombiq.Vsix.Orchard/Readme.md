@@ -38,6 +38,8 @@ This project is developed by [Lombiq Technologies](https://lombiq.com/). Commerc
 
 ## Release notes
 
+- 1.5.2, 09.05.2020
+    - Fixing potential UI deadlocks when the Orchard Error Log Watcher icon was visible on the toolbar, causing VS freezes frequently on build.
 - 1.5.1, 24.04.2020
     - Fixing startup performance issues. If you've previously seen a message like "Visual Studio stopped responding for x seconds. Disabling the extension Lombiq Orchard Visual Studio Extension 1.5.0 might help." when launching Visual Studio then that's gone now.
     - Updating Lombiq logo to the current one.

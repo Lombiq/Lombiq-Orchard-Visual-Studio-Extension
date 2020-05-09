@@ -9,6 +9,7 @@ using Microsoft.VisualStudio.Shell;
 using System;
 using System.Runtime.InteropServices;
 using System.Threading;
+using System.Threading.Tasks;
 using Task = System.Threading.Tasks.Task;
 
 namespace Lombiq.Vsix.Orchard
@@ -33,22 +34,35 @@ namespace Lombiq.Vsix.Orchard
     [Guid(PackageGuids.LombiqOrchardVisualStudioExtensionPackageGuidString)]
     public sealed class LombiqOrchardVisualStudioExtensionPackage : AsyncPackage, ILogWatcherSettingsAccessor
     {
-        ILogWatcherSettings ILogWatcherSettingsAccessor.GetSettings() =>
-            (ILogWatcherSettings)GetDialogPage(typeof(LogWatcherOptionsPage));
+        async Task<ILogWatcherSettings> ILogWatcherSettingsAccessor.GetSettings()
+        {
+            // The caller will magically resume on its original thread so we can safely switch to the UI thread here
+            // (see: https://devblogs.microsoft.com/premier-developer/asynchronous-and-multithreaded-programming-within-vs-using-the-joinabletaskfactory/
+            // "The implementation of async methods you call (such as DoSomethingAsync or SaveWorkToDiskAsync) does not
+            // impact the thread of the calling method.")
+            await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
+            return (ILogWatcherSettings)GetDialogPage(typeof(LogWatcherOptionsPage));
+        }
 
 
         protected override async Task InitializeAsync(CancellationToken cancellationToken, IProgress<ServiceProgressData> progress)
         {
+            await base.InitializeAsync(cancellationToken, progress);
+
             // On using AsyncPackage see:
             // https://docs.microsoft.com/en-us/visualstudio/extensibility/how-to-provide-an-asynchronous-visual-studio-service
             // https://docs.microsoft.com/en-us/visualstudio/extensibility/how-to-use-asyncpackage-to-load-vspackages-in-the-background
+            // Be sure to read https://devblogs.microsoft.com/premier-developer/asynchronous-and-multithreaded-programming-within-vs-using-the-joinabletaskfactory/
+            // for a lot of background info on how and why to use JoinableTaskFactory.
+
+            // Here we need to take care of only doing the bare minimum on the UI thread, not to block it. However,
+            // some initialization that needs to happen in the background still depends on data from the UI thread so
+            // we need to switch back and forth.
 
             RegisterServices();
 
             await InjectDependencyCommand.Create(this);
             await OpenErrorLogCommand.Create(this, this);
-
-            await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync(cancellationToken);
 
             await InjectDependencyCommand.Instance.InitializeUI();
             await OpenErrorLogCommand.Instance.InitializeUI();
@@ -58,7 +72,10 @@ namespace Lombiq.Vsix.Orchard
         {
             if (disposing)
             {
-                OpenErrorLogCommand.Instance?.Dispose();
+                if (OpenErrorLogCommand.Instance != null)
+                {
+                    ThreadHelper.JoinableTaskFactory.Run(OpenErrorLogCommand.Instance.DisposeAsync);
+                }
             }
 
             base.Dispose(disposing);
@@ -88,13 +105,11 @@ namespace Lombiq.Vsix.Orchard
 
             this.AddService<ILogFileWatcher>(() =>
             {
-                var dte = this.GetDte();
-
                 return Task.FromResult((object)new ILogFileWatcher[]
                 {
-                    new OrchardErrorLogFileWatcher(this, dte),
-                    new OrchardCoreLogFileWatcher(this, dte),
-                    new WildcardLogFileWatcher(this, dte)
+                    new OrchardErrorLogFileWatcher(this, this),
+                    new OrchardCoreLogFileWatcher(this, this),
+                    new WildcardLogFileWatcher(this, this)
                 });
             });
 

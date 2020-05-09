@@ -229,6 +229,7 @@
     <Compile Include="Constants\ExtensionVersion.cs" />
     <Compile Include="Exceptions\DependencyToConstructorInjectorException.cs" />
     <Compile Include="Extensions\AsyncPackageExtensions.cs" />
+    <Compile Include="Extensions\DTEExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Forms\InjectDependencyDialog.cs">
       <SubType>Form</SubType>
