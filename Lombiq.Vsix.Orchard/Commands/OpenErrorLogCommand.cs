@@ -65,6 +65,7 @@ namespace Lombiq.Vsix.Orchard.Commands
 
             _openErrorLogCommand = new OleMenuCommand(OpenErrorLogCallback, new CommandID(CommandSet, CommandId));
             _openErrorLogCommand.BeforeQueryStatus += OpenErrorLogCommandBeforeQueryStatusCallback;
+            _openErrorLogCommand.Enabled = false;
 
             (await _package.GetServiceAsync<IMenuCommandService>()).AddCommand(_openErrorLogCommand);
 
