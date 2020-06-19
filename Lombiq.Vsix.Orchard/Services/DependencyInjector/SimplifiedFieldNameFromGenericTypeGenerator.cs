@@ -6,7 +6,7 @@ namespace Lombiq.Vsix.Orchard.Services.DependencyInjector
 {
     public class SimplifiedFieldNameFromGenericTypeGenerator : FieldNameFromGenericTypeGeneratorBase
     {
-        private static IEnumerable<string> SimplifiedGenericTypes = new[]
+        private static readonly IEnumerable<string> SimplifiedGenericTypes = new[]
         {
             "UserManager",
             "ILogger"
@@ -16,7 +16,7 @@ namespace Lombiq.Vsix.Orchard.Services.DependencyInjector
         public override double Priority => 15;
 
 
-        public override bool CanGenerate(string dependency) => 
+        public override bool CanGenerate(string dependency) =>
             base.CanGenerate(dependency) && SimplifiedGenericTypes.Any(type => dependency.StartsWith(type));
 
         public override DependencyInjectionData Generate(string dependency, bool useShortName)
@@ -30,7 +30,8 @@ namespace Lombiq.Vsix.Orchard.Services.DependencyInjector
                 FieldName = useShortName ?
                     GetShortNameWithUnderscore(segments.CleanedGenericTypeName) :
                     GetStringWithUnderscore(GetCamelCased(segments.CleanedGenericTypeName)),
-                FieldType = dependency,
+                // ILogger can be used as a non-generic type in the field.
+                FieldType = segments.GenericTypeName == "ILogger" ? "ILogger" : dependency,
                 ConstructorParameterName = useShortName ?
                     GetShortName(GetCamelCased(segments.CleanedGenericTypeName)) :
                     GetCamelCased(segments.CleanedGenericTypeName),
