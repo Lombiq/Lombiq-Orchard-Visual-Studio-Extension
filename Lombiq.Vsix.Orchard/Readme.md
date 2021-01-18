@@ -38,6 +38,9 @@ This project is developed by [Lombiq Technologies](https://lombiq.com/). Commerc
 
 ## Release notes
 
+- 1.5.3, 08.01.2021
+    - Injected `ILogger<T>` instances are now saved into non-generic `ILogger` fields.
+    - Removing additional line breaks around generator constructors when injecting dependencies (removing "logical code islands").
 - 1.5.2, 09.05.2020
     - Fixing potential UI deadlocks when the Orchard Error Log Watcher icon was visible on the toolbar, causing VS freezes frequently on build.
 - 1.5.1, 24.04.2020

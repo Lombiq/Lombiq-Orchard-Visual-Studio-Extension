@@ -153,24 +153,20 @@ namespace Lombiq.Vsix.Orchard.Services.DependencyInjector
             var createConstructorFromIndex = context.ClassStartLineIndex + (context.BraceStyle == BraceStyles.OpenInNewLine ? 2 : 1);
 
             // Add two empty lines before and after to separate the constructor from the field and the other parts of the code.
-            var constructorCodeLines = context.BraceStyle == BraceStyles.OpenInNewLine ? 
+            var constructorCodeLines = context.BraceStyle == BraceStyles.OpenInNewLine ?
                 new[]
                 {
-                    "",
                     "",
                     IndentText(classStartIndentSize, 2, "public " + context.ClassName + "()"),
                     IndentText(classStartIndentSize, 2, "{"),
                     IndentText(classStartIndentSize, 2, "}"),
-                    "",
                     ""
                 } :
                 new[]
                 {
                     "",
-                    "",
                     IndentText(classStartIndentSize, 2, "public " + context.ClassName + "() {"),
                     IndentText(classStartIndentSize, 2, "}"),
-                    "",
                     ""
                 };
 
@@ -204,11 +200,11 @@ namespace Lombiq.Vsix.Orchard.Services.DependencyInjector
 
                 // If the first line is empty skip this because it is probably empty conventionally.
                 if (constructorCodeStartIndex == i && string.IsNullOrEmpty(trimmedLine)) continue;
-                
+
                 // Insert the code line right after field assignments.
-                var isItFieldAssignment = trimmedLine.Length > 0 && 
-                    trimmedLine.Contains("=") && 
-                    (trimmedLine.StartsWith("_") 
+                var isItFieldAssignment = trimmedLine.Length > 0 &&
+                    trimmedLine.Contains("=") &&
+                    (trimmedLine.StartsWith("_")
                     || char.IsLower(trimmedLine[0]));
 
                 if (isItFieldAssignment) continue;
@@ -296,7 +292,7 @@ namespace Lombiq.Vsix.Orchard.Services.DependencyInjector
             return indentSize;
         }
 
-        private static string IndentText(int baseIndentSize, double indentSizeMultiplier, string text) => 
+        private static string IndentText(int baseIndentSize, double indentSizeMultiplier, string text) =>
             new string(' ', Convert.ToInt32(baseIndentSize * indentSizeMultiplier)) + text;
 
 
