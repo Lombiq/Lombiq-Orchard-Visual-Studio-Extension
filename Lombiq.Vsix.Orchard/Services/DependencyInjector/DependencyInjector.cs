@@ -175,7 +175,7 @@ namespace Lombiq.Vsix.Orchard.Services.DependencyInjector
                 context.CodeLines.Insert(createConstructorFromIndex + i, constructorCodeLines[i]);
             }
 
-            context.ConstructorLineIndex = createConstructorFromIndex + 2;
+            context.ConstructorLineIndex = createConstructorFromIndex + 1;
         }
 
         private static void InsertConstructorCodeLine(DependencyInjectionContext context)

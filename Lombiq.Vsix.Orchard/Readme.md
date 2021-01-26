@@ -38,6 +38,8 @@ This project is developed by [Lombiq Technologies](https://lombiq.com/). Commerc
 
 ## Release notes
 
+- 1.5.4, 26.01.2021
+    - Fixing that the dependency injector didn't add the constructor parameter if it created a new constructor.
 - 1.5.3, 08.01.2021
     - Injected `ILogger<T>` instances are now saved into non-generic `ILogger` fields.
     - Removing additional line breaks around generator constructors when injecting dependencies (removing "logical code islands").
