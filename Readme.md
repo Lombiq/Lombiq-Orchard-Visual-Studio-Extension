@@ -1,6 +1,8 @@
 # Lombiq Orchard Visual Studio Extension readme
 
 
+[![TeamCity build status](https://ci.lombiq.com/app/rest/builds/buildType:id:VisualStudioExtensions_LombiqOrchardVsix_Developer_PullAndBuild/statusIcon.svg)](https://ci.lombiq.com/buildConfiguration/VisualStudioExtensions_LombiqOrchardVsix_Developer_PullAndBuild?mode=builds#all-projects)
+
 ![image.png](Logos/Logo.png)
 
 
