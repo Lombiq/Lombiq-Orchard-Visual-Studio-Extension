@@ -24,17 +24,17 @@ namespace Lombiq.Vsix.Orchard.Services.LogWatcher
             var cancellationToken = _cancellationTokenSource.Token;
             _backgroundTask = Task.Run(
                 () =>
-            {
-                while (!_cancellationTokenSource.Token.IsCancellationRequested)
                 {
-                    TurnOnWithoutCancellation(color);
-                    // For some reason Thread.Sleep() is better, with Task.Delay() the light will sometimes flicker.
-                    // Possibly because the thread is dispatched to work on something else.
-                    // This 10ms refresh causes no measurable CPU load.
-                    Thread.Sleep(10);
-                }
-            },
-            cancellationToken);
+                    while (!_cancellationTokenSource.Token.IsCancellationRequested)
+                    {
+                        TurnOnWithoutCancellation(color);
+                        // For some reason Thread.Sleep() is better, with Task.Delay() the light will sometimes flicker.
+                        // Possibly because the thread is dispatched to work on something else.
+                        // This 10ms refresh causes no measurable CPU load.
+                        Thread.Sleep(10);
+                    }
+                },
+                cancellationToken);
         }
 
         // Blink if you're not a lamp! https://youtu.be/_zCDvOsdL9Q?t=56
@@ -54,7 +54,8 @@ namespace Lombiq.Vsix.Orchard.Services.LogWatcher
                     TurnOffWithoutCancellation();
                     if (!cancellationToken.IsCancellationRequested) Thread.Sleep(500);
                 }
-            }, cancellationToken);
+            },
+            cancellationToken);
         }
 
         public void TurnOff()

@@ -15,7 +15,7 @@ namespace Lombiq.Vsix.Orchard.Models
         {
             get
             {
-                if (_successResult == null) _successResult = new Result { Success = true };
+                _successResult = _successResult ?? new Result { Success = true };
 
                 return _successResult;
             }

@@ -11,8 +11,8 @@ namespace Lombiq.Vsix.Orchard.Services.LogWatcher
         protected override async Task<string> GetLogFileNameAsync() =>
             (await _logWatcherSettingsAccessor.GetSettingsAsync()).LogFileNameSearchPattern.Trim();
 
-        public WildcardLogFileWatcher(AsyncPackage package, ILogWatcherSettingsAccessor logWatcherSettingsAccessor) :
-            base(package, logWatcherSettingsAccessor)
+        public WildcardLogFileWatcher(AsyncPackage package, ILogWatcherSettingsAccessor logWatcherSettingsAccessor)
+            : base(package, logWatcherSettingsAccessor)
         { }
 
         protected override IEnumerable<string> GetAllMatchingPaths(string root, IEnumerable<string> patterns, string logFileName)

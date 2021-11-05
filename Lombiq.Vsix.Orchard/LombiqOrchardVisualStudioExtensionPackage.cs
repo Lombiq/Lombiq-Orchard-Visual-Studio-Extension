@@ -37,7 +37,8 @@ namespace Lombiq.Vsix.Orchard
         async Task<ILogWatcherSettings> ILogWatcherSettingsAccessor.GetSettingsAsync()
         {
             // The caller will magically resume on its original thread so we can safely switch to the UI thread here
-            // (see: https://devblogs.microsoft.com/premier-developer/asynchronous-and-multithreaded-programming-within-vs-using-the-joinabletaskfactory/
+            // (see:
+            // https://devblogs.microsoft.com/premier-developer/asynchronous-and-multithreaded-programming-within-vs-using-the-joinabletaskfactory/
             // "The implementation of async methods you call (such as DoSomethingAsync or SaveWorkToDiskAsync) does not
             // impact the thread of the calling method.")
             await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
@@ -51,7 +52,8 @@ namespace Lombiq.Vsix.Orchard
             // On using AsyncPackage see:
             // https://docs.microsoft.com/en-us/visualstudio/extensibility/how-to-provide-an-asynchronous-visual-studio-service
             // https://docs.microsoft.com/en-us/visualstudio/extensibility/how-to-use-asyncpackage-to-load-vspackages-in-the-background
-            // Be sure to read https://devblogs.microsoft.com/premier-developer/asynchronous-and-multithreaded-programming-within-vs-using-the-joinabletaskfactory/
+            // Be sure to read
+            // https://devblogs.microsoft.com/premier-developer/asynchronous-and-multithreaded-programming-within-vs-using-the-joinabletaskfactory/
             // for a lot of background info on how and why to use JoinableTaskFactory.
 
             // Here we need to take care of only doing the bare minimum on the UI thread, not to block it. However,
@@ -69,12 +71,9 @@ namespace Lombiq.Vsix.Orchard
 
         protected override void Dispose(bool disposing)
         {
-            if (disposing)
+            if (disposing && OpenErrorLogCommand.Instance != null)
             {
-                if (OpenErrorLogCommand.Instance != null)
-                {
-                    ThreadHelper.JoinableTaskFactory.Run(OpenErrorLogCommand.Instance.DisposeAsync);
-                }
+                ThreadHelper.JoinableTaskFactory.Run(OpenErrorLogCommand.Instance.DisposeAsync);
             }
 
             base.Dispose(disposing);

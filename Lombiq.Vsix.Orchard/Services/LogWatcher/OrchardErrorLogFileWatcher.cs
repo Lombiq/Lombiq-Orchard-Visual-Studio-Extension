@@ -9,8 +9,8 @@ namespace Lombiq.Vsix.Orchard.Services.LogWatcher
         protected override Task<string> GetLogFileNameAsync() =>
             System.Threading.Tasks.Task.FromResult("orchard-error-" + DateTime.Today.ToString("yyyy.MM.dd") + ".log");
 
-        public OrchardErrorLogFileWatcher(AsyncPackage package, ILogWatcherSettingsAccessor logWatcherSettingsAccessor) :
-            base(package, logWatcherSettingsAccessor)
+        public OrchardErrorLogFileWatcher(AsyncPackage package, ILogWatcherSettingsAccessor logWatcherSettingsAccessor)
+            : base(package, logWatcherSettingsAccessor)
         { }
     }
 }

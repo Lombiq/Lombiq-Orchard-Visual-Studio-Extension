@@ -44,7 +44,7 @@ namespace Lombiq.Vsix.Orchard.Forms
 
             ActiveControl = dependencyNameTextBox;
 
-            _suggestedDependencyNames =_dependencyNameProviders
+            _suggestedDependencyNames = _dependencyNameProviders
                 .OrderBy(provider => provider.Priority)
                 .SelectMany(provider => provider.GetDependencyNames(_className))
                 .Distinct(new DependencyNameEqualityComparer());

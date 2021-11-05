@@ -55,7 +55,7 @@ namespace Lombiq.Vsix.Orchard.Commands
 
         private async void MenuItemCallback(object sender, EventArgs e)
         {
-            var injectDependencyCaption = "Inject Dependency";
+            const string injectDependencyCaption = "Inject Dependency";
             var dte = await _package.GetDteAsync();
 
             if (dte.ActiveDocument == null)

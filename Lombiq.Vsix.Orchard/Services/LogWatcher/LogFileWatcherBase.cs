@@ -58,13 +58,13 @@ namespace Lombiq.Vsix.Orchard.Services.LogWatcher
                                 LastUpdatedUtc = DateTime.UtcNow,
                                 HasContent = false,
                                 Path = _previousLogFileStatus.Path,
-                            }
+                            },
                         });
                     }
 
                     // Log file has been added or changed.
-                    else if (_previousLogFileStatus == null && logFileStatus != null ||
-                        logFileStatus != null && !logFileStatus.Equals(_previousLogFileStatus))
+                    else if ((_previousLogFileStatus == null && logFileStatus != null) ||
+                        (logFileStatus != null && !logFileStatus.Equals(_previousLogFileStatus)))
                     {
                         LogUpdated?.Invoke(this, new LogChangedEventArgs { LogFileStatus = logFileStatus });
                     }
