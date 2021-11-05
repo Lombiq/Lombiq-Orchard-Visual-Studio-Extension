@@ -1,4 +1,4 @@
-﻿namespace Lombiq.Vsix.Orchard.Services.LogWatcher
+namespace Lombiq.Vsix.Orchard.Services.LogWatcher
 {
     public interface IBlinkStickManager
     {
