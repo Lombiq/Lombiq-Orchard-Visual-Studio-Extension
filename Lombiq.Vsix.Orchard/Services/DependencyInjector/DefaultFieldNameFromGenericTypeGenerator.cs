@@ -1,11 +1,10 @@
-﻿using Lombiq.Vsix.Orchard.Models;
+using Lombiq.Vsix.Orchard.Models;
 
 namespace Lombiq.Vsix.Orchard.Services.DependencyInjector
 {
     public class DefaultFieldNameFromGenericTypeGenerator : FieldNameFromGenericTypeGeneratorBase
     {
         public override double Priority => 10;
-        
 
         public override DependencyInjectionData Generate(string dependency, bool useShortName)
         {

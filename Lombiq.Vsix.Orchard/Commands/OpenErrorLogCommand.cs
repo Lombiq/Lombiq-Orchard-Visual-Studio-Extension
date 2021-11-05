@@ -19,7 +19,6 @@ namespace Lombiq.Vsix.Orchard.Commands
         public const int CommandId = CommandIds.OpenErrorLogCommandId;
         public static readonly Guid CommandSet = PackageGuids.LombiqOrchardVisualStudioExtensionCommandSetGuid;
 
-
         private readonly AsyncPackage _package;
         private readonly ILogWatcherSettingsAccessor _logWatcherSettingsAccessor;
         private readonly IEnumerable<ILogFileWatcher> _logWatchers;
@@ -30,7 +29,6 @@ namespace Lombiq.Vsix.Orchard.Commands
         private bool _hasSeenErrorLogUpdate;
         private bool _errorIndicatorStateChanged;
         private ILogFileStatus _latestUpdatedLogFileStatus;
-
 
         private OpenErrorLogCommand(
             AsyncPackage package,
@@ -44,7 +42,6 @@ namespace Lombiq.Vsix.Orchard.Commands
             _blinkStickManager = blinkStickManager;
         }
 
-
         public static OpenErrorLogCommand Instance { get; private set; }
 
         public static async Task CreateAsync(AsyncPackage package, ILogWatcherSettingsAccessor logWatcherSettingsAccessor)
@@ -57,7 +54,6 @@ namespace Lombiq.Vsix.Orchard.Commands
 
             await Instance.InitalizeWatchersAsync();
         }
-
 
         public async Task InitializeUIAsync()
         {
@@ -84,7 +80,6 @@ namespace Lombiq.Vsix.Orchard.Commands
 
             (await _logWatcherSettingsAccessor.GetSettingsAsync()).SettingsUpdated -= LogWatcherSettingsUpdatedCallback;
         }
-
 
         private async Task InitalizeWatchersAsync()
         {

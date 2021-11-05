@@ -1,4 +1,4 @@
-﻿using Lombiq.Vsix.Orchard.Constants;
+using Lombiq.Vsix.Orchard.Constants;
 using Lombiq.Vsix.Orchard.Helpers;
 using Lombiq.Vsix.Orchard.Models;
 using Lombiq.Vsix.Orchard.Services.LogWatcher;
@@ -42,12 +42,10 @@ namespace Lombiq.Vsix.Orchard.Options
         [Description("You can use your BlinkStick USB LED stick (see the Readme) so it lights up when a new log entry is detected. Enable/disable whether to make it blink when a new long entry is detected. When disabled the BlinkStick will light up continuously.")]
         public bool BlinkBlinkStick { get; set; } = false;
 
-
         public IEnumerable<string> GetLogFileFolderPaths() =>
             LogFileFolderPathsSerialized?
                 .Split(new[] { "|" }, StringSplitOptions.RemoveEmptyEntries)
                 .Select(value => value.Trim()) ?? Enumerable.Empty<string>();
-
 
         protected override void OnDeactivate(CancelEventArgs e)
         {

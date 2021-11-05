@@ -12,5 +12,5 @@ namespace Lombiq.Vsix.Orchard.Constants
         public static readonly Guid LombiqOrchardVisualStudioExtensionCommandSetGuid = new Guid(LombiqOrchardVisualStudioExtensionCommandSetGuidString);
         public static readonly Guid LombiqOrchardVisualStudioExtensionPackageGuid = new Guid(LombiqOrchardVisualStudioExtensionPackageGuidString);
         public static readonly Guid LogWatcherOptionsPageGuid = new Guid(LogWatcherOptionsPageGuidString);
-    };
+    }
 }

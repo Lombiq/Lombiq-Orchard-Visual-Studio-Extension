@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 namespace Lombiq.Vsix.Orchard.Models
@@ -36,14 +36,13 @@ namespace Lombiq.Vsix.Orchard.Models
         public string Path { get; set; }
         public DateTime? LastUpdatedUtc { get; set; }
 
-
         public override bool Equals(object logFileStatusObject)
         {
             var logFileStatus = logFileStatusObject as ILogFileStatus;
 
             if (logFileStatus == null) return false;
 
-            return HasContent == logFileStatus.HasContent && 
+            return HasContent == logFileStatus.HasContent &&
                 Exists == logFileStatus.Exists &&
                 Path == logFileStatus.Path &&
                 LastUpdatedUtc == logFileStatus.LastUpdatedUtc;

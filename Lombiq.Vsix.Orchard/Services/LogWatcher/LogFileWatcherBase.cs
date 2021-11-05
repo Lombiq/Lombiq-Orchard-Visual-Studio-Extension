@@ -14,23 +14,19 @@ namespace Lombiq.Vsix.Orchard.Services.LogWatcher
     {
         private const int DefaultLogWatcherTimerIntervalInMilliseconds = 1000;
 
-
         private readonly AsyncPackage _package;
         protected readonly ILogWatcherSettingsAccessor _logWatcherSettingsAccessor;
         private Timer _timer;
         private bool _isWatching;
         private ILogFileStatus _previousLogFileStatus;
 
-
         public event EventHandler<LogChangedEventArgs> LogUpdated;
-
 
         protected LogFileWatcherBase(AsyncPackage package, ILogWatcherSettingsAccessor logWatcherSettingsAccessor)
         {
             _package = package;
             _logWatcherSettingsAccessor = logWatcherSettingsAccessor;
         }
-
 
         protected abstract Task<string> GetLogFileNameAsync();
 
@@ -41,7 +37,7 @@ namespace Lombiq.Vsix.Orchard.Services.LogWatcher
             _previousLogFileStatus = await GetLogFileStatusAsync();
 
             // Using this pattern: https://stackoverflow.com/a/684208/220230 to prevent overlapping timer calls.
-            // Since Timer callbacks are executed in a ThreadPool thread 
+            // Since Timer callbacks are executed in a ThreadPool thread
             // (https://docs.microsoft.com/en-us/dotnet/standard/threading/timers) they won't block the UI thread.
             _timer = new Timer(async state =>
             {
@@ -65,6 +61,7 @@ namespace Lombiq.Vsix.Orchard.Services.LogWatcher
                             }
                         });
                     }
+
                     // Log file has been added or changed.
                     else if (_previousLogFileStatus == null && logFileStatus != null ||
                         logFileStatus != null && !logFileStatus.Equals(_previousLogFileStatus))
@@ -124,7 +121,6 @@ namespace Lombiq.Vsix.Orchard.Services.LogWatcher
             GC.SuppressFinalize(this);
         }
 
-
         protected virtual void Dispose(bool disposing)
         {
             if (disposing)
@@ -166,7 +162,6 @@ namespace Lombiq.Vsix.Orchard.Services.LogWatcher
             });
         }
 
-
         private static IEnumerable<string> GetAllMatchingPathsInternal(string pattern, string root)
         {
             var parts = pattern.Split(Path.DirectorySeparatorChar);
@@ -188,6 +183,7 @@ namespace Lombiq.Vsix.Orchard.Services.LogWatcher
                     {
                         return Directory.EnumerateFiles(combined, parts[i], SearchOption.TopDirectoryOnly);
                     }
+
                     // If this is in the middle of the path (a directory name).
                     else
                     {

@@ -1,11 +1,10 @@
-﻿using System.Text.RegularExpressions;
+using System.Text.RegularExpressions;
 
 namespace Lombiq.Vsix.Orchard.Services.DependencyInjector
 {
     public abstract class FieldNameFromGenericTypeGeneratorBase : FieldNameFromDependencyGeneratorBase
     {
         protected const string GenericTypeNameRegexPattern = @"^[A-Z_]+[a-zA-Z0-9_]*[<]+[a-zA-Z_]+[a-zA-Z0-9_]*[>]+$";
-
 
         public override bool CanGenerate(string dependency) =>
             Regex.IsMatch(dependency, GenericTypeNameRegexPattern);
@@ -23,7 +22,6 @@ namespace Lombiq.Vsix.Orchard.Services.DependencyInjector
                 CleanedGenericParameterName = RemoveFirstLetterIfInterface(genericParameter)
             };
         }
-        
 
         protected class CleanedGenericTypeSegments
         {

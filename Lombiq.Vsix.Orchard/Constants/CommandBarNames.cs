@@ -4,5 +4,5 @@ namespace Lombiq.Vsix.Orchard.Constants
     {
         // These names are also defined and used in the LombiqOrchardVisualStudioExtension.vsct file.
         public const string OrchardLogWatcherToolbarName = "Orchard Log Watcher";
-    };
+    }
 }

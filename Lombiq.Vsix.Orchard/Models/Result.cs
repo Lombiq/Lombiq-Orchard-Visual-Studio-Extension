@@ -1,4 +1,4 @@
-﻿namespace Lombiq.Vsix.Orchard.Models
+namespace Lombiq.Vsix.Orchard.Models
 {
     public interface IResult
     {
@@ -7,12 +7,11 @@
         string ErrorCode { get; }
     }
 
-
     public class Result : IResult
     {
         private static IResult _successResult;
 
-        public static IResult SuccessResult 
+        public static IResult SuccessResult
         {
             get
             {
@@ -22,9 +21,8 @@
             }
         }
 
-        public static IResult FailedResult(string errorCode) => 
+        public static IResult FailedResult(string errorCode) =>
             new Result { Success = false, ErrorCode = errorCode };
-
 
         public bool Success { get; set; }
 

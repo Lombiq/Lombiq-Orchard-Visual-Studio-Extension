@@ -1,4 +1,4 @@
-﻿using Lombiq.Vsix.Orchard.Models;
+using Lombiq.Vsix.Orchard.Models;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -8,19 +8,17 @@ namespace Lombiq.Vsix.Orchard.Services.DependencyInjector
     {
         public abstract double Priority { get; }
 
-
         public abstract bool CanGenerate(string dependency);
 
         public abstract DependencyInjectionData Generate(string dependency, bool useShortName);
 
-
-        protected virtual string GetStringWithUnderscore(string value) => 
+        protected virtual string GetStringWithUnderscore(string value) =>
             "_" + value;
 
-        protected virtual string GetLowerInvariantString(string value) => 
+        protected virtual string GetLowerInvariantString(string value) =>
             value.ToLowerInvariant();
 
-        protected virtual string GetLowerInvariantStringWithUnderscore(string value) => 
+        protected virtual string GetLowerInvariantStringWithUnderscore(string value) =>
             GetStringWithUnderscore(GetLowerInvariantString(value));
 
         protected virtual string GetShortName(string value)
@@ -41,7 +39,7 @@ namespace Lombiq.Vsix.Orchard.Services.DependencyInjector
                 GetStringWithUnderscore(value[0].ToString());
         }
 
-        protected virtual string RemoveFirstLetterIfInterface(string interfaceName) => 
+        protected virtual string RemoveFirstLetterIfInterface(string interfaceName) =>
             interfaceName.Length > 1 && interfaceName.StartsWith("I") && char.IsUpper(interfaceName[1]) ?
                 interfaceName.Substring(1) :
                 string.Copy(interfaceName);
@@ -53,8 +51,7 @@ namespace Lombiq.Vsix.Orchard.Services.DependencyInjector
             return char.ToLower(value[0]) + value.Substring(1);
         }
 
-
-        private IEnumerable<char> GetUpperCasedLetters(string value) => 
+        private IEnumerable<char> GetUpperCasedLetters(string value) =>
             value.Where(letter => char.IsUpper(letter));
     }
 }

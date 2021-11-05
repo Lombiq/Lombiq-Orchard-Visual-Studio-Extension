@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Runtime.Serialization;
 
 namespace Lombiq.Vsix.Orchard.Exceptions
@@ -8,19 +8,16 @@ namespace Lombiq.Vsix.Orchard.Exceptions
         public const string ConstructorNotFound = "ConstructorNotFound";
     }
 
-
     [Serializable]
     public class DependencyToConstructorInjectorException : Exception
     {
         public string ErrorCode { get; }
-
 
         public DependencyToConstructorInjectorException(string errorCode, string message)
             : base(message)
         {
             ErrorCode = errorCode;
         }
-
 
         public override void GetObjectData(SerializationInfo info, StreamingContext context)
         {

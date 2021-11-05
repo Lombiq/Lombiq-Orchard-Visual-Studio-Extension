@@ -44,7 +44,6 @@ namespace Lombiq.Vsix.Orchard
             return (ILogWatcherSettings)GetDialogPage(typeof(LogWatcherOptionsPage));
         }
 
-
         protected override async Task InitializeAsync(CancellationToken cancellationToken, IProgress<ServiceProgressData> progress)
         {
             await base.InitializeAsync(cancellationToken, progress);

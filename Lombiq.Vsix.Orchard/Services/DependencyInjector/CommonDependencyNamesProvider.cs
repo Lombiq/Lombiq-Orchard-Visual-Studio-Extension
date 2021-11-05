@@ -1,4 +1,4 @@
-﻿using Lombiq.Vsix.Orchard.Models;
+using Lombiq.Vsix.Orchard.Models;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -46,13 +46,11 @@ namespace Lombiq.Vsix.Orchard.Services.DependencyInjector
 
         public double Priority => 10;
 
-
         public IEnumerable<DependencyName> GetDependencyNames(string className = "") =>
             CommonDependencyNames
                 .Select(dependencyName => CreateDependencyName(dependencyName, className))
                 .Union(CommonDependencyNamesWhereShortNameShouldBeUsed
                     .Select(dependencyName => CreateDependencyName(dependencyName, className, true)));
-
 
         private DependencyName CreateDependencyName(string name, string className, bool shouldUseShortName = false) =>
             new DependencyName

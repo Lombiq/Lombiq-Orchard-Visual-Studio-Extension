@@ -1,4 +1,4 @@
-﻿using Lombiq.Vsix.Orchard.Constants;
+using Lombiq.Vsix.Orchard.Constants;
 using Lombiq.Vsix.Orchard.Forms;
 using Lombiq.Vsix.Orchard.Helpers;
 using Lombiq.Vsix.Orchard.Services.DependencyInjector;
@@ -23,7 +23,6 @@ namespace Lombiq.Vsix.Orchard.Commands
 
         public static InjectDependencyCommand Instance { get; private set; }
 
-
         private InjectDependencyCommand(
             AsyncPackage package,
             IDependencyInjector dependencyInjector,
@@ -36,7 +35,6 @@ namespace Lombiq.Vsix.Orchard.Commands
             _dependencyNameProviders = dependencyNameProviders;
         }
 
-
         public static async Task CreateAsync(AsyncPackage package)
         {
             Instance = Instance ?? new InjectDependencyCommand(
@@ -46,7 +44,6 @@ namespace Lombiq.Vsix.Orchard.Commands
                 await package.GetServicesAsync<IDependencyNameProvider>());
         }
 
-
         public async Task InitializeUIAsync()
         {
             await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
@@ -55,7 +52,6 @@ namespace Lombiq.Vsix.Orchard.Commands
                     MenuItemCallback,
                     new CommandID(CommandSet, CommandId)));
         }
-
 
         private async void MenuItemCallback(object sender, EventArgs e)
         {

@@ -1,4 +1,4 @@
-﻿using Lombiq.Vsix.Orchard.Models;
+using Lombiq.Vsix.Orchard.Models;
 using System.Collections.Generic;
 
 namespace Lombiq.Vsix.Orchard.Services.DependencyInjector
@@ -12,7 +12,6 @@ namespace Lombiq.Vsix.Orchard.Services.DependencyInjector
         /// Priority number used to decide which provider implementation needs to provide dependency names first.
         /// </summary>
         double Priority { get; }
-
 
         /// <summary>
         /// Returns dependency names and some suggested information about them (e.g. should use short field name).

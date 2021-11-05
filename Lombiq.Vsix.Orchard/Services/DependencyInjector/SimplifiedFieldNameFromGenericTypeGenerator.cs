@@ -1,4 +1,4 @@
-﻿using Lombiq.Vsix.Orchard.Models;
+using Lombiq.Vsix.Orchard.Models;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -12,9 +12,7 @@ namespace Lombiq.Vsix.Orchard.Services.DependencyInjector
             "ILogger"
         };
 
-
         public override double Priority => 15;
-
 
         public override bool CanGenerate(string dependency) =>
             base.CanGenerate(dependency) && SimplifiedGenericTypes.Any(type => dependency.StartsWith(type));

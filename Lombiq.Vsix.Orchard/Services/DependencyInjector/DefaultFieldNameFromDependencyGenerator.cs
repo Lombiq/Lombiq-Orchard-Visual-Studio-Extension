@@ -1,11 +1,10 @@
-﻿using Lombiq.Vsix.Orchard.Models;
+using Lombiq.Vsix.Orchard.Models;
 
 namespace Lombiq.Vsix.Orchard.Services.DependencyInjector
 {
     public class DefaultFieldNameFromDependencyGenerator : FieldNameFromDependencyGeneratorBase
     {
         public override double Priority => 1;
-
 
         public override bool CanGenerate(string dependency) => true;
 

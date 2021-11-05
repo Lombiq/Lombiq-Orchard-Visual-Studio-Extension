@@ -31,7 +31,6 @@ namespace Lombiq.Vsix.Orchard.Services.LogWatcher
         Task<ILogFileStatus> GetLogFileStatusAsync();
     }
 
-
     public static class LogFileWatcherExtensions
     {
         /// <summary>

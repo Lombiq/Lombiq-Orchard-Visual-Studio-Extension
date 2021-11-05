@@ -1,4 +1,4 @@
-﻿using BlinkStickDotNet;
+using BlinkStickDotNet;
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading;
@@ -13,7 +13,6 @@ namespace Lombiq.Vsix.Orchard.Services.LogWatcher
         private bool _isInitialized = false;
         private Task _backgroundTask = null;
         private CancellationTokenSource _cancellationTokenSource = null;
-
 
         public void TurnOn(string color)
         {
@@ -84,7 +83,6 @@ namespace Lombiq.Vsix.Orchard.Services.LogWatcher
                 return false;
             }
         }
-
 
         private void TurnOnWithoutCancellation(string color) => RunForBlinkStickIfPresent(() => _blinkStick.SetColor(color));
 

@@ -1,4 +1,4 @@
-﻿using Lombiq.Vsix.Orchard.Models;
+using Lombiq.Vsix.Orchard.Models;
 using Lombiq.Vsix.Orchard.Services.DependencyInjector;
 using System;
 using System.Collections.Generic;
@@ -15,9 +15,7 @@ namespace Lombiq.Vsix.Orchard.Forms
         private readonly string _className;
         private IEnumerable<DependencyName> _suggestedDependencyNames;
 
-
         public string DependencyName => dependencyNameTextBox.Text;
-
 
         public InjectDependencyDialog(
             IEnumerable<IFieldNameFromDependencyGenerator> fieldNameGenerators,
@@ -31,7 +29,6 @@ namespace Lombiq.Vsix.Orchard.Forms
             InitializeComponent();
         }
 
-
         public DependencyInjectionData GetDependencyInjectionData() =>
             new DependencyInjectionData
             {
@@ -40,7 +37,6 @@ namespace Lombiq.Vsix.Orchard.Forms
                 ConstructorParameterName = parameterNameTextBox.Text,
                 ConstructorParameterType = parameterTypeTextBox.Text
             };
-
 
         protected override void OnLoad(EventArgs e)
         {
@@ -63,7 +59,6 @@ namespace Lombiq.Vsix.Orchard.Forms
             UpdateVisualizationPanel();
         }
 
-
         private DependencyInjectionData GenerateDependencyInjectionData(string dependency, bool useShortName = false)
         {
             var fieldNameGenerator = _fieldNameGenerators
@@ -82,7 +77,7 @@ namespace Lombiq.Vsix.Orchard.Forms
                 generateShortFieldNameCheckBox.Checked = suggestion.ShouldUseShortFieldNameByDefault;
             }
 
-            var injectedDependency = DependencyName.Length == 0 ? 
+            var injectedDependency = DependencyName.Length == 0 ?
                 null : GenerateDependencyInjectionData(DependencyName, generateShortFieldNameCheckBox.Checked);
 
             fieldNameTextBox.Text = injectedDependency?.FieldName ?? "";
@@ -96,14 +91,14 @@ namespace Lombiq.Vsix.Orchard.Forms
 
         private void DependencyNameTextBoxPreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
         {
-            if ((e.KeyCode == Keys.Tab || e.KeyCode == Keys.Enter) && 
+            if ((e.KeyCode == Keys.Tab || e.KeyCode == Keys.Enter) &&
                 !string.IsNullOrEmpty(dependencyNameTextBox.SelectedText))
             {
                 var matchingDependencyName = _suggestedDependencyNames
                     .Select(dependencyName => dependencyName.Name)
-                    .FirstOrDefault(dependency => 
+                    .FirstOrDefault(dependency =>
                         dependency.Equals(dependencyNameTextBox.Text, StringComparison.OrdinalIgnoreCase));
-                
+
                 if (!string.IsNullOrEmpty(matchingDependencyName)) dependencyNameTextBox.Text = matchingDependencyName;
             }
         }

@@ -1,4 +1,4 @@
-﻿using EnvDTE;
+using EnvDTE;
 using Lombiq.Vsix.Orchard.Constants;
 using Lombiq.Vsix.Orchard.Models;
 using System;
@@ -31,7 +31,6 @@ namespace Lombiq.Vsix.Orchard.Services.DependencyInjector
         /// <returns>Expected class name.</returns>
         string GetExpectedClassName(Document document);
     }
-
 
     public class DependencyInjector : IDependencyInjector
     {
@@ -84,7 +83,6 @@ namespace Lombiq.Vsix.Orchard.Services.DependencyInjector
 
         public string GetExpectedClassName(Document document) =>
             Path.GetFileNameWithoutExtension(document.FullName);
-
 
         private static void GetCodeLines(DependencyInjectionContext context)
         {
@@ -227,12 +225,14 @@ namespace Lombiq.Vsix.Orchard.Services.DependencyInjector
                 context.CodeLines.RemoveAt(context.ConstructorLineIndex);
                 context.CodeLines.Insert(context.ConstructorLineIndex, constructorLine.Replace("()", "(" + injection + ")"));
             }
+
             // CASE 2: Has parameters in the same line as the constructor name.
             else if (constructorLine.EndsWith(context.BraceStyle == BraceStyles.OpenInNewLine ? ")" : "{"))
             {
                 context.CodeLines.RemoveAt(context.ConstructorLineIndex);
                 context.CodeLines.Insert(context.ConstructorLineIndex, constructorLine.Replace(")", ", " + injection + ")"));
             }
+
             // CASE 3: Constructor has parameters in multiple lines.
             else if (constructorLine.EndsWith("("))
             {
@@ -268,7 +268,6 @@ namespace Lombiq.Vsix.Orchard.Services.DependencyInjector
 
                 break;
             }
-
         }
 
         private static void UpdateCodeEditorAndSelectDependency(DependencyInjectionContext context)
@@ -295,13 +294,11 @@ namespace Lombiq.Vsix.Orchard.Services.DependencyInjector
         private static string IndentText(int baseIndentSize, double indentSizeMultiplier, string text) =>
             new string(' ', Convert.ToInt32(baseIndentSize * indentSizeMultiplier)) + text;
 
-
         private enum BraceStyles
         {
             OpenInNewLine = 0,
             OpenInSameLine
         }
-
 
         private class DependencyInjectionContext
         {

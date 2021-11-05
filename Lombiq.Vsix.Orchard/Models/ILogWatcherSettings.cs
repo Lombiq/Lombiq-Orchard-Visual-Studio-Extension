@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 namespace Lombiq.Vsix.Orchard.Models
@@ -14,7 +14,7 @@ namespace Lombiq.Vsix.Orchard.Models
         event EventHandler<LogWatcherSettingsUpdatedEventArgs> SettingsUpdated;
 
         /// <summary>
-        /// Indicates whether the Log Watcher is enabled and need to check if the log file has new entries. 
+        /// Indicates whether the Log Watcher is enabled and need to check if the log file has new entries.
         /// </summary>
         bool LogWatcherEnabled { get; }
 
