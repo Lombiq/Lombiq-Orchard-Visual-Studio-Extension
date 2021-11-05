@@ -1,4 +1,4 @@
-﻿using Lombiq.Vsix.Orchard.Commands;
+using Lombiq.Vsix.Orchard.Commands;
 using Lombiq.Vsix.Orchard.Constants;
 using Lombiq.Vsix.Orchard.Models;
 using Lombiq.Vsix.Orchard.Options;
@@ -34,7 +34,7 @@ namespace Lombiq.Vsix.Orchard
     [Guid(PackageGuids.LombiqOrchardVisualStudioExtensionPackageGuidString)]
     public sealed class LombiqOrchardVisualStudioExtensionPackage : AsyncPackage, ILogWatcherSettingsAccessor
     {
-        async Task<ILogWatcherSettings> ILogWatcherSettingsAccessor.GetSettings()
+        async Task<ILogWatcherSettings> ILogWatcherSettingsAccessor.GetSettingsAsync()
         {
             // The caller will magically resume on its original thread so we can safely switch to the UI thread here
             // (see: https://devblogs.microsoft.com/premier-developer/asynchronous-and-multithreaded-programming-within-vs-using-the-joinabletaskfactory/
@@ -61,11 +61,11 @@ namespace Lombiq.Vsix.Orchard
 
             RegisterServices();
 
-            await InjectDependencyCommand.Create(this);
-            await OpenErrorLogCommand.Create(this, this);
+            await InjectDependencyCommand.CreateAsync(this);
+            await OpenErrorLogCommand.CreateAsync(this, this);
 
-            await InjectDependencyCommand.Instance.InitializeUI();
-            await OpenErrorLogCommand.Instance.InitializeUI();
+            await InjectDependencyCommand.Instance.InitializeUIAsync();
+            await OpenErrorLogCommand.Instance.InitializeUIAsync();
         }
 
         protected override void Dispose(bool disposing)

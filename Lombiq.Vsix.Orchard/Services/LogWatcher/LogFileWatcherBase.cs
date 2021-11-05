@@ -1,4 +1,4 @@
-﻿using EnvDTE;
+using EnvDTE;
 using Lombiq.Vsix.Orchard.Models;
 using Microsoft.VisualStudio.Shell;
 using System;
@@ -32,13 +32,13 @@ namespace Lombiq.Vsix.Orchard.Services.LogWatcher
         }
 
 
-        protected abstract Task<string> GetLogFileName();
+        protected abstract Task<string> GetLogFileNameAsync();
 
-        public virtual async System.Threading.Tasks.Task StartWatching()
+        public virtual async System.Threading.Tasks.Task StartWatchingAsync()
         {
             if (_isWatching) return;
 
-            _previousLogFileStatus = await GetLogFileStatus();
+            _previousLogFileStatus = await GetLogFileStatusAsync();
 
             // Using this pattern: https://stackoverflow.com/a/684208/220230 to prevent overlapping timer calls.
             // Since Timer callbacks are executed in a ThreadPool thread 
@@ -49,7 +49,7 @@ namespace Lombiq.Vsix.Orchard.Services.LogWatcher
                 {
                     if (!(await _package.GetDteAsync()).SolutionIsOpen()) return;
 
-                    var logFileStatus = await GetLogFileStatus();
+                    var logFileStatus = await GetLogFileStatusAsync();
 
                     // Log file has been deleted.
                     if (logFileStatus == null && _previousLogFileStatus != null)
@@ -101,9 +101,9 @@ namespace Lombiq.Vsix.Orchard.Services.LogWatcher
             _previousLogFileStatus = null;
         }
 
-        public async Task<ILogFileStatus> GetLogFileStatus()
+        public async Task<ILogFileStatus> GetLogFileStatusAsync()
         {
-            var logFilePath = await GetExistingLogFilePath();
+            var logFilePath = await GetExistingLogFilePathAsync();
 
             if (string.IsNullOrEmpty(logFilePath)) return null;
 
@@ -135,14 +135,14 @@ namespace Lombiq.Vsix.Orchard.Services.LogWatcher
             }
         }
 
-        protected virtual async Task<string> GetExistingLogFilePath()
+        protected virtual async Task<string> GetExistingLogFilePathAsync()
         {
-            var logFilePaths = (await _logWatcherSettingsAccessor.GetSettings()).GetLogFileFolderPaths();
+            var logFilePaths = (await _logWatcherSettingsAccessor.GetSettingsAsync()).GetLogFileFolderPaths();
             var dte = await _package.GetDteAsync();
             var solutionPath = dte.SolutionIsOpen() && !string.IsNullOrEmpty(dte.Solution.FileName) ?
                 Path.GetDirectoryName(dte.Solution.FileName) : string.Empty;
 
-            var logFileName = await GetLogFileName();
+            var logFileName = await GetLogFileNameAsync();
 
             if (string.IsNullOrEmpty(logFileName)) return null;
 

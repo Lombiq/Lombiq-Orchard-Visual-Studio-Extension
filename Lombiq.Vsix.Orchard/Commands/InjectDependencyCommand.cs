@@ -37,7 +37,7 @@ namespace Lombiq.Vsix.Orchard.Commands
         }
 
 
-        public static async Task Create(AsyncPackage package)
+        public static async Task CreateAsync(AsyncPackage package)
         {
             Instance = Instance ?? new InjectDependencyCommand(
                 package,
@@ -47,7 +47,7 @@ namespace Lombiq.Vsix.Orchard.Commands
         }
 
 
-        public async Task InitializeUI()
+        public async Task InitializeUIAsync()
         {
             await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
             (await _package.GetServiceAsync<IMenuCommandService>()).AddCommand(

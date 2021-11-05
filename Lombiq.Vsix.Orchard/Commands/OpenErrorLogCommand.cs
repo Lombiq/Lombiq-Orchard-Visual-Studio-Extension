@@ -1,4 +1,4 @@
-﻿using EnvDTE;
+using EnvDTE;
 using Lombiq.Vsix.Orchard.Constants;
 using Lombiq.Vsix.Orchard.Helpers;
 using Lombiq.Vsix.Orchard.Models;
@@ -47,7 +47,7 @@ namespace Lombiq.Vsix.Orchard.Commands
 
         public static OpenErrorLogCommand Instance { get; private set; }
 
-        public static async Task Create(AsyncPackage package, ILogWatcherSettingsAccessor logWatcherSettingsAccessor)
+        public static async Task CreateAsync(AsyncPackage package, ILogWatcherSettingsAccessor logWatcherSettingsAccessor)
         {
             Instance = Instance ?? new OpenErrorLogCommand(
                 package,
@@ -55,11 +55,11 @@ namespace Lombiq.Vsix.Orchard.Commands
                 await package.GetServicesAsync<ILogFileWatcher>(),
                 await package.GetServiceAsync<IBlinkStickManager>());
 
-            await Instance.InitalizeWatchers();
+            await Instance.InitalizeWatchersAsync();
         }
 
 
-        public async Task InitializeUI()
+        public async Task InitializeUIAsync()
         {
             await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
 
@@ -69,7 +69,7 @@ namespace Lombiq.Vsix.Orchard.Commands
 
             (await _package.GetServiceAsync<IMenuCommandService>()).AddCommand(_openErrorLogCommand);
 
-            if ((await _logWatcherSettingsAccessor.GetSettings()).LogWatcherEnabled) _openErrorLogCommand.Visible = true;
+            if ((await _logWatcherSettingsAccessor.GetSettingsAsync()).LogWatcherEnabled) _openErrorLogCommand.Visible = true;
         }
 
         public async Task DisposeAsync()
@@ -82,11 +82,11 @@ namespace Lombiq.Vsix.Orchard.Commands
                 watcher.Dispose();
             }
 
-            (await _logWatcherSettingsAccessor.GetSettings()).SettingsUpdated -= LogWatcherSettingsUpdatedCallback;
+            (await _logWatcherSettingsAccessor.GetSettingsAsync()).SettingsUpdated -= LogWatcherSettingsUpdatedCallback;
         }
 
 
-        private async Task InitalizeWatchers()
+        private async Task InitalizeWatchersAsync()
         {
             _hasSeenErrorLogUpdate = true;
             _errorIndicatorStateChanged = true;
@@ -96,21 +96,21 @@ namespace Lombiq.Vsix.Orchard.Commands
                 watcher.LogUpdated += LogFileUpdatedCallback;
             }
 
-            var settings = await _logWatcherSettingsAccessor.GetSettings();
+            var settings = await _logWatcherSettingsAccessor.GetSettingsAsync();
             settings.SettingsUpdated += LogWatcherSettingsUpdatedCallback;
 
             if (settings.LogWatcherEnabled) StartLogFileWatching();
         }
 
         private async void OpenErrorLogCommandBeforeQueryStatusCallback(object sender, EventArgs e) =>
-            await UpdateOpenErrorLogCommandAccessibilityAndText();
+            await UpdateOpenErrorLogCommandAccessibilityAndTextAsync();
 
         private async void LogFileUpdatedCallback(object sender, LogChangedEventArgs context)
         {
             _hasSeenErrorLogUpdate = !context.LogFileStatus.HasContent;
             _latestUpdatedLogFileStatus = context.LogFileStatus;
 
-            await UpdateOpenErrorLogCommandAccessibilityAndText(context.LogFileStatus);
+            await UpdateOpenErrorLogCommandAccessibilityAndTextAsync(context.LogFileStatus);
         }
 
         private async void OpenErrorLogCallback(object sender, EventArgs e)
@@ -126,7 +126,7 @@ namespace Lombiq.Vsix.Orchard.Commands
                 DialogHelpers.Error("The log file doesn't exist.", "Open Orchard Error Log");
             }
 
-            await UpdateOpenErrorLogCommandAccessibilityAndText();
+            await UpdateOpenErrorLogCommandAccessibilityAndTextAsync();
         }
 
         private async void LogWatcherSettingsUpdatedCallback(object sender, LogWatcherSettingsUpdatedEventArgs e)
@@ -153,12 +153,12 @@ namespace Lombiq.Vsix.Orchard.Commands
                 }
             });
 
-            await UpdateOpenErrorLogCommandAccessibilityAndText();
+            await UpdateOpenErrorLogCommandAccessibilityAndTextAsync();
         }
 
-        private async Task UpdateOpenErrorLogCommandAccessibilityAndText(ILogFileStatus logFileStatus = null)
+        private async Task UpdateOpenErrorLogCommandAccessibilityAndTextAsync(ILogFileStatus logFileStatus = null)
         {
-            var logWatcherSettings = await _logWatcherSettingsAccessor.GetSettings();
+            var logWatcherSettings = await _logWatcherSettingsAccessor.GetSettingsAsync();
 
             if (!(await _package.GetDteAsync()).SolutionIsOpen())
             {
@@ -191,7 +191,7 @@ namespace Lombiq.Vsix.Orchard.Commands
         {
             foreach (var watcher in _logWatchers)
             {
-                watcher.StartWatching();
+                watcher.StartWatchingAsync();
             }
         }
 
