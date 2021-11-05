@@ -43,7 +43,7 @@ namespace Lombiq.Vsix.Orchard.Services.DependencyInjector
                 FieldType = dependencyInjectionData.FieldType,
                 VariableType = dependencyInjectionData.ConstructorParameterType,
                 ClassName = GetExpectedClassName(document),
-                Document = document
+                Document = document,
             };
 
             // Get code lines from the document.
@@ -154,18 +154,18 @@ namespace Lombiq.Vsix.Orchard.Services.DependencyInjector
             var constructorCodeLines = context.BraceStyle == BraceStyles.OpenInNewLine ?
                 new[]
                 {
-                    "",
+                    string.Empty,
                     IndentText(classStartIndentSize, 2, "public " + context.ClassName + "()"),
                     IndentText(classStartIndentSize, 2, "{"),
                     IndentText(classStartIndentSize, 2, "}"),
-                    ""
+                    string.Empty,
                 } :
                 new[]
                 {
-                    "",
+                    string.Empty,
                     IndentText(classStartIndentSize, 2, "public " + context.ClassName + "() {"),
                     IndentText(classStartIndentSize, 2, "}"),
-                    ""
+                    string.Empty,
                 };
 
             for (int i = 0; i < constructorCodeLines.Length; i++)
@@ -297,7 +297,7 @@ namespace Lombiq.Vsix.Orchard.Services.DependencyInjector
         private enum BraceStyles
         {
             OpenInNewLine = 0,
-            OpenInSameLine
+            OpenInSameLine,
         }
 
         private class DependencyInjectionContext

@@ -9,7 +9,7 @@ namespace Lombiq.Vsix.Orchard.Services.DependencyInjector
         private static readonly IEnumerable<string> SimplifiedGenericTypes = new[]
         {
             "UserManager",
-            "ILogger"
+            "ILogger",
         };
 
         public override double Priority => 15;
@@ -33,7 +33,7 @@ namespace Lombiq.Vsix.Orchard.Services.DependencyInjector
                 ConstructorParameterName = useShortName ?
                     GetShortName(GetCamelCased(segments.CleanedGenericTypeName)) :
                     GetCamelCased(segments.CleanedGenericTypeName),
-                ConstructorParameterType = dependency
+                ConstructorParameterType = dependency,
             };
         }
     }

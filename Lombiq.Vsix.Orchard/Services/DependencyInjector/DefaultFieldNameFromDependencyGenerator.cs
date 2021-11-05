@@ -13,7 +13,7 @@ namespace Lombiq.Vsix.Orchard.Services.DependencyInjector
             var dependencyInjectionData = new DependencyInjectionData
             {
                 FieldType = dependency,
-                ConstructorParameterType = dependency
+                ConstructorParameterType = dependency,
             };
 
             // Default implementation with the lowest priority that generates the field and parameter name by adding

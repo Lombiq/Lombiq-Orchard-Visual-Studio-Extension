@@ -8,7 +8,7 @@ namespace Lombiq.Vsix.Orchard.Services.DependencyInjector
     public interface IFieldNameFromDependencyGenerator
     {
         /// <summary>
-        /// Priority number used to decide which implementation needs to run first.
+        /// Gets the priority number used to decide which implementation needs to run first.
         /// </summary>
         double Priority { get; }
 

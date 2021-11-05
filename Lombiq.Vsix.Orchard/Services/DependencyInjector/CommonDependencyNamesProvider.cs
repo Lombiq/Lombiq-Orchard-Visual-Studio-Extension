@@ -41,7 +41,7 @@ namespace Lombiq.Vsix.Orchard.Services.DependencyInjector
         private static readonly IEnumerable<string> CommonDependencyNamesWhereShortNameShouldBeUsed = new[]
         {
             "IWorkContextAccessor",
-            "IHttpContextAccessor"
+            "IHttpContextAccessor",
         };
 
         public double Priority => 10;
@@ -56,7 +56,7 @@ namespace Lombiq.Vsix.Orchard.Services.DependencyInjector
             new DependencyName
             {
                 Name = name.Replace("<TClassName>", $"<{className}>"),
-                ShouldUseShortFieldNameByDefault = shouldUseShortName
+                ShouldUseShortFieldNameByDefault = shouldUseShortName,
             };
     }
 }

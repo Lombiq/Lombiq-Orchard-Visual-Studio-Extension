@@ -9,10 +9,10 @@ namespace Lombiq.Vsix.Orchard.Services.LogWatcher
     public sealed class BlinkStickManager : IBlinkStickManager
     {
         private readonly object _lock = new object();
-        private BlinkStick _blinkStick = null;
-        private bool _isInitialized = false;
-        private Task _backgroundTask = null;
-        private CancellationTokenSource _cancellationTokenSource = null;
+        private BlinkStick _blinkStick;
+        private bool _isInitialized;
+        private Task _backgroundTask;
+        private CancellationTokenSource _cancellationTokenSource;
 
         public void TurnOn(string color)
         {
@@ -22,7 +22,8 @@ namespace Lombiq.Vsix.Orchard.Services.LogWatcher
             // the light still goes out after a few seconds).
             _cancellationTokenSource = new CancellationTokenSource();
             var cancellationToken = _cancellationTokenSource.Token;
-            _backgroundTask = Task.Run(() =>
+            _backgroundTask = Task.Run(
+                () =>
             {
                 while (!_cancellationTokenSource.Token.IsCancellationRequested)
                 {
@@ -32,7 +33,8 @@ namespace Lombiq.Vsix.Orchard.Services.LogWatcher
                     // This 10ms refresh causes no measurable CPU load.
                     Thread.Sleep(10);
                 }
-            }, cancellationToken);
+            },
+            cancellationToken);
         }
 
         // Blink if you're not a lamp! https://youtu.be/_zCDvOsdL9Q?t=56

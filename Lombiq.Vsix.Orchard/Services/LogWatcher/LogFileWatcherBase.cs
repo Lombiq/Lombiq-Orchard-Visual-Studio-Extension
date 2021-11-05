@@ -57,7 +57,7 @@ namespace Lombiq.Vsix.Orchard.Services.LogWatcher
                                 Exists = false,
                                 LastUpdatedUtc = DateTime.UtcNow,
                                 HasContent = false,
-                                Path = _previousLogFileStatus.Path
+                                Path = _previousLogFileStatus.Path,
                             }
                         });
                     }
@@ -82,7 +82,10 @@ namespace Lombiq.Vsix.Orchard.Services.LogWatcher
                         // This can happen when the Log Watcher is disabled. Just swallowing it not to cause any issues.
                     }
                 }
-            }, null, 0, Timeout.Infinite);
+            },
+            null,
+            0,
+            Timeout.Infinite);
 
             _isWatching = true;
         }
@@ -111,7 +114,7 @@ namespace Lombiq.Vsix.Orchard.Services.LogWatcher
                 Exists = fileInfo.Exists,
                 HasContent = fileInfo.Exists && fileInfo.Length > 0,
                 Path = fileInfo.FullName,
-                LastUpdatedUtc = fileInfo.Exists ? (DateTime?)fileInfo.LastWriteTimeUtc : null
+                LastUpdatedUtc = fileInfo.Exists ? (DateTime?)fileInfo.LastWriteTimeUtc : null,
             };
         }
 

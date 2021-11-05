@@ -21,7 +21,7 @@ namespace Lombiq.Vsix.Orchard.Services.DependencyInjector
                 ConstructorParameterName = useShortName ?
                     GetShortName(segments.CleanedGenericParameterName) + GetShortName(segments.CleanedGenericTypeName) :
                     GetCamelCased(segments.CleanedGenericParameterName) + segments.CleanedGenericTypeName,
-                ConstructorParameterType = dependency
+                ConstructorParameterType = dependency,
             };
         }
     }

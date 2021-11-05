@@ -9,7 +9,7 @@ namespace Lombiq.Vsix.Orchard.Services.DependencyInjector
     public interface IDependencyNameProvider
     {
         /// <summary>
-        /// Priority number used to decide which provider implementation needs to provide dependency names first.
+        /// Gets the priority number used to decide which provider implementation needs to provide dependency names first.
         /// </summary>
         double Priority { get; }
 

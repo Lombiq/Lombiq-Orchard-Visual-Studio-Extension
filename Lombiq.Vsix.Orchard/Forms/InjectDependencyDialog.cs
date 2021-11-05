@@ -35,7 +35,7 @@ namespace Lombiq.Vsix.Orchard.Forms
                 FieldName = fieldNameTextBox.Text,
                 FieldType = fieldTypeTextBox.Text,
                 ConstructorParameterName = parameterNameTextBox.Text,
-                ConstructorParameterType = parameterTypeTextBox.Text
+                ConstructorParameterType = parameterTypeTextBox.Text,
             };
 
         protected override void OnLoad(EventArgs e)
@@ -80,10 +80,10 @@ namespace Lombiq.Vsix.Orchard.Forms
             var injectedDependency = DependencyName.Length == 0 ?
                 null : GenerateDependencyInjectionData(DependencyName, generateShortFieldNameCheckBox.Checked);
 
-            fieldNameTextBox.Text = injectedDependency?.FieldName ?? "";
-            fieldTypeTextBox.Text = injectedDependency?.FieldType ?? "";
-            parameterNameTextBox.Text = injectedDependency?.ConstructorParameterName ?? "";
-            parameterTypeTextBox.Text = injectedDependency?.ConstructorParameterType ?? "";
+            fieldNameTextBox.Text = injectedDependency?.FieldName ?? string.Empty;
+            fieldTypeTextBox.Text = injectedDependency?.FieldType ?? string.Empty;
+            parameterNameTextBox.Text = injectedDependency?.ConstructorParameterName ?? string.Empty;
+            parameterTypeTextBox.Text = injectedDependency?.ConstructorParameterType ?? string.Empty;
         }
 
         private void DependencyInjectionDataTextBoxTextChanged(object sender, EventArgs e) =>

@@ -19,7 +19,7 @@ namespace Lombiq.Vsix.Orchard.Services.DependencyInjector
             {
                 GenericTypeName = genericType,
                 CleanedGenericTypeName = RemoveFirstLetterIfInterface(genericType),
-                CleanedGenericParameterName = RemoveFirstLetterIfInterface(genericParameter)
+                CleanedGenericParameterName = RemoveFirstLetterIfInterface(genericParameter),
             };
         }
 

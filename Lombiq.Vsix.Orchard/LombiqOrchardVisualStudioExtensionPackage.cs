@@ -94,12 +94,12 @@ namespace Lombiq.Vsix.Orchard
                 new DefaultFieldNameFromGenericTypeGenerator(),
                 new FieldNameFromIEnumerableGenerator(),
                 new FieldNameFromLocalizerGenerator(),
-                new SimplifiedFieldNameFromGenericTypeGenerator()
+                new SimplifiedFieldNameFromGenericTypeGenerator(),
             }));
 
             this.AddService<IDependencyNameProvider>(() => Task.FromResult((object)new IDependencyNameProvider[]
             {
-                new CommonDependencyNamesProvider()
+                new CommonDependencyNamesProvider(),
             }));
 
             this.AddService<ILogFileWatcher>(() =>
@@ -108,7 +108,7 @@ namespace Lombiq.Vsix.Orchard
                 {
                     new OrchardErrorLogFileWatcher(this, this),
                     new OrchardCoreLogFileWatcher(this, this),
-                    new WildcardLogFileWatcher(this, this)
+                    new WildcardLogFileWatcher(this, this),
                 });
             });
 

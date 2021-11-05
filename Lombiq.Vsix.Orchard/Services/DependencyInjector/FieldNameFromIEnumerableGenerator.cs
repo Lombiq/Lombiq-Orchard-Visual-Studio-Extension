@@ -33,7 +33,7 @@ namespace Lombiq.Vsix.Orchard.Services.DependencyInjector
                 FieldName = GetStringWithUnderscore(pluralizedFieldNameWithoutUnderscore),
                 FieldType = dependency,
                 ConstructorParameterName = pluralizedFieldNameWithoutUnderscore,
-                ConstructorParameterType = dependency
+                ConstructorParameterType = dependency,
             };
         }
     }

@@ -9,22 +9,22 @@ namespace Lombiq.Vsix.Orchard.Models
     public interface ILogFileStatus
     {
         /// <summary>
-        /// Indicates whether the log file has content if it exists or it is empty.
+        /// Gets a value indicating whether the log file has content if it exists or it is empty.
         /// </summary>
         bool HasContent { get; }
 
         /// <summary>
-        /// Indicates whether the log file exists or not.
+        /// Gets a value indicating whether the log file exists or not.
         /// </summary>
         bool Exists { get; }
 
         /// <summary>
-        /// Full path of the log file.
+        /// Gets the full path of the log file.
         /// </summary>
         string Path { get; }
 
         /// <summary>
-        /// Last time when the log file has been updated in UTC.
+        /// Gets the last time when the log file has been updated in UTC.
         /// </summary>
         DateTime? LastUpdatedUtc { get; }
     }
