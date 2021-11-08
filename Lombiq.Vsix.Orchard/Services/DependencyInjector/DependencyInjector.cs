@@ -102,9 +102,9 @@ namespace Lombiq.Vsix.Orchard.Services.DependencyInjector
             {
                 var trimmedLine = line.Trim();
 
-                if (trimmedLine.StartsWith("{")) return;
+                if (trimmedLine.StartsWith("{", StringComparison.InvariantCulture)) return;
 
-                if (trimmedLine.EndsWith("{"))
+                if (trimmedLine.EndsWith("{", StringComparison.InvariantCulture))
                 {
                     context.BraceStyle = BraceStyles.OpenInSameLine;
 
@@ -159,7 +159,8 @@ namespace Lombiq.Vsix.Orchard.Services.DependencyInjector
                     IndentText(classStartIndentSize, 2, "{"),
                     IndentText(classStartIndentSize, 2, "}"),
                     string.Empty,
-                } :
+                }
+                :
                 new[]
                 {
                     string.Empty,
@@ -183,7 +184,7 @@ namespace Lombiq.Vsix.Orchard.Services.DependencyInjector
             var constructorCodeLine = IndentText(constructorIndentSize, 1.5, context.FieldName + " = " + context.VariableName + ";");
 
             var constructorCodeStartIndex = -1;
-            for (int i = context.ConstructorLineIndex; i < context.CodeLines.Count(); i++)
+            for (int i = context.ConstructorLineIndex; i < context.CodeLines.Count; i++)
             {
                 // Need to find the inner part of the constructor first.
                 var trimmedLine = context.CodeLines[i].Trim();
@@ -202,7 +203,7 @@ namespace Lombiq.Vsix.Orchard.Services.DependencyInjector
                 // Insert the code line right after field assignments.
                 var isItFieldAssignment = trimmedLine.Length > 0 &&
                     trimmedLine.Contains("=") &&
-                    (trimmedLine.StartsWith("_")
+                    (trimmedLine.StartsWith("_", StringComparison.InvariantCulture)
                     || char.IsLower(trimmedLine[0]));
 
                 if (isItFieldAssignment) continue;
@@ -227,14 +228,14 @@ namespace Lombiq.Vsix.Orchard.Services.DependencyInjector
             }
 
             // CASE 2: Has parameters in the same line as the constructor name.
-            else if (constructorLine.EndsWith(context.BraceStyle == BraceStyles.OpenInNewLine ? ")" : "{"))
+            else if (constructorLine.EndsWith(context.BraceStyle == BraceStyles.OpenInNewLine ? ")" : "{", StringComparison.InvariantCulture))
             {
                 context.CodeLines.RemoveAt(context.ConstructorLineIndex);
                 context.CodeLines.Insert(context.ConstructorLineIndex, constructorLine.Replace(")", ", " + injection + ")"));
             }
 
             // CASE 3: Constructor has parameters in multiple lines.
-            else if (constructorLine.EndsWith("("))
+            else if (constructorLine.EndsWith("(", StringComparison.InvariantCulture))
             {
                 for (int i = context.ConstructorLineIndex; i < context.CodeLines.Count; i++)
                 {
@@ -262,7 +263,7 @@ namespace Lombiq.Vsix.Orchard.Services.DependencyInjector
 
             for (int i = context.ClassStartLineIndex + (context.BraceStyle == BraceStyles.OpenInNewLine ? 2 : 1); i < context.CodeLines.Count; i++)
             {
-                if (context.CodeLines[i].Trim().StartsWith("private readonly")) continue;
+                if (context.CodeLines[i].Trim().StartsWith("private readonly", StringComparison.InvariantCulture)) continue;
 
                 context.CodeLines.Insert(i, privateFieldLine);
 

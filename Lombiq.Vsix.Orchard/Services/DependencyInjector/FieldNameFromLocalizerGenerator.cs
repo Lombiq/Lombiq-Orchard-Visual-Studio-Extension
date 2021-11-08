@@ -1,4 +1,5 @@
 using Lombiq.Vsix.Orchard.Models;
+using System;
 using System.Text.RegularExpressions;
 
 namespace Lombiq.Vsix.Orchard.Services.DependencyInjector
@@ -20,7 +21,7 @@ namespace Lombiq.Vsix.Orchard.Services.DependencyInjector
 
             return new DependencyInjectionData
             {
-                FieldName = dependency.StartsWith("IHtmlLocalizer") ? "H" : "T",
+                FieldName = dependency.StartsWith("IHtmlLocalizer", StringComparison.InvariantCulture) ? "H" : "T",
                 FieldType = segments.GenericTypeName,
                 ConstructorParameterName = useShortName ?
                     GetCamelCased(GetShortName(segments.CleanedGenericTypeName)) :

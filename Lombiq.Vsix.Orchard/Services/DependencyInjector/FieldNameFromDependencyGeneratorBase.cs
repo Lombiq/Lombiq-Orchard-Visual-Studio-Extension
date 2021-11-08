@@ -40,15 +40,15 @@ namespace Lombiq.Vsix.Orchard.Services.DependencyInjector
         }
 
         protected virtual string RemoveFirstLetterIfInterface(string interfaceName) =>
-            interfaceName.Length > 1 && interfaceName.StartsWith("I") && char.IsUpper(interfaceName[1]) ?
+            interfaceName.Length > 1 && interfaceName.StartsWith("I", StringComparison.InvariantCulture) && char.IsUpper(interfaceName[1]) ?
                 interfaceName.Substring(1) :
                 string.Copy(interfaceName);
 
         protected virtual string GetCamelCased(string value)
         {
-            if (value.Length == 1) return value.ToLower();
+            if (value.Length == 1) return value.ToLowerInvariant();
 
-            return char.ToLower(value[0]) + value.Substring(1);
+            return char.ToLowerInvariant(value[0]) + value.Substring(1);
         }
 
         private IEnumerable<char> GetUpperCasedLetters(string value) =>
