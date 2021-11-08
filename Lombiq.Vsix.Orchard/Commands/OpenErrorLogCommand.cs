@@ -97,18 +97,21 @@ namespace Lombiq.Vsix.Orchard.Commands
             if (settings.LogWatcherEnabled) StartLogFileWatching();
         }
 
-        private async void OpenErrorLogCommandBeforeQueryStatusCallback(object sender, EventArgs e) =>
-            await UpdateOpenErrorLogCommandAccessibilityAndTextAsync();
+        private void OpenErrorLogCommandBeforeQueryStatusCallback(object sender, EventArgs e) =>
+            _ = UpdateOpenErrorLogCommandAccessibilityAndTextAsync();
 
-        private async void LogFileUpdatedCallback(object sender, LogChangedEventArgs context)
+        private void LogFileUpdatedCallback(object sender, LogChangedEventArgs context)
         {
             _hasSeenErrorLogUpdate = !context.LogFileStatus.HasContent;
             _latestUpdatedLogFileStatus = context.LogFileStatus;
 
-            await UpdateOpenErrorLogCommandAccessibilityAndTextAsync(context.LogFileStatus);
+            _ = UpdateOpenErrorLogCommandAccessibilityAndTextAsync(context.LogFileStatus);
         }
 
-        private async void OpenErrorLogCallback(object sender, EventArgs e)
+        private void OpenErrorLogCallback(object sender, EventArgs e) =>
+            _ = OpenErrorLogCallbackAsync();
+
+        private Task OpenErrorLogCallbackAsync()
         {
             _hasSeenErrorLogUpdate = true;
 
@@ -121,10 +124,13 @@ namespace Lombiq.Vsix.Orchard.Commands
                 DialogHelpers.Error("The log file doesn't exist.", "Open Orchard Error Log");
             }
 
-            await UpdateOpenErrorLogCommandAccessibilityAndTextAsync();
+            return UpdateOpenErrorLogCommandAccessibilityAndTextAsync();
         }
 
-        private async void LogWatcherSettingsUpdatedCallback(object sender, LogWatcherSettingsUpdatedEventArgs e)
+        private void LogWatcherSettingsUpdatedCallback(object sender, LogWatcherSettingsUpdatedEventArgs e) =>
+            _ = LogWatcherSettingsUpdatedCallbackAsync(e);
+
+        private async Task LogWatcherSettingsUpdatedCallbackAsync(LogWatcherSettingsUpdatedEventArgs e)
         {
             var isEnabled = e.Settings.LogWatcherEnabled;
             var orchardLogWatcherToolbar = ((CommandBars)(await _package.GetDteAsync()).CommandBars)[CommandBarNames.OrchardLogWatcherToolbarName];
@@ -186,7 +192,7 @@ namespace Lombiq.Vsix.Orchard.Commands
         {
             foreach (var watcher in _logWatchers)
             {
-                watcher.StartWatchingAsync();
+                _ = watcher.StartWatchingAsync();
             }
         }
 
