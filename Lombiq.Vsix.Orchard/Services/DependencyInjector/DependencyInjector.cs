@@ -238,8 +238,11 @@ namespace Lombiq.Vsix.Orchard.Services.DependencyInjector
             // CASE 3: Constructor has parameters in multiple lines.
             else if (constructorLine.EndsWith("(", StringComparison.InvariantCulture))
             {
-                for (int i = context.ConstructorLineIndex; i < context.CodeLines.Count; i++)
+                var i = context.ConstructorLineIndex - 1;
+                var injectionInserted = false;
+                while (i < context.CodeLines.Count && !injectionInserted)
                 {
+                    i++;
                     var indexOfClosing = context.CodeLines[i].IndexOf(')');
 
                     if (indexOfClosing < 0) continue;
@@ -250,8 +253,7 @@ namespace Lombiq.Vsix.Orchard.Services.DependencyInjector
                     context.CodeLines.RemoveAt(i);
                     context.CodeLines.Insert(i, IndentText(indentSize, 1.5, injection + afterClosing));
                     context.CodeLines.Insert(i, beforeClosing + ",");
-
-                    break;
+                    injectionInserted = true;
                 }
             }
         }
