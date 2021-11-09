@@ -17,7 +17,9 @@ namespace Lombiq.Vsix.Orchard.Services.DependencyInjector
             "_" + value;
 
         protected virtual string GetLowerInvariantString(string value) =>
+#pragma warning disable CA1308 // Normalize strings to uppercase
             value.ToLowerInvariant();
+#pragma warning restore CA1308 // Normalize strings to uppercase
 
         protected virtual string GetLowerInvariantStringWithUnderscore(string value) =>
             GetStringWithUnderscore(GetLowerInvariantString(value));
@@ -47,12 +49,14 @@ namespace Lombiq.Vsix.Orchard.Services.DependencyInjector
 
         protected virtual string GetCamelCased(string value)
         {
+#pragma warning disable CA1308 // Normalize strings to uppercase
             if (value.Length == 1) return value.ToLowerInvariant();
+#pragma warning restore CA1308 // Normalize strings to uppercase
 
             return char.ToLowerInvariant(value[0]) + value.Substring(1);
         }
 
-        private IEnumerable<char> GetUpperCasedLetters(string value) =>
+        private static IEnumerable<char> GetUpperCasedLetters(string value) =>
             value.Where(letter => char.IsUpper(letter));
     }
 }
