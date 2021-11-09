@@ -18,7 +18,7 @@ namespace Lombiq.Vsix.Orchard.Services.DependencyInjector
         /// </summary>
         /// <param name="document">Visual Studio document containing the class where the dependency needs to be
         /// injected.</param>
-        /// <param name="injectedDependency">Field and constructor parameter type and name to be added to the
+        /// <param name="dependencyInjectionData">Field and constructor parameter type and name to be added to the
         /// code.</param>
         /// <returns>Result of the dependency injection.</returns>
         IResult Inject(Document document, DependencyInjectionData dependencyInjectionData);
@@ -289,10 +289,9 @@ namespace Lombiq.Vsix.Orchard.Services.DependencyInjector
         private static int GetIndentSizeOfLine(string codeLine)
         {
             var indentSize = 0;
-            foreach (var codeChar in codeLine)
+            while (indentSize < codeLine.Length && codeLine[indentSize] == ' ')
             {
-                if (codeChar == ' ') indentSize++;
-                else break;
+                indentSize++;
             }
 
             return indentSize;
