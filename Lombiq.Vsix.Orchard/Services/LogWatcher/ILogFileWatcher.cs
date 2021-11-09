@@ -39,7 +39,7 @@ namespace Lombiq.Vsix.Orchard.Services.LogWatcher
         public static void RestartWatching(this ILogFileWatcher logFileWatcher)
         {
             logFileWatcher.StopWatching();
-            logFileWatcher.StartWatchingAsync();
+            _ = logFileWatcher.StartWatchingAsync();
         }
     }
 }

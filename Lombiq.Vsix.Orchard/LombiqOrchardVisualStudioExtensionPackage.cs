@@ -21,10 +21,10 @@ namespace Lombiq.Vsix.Orchard
     [ProvideService(typeof(IBlinkStickManager), IsAsyncQueryable = true)]
     [ProvideAutoLoad(VSConstants.UICONTEXT.SolutionExists_string, PackageAutoLoadFlags.BackgroundLoad)]
     [PackageRegistration(UseManagedResourcesOnly = true, AllowsBackgroundLoading = true)]
+    // Such values can supposedly come from resx files (see:
+    // https://docs.microsoft.com/en-us/visualstudio/extensibility/creating-an-extension-with-a-vspackage?view=vs-2019)
+    // but that code doesn't work.
     [InstalledProductRegistration(
-        // Such values can supposedly come from resx files (see:
-        // https://docs.microsoft.com/en-us/visualstudio/extensibility/creating-an-extension-with-a-vspackage?view=vs-2019)
-        // but that code doesn't work.
         "Lombiq Orchard Visual Studio Extension",
         "Visual Studio extension with many features frequently used by Lombiq developers. Contains Orchard-related as well as generic goodies.",
         ExtensionVersion.Current,
@@ -71,12 +71,16 @@ namespace Lombiq.Vsix.Orchard
 
         protected override void Dispose(bool disposing)
         {
+            ThreadHelper.JoinableTaskFactory.Run(async () => await DisposeAsync(disposing));
+            base.Dispose(disposing);
+        }
+
+        public async Task DisposeAsync(bool disposing)
+        {
             if (disposing && OpenErrorLogCommand.Instance != null)
             {
-                ThreadHelper.JoinableTaskFactory.Run(OpenErrorLogCommand.Instance.DisposeAsync);
+                await OpenErrorLogCommand.Instance.DisposeAsync();
             }
-
-            base.Dispose(disposing);
         }
 
         private void RegisterServices()
@@ -101,15 +105,12 @@ namespace Lombiq.Vsix.Orchard
                 new CommonDependencyNamesProvider(),
             }));
 
-            this.AddService<ILogFileWatcher>(() =>
-            {
-                return Task.FromResult((object)new ILogFileWatcher[]
+            this.AddService<ILogFileWatcher>(() => Task.FromResult((object)new ILogFileWatcher[]
                 {
                     new OrchardErrorLogFileWatcher(this, this),
                     new OrchardCoreLogFileWatcher(this, this),
                     new WildcardLogFileWatcher(this, this),
-                });
-            });
+                }));
 
             this.AddService<IBlinkStickManager, BlinkStickManager>();
         }
