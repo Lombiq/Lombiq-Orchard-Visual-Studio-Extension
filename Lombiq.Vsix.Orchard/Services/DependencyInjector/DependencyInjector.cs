@@ -264,13 +264,16 @@ namespace Lombiq.Vsix.Orchard.Services.DependencyInjector
             var indentSize = GetIndentSizeOfLine(classStartLine);
             var privateFieldLine = new string(' ', indentSize * 2) + "private readonly " + context.FieldType + " " + context.FieldName + ";";
 
-            for (int i = context.ClassStartLineIndex + (context.BraceStyle == BraceStyles.OpenInNewLine ? 2 : 1); i < context.CodeLines.Count; i++)
+            var i = context.ClassStartLineIndex + (context.BraceStyle == BraceStyles.OpenInNewLine ? 1 : 0);
+            var privateFieldInserted = false;
+            while (i < context.CodeLines.Count && !privateFieldInserted)
             {
-                if (context.CodeLines[i].Trim().StartsWith("private readonly", StringComparison.InvariantCulture)) continue;
-
-                context.CodeLines.Insert(i, privateFieldLine);
-
-                break;
+                i++;
+                if (!context.CodeLines[i].Trim().StartsWith("private readonly", StringComparison.InvariantCulture))
+                {
+                    context.CodeLines.Insert(i, privateFieldLine);
+                    privateFieldInserted = true;
+                }
             }
         }
 
