@@ -1,4 +1,5 @@
 using Lombiq.Vsix.Orchard.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -15,7 +16,7 @@ namespace Lombiq.Vsix.Orchard.Services.DependencyInjector
         public override double Priority => 15;
 
         public override bool CanGenerate(string dependency) =>
-            base.CanGenerate(dependency) && SimplifiedGenericTypes.Any(type => dependency.StartsWith(type));
+            base.CanGenerate(dependency) && SimplifiedGenericTypes.Any(type => dependency.StartsWith(type, StringComparison.InvariantCulture));
 
         public override DependencyInjectionData Generate(string dependency, bool useShortName)
         {

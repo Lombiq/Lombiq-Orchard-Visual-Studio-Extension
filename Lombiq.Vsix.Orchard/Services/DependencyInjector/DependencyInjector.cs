@@ -4,7 +4,6 @@ using Lombiq.Vsix.Orchard.Models;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 
 namespace Lombiq.Vsix.Orchard.Services.DependencyInjector
 {
