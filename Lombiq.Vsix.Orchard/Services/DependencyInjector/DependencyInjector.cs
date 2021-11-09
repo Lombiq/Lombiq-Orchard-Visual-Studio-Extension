@@ -182,9 +182,12 @@ namespace Lombiq.Vsix.Orchard.Services.DependencyInjector
             var constructorIndentSize = GetIndentSizeOfLine(constructorLine);
             var constructorCodeLine = IndentText(constructorIndentSize, 1.5, context.FieldName + " = " + context.VariableName + ";");
 
+            var constructorCodeLineInserted = false;
+            var i = context.ConstructorLineIndex - 1;
             var constructorCodeStartIndex = -1;
-            for (int i = context.ConstructorLineIndex; i < context.CodeLines.Count; i++)
+            while (i < context.CodeLines.Count && !constructorCodeLineInserted)
             {
+                i++;
                 // Need to find the inner part of the constructor first.
                 var trimmedLine = context.CodeLines[i].Trim();
                 if (constructorCodeStartIndex == -1 && trimmedLine.Contains("{"))
@@ -208,8 +211,7 @@ namespace Lombiq.Vsix.Orchard.Services.DependencyInjector
                 if (isItFieldAssignment) continue;
 
                 context.CodeLines.Insert(i, constructorCodeLine);
-
-                break;
+                constructorCodeLineInserted = true;
             }
         }
 
