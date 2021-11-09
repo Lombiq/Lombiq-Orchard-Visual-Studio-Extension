@@ -72,7 +72,7 @@ namespace Lombiq.Vsix.Orchard.Commands
             {
                 if (injectDependencyDialog.ShowDialog() == DialogResult.OK)
                 {
-                    var dependencyInjectionData = injectDependencyDialog.GetDependencyInjectionData();
+                    var dependencyInjectionData = injectDependencyDialog.DependencyInjectionData;
 
                     if (string.IsNullOrEmpty(dependencyInjectionData.FieldName) ||
                         string.IsNullOrEmpty(dependencyInjectionData.FieldType) ||
@@ -86,7 +86,7 @@ namespace Lombiq.Vsix.Orchard.Commands
 
                     var result = _dependencyInjector.Inject(
                         dte.ActiveDocument,
-                        injectDependencyDialog.GetDependencyInjectionData());
+                        injectDependencyDialog.DependencyInjectionData);
 
                     if (!result.Success)
                     {

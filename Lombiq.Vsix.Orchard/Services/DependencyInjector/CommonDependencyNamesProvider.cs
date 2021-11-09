@@ -52,7 +52,7 @@ namespace Lombiq.Vsix.Orchard.Services.DependencyInjector
                 .Union(CommonDependencyNamesWhereShortNameShouldBeUsed
                     .Select(dependencyName => CreateDependencyName(dependencyName, className, true)));
 
-        private DependencyName CreateDependencyName(string name, string className, bool shouldUseShortName = false) =>
+        private static DependencyName CreateDependencyName(string name, string className, bool shouldUseShortName = false) =>
             new DependencyName
             {
                 Name = name.Replace("<TClassName>", $"<{className}>"),

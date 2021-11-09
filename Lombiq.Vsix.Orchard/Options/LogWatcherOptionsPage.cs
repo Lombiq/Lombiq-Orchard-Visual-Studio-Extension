@@ -32,7 +32,8 @@ namespace Lombiq.Vsix.Orchard.Options
 
         [DisplayName("Log file name search pattern")]
         [Category("General Log Watcher Options")]
-        [Description("If your app doesn't the standard Orchard log file naming conventions of orchard-log-YYYY-MM-DD.log and orchard-error-YYYY-MM-DD.log " +
+        [Description("If your app doesn't the standard Orchard log file naming " +
+            "conventions of orchard-log-YYYY-MM-DD.log and orchard-error-YYYY-MM-DD.log " +
             "then you can specify a single search pattern (as offered by Directory.EnumerateFiles(), something like \"*.log\") " +
             "to look for files in the directories configured above. " +
             "If multiple files are found then the most recently written one will be used. " +
@@ -42,7 +43,8 @@ namespace Lombiq.Vsix.Orchard.Options
         [DisplayName("Color for the BlinkStick LED stick")]
         [Category("Log Watcher BlinkStick Options")]
         [Description("Set the color for the BlinkStick USB LED stick here. " +
-            "Use either a hex value or one of the names listed here: https://github.com/arvydas/BlinkStickDotNet/blob/master/BlinkStickDotNet/RgbColor.cs#L30.")]
+            "Use either a hex value or one of the names listed here: " +
+            "https://github.com/arvydas/BlinkStickDotNet/blob/master/BlinkStickDotNet/RgbColor.cs#L30.")]
         public string BlinkStickColor { get; set; } = "red";
 
         [DisplayName("Blink BlinkStick LED stick instead of continuous light")]
@@ -74,7 +76,8 @@ namespace Lombiq.Vsix.Orchard.Options
                 {
                     DialogHelpers.Warning(
                         "The given BlinkStick color is invalid. " +
-                        "Please use a valid hex value or one of the names listed here: https://github.com/arvydas/BlinkStickDotNet/blob/master/BlinkStickDotNet/RgbColor.cs#L30.",
+                        "Please use a valid hex value or one of the names listed here: " +
+                        "https://github.com/arvydas/BlinkStickDotNet/blob/master/BlinkStickDotNet/RgbColor.cs#L30.",
                         "Log Watcher settings");
                     e.Cancel = true;
                 }

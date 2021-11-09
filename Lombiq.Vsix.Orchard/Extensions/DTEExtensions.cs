@@ -1,6 +1,6 @@
-﻿namespace EnvDTE
+namespace EnvDTE
 {
-    public static class DTEExtensions
+    public static class DteExtensions
     {
         public static bool SolutionIsOpen(this DTE dte) => dte.Solution.IsOpen;
     }

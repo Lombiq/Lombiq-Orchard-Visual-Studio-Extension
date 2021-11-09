@@ -29,7 +29,7 @@ namespace Lombiq.Vsix.Orchard.Forms
             InitializeComponent();
         }
 
-        public DependencyInjectionData GetDependencyInjectionData() =>
+        public DependencyInjectionData DependencyInjectionData =>
             new DependencyInjectionData
             {
                 FieldName = fieldNameTextBox.Text,
