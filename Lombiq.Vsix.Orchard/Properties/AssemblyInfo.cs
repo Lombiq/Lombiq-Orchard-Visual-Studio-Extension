@@ -15,7 +15,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyCopyright("")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
-[assembly: ComVisible(false)]
+[assembly: ComVisible(true)]
 [assembly: CLSCompliant(false)]
 [assembly: NeutralResourcesLanguage("en-US")]
 
