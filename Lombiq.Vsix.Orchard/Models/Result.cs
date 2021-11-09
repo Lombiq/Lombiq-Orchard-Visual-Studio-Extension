@@ -1,9 +1,18 @@
 namespace Lombiq.Vsix.Orchard.Models
 {
+    /// <summary>
+    /// Interface for an operation result.
+    /// </summary>
     public interface IResult
     {
+        /// <summary>
+        /// Gets a value indicating whether the result is successful.
+        /// </summary>
         bool Success { get; }
 
+        /// <summary>
+        /// Gets the errors code.
+        /// </summary>
         string ErrorCode { get; }
     }
 

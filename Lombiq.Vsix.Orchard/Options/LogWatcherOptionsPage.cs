@@ -51,7 +51,7 @@ namespace Lombiq.Vsix.Orchard.Options
         [Category("Log Watcher BlinkStick Options")]
         [Description("You can use your BlinkStick USB LED stick (see the Readme) so it lights up when a new log entry is detected. " +
             "Enable/disable whether to make it blink when a new long entry is detected. When disabled the BlinkStick will light up continuously.")]
-        public bool BlinkBlinkStick { get; set; } = false;
+        public bool BlinkBlinkStick { get; set; }
 
         public IEnumerable<string> GetLogFileFolderPaths() =>
             LogFileFolderPathsSerialized?

@@ -46,6 +46,6 @@ namespace Lombiq.Vsix.Orchard.Models
         }
 
         public override int GetHashCode() =>
-            base.GetHashCode();
+            $"{HasContent}/{Exists}/{Path}/{LastUpdatedUtc}".GetHashCode();
     }
 }

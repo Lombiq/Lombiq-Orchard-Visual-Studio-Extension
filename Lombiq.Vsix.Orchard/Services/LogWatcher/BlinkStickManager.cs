@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Lombiq.Vsix.Orchard.Services.LogWatcher
 {
-    public sealed class BlinkStickManager : IBlinkStickManager, IDisposable
+    public sealed class BlinkStickManager : IBlinkStickManager
     {
         private readonly object _lock = new object();
         private BlinkStick _blinkStick;

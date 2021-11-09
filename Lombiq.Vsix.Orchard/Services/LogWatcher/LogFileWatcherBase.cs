@@ -39,53 +39,54 @@ namespace Lombiq.Vsix.Orchard.Services.LogWatcher
             // Using this pattern: https://stackoverflow.com/a/684208/220230 to prevent overlapping timer calls.
             // Since Timer callbacks are executed in a ThreadPool thread
             // (https://docs.microsoft.com/en-us/dotnet/standard/threading/timers) they won't block the UI thread.
-            _timer = new Timer(async state =>
-            {
-                try
-                {
-                    if (!(await _package.GetDteAsync()).SolutionIsOpen()) return;
-
-                    var logFileStatus = await GetLogFileStatusAsync();
-
-                    // Log file has been deleted.
-                    if (logFileStatus == null && _previousLogFileStatus != null)
-                    {
-                        LogUpdated?.Invoke(this, new LogChangedEventArgs
-                        {
-                            LogFileStatus = new LogFileStatus
-                            {
-                                Exists = false,
-                                LastUpdatedUtc = DateTime.UtcNow,
-                                HasContent = false,
-                                Path = _previousLogFileStatus.Path,
-                            },
-                        });
-                    }
-
-                    // Log file has been added or changed.
-                    else if ((_previousLogFileStatus == null && logFileStatus != null) ||
-                        (logFileStatus != null && !logFileStatus.Equals(_previousLogFileStatus)))
-                    {
-                        LogUpdated?.Invoke(this, new LogChangedEventArgs { LogFileStatus = logFileStatus });
-                    }
-
-                    _previousLogFileStatus = logFileStatus;
-                }
-                finally
+            _timer = new Timer(
+                async state =>
                 {
                     try
                     {
-                        _timer.Change(DefaultLogWatcherTimerIntervalInMilliseconds, Timeout.Infinite);
+                        if (!(await _package.GetDteAsync()).SolutionIsOpen()) return;
+
+                        var logFileStatus = await GetLogFileStatusAsync();
+
+                        // Log file has been deleted.
+                        if (logFileStatus == null && _previousLogFileStatus != null)
+                        {
+                            LogUpdated?.Invoke(this, new LogChangedEventArgs
+                            {
+                                LogFileStatus = new LogFileStatus
+                                {
+                                    Exists = false,
+                                    LastUpdatedUtc = DateTime.UtcNow,
+                                    HasContent = false,
+                                    Path = _previousLogFileStatus.Path,
+                                },
+                            });
+                        }
+
+                        // Log file has been added or changed.
+                        else if ((_previousLogFileStatus == null && logFileStatus != null) ||
+                            (logFileStatus != null && !logFileStatus.Equals(_previousLogFileStatus)))
+                        {
+                            LogUpdated?.Invoke(this, new LogChangedEventArgs { LogFileStatus = logFileStatus });
+                        }
+
+                        _previousLogFileStatus = logFileStatus;
                     }
-                    catch (ObjectDisposedException)
+                    finally
                     {
-                        // This can happen when the Log Watcher is disabled. Just swallowing it not to cause any issues.
+                        try
+                        {
+                            _timer.Change(DefaultLogWatcherTimerIntervalInMilliseconds, Timeout.Infinite);
+                        }
+                        catch (ObjectDisposedException)
+                        {
+                            // This can happen when the Log Watcher is disabled. Just swallowing it not to cause any issues.
+                        }
                     }
-                }
-            },
-            null,
-            0,
-            Timeout.Infinite);
+                },
+                null,
+                0,
+                Timeout.Infinite);
 
             _isWatching = true;
         }
