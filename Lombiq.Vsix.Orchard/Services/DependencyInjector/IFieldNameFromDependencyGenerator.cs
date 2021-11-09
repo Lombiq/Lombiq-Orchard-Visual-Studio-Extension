@@ -16,7 +16,7 @@ namespace Lombiq.Vsix.Orchard.Services.DependencyInjector
         /// Determines if the field name can be generated from the given dependency.
         /// </summary>
         /// <param name="dependency">Name of the dependency that has been injected to the constructor.</param>
-        /// <returns>Returns <c>true</c> if the field name can be generated from the given dependency.</returns>
+        /// <returns>Returns <see langword="true"/> if the field name can be generated from the given dependency.</returns>
         bool CanGenerate(string dependency);
 
         /// <summary>

@@ -30,8 +30,8 @@ namespace Lombiq.Vsix.Orchard.Models
         string BlinkStickColor { get; }
 
         /// <summary>
-        /// Gets a value indicating whether an attached BlinkStick USB LED stick, if present, will blink (<c>true</c>) or light up
-        /// continuously (<c>false</c>) when a new error log entry is detected.
+        /// Gets a value indicating whether an attached BlinkStick USB LED stick, if present, will blink (<see langword="true"/>) or light up
+        /// continuously (<see langword="false"/>) when a new error log entry is detected.
         /// </summary>
         bool BlinkBlinkStick { get; }
 
