@@ -11,13 +11,27 @@ namespace Lombiq.Vsix.Orchard.Exceptions
     [Serializable]
     public class DependencyToConstructorInjectorException : Exception
     {
-        public string ErrorCode { get; }
+        public string ErrorCode { get; set; }
 
-        public DependencyToConstructorInjectorException(string errorCode, string message)
+        protected DependencyToConstructorInjectorException()
+        {
+        }
+
+        protected DependencyToConstructorInjectorException(string message)
             : base(message)
         {
-            ErrorCode = errorCode;
         }
+
+        protected DependencyToConstructorInjectorException(string message, Exception innerException)
+            : base(message, innerException)
+        {
+        }
+
+        public DependencyToConstructorInjectorException(string errorCode, string message)
+            : base(message) => ErrorCode = errorCode;
+
+        protected DependencyToConstructorInjectorException(SerializationInfo info, StreamingContext context)
+            : base(info, context) => ErrorCode = (string)info.GetValue(nameof(ErrorCode), typeof(string));
 
         public override void GetObjectData(SerializationInfo info, StreamingContext context)
         {
