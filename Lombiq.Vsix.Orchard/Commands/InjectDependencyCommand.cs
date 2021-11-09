@@ -35,14 +35,11 @@ namespace Lombiq.Vsix.Orchard.Commands
             _dependencyNameProviders = dependencyNameProviders;
         }
 
-        public static async Task CreateAsync(AsyncPackage package)
-        {
-            Instance = Instance ?? new InjectDependencyCommand(
+        public static async Task CreateAsync(AsyncPackage package) => Instance = Instance ?? new InjectDependencyCommand(
                 package,
                 await package.GetServiceAsync<IDependencyInjector>(),
                 await package.GetServicesAsync<IFieldNameFromDependencyGenerator>(),
                 await package.GetServicesAsync<IDependencyNameProvider>());
-        }
 
         public async Task InitializeUIAsync()
         {
@@ -53,7 +50,10 @@ namespace Lombiq.Vsix.Orchard.Commands
                     new CommandID(CommandSet, CommandId)));
         }
 
-        private async void MenuItemCallback(object sender, EventArgs e)
+        private void MenuItemCallback(object sender, EventArgs e) =>
+            _ = MenuItemCallbackAsync();
+
+        private async Task MenuItemCallbackAsync()
         {
             const string injectDependencyCaption = "Inject Dependency";
             var dte = await _package.GetDteAsync();
@@ -90,17 +90,11 @@ namespace Lombiq.Vsix.Orchard.Commands
 
                     if (!result.Success)
                     {
-                        switch (result.ErrorCode)
-                        {
-                            case DependencyInjectorErrorCodes.ClassNotFound:
-                                DialogHelpers.Warning(
-                                    "Could not inject dependency because the class was not found in this file.",
-                                    injectDependencyCaption);
-                                break;
-                            default:
-                                DialogHelpers.Warning("Could not inject dependency.", injectDependencyCaption);
-                                break;
-                        }
+                        DialogHelpers.Warning(
+                            result.ErrorCode == DependencyInjectorErrorCodes.ClassNotFound ?
+                            "Could not inject dependency because the class was not found in this file." :
+                            "Could not inject dependency.",
+                            injectDependencyCaption);
                     }
                 }
             }
