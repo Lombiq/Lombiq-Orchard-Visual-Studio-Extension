@@ -6,12 +6,11 @@ using System.Threading.Tasks;
 
 namespace Lombiq.Vsix.Orchard.Services.LogWatcher
 {
-    public sealed class BlinkStickManager : IBlinkStickManager
+    public sealed class BlinkStickManager : IBlinkStickManager, IDisposable
     {
         private readonly object _lock = new object();
         private BlinkStick _blinkStick;
         private bool _isInitialized;
-        private Task _backgroundTask;
         private CancellationTokenSource _cancellationTokenSource;
 
         public void TurnOn(string color)
@@ -22,7 +21,7 @@ namespace Lombiq.Vsix.Orchard.Services.LogWatcher
             // the light still goes out after a few seconds).
             _cancellationTokenSource = new CancellationTokenSource();
             var cancellationToken = _cancellationTokenSource.Token;
-            _backgroundTask = Task.Run(
+            _ = Task.Run(
                 () =>
                 {
                     while (!_cancellationTokenSource.Token.IsCancellationRequested)
@@ -44,18 +43,19 @@ namespace Lombiq.Vsix.Orchard.Services.LogWatcher
             // safer way.
             _cancellationTokenSource = new CancellationTokenSource();
             var cancellationToken = _cancellationTokenSource.Token;
-            _backgroundTask = Task.Run(() =>
-            {
-                while (!cancellationToken.IsCancellationRequested)
-                {
-                    TurnOnWithoutCancellation(color);
-                    // See the notes on why using Thread.Sleep() instead of Task.Delay() above.
-                    if (!cancellationToken.IsCancellationRequested) Thread.Sleep(500);
-                    TurnOffWithoutCancellation();
-                    if (!cancellationToken.IsCancellationRequested) Thread.Sleep(500);
-                }
-            },
-            cancellationToken);
+            _ = Task.Run(
+                () =>
+                    {
+                        while (!cancellationToken.IsCancellationRequested)
+                        {
+                            TurnOnWithoutCancellation(color);
+                            // See the notes on why using Thread.Sleep() instead of Task.Delay() above.
+                            if (!cancellationToken.IsCancellationRequested) Thread.Sleep(500);
+                            TurnOffWithoutCancellation();
+                            if (!cancellationToken.IsCancellationRequested) Thread.Sleep(500);
+                        }
+                    },
+                cancellationToken);
         }
 
         public void TurnOff()
@@ -70,6 +70,8 @@ namespace Lombiq.Vsix.Orchard.Services.LogWatcher
             TurnOff();
             _blinkStick?.Dispose();
             _blinkStick = null;
+            _cancellationTokenSource?.Dispose();
+            _cancellationTokenSource = null;
         }
 
         [SuppressMessage("Design", "CA1031:Do not catch general exception types", Justification = "No other way to check the color.")]
