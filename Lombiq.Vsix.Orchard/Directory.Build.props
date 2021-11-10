@@ -1,3 +1,9 @@
 <Project>
   <Import Project="../tools/Lombiq.Analyzers/NetFx.Build.props" />
+  <PropertyGroup>
+    <CodeAnalysisRuleSet>$(MSBuildThisFileDirectory)VisualStudioExtension.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+  </PropertyGroup>
 </Project>

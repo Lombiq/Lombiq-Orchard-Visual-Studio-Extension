@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RuleSet Name="General C# rules" ToolsVersion="16.0">
+  <Include Path="..\..\..\..\..\..\..\..\lombiq\vs-ext\tools\lombiq.analyzers\general.ruleset" Action="Default" />
+  <Rules AnalyzerId="Microsoft.CodeAnalysis.NetAnalyzers" RuleNamespace="Microsoft.CodeAnalysis.NetAnalyzers">
+    <Rule Id="CA2007" Action="None" />
+  </Rules>
+</RuleSet>
