@@ -75,7 +75,7 @@ namespace Lombiq.Vsix.Orchard
             base.Dispose(disposing);
         }
 
-        public async Task DisposeAsync(bool disposing)
+        public static async Task DisposeAsync(bool disposing)
         {
             if (disposing && OpenErrorLogCommand.Instance != null)
             {
