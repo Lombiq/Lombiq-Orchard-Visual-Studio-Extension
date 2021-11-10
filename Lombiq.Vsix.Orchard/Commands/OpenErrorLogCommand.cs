@@ -5,11 +5,11 @@ using Lombiq.Vsix.Orchard.Models;
 using Lombiq.Vsix.Orchard.Services.LogWatcher;
 using Microsoft.VisualStudio.CommandBars;
 using Microsoft.VisualStudio.Shell;
-using Microsoft.VisualStudio.Threading;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.Design;
 using System.IO;
+using System.Threading.Tasks;
 using Task = System.Threading.Tasks.Task;
 
 namespace Lombiq.Vsix.Orchard.Commands
@@ -68,7 +68,7 @@ namespace Lombiq.Vsix.Orchard.Commands
             if ((await _logWatcherSettingsAccessor.GetSettingsAsync()).LogWatcherEnabled) _openErrorLogCommand.Visible = true;
         }
 
-        public async Task DisposeAsync()
+        public async ValueTask DisposeAsync()
         {
             _blinkStickManager.Dispose();
 
