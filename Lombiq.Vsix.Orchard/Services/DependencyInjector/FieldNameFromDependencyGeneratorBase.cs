@@ -16,10 +16,12 @@ namespace Lombiq.Vsix.Orchard.Services.DependencyInjector
         protected virtual string GetStringWithUnderscore(string value) =>
             "_" + value;
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage(
+            "Globalization",
+            "CA1308:Normalize strings to uppercase",
+            Justification = "This method is not used for sring normalization. Lowercase is required here.")]
         protected virtual string GetLowerInvariantString(string value) =>
-#pragma warning disable CA1308 // Normalize strings to uppercase
             value.ToLowerInvariant();
-#pragma warning restore CA1308 // Normalize strings to uppercase
 
         protected virtual string GetLowerInvariantStringWithUnderscore(string value) =>
             GetStringWithUnderscore(GetLowerInvariantString(value));
@@ -47,11 +49,13 @@ namespace Lombiq.Vsix.Orchard.Services.DependencyInjector
                 interfaceName.Substring(1) :
                 string.Copy(interfaceName);
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage(
+            "Globalization",
+            "CA1308:Normalize strings to uppercase",
+            Justification = "This method is not used for sring normalization. Lowercase is required here.")]
         protected virtual string GetCamelCased(string value)
         {
-#pragma warning disable CA1308 // Normalize strings to uppercase
             if (value.Length == 1) return value.ToLowerInvariant();
-#pragma warning restore CA1308 // Normalize strings to uppercase
 
             return char.ToLowerInvariant(value[0]) + value.Substring(1);
         }

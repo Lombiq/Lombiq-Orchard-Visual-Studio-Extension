@@ -16,6 +16,10 @@ namespace Lombiq.Vsix.Orchard.Services.LogWatcher
 
         private readonly AsyncPackage _package;
         protected readonly ILogWatcherSettingsAccessor _logWatcherSettingsAccessor;
+        [System.Diagnostics.CodeAnalysis.SuppressMessage(
+            "Usage",
+            "CA2213:Disposable fields should be disposed",
+            Justification = "The timer is Disposed from the StopWatching method when the LogFileWatcherBase class is Disposed")]
         private Timer _timer;
         private bool _isWatching;
         private ILogFileStatus _previousLogFileStatus;
@@ -91,6 +95,10 @@ namespace Lombiq.Vsix.Orchard.Services.LogWatcher
             }
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage(
+            "Critical Bug",
+            "S2952:Classes should \"Dispose\" of members from the classes' own \"Dispose\" methods",
+            Justification = "The timer has to be Disposed when the watcher is stopped.")]
         public virtual void StopWatching()
         {
             if (!_isWatching) return;
@@ -130,8 +138,6 @@ namespace Lombiq.Vsix.Orchard.Services.LogWatcher
             if (disposing)
             {
                 StopWatching();
-
-                _timer.Dispose();
             }
         }
 
