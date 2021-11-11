@@ -87,7 +87,6 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
-    <None Include="VisualStudioExtension.ruleset" />
     <Resource Include="Resources\OrchardError16x16.png" />
     <Resource Include="Resources\Lombiq16x16.png" />
     <None Include="app.config" />
