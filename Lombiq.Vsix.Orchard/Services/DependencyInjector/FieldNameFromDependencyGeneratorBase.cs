@@ -50,7 +50,7 @@ namespace Lombiq.Vsix.Orchard.Services.DependencyInjector
                 interfaceName.Substring(1) :
                 string.Copy(interfaceName);
 
-        [uppressMessage(
+        [SuppressMessage(
             "Globalization",
             "CA1308:Normalize strings to uppercase",
             Justification = "This method is not used for string normalization. Lowercase is required here.")]
