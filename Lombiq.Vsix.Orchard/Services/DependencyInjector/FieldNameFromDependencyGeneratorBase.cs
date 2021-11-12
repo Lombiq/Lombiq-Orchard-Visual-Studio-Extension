@@ -1,6 +1,7 @@
 using Lombiq.Vsix.Orchard.Models;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
 namespace Lombiq.Vsix.Orchard.Services.DependencyInjector
@@ -16,7 +17,7 @@ namespace Lombiq.Vsix.Orchard.Services.DependencyInjector
         protected virtual string GetStringWithUnderscore(string value) =>
             "_" + value;
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage(
+        [SuppressMessage(
             "Globalization",
             "CA1308:Normalize strings to uppercase",
             Justification = "This method is not used for sring normalization. Lowercase is required here.")]
@@ -49,7 +50,7 @@ namespace Lombiq.Vsix.Orchard.Services.DependencyInjector
                 interfaceName.Substring(1) :
                 string.Copy(interfaceName);
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage(
+        [uppressMessage(
             "Globalization",
             "CA1308:Normalize strings to uppercase",
             Justification = "This method is not used for sring normalization. Lowercase is required here.")]
