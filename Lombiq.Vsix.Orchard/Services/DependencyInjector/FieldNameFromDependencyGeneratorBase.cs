@@ -20,7 +20,7 @@ namespace Lombiq.Vsix.Orchard.Services.DependencyInjector
         [SuppressMessage(
             "Globalization",
             "CA1308:Normalize strings to uppercase",
-            Justification = "This method is not used for sring normalization. Lowercase is required here.")]
+            Justification = "This method is not used for string normalization. Lowercase is required here.")]
         protected virtual string GetLowerInvariantString(string value) =>
             value.ToLowerInvariant();
 
@@ -53,7 +53,7 @@ namespace Lombiq.Vsix.Orchard.Services.DependencyInjector
         [uppressMessage(
             "Globalization",
             "CA1308:Normalize strings to uppercase",
-            Justification = "This method is not used for sring normalization. Lowercase is required here.")]
+            Justification = "This method is not used for string normalization. Lowercase is required here.")]
         protected virtual string GetCamelCased(string value)
         {
             if (value.Length == 1) return value.ToLowerInvariant();
