@@ -98,7 +98,8 @@ namespace Lombiq.Vsix.Orchard.Services.LogWatcher
         [System.Diagnostics.CodeAnalysis.SuppressMessage(
             "Critical Bug",
             "S2952:Classes should \"Dispose\" of members from the classes' own \"Dispose\" methods",
-            Justification = "The timer has to be Disposed when the watcher is stopped.")]
+            Justification = "The timer will be disposed when the watcher is stopped.")]
+
         public virtual void StopWatching()
         {
             if (!_isWatching) return;
@@ -192,9 +193,8 @@ namespace Lombiq.Vsix.Orchard.Services.LogWatcher
                     if (i == parts.Length - 1)
                     {
                         return Directory.EnumerateFiles(combined, parts[i], SearchOption.TopDirectoryOnly);
-                    }
-
-                    // If this is in the middle of the path (a directory name).
+                    {
+                        // If this is in the middle of the path (a directory name).
                     else
                     {
                         var directories = Directory.EnumerateDirectories(
