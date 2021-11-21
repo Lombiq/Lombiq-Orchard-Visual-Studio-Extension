@@ -3,7 +3,7 @@ using System;
 namespace Lombiq.Vsix.Orchard.Services.LogWatcher
 {
     /// <summary>
-    /// An interface for blink stick led operations.
+    /// An interface for BlinkStick LED operations.
     /// </summary>
     public interface IBlinkStickManager : IDisposable
     {
@@ -14,7 +14,7 @@ namespace Lombiq.Vsix.Orchard.Services.LogWatcher
         void Blink(string color);
 
         /// <summary>
-        /// Turn of the led.
+        /// Turn off the led.
         /// </summary>
         void TurnOff();
 

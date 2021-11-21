@@ -11,7 +11,8 @@ namespace Lombiq.Vsix.Orchard.Models
         bool Success { get; }
 
         /// <summary>
-        /// Gets the errors code.
+        /// Gets the error code if the result is not successful.
+
         /// </summary>
         string ErrorCode { get; }
     }
