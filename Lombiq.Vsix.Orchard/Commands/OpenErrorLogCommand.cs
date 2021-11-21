@@ -49,10 +49,10 @@ namespace Lombiq.Vsix.Orchard.Commands
             Instance = Instance ?? new OpenErrorLogCommand(
                 package,
                 logWatcherSettingsAccessor,
-                await package.GetServicesAsync<ILogFileWatcher>(),
-                await package.GetServiceAsync<IBlinkStickManager>());
+                await package.GetServicesAsync<ILogFileWatcher>().ConfigureAwait(true),
+                await package.GetServiceAsync<IBlinkStickManager>().ConfigureAwait(true));
 
-            await Instance.InitalizeWatchersAsync();
+            await Instance.InitalizeWatchersAsync().ConfigureAwait(true);
         }
 
         public async Task InitializeUIAsync()
@@ -63,9 +63,9 @@ namespace Lombiq.Vsix.Orchard.Commands
             _openErrorLogCommand.BeforeQueryStatus += OpenErrorLogCommandBeforeQueryStatusCallback;
             _openErrorLogCommand.Enabled = false;
 
-            (await _package.GetServiceAsync<IMenuCommandService>()).AddCommand(_openErrorLogCommand);
+            (await _package.GetServiceAsync<IMenuCommandService>().ConfigureAwait(true)).AddCommand(_openErrorLogCommand);
 
-            if ((await _logWatcherSettingsAccessor.GetSettingsAsync()).LogWatcherEnabled) _openErrorLogCommand.Visible = true;
+            if ((await _logWatcherSettingsAccessor.GetSettingsAsync().ConfigureAwait(true)).LogWatcherEnabled) _openErrorLogCommand.Visible = true;
         }
 
         public async ValueTask DisposeAsync()
@@ -78,7 +78,7 @@ namespace Lombiq.Vsix.Orchard.Commands
                 watcher.Dispose();
             }
 
-            (await _logWatcherSettingsAccessor.GetSettingsAsync()).SettingsUpdated -= LogWatcherSettingsUpdatedCallback;
+            (await _logWatcherSettingsAccessor.GetSettingsAsync().ConfigureAwait(true)).SettingsUpdated -= LogWatcherSettingsUpdatedCallback;
         }
 
         private async Task InitalizeWatchersAsync()
@@ -91,7 +91,7 @@ namespace Lombiq.Vsix.Orchard.Commands
                 watcher.LogUpdated += LogFileUpdatedCallback;
             }
 
-            var settings = await _logWatcherSettingsAccessor.GetSettingsAsync();
+            var settings = await _logWatcherSettingsAccessor.GetSettingsAsync().ConfigureAwait(true);
             settings.SettingsUpdated += LogWatcherSettingsUpdatedCallback;
 
             if (settings.LogWatcherEnabled) StartLogFileWatching();
@@ -133,7 +133,8 @@ namespace Lombiq.Vsix.Orchard.Commands
         private async Task LogWatcherSettingsUpdatedCallbackAsync(LogWatcherSettingsUpdatedEventArgs e)
         {
             var isEnabled = e.Settings.LogWatcherEnabled;
-            var orchardLogWatcherToolbar = ((CommandBars)(await _package.GetDteAsync()).CommandBars)[CommandBarNames.OrchardLogWatcherToolbarName];
+            var orchardLogWatcherToolbar = ((CommandBars)(await _package.GetDteAsync()
+                .ConfigureAwait(true)).CommandBars)[CommandBarNames.OrchardLogWatcherToolbarName];
             orchardLogWatcherToolbar.Visible = isEnabled;
 
             // Since this method will be called from the UI thread not blocking it with the watcher changes that can
@@ -152,16 +153,16 @@ namespace Lombiq.Vsix.Orchard.Commands
                         StopLogFileWatching();
                     }
                 }
-            });
+            }).ConfigureAwait(true);
 
-            await UpdateOpenErrorLogCommandAccessibilityAndTextAsync();
+            await UpdateOpenErrorLogCommandAccessibilityAndTextAsync().ConfigureAwait(true);
         }
 
         private async Task UpdateOpenErrorLogCommandAccessibilityAndTextAsync(ILogFileStatus logFileStatus = null)
         {
-            var logWatcherSettings = await _logWatcherSettingsAccessor.GetSettingsAsync();
+            var logWatcherSettings = await _logWatcherSettingsAccessor.GetSettingsAsync().ConfigureAwait(true);
 
-            if (!(await _package.GetDteAsync()).SolutionIsOpen())
+            if (!(await _package.GetDteAsync().ConfigureAwait(true)).SolutionIsOpen())
             {
                 _openErrorLogCommand.Enabled = false;
                 _openErrorLogCommand.Text = "Solution is initializing";

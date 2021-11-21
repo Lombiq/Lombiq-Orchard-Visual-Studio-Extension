@@ -37,14 +37,14 @@ namespace Lombiq.Vsix.Orchard.Commands
 
         public static async Task CreateAsync(AsyncPackage package) => Instance = Instance ?? new InjectDependencyCommand(
                 package,
-                await package.GetServiceAsync<IDependencyInjector>(),
-                await package.GetServicesAsync<IFieldNameFromDependencyGenerator>(),
-                await package.GetServicesAsync<IDependencyNameProvider>());
+                await package.GetServiceAsync<IDependencyInjector>().ConfigureAwait(true),
+                await package.GetServicesAsync<IFieldNameFromDependencyGenerator>().ConfigureAwait(true),
+                await package.GetServicesAsync<IDependencyNameProvider>().ConfigureAwait(true));
 
         public async Task InitializeUIAsync()
         {
             await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
-            (await _package.GetServiceAsync<IMenuCommandService>()).AddCommand(
+            (await _package.GetServiceAsync<IMenuCommandService>().ConfigureAwait(true)).AddCommand(
                 new MenuCommand(
                     MenuItemCallback,
                     new CommandID(CommandSet, CommandId)));
@@ -56,7 +56,7 @@ namespace Lombiq.Vsix.Orchard.Commands
         private async Task MenuItemCallbackAsync()
         {
             const string injectDependencyCaption = "Inject Dependency";
-            var dte = await _package.GetDteAsync();
+            var dte = await _package.GetDteAsync().ConfigureAwait(true);
 
             if (dte.ActiveDocument == null)
             {

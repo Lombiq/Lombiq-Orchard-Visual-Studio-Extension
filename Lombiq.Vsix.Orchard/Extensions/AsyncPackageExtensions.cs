@@ -25,9 +25,9 @@ namespace Microsoft.VisualStudio.Shell
         public static Task<DTE> GetDteAsync(this AsyncPackage package) => package.GetServiceAsync<DTE>();
 
         public static async Task<T> GetServiceAsync<T>(this AsyncPackage package) =>
-            (T)await package.GetServiceAsync(typeof(T));
+            (T)await package.GetServiceAsync(typeof(T)).ConfigureAwait(true);
 
         public static async Task<IEnumerable<T>> GetServicesAsync<T>(this AsyncPackage package) =>
-            (IEnumerable<T>)await package.GetServiceAsync(typeof(T));
+            (IEnumerable<T>)await package.GetServiceAsync(typeof(T)).ConfigureAwait(true);
     }
 }

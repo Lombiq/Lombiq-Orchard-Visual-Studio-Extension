@@ -9,7 +9,7 @@ namespace Lombiq.Vsix.Orchard.Services.LogWatcher
     public sealed class WildcardLogFileWatcher : LogFileWatcherBase
     {
         protected override async Task<string> GetLogFileNameAsync() =>
-            (await _logWatcherSettingsAccessor.GetSettingsAsync()).LogFileNameSearchPattern.Trim();
+            (await _logWatcherSettingsAccessor.GetSettingsAsync().ConfigureAwait(true)).LogFileNameSearchPattern.Trim();
 
         public WildcardLogFileWatcher(AsyncPackage package, ILogWatcherSettingsAccessor logWatcherSettingsAccessor)
             : base(package, logWatcherSettingsAccessor)

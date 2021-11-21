@@ -47,7 +47,7 @@ namespace Lombiq.Vsix.Orchard
 
         protected override async Task InitializeAsync(CancellationToken cancellationToken, IProgress<ServiceProgressData> progress)
         {
-            await base.InitializeAsync(cancellationToken, progress);
+            await base.InitializeAsync(cancellationToken, progress).ConfigureAwait(true);
 
             // On using AsyncPackage see:
             // https://docs.microsoft.com/en-us/visualstudio/extensibility/how-to-provide-an-asynchronous-visual-studio-service
@@ -62,16 +62,16 @@ namespace Lombiq.Vsix.Orchard
 
             RegisterServices();
 
-            await InjectDependencyCommand.CreateAsync(this);
-            await OpenErrorLogCommand.CreateAsync(this, this);
+            await InjectDependencyCommand.CreateAsync(this).ConfigureAwait(true);
+            await OpenErrorLogCommand.CreateAsync(this, this).ConfigureAwait(true);
 
-            await InjectDependencyCommand.Instance.InitializeUIAsync();
-            await OpenErrorLogCommand.Instance.InitializeUIAsync();
+            await InjectDependencyCommand.Instance.InitializeUIAsync().ConfigureAwait(true);
+            await OpenErrorLogCommand.Instance.InitializeUIAsync().ConfigureAwait(true);
         }
 
         protected override void Dispose(bool disposing)
         {
-            ThreadHelper.JoinableTaskFactory.Run(async () => await DisposeAsync(disposing));
+            ThreadHelper.JoinableTaskFactory.Run(async () => await DisposeAsync(disposing).ConfigureAwait(false));
             base.Dispose(disposing);
         }
 
@@ -79,7 +79,7 @@ namespace Lombiq.Vsix.Orchard
         {
             if (disposing && OpenErrorLogCommand.Instance != null)
             {
-                await OpenErrorLogCommand.Instance.DisposeAsync();
+                await OpenErrorLogCommand.Instance.DisposeAsync().ConfigureAwait(false);
             }
         }
 
