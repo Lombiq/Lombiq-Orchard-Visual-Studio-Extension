@@ -26,7 +26,8 @@ namespace Lombiq.Vsix.Orchard.Options
         [Category("General Log Watcher Options")]
         [Description("List of relative paths where the log files are located. " +
             "Values must be relative to the solution file that is currently opened. " +
-            "Wildcards can be used. Use the '|' character to separate values. Example: App_Data/logs|*.Web/App_Data/logs.")]
+            "Wildcards can be used. Use the '|' character to separate values. " +
+            "Example: App_Data/logs|*.Web/App_Data/logs.")]
         public string LogFileFolderPathsSerialized { get; set; } =
             @"Orchard.Web/App_Data/Logs|src/OrchardCore.Cms.Web/App_Data/logs|*.Web/App_Data/logs|src/*.Web/App_Data/logs";
 
