@@ -91,9 +91,10 @@ namespace Lombiq.Vsix.Orchard.Commands
                     if (!result.Success)
                     {
                         DialogHelpers.Warning(
-                            result.ErrorCode == DependencyInjectorErrorCodes.ClassNotFound ?
-                            "Could not inject dependency because the class was not found in this file." :
-                            "Could not inject dependency.",
+                            result.ErrorCode == DependencyInjectorErrorCodes.ClassNotFound
+                                ? "Could not inject dependency because the class was not found in this file."
+                                : "Could not inject dependency.",
+
                             injectDependencyCaption);
                     }
                 }
