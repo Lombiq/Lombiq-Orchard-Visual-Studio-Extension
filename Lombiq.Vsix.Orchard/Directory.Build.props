@@ -1,6 +1,3 @@
 <Project>
-  <Import Project="../tools/Lombiq.Analyzers/NetFx.Build.props" />
-  <PropertyGroup>
-    <CodeAnalysisRuleSet>../tools/Lombiq.Analyzers/VisualStudioExtension.ruleset</CodeAnalysisRuleSet>
-   </PropertyGroup>
+  <Import Project="../tools/Lombiq.Analyzers/VisualStudioExtension.Build.props" />
 </Project>
