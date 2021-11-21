@@ -14,7 +14,7 @@ namespace Lombiq.Vsix.Orchard.Services.LogWatcher
         void Blink(string color);
 
         /// <summary>
-        /// Turn of the led.
+        /// Turn off the led.
         /// </summary>
         void TurnOff();
 
