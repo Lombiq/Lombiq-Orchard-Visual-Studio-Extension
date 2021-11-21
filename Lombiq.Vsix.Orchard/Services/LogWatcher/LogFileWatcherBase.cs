@@ -193,9 +193,8 @@ namespace Lombiq.Vsix.Orchard.Services.LogWatcher
                     if (i == parts.Length - 1)
                     {
                         return Directory.EnumerateFiles(combined, parts[i], SearchOption.TopDirectoryOnly);
-                    }
-
-                    // If this is in the middle of the path (a directory name).
+                    {
+                        // If this is in the middle of the path (a directory name).
                     else
                     {
                         var directories = Directory.EnumerateDirectories(
