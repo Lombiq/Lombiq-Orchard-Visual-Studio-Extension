@@ -48,7 +48,9 @@ namespace Lombiq.Vsix.Orchard.Services.LogWatcher
             _isWatching = true;
         }
 
-        private void TimerCallback(object state) => _ = TimerCallbackAsync();
+#pragma warning disable VSTHRD102 // Implement internal logic asynchronously
+        private void TimerCallback(object state) => ThreadHelper.JoinableTaskFactory.Run(TimerCallbackAsync);
+#pragma warning restore VSTHRD102 // Implement internal logic asynchronously
 
         private async System.Threading.Tasks.Task TimerCallbackAsync()
         {

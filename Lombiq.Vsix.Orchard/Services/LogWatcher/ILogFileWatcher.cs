@@ -39,7 +39,9 @@ namespace Lombiq.Vsix.Orchard.Services.LogWatcher
         public static void RestartWatching(this ILogFileWatcher logFileWatcher)
         {
             logFileWatcher.StopWatching();
-            _ = logFileWatcher.StartWatchingAsync();
+#pragma warning disable VSTHRD104 // Offer async methods
+            Microsoft.VisualStudio.Shell.ThreadHelper.JoinableTaskFactory.Run(logFileWatcher.StartWatchingAsync);
+#pragma warning restore VSTHRD104 // Offer async methods
         }
     }
 }

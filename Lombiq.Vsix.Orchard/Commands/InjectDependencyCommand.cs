@@ -51,7 +51,9 @@ namespace Lombiq.Vsix.Orchard.Commands
         }
 
         private void MenuItemCallback(object sender, EventArgs e) =>
-            _ = MenuItemCallbackAsync();
+#pragma warning disable VSTHRD102 // Implement internal logic asynchronously
+            ThreadHelper.JoinableTaskFactory.Run(MenuItemCallbackAsync);
+#pragma warning restore VSTHRD102 // Implement internal logic asynchronously
 
         private async Task MenuItemCallbackAsync()
         {

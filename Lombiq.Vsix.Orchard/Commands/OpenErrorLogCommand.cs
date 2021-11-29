@@ -98,18 +98,25 @@ namespace Lombiq.Vsix.Orchard.Commands
         }
 
         private void OpenErrorLogCommandBeforeQueryStatusCallback(object sender, EventArgs e) =>
-            _ = UpdateOpenErrorLogCommandAccessibilityAndTextAsync();
+#pragma warning disable VSTHRD102 // Implement internal logic asynchronously
+            ThreadHelper.JoinableTaskFactory.Run(async () => await UpdateOpenErrorLogCommandAccessibilityAndTextAsync().ConfigureAwait(false));
+#pragma warning restore VSTHRD102 // Implement internal logic asynchronously
 
         private void LogFileUpdatedCallback(object sender, LogChangedEventArgs context)
         {
             _hasSeenErrorLogUpdate = !context.LogFileStatus.HasContent;
             _latestUpdatedLogFileStatus = context.LogFileStatus;
 
-            _ = UpdateOpenErrorLogCommandAccessibilityAndTextAsync(context.LogFileStatus);
+#pragma warning disable VSTHRD102 // Implement internal logic asynchronously
+            ThreadHelper.JoinableTaskFactory.Run(async () =>
+            await UpdateOpenErrorLogCommandAccessibilityAndTextAsync(context.LogFileStatus).ConfigureAwait(false));
+#pragma warning restore VSTHRD102 // Implement internal logic asynchronously
         }
 
         private void OpenErrorLogCallback(object sender, EventArgs e) =>
-            _ = OpenErrorLogCallbackAsync();
+#pragma warning disable VSTHRD102 // Implement internal logic asynchronously
+            ThreadHelper.JoinableTaskFactory.Run(OpenErrorLogCallbackAsync);
+#pragma warning restore VSTHRD102 // Implement internal logic asynchronously
 
         private Task OpenErrorLogCallbackAsync()
         {
@@ -128,7 +135,9 @@ namespace Lombiq.Vsix.Orchard.Commands
         }
 
         private void LogWatcherSettingsUpdatedCallback(object sender, LogWatcherSettingsUpdatedEventArgs e) =>
-            _ = LogWatcherSettingsUpdatedCallbackAsync(e);
+#pragma warning disable VSTHRD102 // Implement internal logic asynchronously
+            ThreadHelper.JoinableTaskFactory.Run(async () => await LogWatcherSettingsUpdatedCallbackAsync(e).ConfigureAwait(false));
+#pragma warning restore VSTHRD102 // Implement internal logic asynchronously
 
         private async Task LogWatcherSettingsUpdatedCallbackAsync(LogWatcherSettingsUpdatedEventArgs e)
         {
@@ -193,7 +202,9 @@ namespace Lombiq.Vsix.Orchard.Commands
         {
             foreach (var watcher in _logWatchers)
             {
-                _ = watcher.StartWatchingAsync();
+#pragma warning disable VSTHRD102 // Implement internal logic asynchronously
+                ThreadHelper.JoinableTaskFactory.Run(watcher.StartWatchingAsync);
+#pragma warning restore VSTHRD102 // Implement internal logic asynchronously
             }
         }
 
