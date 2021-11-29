@@ -12,6 +12,9 @@ namespace Lombiq.Vsix.Orchard.Services.LogWatcher
         private BlinkStick _blinkStick;
         private bool _isInitialized;
         private CancellationTokenSource _cancellationTokenSource;
+#pragma warning disable S4487 // Unread "private" fields should be removed
+        private Task _backgroundTask;
+#pragma warning restore S4487 // Unread "private" fields should be removed
 
         public void TurnOn(string color)
         {
@@ -21,7 +24,7 @@ namespace Lombiq.Vsix.Orchard.Services.LogWatcher
             // the light still goes out after a few seconds).
             _cancellationTokenSource = new CancellationTokenSource();
             var cancellationToken = _cancellationTokenSource.Token;
-            _ = Task.Run(
+            _backgroundTask = Task.Run(
                 () =>
                 {
                     while (!_cancellationTokenSource.Token.IsCancellationRequested)
