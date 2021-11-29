@@ -46,7 +46,7 @@ namespace Lombiq.Vsix.Orchard.Services.LogWatcher
             // safer way.
             _cancellationTokenSource = new CancellationTokenSource();
             var cancellationToken = _cancellationTokenSource.Token;
-            _ = Task.Run(
+            _backgroundTask = Task.Run(
                 () =>
                     {
                         while (!cancellationToken.IsCancellationRequested)
