@@ -114,7 +114,7 @@ namespace Lombiq.Vsix.Orchard.Commands
             _latestUpdatedLogFileStatus = context.LogFileStatus;
 
             ThreadHelper.JoinableTaskFactory.Run(async () =>
-            await UpdateOpenErrorLogCommandAccessibilityAndTextAsync(context.LogFileStatus).ConfigureAwait(false));
+                await UpdateOpenErrorLogCommandAccessibilityAndTextAsync(context.LogFileStatus).ConfigureAwait(false));
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage(

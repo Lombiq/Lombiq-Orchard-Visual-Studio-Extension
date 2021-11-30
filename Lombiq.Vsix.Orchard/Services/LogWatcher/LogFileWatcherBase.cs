@@ -103,7 +103,6 @@ namespace Lombiq.Vsix.Orchard.Services.LogWatcher
             "Critical Bug",
             "S2952:Classes should \"Dispose\" of members from the classes' own \"Dispose\" methods",
             Justification = "The timer will be disposed when the watcher is stopped.")]
-
         public virtual void StopWatching()
         {
             if (!_isWatching) return;
