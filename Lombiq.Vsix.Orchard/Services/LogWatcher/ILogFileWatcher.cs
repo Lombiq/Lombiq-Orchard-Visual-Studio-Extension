@@ -30,18 +30,4 @@ namespace Lombiq.Vsix.Orchard.Services.LogWatcher
         /// <returns>Log file status and details.</returns>
         Task<ILogFileStatus> GetLogFileStatusAsync();
     }
-
-    public static class LogFileWatcherExtensions
-    {
-        /// <summary>
-        /// Stops and starts watching of the log file.
-        /// </summary>
-        public static void RestartWatching(this ILogFileWatcher logFileWatcher)
-        {
-            logFileWatcher.StopWatching();
-#pragma warning disable VSTHRD104 // Offer async methods
-            Microsoft.VisualStudio.Shell.ThreadHelper.JoinableTaskFactory.Run(logFileWatcher.StartWatchingAsync);
-#pragma warning restore VSTHRD104 // Offer async methods
-        }
-    }
 }
