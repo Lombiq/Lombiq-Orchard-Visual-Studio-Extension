@@ -50,10 +50,12 @@ namespace Lombiq.Vsix.Orchard.Commands
                     new CommandID(CommandSet, CommandId)));
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage(
+            "Usage",
+            "VSTHRD102:Implement internal logic asynchronously",
+            Justification = "The event handler must return void. The JoinableTaskFactory.Run is required to run the tasks asynchronously.")]
         private void MenuItemCallback(object sender, EventArgs e) =>
-#pragma warning disable VSTHRD102 // Implement internal logic asynchronously
             ThreadHelper.JoinableTaskFactory.Run(MenuItemCallbackAsync);
-#pragma warning restore VSTHRD102 // Implement internal logic asynchronously
 
         private async Task MenuItemCallbackAsync()
         {

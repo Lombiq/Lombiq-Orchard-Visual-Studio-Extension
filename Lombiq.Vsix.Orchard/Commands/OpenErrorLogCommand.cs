@@ -97,26 +97,32 @@ namespace Lombiq.Vsix.Orchard.Commands
             if (settings.LogWatcherEnabled) StartLogFileWatching();
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage(
+            "Usage",
+            "VSTHRD102:Implement internal logic asynchronously",
+            Justification = "The event handler must return void. The JoinableTaskFactory.Run is required to run the tasks asynchronously.")]
         private void OpenErrorLogCommandBeforeQueryStatusCallback(object sender, EventArgs e) =>
-#pragma warning disable VSTHRD102 // Implement internal logic asynchronously
             ThreadHelper.JoinableTaskFactory.Run(async () => await UpdateOpenErrorLogCommandAccessibilityAndTextAsync().ConfigureAwait(false));
-#pragma warning restore VSTHRD102 // Implement internal logic asynchronously
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage(
+            "Usage",
+            "VSTHRD102:Implement internal logic asynchronously",
+            Justification = "The event handler must return void. The JoinableTaskFactory.Run is required to run the tasks asynchronously.")]
         private void LogFileUpdatedCallback(object sender, LogChangedEventArgs context)
         {
             _hasSeenErrorLogUpdate = !context.LogFileStatus.HasContent;
             _latestUpdatedLogFileStatus = context.LogFileStatus;
 
-#pragma warning disable VSTHRD102 // Implement internal logic asynchronously
             ThreadHelper.JoinableTaskFactory.Run(async () =>
             await UpdateOpenErrorLogCommandAccessibilityAndTextAsync(context.LogFileStatus).ConfigureAwait(false));
-#pragma warning restore VSTHRD102 // Implement internal logic asynchronously
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage(
+            "Usage",
+            "VSTHRD102:Implement internal logic asynchronously",
+            Justification = "The event handler must return void. The JoinableTaskFactory.Run is required to run the tasks asynchronously.")]
         private void OpenErrorLogCallback(object sender, EventArgs e) =>
-#pragma warning disable VSTHRD102 // Implement internal logic asynchronously
             ThreadHelper.JoinableTaskFactory.Run(OpenErrorLogCallbackAsync);
-#pragma warning restore VSTHRD102 // Implement internal logic asynchronously
 
         private Task OpenErrorLogCallbackAsync()
         {
@@ -134,10 +140,12 @@ namespace Lombiq.Vsix.Orchard.Commands
             return UpdateOpenErrorLogCommandAccessibilityAndTextAsync();
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage(
+            "Usage",
+            "VSTHRD102:Implement internal logic asynchronously",
+            Justification = "The event handler must return void. The JoinableTaskFactory.Run is required to run the tasks asynchronously.")]
         private void LogWatcherSettingsUpdatedCallback(object sender, LogWatcherSettingsUpdatedEventArgs e) =>
-#pragma warning disable VSTHRD102 // Implement internal logic asynchronously
             ThreadHelper.JoinableTaskFactory.Run(async () => await LogWatcherSettingsUpdatedCallbackAsync(e).ConfigureAwait(false));
-#pragma warning restore VSTHRD102 // Implement internal logic asynchronously
 
         private async Task LogWatcherSettingsUpdatedCallbackAsync(LogWatcherSettingsUpdatedEventArgs e)
         {
@@ -198,13 +206,15 @@ namespace Lombiq.Vsix.Orchard.Commands
             }
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage(
+            "Usage",
+            "VSTHRD102:Implement internal logic asynchronously",
+            Justification = "The JoinableTaskFactory.Run is required to prevent an exception crashing the whole process.")]
         private void StartLogFileWatching()
         {
             foreach (var watcher in _logWatchers)
             {
-#pragma warning disable VSTHRD102 // Implement internal logic asynchronously
                 ThreadHelper.JoinableTaskFactory.Run(watcher.StartWatchingAsync);
-#pragma warning restore VSTHRD102 // Implement internal logic asynchronously
             }
         }
 

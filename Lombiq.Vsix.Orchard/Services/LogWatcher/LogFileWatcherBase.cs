@@ -48,9 +48,11 @@ namespace Lombiq.Vsix.Orchard.Services.LogWatcher
             _isWatching = true;
         }
 
-#pragma warning disable VSTHRD102 // Implement internal logic asynchronously
+        [System.Diagnostics.CodeAnalysis.SuppressMessage(
+            "Usage",
+            "VSTHRD102:Implement internal logic asynchronously",
+            Justification = "The event handler must return void. The JoinableTaskFactory.Run is required to run the tasks asynchronously.")]
         private void TimerCallback(object state) => ThreadHelper.JoinableTaskFactory.Run(TimerCallbackAsync);
-#pragma warning restore VSTHRD102 // Implement internal logic asynchronously
 
         private async System.Threading.Tasks.Task TimerCallbackAsync()
         {
