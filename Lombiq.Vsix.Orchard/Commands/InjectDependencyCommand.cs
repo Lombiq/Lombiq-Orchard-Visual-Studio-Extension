@@ -6,6 +6,7 @@ using Microsoft.VisualStudio.Shell;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.Design;
+using System.Diagnostics.CodeAnalysis;
 using System.Windows.Forms;
 using Task = System.Threading.Tasks.Task;
 
@@ -50,7 +51,7 @@ namespace Lombiq.Vsix.Orchard.Commands
                     new CommandID(CommandSet, CommandId)));
         }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage(
+        [SuppressMessage(
             "Usage",
             "VSTHRD102:Implement internal logic asynchronously",
             Justification = "The event handler must return void. The JoinableTaskFactory.Run is required to run the tasks asynchronously.")]

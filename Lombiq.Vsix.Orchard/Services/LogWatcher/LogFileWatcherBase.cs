@@ -3,6 +3,7 @@ using Lombiq.Vsix.Orchard.Models;
 using Microsoft.VisualStudio.Shell;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -16,7 +17,7 @@ namespace Lombiq.Vsix.Orchard.Services.LogWatcher
 
         private readonly AsyncPackage _package;
         protected readonly ILogWatcherSettingsAccessor _logWatcherSettingsAccessor;
-        [System.Diagnostics.CodeAnalysis.SuppressMessage(
+        [SuppressMessage(
             "Usage",
             "CA2213:Disposable fields should be disposed",
             Justification = "The timer is Disposed from the StopWatching method when the LogFileWatcherBase class is Disposed")]
@@ -48,7 +49,7 @@ namespace Lombiq.Vsix.Orchard.Services.LogWatcher
             _isWatching = true;
         }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage(
+        [SuppressMessage(
             "Usage",
             "VSTHRD102:Implement internal logic asynchronously",
             Justification = "The event handler must return void. The JoinableTaskFactory.Run is required to run the tasks asynchronously.")]
@@ -99,7 +100,7 @@ namespace Lombiq.Vsix.Orchard.Services.LogWatcher
             }
         }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage(
+        [SuppressMessage(
             "Critical Bug",
             "S2952:Classes should \"Dispose\" of members from the classes' own \"Dispose\" methods",
             Justification = "The timer will be disposed when the watcher is stopped.")]

@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.Serialization;
 
 namespace Lombiq.Vsix.Orchard.Exceptions
@@ -9,7 +10,7 @@ namespace Lombiq.Vsix.Orchard.Exceptions
     }
 
     [Serializable]
-    [System.Diagnostics.CodeAnalysis.SuppressMessage(
+    [SuppressMessage(
         "Design",
         "CA1032:Implement standard exception constructors",
         Justification = "This exception needs the ErrorCode parameter in the constructor.")]

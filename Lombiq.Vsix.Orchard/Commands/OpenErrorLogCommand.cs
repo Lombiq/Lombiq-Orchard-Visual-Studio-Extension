@@ -8,6 +8,7 @@ using Microsoft.VisualStudio.Shell;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.Design;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Threading.Tasks;
 using Task = System.Threading.Tasks.Task;
@@ -97,14 +98,14 @@ namespace Lombiq.Vsix.Orchard.Commands
             if (settings.LogWatcherEnabled) StartLogFileWatching();
         }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage(
+        [SuppressMessage(
             "Usage",
             "VSTHRD102:Implement internal logic asynchronously",
             Justification = "The event handler must return void. The JoinableTaskFactory.Run is required to run the tasks asynchronously.")]
         private void OpenErrorLogCommandBeforeQueryStatusCallback(object sender, EventArgs e) =>
             ThreadHelper.JoinableTaskFactory.Run(async () => await UpdateOpenErrorLogCommandAccessibilityAndTextAsync().ConfigureAwait(false));
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage(
+        [SuppressMessage(
             "Usage",
             "VSTHRD102:Implement internal logic asynchronously",
             Justification = "The event handler must return void. The JoinableTaskFactory.Run is required to run the tasks asynchronously.")]
@@ -117,7 +118,7 @@ namespace Lombiq.Vsix.Orchard.Commands
                 await UpdateOpenErrorLogCommandAccessibilityAndTextAsync(context.LogFileStatus).ConfigureAwait(false));
         }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage(
+        [SuppressMessage(
             "Usage",
             "VSTHRD102:Implement internal logic asynchronously",
             Justification = "The event handler must return void. The JoinableTaskFactory.Run is required to run the tasks asynchronously.")]
@@ -140,7 +141,7 @@ namespace Lombiq.Vsix.Orchard.Commands
             return UpdateOpenErrorLogCommandAccessibilityAndTextAsync();
         }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage(
+        [SuppressMessage(
             "Usage",
             "VSTHRD102:Implement internal logic asynchronously",
             Justification = "The event handler must return void. The JoinableTaskFactory.Run is required to run the tasks asynchronously.")]
@@ -206,7 +207,7 @@ namespace Lombiq.Vsix.Orchard.Commands
             }
         }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage(
+        [SuppressMessage(
             "Usage",
             "VSTHRD102:Implement internal logic asynchronously",
             Justification = "The JoinableTaskFactory.Run is required to prevent an exception crashing the whole process.")]
