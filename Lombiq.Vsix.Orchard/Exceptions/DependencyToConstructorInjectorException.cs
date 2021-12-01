@@ -9,23 +9,13 @@ namespace Lombiq.Vsix.Orchard.Exceptions
     }
 
     [Serializable]
+    [System.Diagnostics.CodeAnalysis.SuppressMessage(
+        "Design",
+        "CA1032:Implement standard exception constructors",
+        Justification = "This exception needs the ErrorCode parameter in the constructor.")]
     public class DependencyToConstructorInjectorException : Exception
     {
         public string ErrorCode { get; set; }
-
-        protected DependencyToConstructorInjectorException()
-        {
-        }
-
-        protected DependencyToConstructorInjectorException(string message)
-            : base(message)
-        {
-        }
-
-        protected DependencyToConstructorInjectorException(string message, Exception innerException)
-            : base(message, innerException)
-        {
-        }
 
         public DependencyToConstructorInjectorException(string errorCode, string message)
             : base(message) => ErrorCode = errorCode;
