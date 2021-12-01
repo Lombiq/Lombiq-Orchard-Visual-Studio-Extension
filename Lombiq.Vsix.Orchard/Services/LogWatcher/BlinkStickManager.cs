@@ -6,17 +6,15 @@ using System.Threading.Tasks;
 
 namespace Lombiq.Vsix.Orchard.Services.LogWatcher
 {
-    [SuppressMessage(
-        "Critical Code Smell",
-        "S4487:Unread \"private\" fields should be removed",
-        Justification = "The _backgroundTask variable is required to keep the the Task alive.")]
     public sealed class BlinkStickManager : IBlinkStickManager
     {
         private readonly object _lock = new object();
         private BlinkStick _blinkStick;
         private bool _isInitialized;
         private CancellationTokenSource _cancellationTokenSource;
+#pragma warning disable S4487 // Unread "private" fields should be removed. This variable is required to keep the the Task alive.
         private Task _backgroundTask;
+#pragma warning restore S4487 // Unread "private" fields should be removed. This variable is required to keep the the Task alive.
 
         public void TurnOn(string color)
         {
