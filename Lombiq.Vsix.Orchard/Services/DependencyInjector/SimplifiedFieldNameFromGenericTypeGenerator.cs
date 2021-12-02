@@ -1,4 +1,5 @@
-﻿using Lombiq.Vsix.Orchard.Models;
+using Lombiq.Vsix.Orchard.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -9,15 +10,13 @@ namespace Lombiq.Vsix.Orchard.Services.DependencyInjector
         private static readonly IEnumerable<string> SimplifiedGenericTypes = new[]
         {
             "UserManager",
-            "ILogger"
+            "ILogger",
         };
-
 
         public override double Priority => 15;
 
-
         public override bool CanGenerate(string dependency) =>
-            base.CanGenerate(dependency) && SimplifiedGenericTypes.Any(type => dependency.StartsWith(type));
+            base.CanGenerate(dependency) && SimplifiedGenericTypes.Any(type => dependency.StartsWith(type, StringComparison.InvariantCulture));
 
         public override DependencyInjectionData Generate(string dependency, bool useShortName)
         {
@@ -35,7 +34,7 @@ namespace Lombiq.Vsix.Orchard.Services.DependencyInjector
                 ConstructorParameterName = useShortName ?
                     GetShortName(GetCamelCased(segments.CleanedGenericTypeName)) :
                     GetCamelCased(segments.CleanedGenericTypeName),
-                ConstructorParameterType = dependency
+                ConstructorParameterType = dependency,
             };
         }
     }

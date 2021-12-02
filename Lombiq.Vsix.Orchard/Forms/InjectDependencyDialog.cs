@@ -1,4 +1,4 @@
-﻿using Lombiq.Vsix.Orchard.Models;
+using Lombiq.Vsix.Orchard.Models;
 using Lombiq.Vsix.Orchard.Services.DependencyInjector;
 using System;
 using System.Collections.Generic;
@@ -15,9 +15,7 @@ namespace Lombiq.Vsix.Orchard.Forms
         private readonly string _className;
         private IEnumerable<DependencyName> _suggestedDependencyNames;
 
-
         public string DependencyName => dependencyNameTextBox.Text;
-
 
         public InjectDependencyDialog(
             IEnumerable<IFieldNameFromDependencyGenerator> fieldNameGenerators,
@@ -31,16 +29,14 @@ namespace Lombiq.Vsix.Orchard.Forms
             InitializeComponent();
         }
 
-
-        public DependencyInjectionData GetDependencyInjectionData() =>
+        public DependencyInjectionData DependencyInjectionData =>
             new DependencyInjectionData
             {
                 FieldName = fieldNameTextBox.Text,
                 FieldType = fieldTypeTextBox.Text,
                 ConstructorParameterName = parameterNameTextBox.Text,
-                ConstructorParameterType = parameterTypeTextBox.Text
+                ConstructorParameterType = parameterTypeTextBox.Text,
             };
-
 
         protected override void OnLoad(EventArgs e)
         {
@@ -48,7 +44,7 @@ namespace Lombiq.Vsix.Orchard.Forms
 
             ActiveControl = dependencyNameTextBox;
 
-            _suggestedDependencyNames =_dependencyNameProviders
+            _suggestedDependencyNames = _dependencyNameProviders
                 .OrderBy(provider => provider.Priority)
                 .SelectMany(provider => provider.GetDependencyNames(_className))
                 .Distinct(new DependencyNameEqualityComparer());
@@ -62,7 +58,6 @@ namespace Lombiq.Vsix.Orchard.Forms
 
             UpdateVisualizationPanel();
         }
-
 
         private DependencyInjectionData GenerateDependencyInjectionData(string dependency, bool useShortName = false)
         {
@@ -82,13 +77,13 @@ namespace Lombiq.Vsix.Orchard.Forms
                 generateShortFieldNameCheckBox.Checked = suggestion.ShouldUseShortFieldNameByDefault;
             }
 
-            var injectedDependency = DependencyName.Length == 0 ? 
+            var injectedDependency = DependencyName.Length == 0 ?
                 null : GenerateDependencyInjectionData(DependencyName, generateShortFieldNameCheckBox.Checked);
 
-            fieldNameTextBox.Text = injectedDependency?.FieldName ?? "";
-            fieldTypeTextBox.Text = injectedDependency?.FieldType ?? "";
-            parameterNameTextBox.Text = injectedDependency?.ConstructorParameterName ?? "";
-            parameterTypeTextBox.Text = injectedDependency?.ConstructorParameterType ?? "";
+            fieldNameTextBox.Text = injectedDependency?.FieldName ?? string.Empty;
+            fieldTypeTextBox.Text = injectedDependency?.FieldType ?? string.Empty;
+            parameterNameTextBox.Text = injectedDependency?.ConstructorParameterName ?? string.Empty;
+            parameterTypeTextBox.Text = injectedDependency?.ConstructorParameterType ?? string.Empty;
         }
 
         private void DependencyInjectionDataTextBoxTextChanged(object sender, EventArgs e) =>
@@ -96,14 +91,14 @@ namespace Lombiq.Vsix.Orchard.Forms
 
         private void DependencyNameTextBoxPreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
         {
-            if ((e.KeyCode == Keys.Tab || e.KeyCode == Keys.Enter) && 
+            if ((e.KeyCode == Keys.Tab || e.KeyCode == Keys.Enter) &&
                 !string.IsNullOrEmpty(dependencyNameTextBox.SelectedText))
             {
                 var matchingDependencyName = _suggestedDependencyNames
                     .Select(dependencyName => dependencyName.Name)
-                    .FirstOrDefault(dependency => 
+                    .FirstOrDefault(dependency =>
                         dependency.Equals(dependencyNameTextBox.Text, StringComparison.OrdinalIgnoreCase));
-                
+
                 if (!string.IsNullOrEmpty(matchingDependencyName)) dependencyNameTextBox.Text = matchingDependencyName;
             }
         }

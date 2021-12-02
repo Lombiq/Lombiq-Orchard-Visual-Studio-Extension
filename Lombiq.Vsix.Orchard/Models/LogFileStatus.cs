@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+using System;
 
 namespace Lombiq.Vsix.Orchard.Models
 {
@@ -9,22 +8,22 @@ namespace Lombiq.Vsix.Orchard.Models
     public interface ILogFileStatus
     {
         /// <summary>
-        /// Indicates whether the log file has content if it exists or it is empty.
+        /// Gets a value indicating whether the log file has content if it exists or it is empty.
         /// </summary>
         bool HasContent { get; }
 
         /// <summary>
-        /// Indicates whether the log file exists or not.
+        /// Gets a value indicating whether the log file exists or not.
         /// </summary>
         bool Exists { get; }
 
         /// <summary>
-        /// Full path of the log file.
+        /// Gets the full path of the log file.
         /// </summary>
         string Path { get; }
 
         /// <summary>
-        /// Last time when the log file has been updated in UTC.
+        /// Gets the last time when the log file has been updated in UTC.
         /// </summary>
         DateTime? LastUpdatedUtc { get; }
     }
@@ -36,20 +35,17 @@ namespace Lombiq.Vsix.Orchard.Models
         public string Path { get; set; }
         public DateTime? LastUpdatedUtc { get; set; }
 
-
-        public override bool Equals(object logFileStatusObject)
+        public override bool Equals(object obj)
         {
-            var logFileStatus = logFileStatusObject as ILogFileStatus;
+            if (!(obj is ILogFileStatus logFileStatus)) return false;
 
-            if (logFileStatus == null) return false;
-
-            return HasContent == logFileStatus.HasContent && 
+            return HasContent == logFileStatus.HasContent &&
                 Exists == logFileStatus.Exists &&
                 Path == logFileStatus.Path &&
                 LastUpdatedUtc == logFileStatus.LastUpdatedUtc;
         }
 
         public override int GetHashCode() =>
-            base.GetHashCode();
+            $"{HasContent}/{Exists}/{Path}/{LastUpdatedUtc}".GetHashCode();
     }
 }

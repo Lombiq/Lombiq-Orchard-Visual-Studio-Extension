@@ -1,4 +1,4 @@
-﻿using Lombiq.Vsix.Orchard.Models;
+using Lombiq.Vsix.Orchard.Models;
 using System.Threading.Tasks;
 
 namespace Lombiq.Vsix.Orchard.Services.LogWatcher
@@ -12,6 +12,6 @@ namespace Lombiq.Vsix.Orchard.Services.LogWatcher
         /// Returns the Log Watcher settings necessary for watching the log file.
         /// </summary>
         /// <returns>Log Watcher settings.</returns>
-        Task<ILogWatcherSettings> GetSettings();
+        Task<ILogWatcherSettings> GetSettingsAsync();
     }
 }

@@ -1,30 +1,37 @@
-﻿namespace Lombiq.Vsix.Orchard.Models
+namespace Lombiq.Vsix.Orchard.Models
 {
+    /// <summary>
+    /// Interface for an operation result.
+    /// </summary>
     public interface IResult
     {
+        /// <summary>
+        /// Gets a value indicating whether the result is successful.
+        /// </summary>
         bool Success { get; }
 
+        /// <summary>
+        /// Gets the error code if the result is not successful.
+        /// </summary>
         string ErrorCode { get; }
     }
-
 
     public class Result : IResult
     {
         private static IResult _successResult;
 
-        public static IResult SuccessResult 
+        public static IResult SuccessResult
         {
             get
             {
-                if (_successResult == null) _successResult = new Result { Success = true };
+                _successResult = _successResult ?? new Result { Success = true };
 
                 return _successResult;
             }
         }
 
-        public static IResult FailedResult(string errorCode) => 
+        public static IResult FailedResult(string errorCode) =>
             new Result { Success = false, ErrorCode = errorCode };
-
 
         public bool Success { get; set; }
 

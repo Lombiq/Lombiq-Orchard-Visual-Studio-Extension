@@ -1,4 +1,4 @@
-﻿using BlinkStickDotNet;
+using BlinkStickDotNet;
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading;
@@ -9,11 +9,13 @@ namespace Lombiq.Vsix.Orchard.Services.LogWatcher
     public sealed class BlinkStickManager : IBlinkStickManager
     {
         private readonly object _lock = new object();
-        private BlinkStick _blinkStick = null;
-        private bool _isInitialized = false;
-        private Task _backgroundTask = null;
-        private CancellationTokenSource _cancellationTokenSource = null;
-
+        private BlinkStick _blinkStick;
+        private bool _isInitialized;
+        private CancellationTokenSource _cancellationTokenSource;
+        // This variable is required to keep the the Task alive.
+#pragma warning disable S4487 // Unread "private" fields should be removed
+        private Task _backgroundTask;
+#pragma warning restore S4487 // Unread "private" fields should be removed
 
         public void TurnOn(string color)
         {
@@ -23,17 +25,19 @@ namespace Lombiq.Vsix.Orchard.Services.LogWatcher
             // the light still goes out after a few seconds).
             _cancellationTokenSource = new CancellationTokenSource();
             var cancellationToken = _cancellationTokenSource.Token;
-            _backgroundTask = Task.Run(() =>
-            {
-                while (!_cancellationTokenSource.Token.IsCancellationRequested)
+            _backgroundTask = Task.Run(
+                () =>
                 {
-                    TurnOnWithoutCancellation(color);
-                    // For some reason Thread.Sleep() is better, with Task.Delay() the light will sometimes flicker.
-                    // Possibly because the thread is dispatched to work on something else.
-                    // This 10ms refresh causes no measurable CPU load.
-                    Thread.Sleep(10);
-                }
-            }, cancellationToken);
+                    while (!_cancellationTokenSource.Token.IsCancellationRequested)
+                    {
+                        TurnOnWithoutCancellation(color);
+                        // For some reason Thread.Sleep() is better, with Task.Delay() the light will sometimes flicker.
+                        // Possibly because the thread is dispatched to work on something else.
+                        // This 10ms refresh causes no measurable CPU load.
+                        Thread.Sleep(10);
+                    }
+                },
+                cancellationToken);
         }
 
         // Blink if you're not a lamp! https://youtu.be/_zCDvOsdL9Q?t=56
@@ -43,17 +47,19 @@ namespace Lombiq.Vsix.Orchard.Services.LogWatcher
             // safer way.
             _cancellationTokenSource = new CancellationTokenSource();
             var cancellationToken = _cancellationTokenSource.Token;
-            _backgroundTask = Task.Run(() =>
-            {
-                while (!cancellationToken.IsCancellationRequested)
-                {
-                    TurnOnWithoutCancellation(color);
-                    // See the notes on why using Thread.Sleep() instead of Task.Delay() above.
-                    if (!cancellationToken.IsCancellationRequested) Thread.Sleep(500);
-                    TurnOffWithoutCancellation();
-                    if (!cancellationToken.IsCancellationRequested) Thread.Sleep(500);
-                }
-            }, cancellationToken);
+            _backgroundTask = Task.Run(
+                () =>
+                    {
+                        while (!cancellationToken.IsCancellationRequested)
+                        {
+                            TurnOnWithoutCancellation(color);
+                            // See the notes on why using Thread.Sleep() instead of Task.Delay() above.
+                            if (!cancellationToken.IsCancellationRequested) Thread.Sleep(500);
+                            TurnOffWithoutCancellation();
+                            if (!cancellationToken.IsCancellationRequested) Thread.Sleep(500);
+                        }
+                    },
+                cancellationToken);
         }
 
         public void TurnOff()
@@ -68,6 +74,8 @@ namespace Lombiq.Vsix.Orchard.Services.LogWatcher
             TurnOff();
             _blinkStick?.Dispose();
             _blinkStick = null;
+            _cancellationTokenSource?.Dispose();
+            _cancellationTokenSource = null;
         }
 
         [SuppressMessage("Design", "CA1031:Do not catch general exception types", Justification = "No other way to check the color.")]
@@ -84,7 +92,6 @@ namespace Lombiq.Vsix.Orchard.Services.LogWatcher
                 return false;
             }
         }
-
 
         private void TurnOnWithoutCancellation(string color) => RunForBlinkStickIfPresent(() => _blinkStick.SetColor(color));
 

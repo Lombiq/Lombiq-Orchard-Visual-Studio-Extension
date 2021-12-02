@@ -1,4 +1,4 @@
-﻿using Lombiq.Vsix.Orchard.Constants;
+using Lombiq.Vsix.Orchard.Constants;
 using Lombiq.Vsix.Orchard.Forms;
 using Lombiq.Vsix.Orchard.Helpers;
 using Lombiq.Vsix.Orchard.Services.DependencyInjector;
@@ -6,6 +6,7 @@ using Microsoft.VisualStudio.Shell;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.Design;
+using System.Diagnostics.CodeAnalysis;
 using System.Windows.Forms;
 using Task = System.Threading.Tasks.Task;
 
@@ -23,7 +24,6 @@ namespace Lombiq.Vsix.Orchard.Commands
 
         public static InjectDependencyCommand Instance { get; private set; }
 
-
         private InjectDependencyCommand(
             AsyncPackage package,
             IDependencyInjector dependencyInjector,
@@ -36,31 +36,32 @@ namespace Lombiq.Vsix.Orchard.Commands
             _dependencyNameProviders = dependencyNameProviders;
         }
 
-
-        public static async Task Create(AsyncPackage package)
-        {
-            Instance = Instance ?? new InjectDependencyCommand(
+        public static async Task CreateAsync(AsyncPackage package) => Instance = Instance ?? new InjectDependencyCommand(
                 package,
-                await package.GetServiceAsync<IDependencyInjector>(),
-                await package.GetServicesAsync<IFieldNameFromDependencyGenerator>(),
-                await package.GetServicesAsync<IDependencyNameProvider>());
-        }
+                await package.GetServiceAsync<IDependencyInjector>().ConfigureAwait(true),
+                await package.GetServicesAsync<IFieldNameFromDependencyGenerator>().ConfigureAwait(true),
+                await package.GetServicesAsync<IDependencyNameProvider>().ConfigureAwait(true));
 
-
-        public async Task InitializeUI()
+        public async Task InitializeUIAsync()
         {
             await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
-            (await _package.GetServiceAsync<IMenuCommandService>()).AddCommand(
+            (await _package.GetServiceAsync<IMenuCommandService>().ConfigureAwait(true)).AddCommand(
                 new MenuCommand(
                     MenuItemCallback,
                     new CommandID(CommandSet, CommandId)));
         }
 
+        [SuppressMessage(
+            "Usage",
+            "VSTHRD102:Implement internal logic asynchronously",
+            Justification = "The event handler must return void. The JoinableTaskFactory.Run is required to run the tasks asynchronously.")]
+        private void MenuItemCallback(object sender, EventArgs e) =>
+            ThreadHelper.JoinableTaskFactory.Run(MenuItemCallbackAsync);
 
-        private async void MenuItemCallback(object sender, EventArgs e)
+        private async Task MenuItemCallbackAsync()
         {
-            var injectDependencyCaption = "Inject Dependency";
-            var dte = await _package.GetDteAsync();
+            const string injectDependencyCaption = "Inject Dependency";
+            var dte = await _package.GetDteAsync().ConfigureAwait(true);
 
             if (dte.ActiveDocument == null)
             {
@@ -76,7 +77,7 @@ namespace Lombiq.Vsix.Orchard.Commands
             {
                 if (injectDependencyDialog.ShowDialog() == DialogResult.OK)
                 {
-                    var dependencyInjectionData = injectDependencyDialog.GetDependencyInjectionData();
+                    var dependencyInjectionData = injectDependencyDialog.DependencyInjectionData;
 
                     if (string.IsNullOrEmpty(dependencyInjectionData.FieldName) ||
                         string.IsNullOrEmpty(dependencyInjectionData.FieldType) ||
@@ -90,21 +91,15 @@ namespace Lombiq.Vsix.Orchard.Commands
 
                     var result = _dependencyInjector.Inject(
                         dte.ActiveDocument,
-                        injectDependencyDialog.GetDependencyInjectionData());
+                        injectDependencyDialog.DependencyInjectionData);
 
                     if (!result.Success)
                     {
-                        switch (result.ErrorCode)
-                        {
-                            case DependencyInjectorErrorCodes.ClassNotFound:
-                                DialogHelpers.Warning(
-                                    "Could not inject dependency because the class was not found in this file.",
-                                    injectDependencyCaption);
-                                break;
-                            default:
-                                DialogHelpers.Warning("Could not inject dependency.", injectDependencyCaption);
-                                break;
-                        }
+                        DialogHelpers.Warning(
+                            result.ErrorCode == DependencyInjectorErrorCodes.ClassNotFound
+                                ? "Could not inject dependency because the class was not found in this file."
+                                : "Could not inject dependency.",
+                            injectDependencyCaption);
                     }
                 }
             }

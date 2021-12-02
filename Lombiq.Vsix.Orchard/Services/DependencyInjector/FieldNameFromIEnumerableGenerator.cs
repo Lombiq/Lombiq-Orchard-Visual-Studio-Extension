@@ -1,4 +1,4 @@
-﻿using Lombiq.Vsix.Orchard.Models;
+using Lombiq.Vsix.Orchard.Models;
 using System.Data.Entity.Design.PluralizationServices;
 using System.Globalization;
 using System.Text.RegularExpressions;
@@ -9,11 +9,9 @@ namespace Lombiq.Vsix.Orchard.Services.DependencyInjector
     {
         private const string IEnumerableNameRegexPattern = @"^IEnumerable[<]+[a-zA-Z_]+[a-zA-Z0-9_]*[>]+$";
 
-
         public override double Priority => 15;
 
-
-        public override bool CanGenerate(string dependency) => 
+        public override bool CanGenerate(string dependency) =>
             Regex.IsMatch(dependency, IEnumerableNameRegexPattern);
 
         public override DependencyInjectionData Generate(string dependency, bool useShortName)
@@ -35,7 +33,7 @@ namespace Lombiq.Vsix.Orchard.Services.DependencyInjector
                 FieldName = GetStringWithUnderscore(pluralizedFieldNameWithoutUnderscore),
                 FieldType = dependency,
                 ConstructorParameterName = pluralizedFieldNameWithoutUnderscore,
-                ConstructorParameterType = dependency
+                ConstructorParameterType = dependency,
             };
         }
     }

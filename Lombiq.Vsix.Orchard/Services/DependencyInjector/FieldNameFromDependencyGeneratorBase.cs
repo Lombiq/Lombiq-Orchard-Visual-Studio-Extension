@@ -1,5 +1,7 @@
-﻿using Lombiq.Vsix.Orchard.Models;
+using Lombiq.Vsix.Orchard.Models;
+using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
 namespace Lombiq.Vsix.Orchard.Services.DependencyInjector
@@ -8,19 +10,21 @@ namespace Lombiq.Vsix.Orchard.Services.DependencyInjector
     {
         public abstract double Priority { get; }
 
-
         public abstract bool CanGenerate(string dependency);
 
         public abstract DependencyInjectionData Generate(string dependency, bool useShortName);
 
-
-        protected virtual string GetStringWithUnderscore(string value) => 
+        protected virtual string GetStringWithUnderscore(string value) =>
             "_" + value;
 
-        protected virtual string GetLowerInvariantString(string value) => 
+        [SuppressMessage(
+            "Globalization",
+            "CA1308:Normalize strings to uppercase",
+            Justification = "This method is not used for string normalization. Lowercase is required here.")]
+        protected virtual string GetLowerInvariantString(string value) =>
             value.ToLowerInvariant();
 
-        protected virtual string GetLowerInvariantStringWithUnderscore(string value) => 
+        protected virtual string GetLowerInvariantStringWithUnderscore(string value) =>
             GetStringWithUnderscore(GetLowerInvariantString(value));
 
         protected virtual string GetShortName(string value)
@@ -41,20 +45,23 @@ namespace Lombiq.Vsix.Orchard.Services.DependencyInjector
                 GetStringWithUnderscore(value[0].ToString());
         }
 
-        protected virtual string RemoveFirstLetterIfInterface(string interfaceName) => 
-            interfaceName.Length > 1 && interfaceName.StartsWith("I") && char.IsUpper(interfaceName[1]) ?
+        protected virtual string RemoveFirstLetterIfInterface(string interfaceName) =>
+            interfaceName.Length > 1 && interfaceName.StartsWith("I", StringComparison.InvariantCulture) && char.IsUpper(interfaceName[1]) ?
                 interfaceName.Substring(1) :
                 string.Copy(interfaceName);
 
+        [SuppressMessage(
+            "Globalization",
+            "CA1308:Normalize strings to uppercase",
+            Justification = "This method is not used for string normalization. Lowercase is required here.")]
         protected virtual string GetCamelCased(string value)
         {
-            if (value.Length == 1) return value.ToLower();
+            if (value.Length == 1) return value.ToLowerInvariant();
 
-            return char.ToLower(value[0]) + value.Substring(1);
+            return char.ToLowerInvariant(value[0]) + value.Substring(1);
         }
 
-
-        private IEnumerable<char> GetUpperCasedLetters(string value) => 
+        private static IEnumerable<char> GetUpperCasedLetters(string value) =>
             value.Where(letter => char.IsUpper(letter));
     }
 }

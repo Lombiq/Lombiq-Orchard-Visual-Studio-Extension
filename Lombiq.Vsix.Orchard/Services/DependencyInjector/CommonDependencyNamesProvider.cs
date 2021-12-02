@@ -1,4 +1,4 @@
-﻿using Lombiq.Vsix.Orchard.Models;
+using Lombiq.Vsix.Orchard.Models;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -41,11 +41,10 @@ namespace Lombiq.Vsix.Orchard.Services.DependencyInjector
         private static readonly IEnumerable<string> CommonDependencyNamesWhereShortNameShouldBeUsed = new[]
         {
             "IWorkContextAccessor",
-            "IHttpContextAccessor"
+            "IHttpContextAccessor",
         };
 
         public double Priority => 10;
-
 
         public IEnumerable<DependencyName> GetDependencyNames(string className = "") =>
             CommonDependencyNames
@@ -53,12 +52,11 @@ namespace Lombiq.Vsix.Orchard.Services.DependencyInjector
                 .Union(CommonDependencyNamesWhereShortNameShouldBeUsed
                     .Select(dependencyName => CreateDependencyName(dependencyName, className, true)));
 
-
-        private DependencyName CreateDependencyName(string name, string className, bool shouldUseShortName = false) =>
+        private static DependencyName CreateDependencyName(string name, string className, bool shouldUseShortName = false) =>
             new DependencyName
             {
                 Name = name.Replace("<TClassName>", $"<{className}>"),
-                ShouldUseShortFieldNameByDefault = shouldUseShortName
+                ShouldUseShortFieldNameByDefault = shouldUseShortName,
             };
     }
 }

@@ -1,11 +1,10 @@
-﻿using Lombiq.Vsix.Orchard.Models;
+using Lombiq.Vsix.Orchard.Models;
 
 namespace Lombiq.Vsix.Orchard.Services.DependencyInjector
 {
     public class DefaultFieldNameFromDependencyGenerator : FieldNameFromDependencyGeneratorBase
     {
         public override double Priority => 1;
-
 
         public override bool CanGenerate(string dependency) => true;
 
@@ -14,7 +13,7 @@ namespace Lombiq.Vsix.Orchard.Services.DependencyInjector
             var dependencyInjectionData = new DependencyInjectionData
             {
                 FieldType = dependency,
-                ConstructorParameterType = dependency
+                ConstructorParameterType = dependency,
             };
 
             // Default implementation with the lowest priority that generates the field and parameter name by adding

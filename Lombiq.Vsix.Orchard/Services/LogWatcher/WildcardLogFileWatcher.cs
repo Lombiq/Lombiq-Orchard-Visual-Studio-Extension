@@ -1,4 +1,4 @@
-﻿using Microsoft.VisualStudio.Shell;
+using Microsoft.VisualStudio.Shell;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -8,14 +8,12 @@ namespace Lombiq.Vsix.Orchard.Services.LogWatcher
 {
     public sealed class WildcardLogFileWatcher : LogFileWatcherBase
     {
-        protected override async Task<string> GetLogFileName() =>
-            (await _logWatcherSettingsAccessor.GetSettings()).LogFileNameSearchPattern.Trim();
+        protected override async Task<string> GetLogFileNameAsync() =>
+            (await _logWatcherSettingsAccessor.GetSettingsAsync().ConfigureAwait(true)).LogFileNameSearchPattern.Trim();
 
-
-        public WildcardLogFileWatcher(AsyncPackage package, ILogWatcherSettingsAccessor logWatcherSettingsAccessor) :
-            base(package, logWatcherSettingsAccessor)
+        public WildcardLogFileWatcher(AsyncPackage package, ILogWatcherSettingsAccessor logWatcherSettingsAccessor)
+            : base(package, logWatcherSettingsAccessor)
         { }
-
 
         protected override IEnumerable<string> GetAllMatchingPaths(string root, IEnumerable<string> patterns, string logFileName)
         {

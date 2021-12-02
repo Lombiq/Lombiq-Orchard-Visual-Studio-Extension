@@ -1,11 +1,10 @@
-﻿using Lombiq.Vsix.Orchard.Models;
+using Lombiq.Vsix.Orchard.Models;
 
 namespace Lombiq.Vsix.Orchard.Services.DependencyInjector
 {
     public class DefaultFieldNameFromGenericTypeGenerator : FieldNameFromGenericTypeGeneratorBase
     {
         public override double Priority => 10;
-        
 
         public override DependencyInjectionData Generate(string dependency, bool useShortName)
         {
@@ -22,7 +21,7 @@ namespace Lombiq.Vsix.Orchard.Services.DependencyInjector
                 ConstructorParameterName = useShortName ?
                     GetShortName(segments.CleanedGenericParameterName) + GetShortName(segments.CleanedGenericTypeName) :
                     GetCamelCased(segments.CleanedGenericParameterName) + segments.CleanedGenericTypeName,
-                ConstructorParameterType = dependency
+                ConstructorParameterType = dependency,
             };
         }
     }

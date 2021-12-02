@@ -1,5 +1,3 @@
-﻿using System;
-
 namespace Lombiq.Vsix.Orchard.Models
 {
     public class DependencyInjectionData

@@ -1,10 +1,27 @@
-﻿namespace Lombiq.Vsix.Orchard.Services.LogWatcher
+using System;
+
+namespace Lombiq.Vsix.Orchard.Services.LogWatcher
 {
-    public interface IBlinkStickManager
+    /// <summary>
+    /// An interface for BlinkStick LED operations.
+    /// </summary>
+    public interface IBlinkStickManager : IDisposable
     {
+        /// <summary>
+        /// Makes the led blink.
+        /// </summary>
+        /// <param name="color">The color of the led light.</param>
         void Blink(string color);
-        void Dispose();
+
+        /// <summary>
+        /// Turn off the led.
+        /// </summary>
         void TurnOff();
+
+        /// <summary>
+        /// Turn on the led.
+        /// </summary>
+        /// <param name="color">The color of the led light.</param>
         void TurnOn(string color);
     }
 }

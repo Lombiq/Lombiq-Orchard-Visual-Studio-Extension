@@ -1,4 +1,4 @@
-﻿using Lombiq.Vsix.Orchard.Commands;
+using Lombiq.Vsix.Orchard.Commands;
 using Lombiq.Vsix.Orchard.Constants;
 using Lombiq.Vsix.Orchard.Models;
 using Lombiq.Vsix.Orchard.Options;
@@ -21,10 +21,10 @@ namespace Lombiq.Vsix.Orchard
     [ProvideService(typeof(IBlinkStickManager), IsAsyncQueryable = true)]
     [ProvideAutoLoad(VSConstants.UICONTEXT.SolutionExists_string, PackageAutoLoadFlags.BackgroundLoad)]
     [PackageRegistration(UseManagedResourcesOnly = true, AllowsBackgroundLoading = true)]
+    // Such values can supposedly come from resx files (see:
+    // https://docs.microsoft.com/en-us/visualstudio/extensibility/creating-an-extension-with-a-vspackage?view=vs-2019)
+    // but that code doesn't work.
     [InstalledProductRegistration(
-        // Such values can supposedly come from resx files (see:
-        // https://docs.microsoft.com/en-us/visualstudio/extensibility/creating-an-extension-with-a-vspackage?view=vs-2019)
-        // but that code doesn't work.
         "Lombiq Orchard Visual Studio Extension",
         "Visual Studio extension with many features frequently used by Lombiq developers. Contains Orchard-related as well as generic goodies.",
         ExtensionVersion.Current,
@@ -34,25 +34,26 @@ namespace Lombiq.Vsix.Orchard
     [Guid(PackageGuids.LombiqOrchardVisualStudioExtensionPackageGuidString)]
     public sealed class LombiqOrchardVisualStudioExtensionPackage : AsyncPackage, ILogWatcherSettingsAccessor
     {
-        async Task<ILogWatcherSettings> ILogWatcherSettingsAccessor.GetSettings()
+        async Task<ILogWatcherSettings> ILogWatcherSettingsAccessor.GetSettingsAsync()
         {
             // The caller will magically resume on its original thread so we can safely switch to the UI thread here
-            // (see: https://devblogs.microsoft.com/premier-developer/asynchronous-and-multithreaded-programming-within-vs-using-the-joinabletaskfactory/
+            // (see:
+            // https://devblogs.microsoft.com/premier-developer/asynchronous-and-multithreaded-programming-within-vs-using-the-joinabletaskfactory/
             // "The implementation of async methods you call (such as DoSomethingAsync or SaveWorkToDiskAsync) does not
             // impact the thread of the calling method.")
             await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
             return (ILogWatcherSettings)GetDialogPage(typeof(LogWatcherOptionsPage));
         }
 
-
         protected override async Task InitializeAsync(CancellationToken cancellationToken, IProgress<ServiceProgressData> progress)
         {
-            await base.InitializeAsync(cancellationToken, progress);
+            await base.InitializeAsync(cancellationToken, progress).ConfigureAwait(true);
 
             // On using AsyncPackage see:
             // https://docs.microsoft.com/en-us/visualstudio/extensibility/how-to-provide-an-asynchronous-visual-studio-service
             // https://docs.microsoft.com/en-us/visualstudio/extensibility/how-to-use-asyncpackage-to-load-vspackages-in-the-background
-            // Be sure to read https://devblogs.microsoft.com/premier-developer/asynchronous-and-multithreaded-programming-within-vs-using-the-joinabletaskfactory/
+            // Be sure to read
+            // https://devblogs.microsoft.com/premier-developer/asynchronous-and-multithreaded-programming-within-vs-using-the-joinabletaskfactory/
             // for a lot of background info on how and why to use JoinableTaskFactory.
 
             // Here we need to take care of only doing the bare minimum on the UI thread, not to block it. However,
@@ -61,24 +62,25 @@ namespace Lombiq.Vsix.Orchard
 
             RegisterServices();
 
-            await InjectDependencyCommand.Create(this);
-            await OpenErrorLogCommand.Create(this, this);
+            await InjectDependencyCommand.CreateAsync(this).ConfigureAwait(true);
+            await OpenErrorLogCommand.CreateAsync(this, this).ConfigureAwait(true);
 
-            await InjectDependencyCommand.Instance.InitializeUI();
-            await OpenErrorLogCommand.Instance.InitializeUI();
+            await InjectDependencyCommand.Instance.InitializeUIAsync().ConfigureAwait(true);
+            await OpenErrorLogCommand.Instance.InitializeUIAsync().ConfigureAwait(true);
         }
 
         protected override void Dispose(bool disposing)
         {
-            if (disposing)
-            {
-                if (OpenErrorLogCommand.Instance != null)
-                {
-                    ThreadHelper.JoinableTaskFactory.Run(OpenErrorLogCommand.Instance.DisposeAsync);
-                }
-            }
-
+            ThreadHelper.JoinableTaskFactory.Run(async () => await DisposeAsync(disposing).ConfigureAwait(false));
             base.Dispose(disposing);
+        }
+
+        public static async Task DisposeAsync(bool disposing)
+        {
+            if (disposing && OpenErrorLogCommand.Instance != null)
+            {
+                await OpenErrorLogCommand.Instance.DisposeAsync().ConfigureAwait(false);
+            }
         }
 
         private void RegisterServices()
@@ -95,23 +97,20 @@ namespace Lombiq.Vsix.Orchard
                 new DefaultFieldNameFromGenericTypeGenerator(),
                 new FieldNameFromIEnumerableGenerator(),
                 new FieldNameFromLocalizerGenerator(),
-                new SimplifiedFieldNameFromGenericTypeGenerator()
+                new SimplifiedFieldNameFromGenericTypeGenerator(),
             }));
 
             this.AddService<IDependencyNameProvider>(() => Task.FromResult((object)new IDependencyNameProvider[]
             {
-                new CommonDependencyNamesProvider()
+                new CommonDependencyNamesProvider(),
             }));
 
-            this.AddService<ILogFileWatcher>(() =>
-            {
-                return Task.FromResult((object)new ILogFileWatcher[]
+            this.AddService<ILogFileWatcher>(() => Task.FromResult((object)new ILogFileWatcher[]
                 {
                     new OrchardErrorLogFileWatcher(this, this),
                     new OrchardCoreLogFileWatcher(this, this),
-                    new WildcardLogFileWatcher(this, this)
-                });
-            });
+                    new WildcardLogFileWatcher(this, this),
+                }));
 
             this.AddService<IBlinkStickManager, BlinkStickManager>();
         }

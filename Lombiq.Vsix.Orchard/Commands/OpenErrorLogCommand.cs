@@ -1,15 +1,16 @@
-﻿using EnvDTE;
+using EnvDTE;
 using Lombiq.Vsix.Orchard.Constants;
 using Lombiq.Vsix.Orchard.Helpers;
 using Lombiq.Vsix.Orchard.Models;
 using Lombiq.Vsix.Orchard.Services.LogWatcher;
 using Microsoft.VisualStudio.CommandBars;
 using Microsoft.VisualStudio.Shell;
-using Microsoft.VisualStudio.Threading;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.Design;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
+using System.Threading.Tasks;
 using Task = System.Threading.Tasks.Task;
 
 namespace Lombiq.Vsix.Orchard.Commands
@@ -18,7 +19,6 @@ namespace Lombiq.Vsix.Orchard.Commands
     {
         public const int CommandId = CommandIds.OpenErrorLogCommandId;
         public static readonly Guid CommandSet = PackageGuids.LombiqOrchardVisualStudioExtensionCommandSetGuid;
-
 
         private readonly AsyncPackage _package;
         private readonly ILogWatcherSettingsAccessor _logWatcherSettingsAccessor;
@@ -30,7 +30,6 @@ namespace Lombiq.Vsix.Orchard.Commands
         private bool _hasSeenErrorLogUpdate;
         private bool _errorIndicatorStateChanged;
         private ILogFileStatus _latestUpdatedLogFileStatus;
-
 
         private OpenErrorLogCommand(
             AsyncPackage package,
@@ -44,22 +43,20 @@ namespace Lombiq.Vsix.Orchard.Commands
             _blinkStickManager = blinkStickManager;
         }
 
-
         public static OpenErrorLogCommand Instance { get; private set; }
 
-        public static async Task Create(AsyncPackage package, ILogWatcherSettingsAccessor logWatcherSettingsAccessor)
+        public static async Task CreateAsync(AsyncPackage package, ILogWatcherSettingsAccessor logWatcherSettingsAccessor)
         {
             Instance = Instance ?? new OpenErrorLogCommand(
                 package,
                 logWatcherSettingsAccessor,
-                await package.GetServicesAsync<ILogFileWatcher>(),
-                await package.GetServiceAsync<IBlinkStickManager>());
+                await package.GetServicesAsync<ILogFileWatcher>().ConfigureAwait(true),
+                await package.GetServiceAsync<IBlinkStickManager>().ConfigureAwait(true));
 
-            await Instance.InitalizeWatchers();
+            await Instance.InitalizeWatchersAsync().ConfigureAwait(true);
         }
 
-
-        public async Task InitializeUI()
+        public async Task InitializeUIAsync()
         {
             await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
 
@@ -67,12 +64,12 @@ namespace Lombiq.Vsix.Orchard.Commands
             _openErrorLogCommand.BeforeQueryStatus += OpenErrorLogCommandBeforeQueryStatusCallback;
             _openErrorLogCommand.Enabled = false;
 
-            (await _package.GetServiceAsync<IMenuCommandService>()).AddCommand(_openErrorLogCommand);
+            (await _package.GetServiceAsync<IMenuCommandService>().ConfigureAwait(true)).AddCommand(_openErrorLogCommand);
 
-            if ((await _logWatcherSettingsAccessor.GetSettings()).LogWatcherEnabled) _openErrorLogCommand.Visible = true;
+            if ((await _logWatcherSettingsAccessor.GetSettingsAsync().ConfigureAwait(true)).LogWatcherEnabled) _openErrorLogCommand.Visible = true;
         }
 
-        public async Task DisposeAsync()
+        public async ValueTask DisposeAsync()
         {
             _blinkStickManager.Dispose();
 
@@ -82,11 +79,10 @@ namespace Lombiq.Vsix.Orchard.Commands
                 watcher.Dispose();
             }
 
-            (await _logWatcherSettingsAccessor.GetSettings()).SettingsUpdated -= LogWatcherSettingsUpdatedCallback;
+            (await _logWatcherSettingsAccessor.GetSettingsAsync().ConfigureAwait(true)).SettingsUpdated -= LogWatcherSettingsUpdatedCallback;
         }
 
-
-        private async Task InitalizeWatchers()
+        private async Task InitalizeWatchersAsync()
         {
             _hasSeenErrorLogUpdate = true;
             _errorIndicatorStateChanged = true;
@@ -96,24 +92,40 @@ namespace Lombiq.Vsix.Orchard.Commands
                 watcher.LogUpdated += LogFileUpdatedCallback;
             }
 
-            var settings = await _logWatcherSettingsAccessor.GetSettings();
+            var settings = await _logWatcherSettingsAccessor.GetSettingsAsync().ConfigureAwait(true);
             settings.SettingsUpdated += LogWatcherSettingsUpdatedCallback;
 
             if (settings.LogWatcherEnabled) StartLogFileWatching();
         }
 
-        private async void OpenErrorLogCommandBeforeQueryStatusCallback(object sender, EventArgs e) =>
-            await UpdateOpenErrorLogCommandAccessibilityAndText();
+        [SuppressMessage(
+            "Usage",
+            "VSTHRD102:Implement internal logic asynchronously",
+            Justification = "The event handler must return void. The JoinableTaskFactory.Run is required to run the tasks asynchronously.")]
+        private void OpenErrorLogCommandBeforeQueryStatusCallback(object sender, EventArgs e) =>
+            ThreadHelper.JoinableTaskFactory.Run(async () => await UpdateOpenErrorLogCommandAccessibilityAndTextAsync().ConfigureAwait(false));
 
-        private async void LogFileUpdatedCallback(object sender, LogChangedEventArgs context)
+        [SuppressMessage(
+            "Usage",
+            "VSTHRD102:Implement internal logic asynchronously",
+            Justification = "The event handler must return void. The JoinableTaskFactory.Run is required to run the tasks asynchronously.")]
+        private void LogFileUpdatedCallback(object sender, LogChangedEventArgs context)
         {
             _hasSeenErrorLogUpdate = !context.LogFileStatus.HasContent;
             _latestUpdatedLogFileStatus = context.LogFileStatus;
 
-            await UpdateOpenErrorLogCommandAccessibilityAndText(context.LogFileStatus);
+            ThreadHelper.JoinableTaskFactory.Run(async () =>
+                await UpdateOpenErrorLogCommandAccessibilityAndTextAsync(context.LogFileStatus).ConfigureAwait(false));
         }
 
-        private async void OpenErrorLogCallback(object sender, EventArgs e)
+        [SuppressMessage(
+            "Usage",
+            "VSTHRD102:Implement internal logic asynchronously",
+            Justification = "The event handler must return void. The JoinableTaskFactory.Run is required to run the tasks asynchronously.")]
+        private void OpenErrorLogCallback(object sender, EventArgs e) =>
+            ThreadHelper.JoinableTaskFactory.Run(OpenErrorLogCallbackAsync);
+
+        private Task OpenErrorLogCallbackAsync()
         {
             _hasSeenErrorLogUpdate = true;
 
@@ -126,13 +138,21 @@ namespace Lombiq.Vsix.Orchard.Commands
                 DialogHelpers.Error("The log file doesn't exist.", "Open Orchard Error Log");
             }
 
-            await UpdateOpenErrorLogCommandAccessibilityAndText();
+            return UpdateOpenErrorLogCommandAccessibilityAndTextAsync();
         }
 
-        private async void LogWatcherSettingsUpdatedCallback(object sender, LogWatcherSettingsUpdatedEventArgs e)
+        [SuppressMessage(
+            "Usage",
+            "VSTHRD102:Implement internal logic asynchronously",
+            Justification = "The event handler must return void. The JoinableTaskFactory.Run is required to run the tasks asynchronously.")]
+        private void LogWatcherSettingsUpdatedCallback(object sender, LogWatcherSettingsUpdatedEventArgs e) =>
+            ThreadHelper.JoinableTaskFactory.Run(async () => await LogWatcherSettingsUpdatedCallbackAsync(e).ConfigureAwait(false));
+
+        private async Task LogWatcherSettingsUpdatedCallbackAsync(LogWatcherSettingsUpdatedEventArgs e)
         {
             var isEnabled = e.Settings.LogWatcherEnabled;
-            var orchardLogWatcherToolbar = ((CommandBars)(await _package.GetDteAsync()).CommandBars)[CommandBarNames.OrchardLogWatcherToolbarName];
+            var orchardLogWatcherToolbar = ((CommandBars)(await _package.GetDteAsync()
+                .ConfigureAwait(true)).CommandBars)[CommandBarNames.OrchardLogWatcherToolbarName];
             orchardLogWatcherToolbar.Visible = isEnabled;
 
             // Since this method will be called from the UI thread not blocking it with the watcher changes that can
@@ -151,16 +171,16 @@ namespace Lombiq.Vsix.Orchard.Commands
                         StopLogFileWatching();
                     }
                 }
-            });
+            }).ConfigureAwait(true);
 
-            await UpdateOpenErrorLogCommandAccessibilityAndText();
+            await UpdateOpenErrorLogCommandAccessibilityAndTextAsync().ConfigureAwait(true);
         }
 
-        private async Task UpdateOpenErrorLogCommandAccessibilityAndText(ILogFileStatus logFileStatus = null)
+        private async Task UpdateOpenErrorLogCommandAccessibilityAndTextAsync(ILogFileStatus logFileStatus = null)
         {
-            var logWatcherSettings = await _logWatcherSettingsAccessor.GetSettings();
+            var logWatcherSettings = await _logWatcherSettingsAccessor.GetSettingsAsync().ConfigureAwait(true);
 
-            if (!(await _package.GetDteAsync()).SolutionIsOpen())
+            if (!(await _package.GetDteAsync().ConfigureAwait(true)).SolutionIsOpen())
             {
                 _openErrorLogCommand.Enabled = false;
                 _openErrorLogCommand.Text = "Solution is initializing";
@@ -187,11 +207,15 @@ namespace Lombiq.Vsix.Orchard.Commands
             }
         }
 
+        [SuppressMessage(
+            "Usage",
+            "VSTHRD102:Implement internal logic asynchronously",
+            Justification = "The JoinableTaskFactory.Run is required to prevent an exception crashing the whole process.")]
         private void StartLogFileWatching()
         {
             foreach (var watcher in _logWatchers)
             {
-                watcher.StartWatching();
+                ThreadHelper.JoinableTaskFactory.Run(watcher.StartWatchingAsync);
             }
         }
 

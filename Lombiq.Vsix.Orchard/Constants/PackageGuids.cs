@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace Lombiq.Vsix.Orchard.Constants
 {
@@ -9,8 +9,9 @@ namespace Lombiq.Vsix.Orchard.Constants
         public const string LogWatcherOptionsPageGuidString = "c75091d9-8127-447a-8684-f499220aa731";
 
         // These GUIDs are also defined in the LombiqOrchardVisualStudioExtension.vsct with the same value.
-        public static readonly Guid LombiqOrchardVisualStudioExtensionCommandSetGuid = new Guid(LombiqOrchardVisualStudioExtensionCommandSetGuidString);
+        public static readonly Guid LombiqOrchardVisualStudioExtensionCommandSetGuid =
+            new Guid(LombiqOrchardVisualStudioExtensionCommandSetGuidString);
         public static readonly Guid LombiqOrchardVisualStudioExtensionPackageGuid = new Guid(LombiqOrchardVisualStudioExtensionPackageGuidString);
         public static readonly Guid LogWatcherOptionsPageGuid = new Guid(LogWatcherOptionsPageGuidString);
-    };
+    }
 }
