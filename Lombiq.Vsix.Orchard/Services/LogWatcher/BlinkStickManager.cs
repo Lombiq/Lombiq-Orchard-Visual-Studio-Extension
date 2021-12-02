@@ -12,9 +12,10 @@ namespace Lombiq.Vsix.Orchard.Services.LogWatcher
         private BlinkStick _blinkStick;
         private bool _isInitialized;
         private CancellationTokenSource _cancellationTokenSource;
-#pragma warning disable S4487 // Unread "private" fields should be removed. This variable is required to keep the the Task alive.
+        // This variable is required to keep the the Task alive.
+#pragma warning disable S4487 // Unread "private" fields should be removed
         private Task _backgroundTask;
-#pragma warning restore S4487 // Unread "private" fields should be removed. This variable is required to keep the the Task alive.
+#pragma warning restore S4487 // Unread "private" fields should be removed
 
         public void TurnOn(string color)
         {
