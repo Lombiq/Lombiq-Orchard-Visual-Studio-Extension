@@ -1,0 +1,116 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CommandTable xmlns="http://schemas.microsoft.com/VisualStudio/2005-10-18/CommandTable" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+  <Extern href="stdidcmd.h"/>
+  <Extern href="vsshlids.h"/>
+
+
+  <!-- Define the commands to be created by the extension. -->
+  <Commands package="LombiqOrchardVisualStudioExtensionPackageGuid">
+
+    <Groups>
+      <!-- Create Tools menu group for the Dependency Injector feature. -->
+      <Group guid="LombiqOrchardVisualStudioExtensionCommandSetGuid" id="DependencyInjectorMenuGroup" priority="0x0600">
+        <Parent guid="guidSHLMainMenu" id="IDM_VS_MENU_TOOLS"/>
+      </Group>
+      
+      <!-- Create toolbar group for the Dependency Injector feature. -->
+      <Group guid="LombiqOrchardVisualStudioExtensionCommandSetGuid" id="DependencyInjectorToolbarGroup" priority="0x0000">
+        <Parent guid="LombiqOrchardVisualStudioExtensionCommandSetGuid" id="DependencyInjectorToolbar"/>
+      </Group>
+
+      <!-- Create toolbar group for the Log Watcher feature. -->
+      <Group guid="LombiqOrchardVisualStudioExtensionCommandSetGuid" id="LogWatcherToolbarGroup" priority="0x0000">
+        <Parent guid="LombiqOrchardVisualStudioExtensionCommandSetGuid" id="LogWatcherToolbar"/>
+      </Group>
+    </Groups>
+
+    <Buttons>
+      <!-- Add buttons to the Dependency Injector menu item. -->
+      <Button guid="LombiqOrchardVisualStudioExtensionCommandSetGuid" id="InjectDependencyCommandId" priority="0x0100" type="Button">
+        <Parent guid="LombiqOrchardVisualStudioExtensionCommandSetGuid" id="DependencyInjectorMenuGroup" />
+        <Icon guid="LombiqImagesGuid" id="LombiqSmallBitmapId" />
+        <Strings>
+          <ButtonText>Inject Dependency...</ButtonText>
+        </Strings>
+      </Button>
+      
+      <!-- Add buttons to the Dependency Injector toolbar. -->
+      <Button guid="LombiqOrchardVisualStudioExtensionCommandSetGuid" id="InjectDependencyCommandId" priority="0x0100" type="Button">
+        <Parent guid="LombiqOrchardVisualStudioExtensionCommandSetGuid" id="DependencyInjectorToolbarGroup" />
+        <Icon guid="LombiqImagesGuid" id="LombiqSmallBitmapId" />
+        <Strings>
+          <ButtonText>Inject Dependency</ButtonText>
+        </Strings>
+      </Button>
+
+      <!-- Add buttons to the Log Watcher toolbar. -->
+      <Button guid="LombiqOrchardVisualStudioExtensionCommandSetGuid" id="OpenErrorLogCommandId" priority="0x0100" type="Button">
+        <Parent guid= "LombiqOrchardVisualStudioExtensionCommandSetGuid" id="LogWatcherToolbarGroup" />
+        <Icon guid="OrchardLogWatcherImagesGuid" id="OrchardErrorSmallBitmapId" />
+        <Strings>
+          <ButtonText>Solution is initializing</ButtonText>
+        </Strings>
+        <CommandFlag>DefaultDisabled</CommandFlag>
+        <CommandFlag>TextChanges</CommandFlag>
+      </Button>
+    </Buttons>
+
+    <Bitmaps>
+      <!-- Define Lombiq logo image for not Orchard-related commands. -->
+      <Bitmap guid="LombiqImagesGuid" href="Resources\Lombiq16x16.png" usedList="LombiqSmallBitmapId"/>
+
+      <!-- Define Orchard logo image for Orchard-related commands. -->
+      <Bitmap guid="OrchardLogWatcherImagesGuid" href="Resources\OrchardError16x16.png" usedList="OrchardErrorSmallBitmapId"/>
+    </Bitmaps>
+
+    <Menus>
+      <!-- Create a toolbar for the Dependency Injector feature. -->
+      <Menu guid="LombiqOrchardVisualStudioExtensionCommandSetGuid" id="DependencyInjectorToolbar" type="Toolbar" >
+        <CommandFlag>DefaultDocked</CommandFlag>
+        <Strings>
+          <ButtonText>Inject Dependency</ButtonText>
+          <CommandName>Dependency Injector</CommandName>
+        </Strings>
+      </Menu>
+
+      <!-- Create a toolbar for the Log Watcher feature. -->
+      <Menu guid="LombiqOrchardVisualStudioExtensionCommandSetGuid" id="LogWatcherToolbar" type="Toolbar" >
+        <CommandFlag>DefaultDocked</CommandFlag>
+        <Strings>
+          <ButtonText>Orchard Log Watcher</ButtonText>
+          <CommandName>Orchard Log Watcher</CommandName>
+        </Strings>
+      </Menu>
+    </Menus>
+
+  </Commands>
+
+
+  <!-- Define GUIDs with IDs to be used by the Visual Studio when adding commands. -->
+  <!-- Some of the GUIDs and command IDs that must be used from csharp code are also defined in the PackageGuids.cs and CommandIds.cs file. -->
+  <Symbols>
+
+    <GuidSymbol name="LombiqOrchardVisualStudioExtensionPackageGuid" value="{1a2f7a53-92bd-4396-b49c-98a9bfcc1d41}" />
+
+    <GuidSymbol name="LombiqOrchardVisualStudioExtensionCommandSetGuid" value="{0fe301eb-0ad4-4fb4-bbd9-c2545e74dde5}">
+      <IDSymbol name="InjectDependencyCommandId" value="0x0100" />
+      <IDSymbol name="DependencyInjectorMenuGroup" value="0x1100" />
+      <IDSymbol name="DependencyInjectorToolbarGroup" value="0x1200" />
+      <IDSymbol name="DependencyInjectorToolbar" value="0x1210" />
+      <IDSymbol name="OpenErrorLogCommandId" value="0x0101" />
+      <IDSymbol name="LogWatcherToolbarGroup" value="0x1201" />
+      <IDSymbol name="LogWatcherToolbar" value="1211" />
+    </GuidSymbol>
+
+    <GuidSymbol name="LombiqImagesGuid" value="{59308fb6-b1c7-47bf-a970-a73360c0607a}" >
+      <IDSymbol name="LombiqSmallBitmapId" value="1" />
+    </GuidSymbol>
+
+    <GuidSymbol name="OrchardLogWatcherImagesGuid" value="{7368d2ee-c896-4f0e-918e-c2711c577d80}" >
+      <IDSymbol name="OrchardErrorSmallBitmapId" value="1" />
+    </GuidSymbol>
+
+  </Symbols>
+
+</CommandTable>

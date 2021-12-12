@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.29905.134
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lombiq.Vsix.Orchard", "Lombiq.Vsix.Orchard\Lombiq.Vsix.Orchard.csproj", "{EF02401B-9EB3-4E06-8C34-8411700E4B58}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lombiq.Vsix.Orchard16", "Lombiq.Vsix.Orchard\Lombiq.Vsix.Orchard16.csproj", "{EF02401B-9EB3-4E06-8C34-8411700E4B58}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{C8659693-2378-4A5D-B136-4983D0CDD7EE}"
 	ProjectSection(SolutionItems) = preProject
@@ -11,16 +11,39 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		tools\Lombiq.Analyzers\VisualStudioExtension.ruleset = tools\Lombiq.Analyzers\VisualStudioExtension.ruleset
 	EndProjectSection
 EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Lombiq.Vsix.OrchardShared", "Lombiq.Vsix.OrchardShared\Lombiq.Vsix.OrchardShared.shproj", "{C6C91CE7-5153-410D-9CCE-127C443F52BF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lombiq.Vsix.Orchard17", "Lombiq.Vsix.Orchard17\Lombiq.Vsix.Orchard17.csproj", "{A0B20A66-7E28-48E0-85DE-C9677224732B}"
+EndProject
 Global
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		Lombiq.Vsix.OrchardShared\Lombiq.Vsix.OrchardShared.projitems*{a0b20a66-7e28-48e0-85de-c9677224732b}*SharedItemsImports = 4
+		Lombiq.Vsix.OrchardShared\Lombiq.Vsix.OrchardShared.projitems*{c6c91ce7-5153-410d-9cce-127c443f52bf}*SharedItemsImports = 13
+		Lombiq.Vsix.OrchardShared\Lombiq.Vsix.OrchardShared.projitems*{ef02401b-9eb3-4e06-8c34-8411700e4b58}*SharedItemsImports = 4
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
+		Debug|x86 = Debug|x86
 		Release|Any CPU = Release|Any CPU
+		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{EF02401B-9EB3-4E06-8C34-8411700E4B58}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{EF02401B-9EB3-4E06-8C34-8411700E4B58}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EF02401B-9EB3-4E06-8C34-8411700E4B58}.Debug|x86.ActiveCfg = Debug|x86
+		{EF02401B-9EB3-4E06-8C34-8411700E4B58}.Debug|x86.Build.0 = Debug|x86
 		{EF02401B-9EB3-4E06-8C34-8411700E4B58}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EF02401B-9EB3-4E06-8C34-8411700E4B58}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EF02401B-9EB3-4E06-8C34-8411700E4B58}.Release|x86.ActiveCfg = Release|x86
+		{EF02401B-9EB3-4E06-8C34-8411700E4B58}.Release|x86.Build.0 = Release|x86
+		{A0B20A66-7E28-48E0-85DE-C9677224732B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A0B20A66-7E28-48E0-85DE-C9677224732B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A0B20A66-7E28-48E0-85DE-C9677224732B}.Debug|x86.ActiveCfg = Debug|x86
+		{A0B20A66-7E28-48E0-85DE-C9677224732B}.Debug|x86.Build.0 = Debug|x86
+		{A0B20A66-7E28-48E0-85DE-C9677224732B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A0B20A66-7E28-48E0-85DE-C9677224732B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A0B20A66-7E28-48E0-85DE-C9677224732B}.Release|x86.ActiveCfg = Release|x86
+		{A0B20A66-7E28-48E0-85DE-C9677224732B}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
