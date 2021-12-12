@@ -51,6 +51,13 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\SharedFiles\Key.snk">
+      <Link>Key.snk</Link>
+    </None>
+    <Content Include="..\SharedFiles\Licence.md">
+      <Link>Licence.md</Link>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
     <None Include="packages.config" />
     <None Include="source.extension.vsixmanifest">
       <SubType>Designer</SubType>
@@ -188,6 +195,25 @@
     <Analyzer Include="..\packages\Microsoft.VisualStudio.SDK.Analyzers.15.8.33\analyzers\cs\Microsoft.VisualStudio.SDK.Analyzers.dll" />
     <Analyzer Include="..\packages\Microsoft.VisualStudio.Threading.Analyzers.15.8.209\analyzers\cs\Microsoft.VisualStudio.Threading.Analyzers.CodeFixes.dll" />
     <Analyzer Include="..\packages\Microsoft.VisualStudio.Threading.Analyzers.15.8.209\analyzers\cs\Microsoft.VisualStudio.Threading.Analyzers.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="..\SharedFiles\Lombiq.png">
+      <Link>Lombiq.png</Link>
+    </Content>
+    <Content Include="..\SharedFiles\LombiqOrchardVisualStudioExtension.vsct">
+      <Link>LombiqOrchardVisualStudioExtension.vsct</Link>
+    </Content>
+    <Content Include="..\SharedFiles\Package.ico">
+      <Link>Package.ico</Link>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json">
+      <Version>12.0.1</Version>
+    </PackageReference>
+    <PackageReference Include="StreamJsonRpc">
+      <Version>1.4.134</Version>
+    </PackageReference>
   </ItemGroup>
   <Import Project="..\Lombiq.Vsix.OrchardShared\Lombiq.Vsix.OrchardShared.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
