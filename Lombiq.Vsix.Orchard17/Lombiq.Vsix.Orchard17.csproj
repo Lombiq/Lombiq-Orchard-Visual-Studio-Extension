@@ -202,6 +202,9 @@
     <PackageReference Include="Microsoft.VisualStudio.SDK.Analyzers">
       <Version>15.8.33</Version>
     </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.Threading">
+      <Version>15.8.209</Version>
+    </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Validation">
       <Version>15.3.58</Version>
     </PackageReference>
