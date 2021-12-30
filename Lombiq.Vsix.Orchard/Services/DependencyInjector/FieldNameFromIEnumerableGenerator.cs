@@ -1,4 +1,5 @@
 using Lombiq.Vsix.Orchard.Models;
+using System;
 using System.Data.Entity.Design.PluralizationServices;
 using System.Globalization;
 using System.Text.RegularExpressions;
@@ -12,7 +13,7 @@ namespace Lombiq.Vsix.Orchard.Services.DependencyInjector
         public override double Priority => 15;
 
         public override bool CanGenerate(string dependency) =>
-            Regex.IsMatch(dependency, IEnumerableNameRegexPattern);
+            Regex.IsMatch(dependency, IEnumerableNameRegexPattern, RegexOptions.ExplicitCapture, TimeSpan.FromSeconds(3));
 
         public override DependencyInjectionData Generate(string dependency, bool useShortName)
         {

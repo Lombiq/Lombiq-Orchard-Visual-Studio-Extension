@@ -11,7 +11,7 @@ namespace Lombiq.Vsix.Orchard.Services.DependencyInjector
         public override double Priority => 15;
 
         public override bool CanGenerate(string dependency) =>
-            Regex.IsMatch(dependency, Pattern);
+            Regex.IsMatch(dependency, Pattern, RegexOptions.ExplicitCapture, TimeSpan.FromSeconds(3));
 
         public override DependencyInjectionData Generate(string dependency, bool useShortName)
         {

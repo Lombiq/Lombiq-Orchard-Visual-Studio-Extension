@@ -1,3 +1,4 @@
+using System;
 using System.Text.RegularExpressions;
 
 namespace Lombiq.Vsix.Orchard.Services.DependencyInjector
@@ -7,7 +8,7 @@ namespace Lombiq.Vsix.Orchard.Services.DependencyInjector
         protected const string GenericTypeNameRegexPattern = @"^[A-Z_]+[a-zA-Z0-9_]*[<]+[a-zA-Z_]+[a-zA-Z0-9_]*[>]+$";
 
         public override bool CanGenerate(string dependency) =>
-            Regex.IsMatch(dependency, GenericTypeNameRegexPattern);
+            Regex.IsMatch(dependency, GenericTypeNameRegexPattern, RegexOptions.ExplicitCapture, TimeSpan.FromSeconds(3));
 
         protected virtual CleanedGenericTypeSegments GetGenericTypeSegments(string dependency)
         {
