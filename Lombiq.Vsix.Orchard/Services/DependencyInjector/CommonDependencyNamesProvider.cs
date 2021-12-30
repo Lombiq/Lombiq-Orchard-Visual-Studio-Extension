@@ -50,7 +50,7 @@ namespace Lombiq.Vsix.Orchard.Services.DependencyInjector
             CommonDependencyNames
                 .Select(dependencyName => CreateDependencyName(dependencyName, className))
                 .Union(CommonDependencyNamesWhereShortNameShouldBeUsed
-                    .Select(dependencyName => CreateDependencyName(dependencyName, className, true)));
+                    .Select(dependencyName => CreateDependencyName(dependencyName, className, shouldUseShortName: true)));
 
         private static DependencyName CreateDependencyName(string name, string className, bool shouldUseShortName = false) =>
             new DependencyName
