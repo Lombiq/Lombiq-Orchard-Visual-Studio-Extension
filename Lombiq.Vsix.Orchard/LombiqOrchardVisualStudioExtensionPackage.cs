@@ -41,7 +41,7 @@ namespace Lombiq.Vsix.Orchard
             // https://devblogs.microsoft.com/premier-developer/asynchronous-and-multithreaded-programming-within-vs-using-the-joinabletaskfactory/
             // "The implementation of async methods you call (such as DoSomethingAsync or SaveWorkToDiskAsync) does not
             // impact the thread of the calling method.")
-            await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync(DisposalToken);
+            await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
             return (ILogWatcherSettings)GetDialogPage(typeof(LogWatcherOptionsPage));
         }
 
