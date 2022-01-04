@@ -44,7 +44,7 @@ namespace Lombiq.Vsix.Orchard.Services.LogWatcher
             // Using this pattern: https://stackoverflow.com/a/684208/220230 to prevent overlapping timer calls.
             // Since Timer callbacks are executed in a ThreadPool thread
             // (https://docs.microsoft.com/en-us/dotnet/standard/threading/timers) they won't block the UI thread.
-            _timer = new Timer(TimerCallback, null, 0, Timeout.Infinite);
+            _timer = new Timer(TimerCallback, state: null, 0, Timeout.Infinite);
 
             _isWatching = true;
         }
@@ -134,7 +134,7 @@ namespace Lombiq.Vsix.Orchard.Services.LogWatcher
 
         public void Dispose()
         {
-            Dispose(true);
+            Dispose(disposing: true);
             GC.SuppressFinalize(this);
         }
 
@@ -198,20 +198,18 @@ namespace Lombiq.Vsix.Orchard.Services.LogWatcher
                     {
                         return Directory.EnumerateFiles(combined, parts[i], SearchOption.TopDirectoryOnly);
                     }
-                    else
-                    {
-                        // If this is in the middle of the path (a directory name).
-                        var directories = Directory.EnumerateDirectories(
-                            combined,
-                            parts[i],
-                            SearchOption.TopDirectoryOnly);
-                        var paths = directories.SelectMany(directory =>
-                            GetAllMatchingPathsInternal(
-                                string.Join(Path.DirectorySeparatorChar.ToString(), parts.Skip(i + 1)),
-                                directory));
 
-                        return paths;
-                    }
+                    // If this is in the middle of the path (a directory name).
+                    var directories = Directory.EnumerateDirectories(
+                        combined,
+                        parts[i],
+                        SearchOption.TopDirectoryOnly);
+                    var paths = directories.SelectMany(directory =>
+                        GetAllMatchingPathsInternal(
+                            string.Join(Path.DirectorySeparatorChar.ToString(), parts.Skip(i + 1)),
+                            directory));
+
+                    return paths;
                 }
             }
 

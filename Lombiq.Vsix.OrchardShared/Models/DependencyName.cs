@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 namespace Lombiq.Vsix.Orchard.Models
@@ -10,10 +11,8 @@ namespace Lombiq.Vsix.Orchard.Models
 
     public class DependencyNameEqualityComparer : IEqualityComparer<DependencyName>
     {
-        public bool Equals(DependencyName first, DependencyName second) =>
-            first.Name == second.Name;
+        public bool Equals(DependencyName first, DependencyName second) => first.Name == second.Name;
 
-        public int GetHashCode(DependencyName dependencyName) =>
-            dependencyName.Name.GetHashCode();
+        public int GetHashCode(DependencyName dependencyName) => StringComparer.Ordinal.GetHashCode(dependencyName);
     }
 }

@@ -306,7 +306,7 @@ namespace Lombiq.Vsix.Orchard.Services.DependencyInjector
             OpenInSameLine,
         }
 
-        private class DependencyInjectionContext
+        private sealed class DependencyInjectionContext
         {
             public Document Document { get; set; }
             public EditPoint StartEditPoint { get; set; }
