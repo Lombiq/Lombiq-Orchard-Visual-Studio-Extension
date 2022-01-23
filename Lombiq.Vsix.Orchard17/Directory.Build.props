@@ -1,3 +1,0 @@
-<Project>
-  <Import Project="../tools/Lombiq.Analyzers/VisualStudioExtension.Build.props" />
-</Project>

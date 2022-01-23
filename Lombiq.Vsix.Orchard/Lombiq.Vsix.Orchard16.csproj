@@ -41,8 +41,7 @@
     <RootNamespace>Lombiq.Vsix.Orchard</RootNamespace>
     <AssemblyName>Lombiq Orchard Visual Studio Extension</AssemblyName>
     <SignAssembly>True</SignAssembly>
-    <AssemblyOriginatorKeyFile>
-    </AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>Key.snk</AssemblyOriginatorKeyFile>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <StartAction>Program</StartAction>
     <StartProgram>$(DevEnvDir)\devenv.exe</StartProgram>
@@ -71,7 +70,107 @@
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Lombiq.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="Package.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Resource Include="Resources\OrchardError16x16.png" />
+    <Resource Include="Resources\Lombiq16x16.png" />
+    <None Include="app.config" />
+    <Compile Include="Commands\OpenErrorLogCommand.cs" />
+    <Compile Include="Commands\InjectDependencyCommand.cs" />
+    <Compile Include="Constants\CommandBarNames.cs" />
+    <Compile Include="Constants\DependencyInjectorErrorCodes.cs" />
+    <Compile Include="Constants\ExtensionVersion.cs" />
+    <Compile Include="Exceptions\DependencyToConstructorInjectorException.cs" />
+    <Compile Include="Extensions\AsyncPackageExtensions.cs" />
+    <Compile Include="Extensions\DteExtensions.cs" />
+    <Compile Include="Extensions\StringExtensions.cs" />
+    <Compile Include="Forms\InjectDependencyDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\InjectDependencyDialog.Designer.cs">
+      <DependentUpon>InjectDependencyDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Constants\PackageGuids.cs" />
+    <Compile Include="Helpers\DialogHelpers.cs" />
+    <Compile Include="Models\DependencyName.cs" />
+    <Compile Include="Models\DependencyInjectionData.cs" />
+    <Compile Include="Models\LogWatcherSettingsUpdatedEventArgs.cs" />
+    <Compile Include="Models\LogChangedEventArgs.cs" />
+    <Compile Include="Models\ILogWatcherSettings.cs" />
+    <Compile Include="Models\LogFileStatus.cs" />
+    <Compile Include="Models\Result.cs" />
+    <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="LombiqOrchardVisualStudioExtensionPackage.cs" />
+    <Compile Include="Options\LogWatcherOptionsPage.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Constants\CommandIds.cs" />
+    <Compile Include="Services\DependencyInjector\CommonDependencyNamesProvider.cs" />
+    <Compile Include="Services\DependencyInjector\SimplifiedFieldNameFromGenericTypeGenerator.cs" />
+    <Compile Include="Services\DependencyInjector\FieldNameFromDependencyGeneratorBase.cs" />
+    <Compile Include="Services\DependencyInjector\FieldNameFromGenericTypeGeneratorBase.cs" />
+    <Compile Include="Services\DependencyInjector\FieldNameFromLocalizerGenerator.cs" />
+    <Compile Include="Services\DependencyInjector\FieldNameFromIEnumerableGenerator.cs" />
+    <Compile Include="Services\DependencyInjector\DefaultFieldNameFromGenericTypeGenerator.cs" />
+    <Compile Include="Services\DependencyInjector\DependencyInjector.cs" />
+    <Compile Include="Services\DependencyInjector\DefaultFieldNameFromDependencyGenerator.cs" />
+    <Compile Include="Services\DependencyInjector\IDependencyNameProvider.cs" />
+    <Compile Include="Services\LogWatcher\BlinkStickManager.cs" />
+    <Compile Include="Services\LogWatcher\IBlinkStickManager.cs" />
+    <Compile Include="Services\LogWatcher\LogFileWatcherBase.cs" />
+    <Compile Include="Services\LogWatcher\OrchardCoreLogFileWatcher.cs" />
+    <Compile Include="Services\LogWatcher\OrchardErrorLogFileWatcher.cs" />
+    <Compile Include="Services\DependencyInjector\IFieldNameFromDependencyGenerator.cs" />
+    <Compile Include="Services\LogWatcher\ILogWatcherSettingsAccessor.cs" />
+    <Compile Include="Services\LogWatcher\ILogFileWatcher.cs" />
+    <Compile Include="Services\LogWatcher\WildcardLogFileWatcher.cs" />
+    <Compile Include="VSPackage.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>VSPackage.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Forms\InjectDependencyDialog.resx">
+      <DependentUpon>InjectDependencyDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VSPackage.resx">
+      <MergeWithCTO>true</MergeWithCTO>
+      <ManifestResourceName>VSPackage</ManifestResourceName>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>VSPackage.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Licence.md">
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="Readme.md">
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <None Include="source.extension.vsixmanifest">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Key.snk" />
+  </ItemGroup>
+  <ItemGroup>
+    <VSCTCompile Include="LombiqOrchardVisualStudioExtension.vsct">
+      <ResourceName>Menus.ctmenu</ResourceName>
+      <SubType>Designer</SubType>
+    </VSCTCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Orchard16x16.png" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5.2">
@@ -141,29 +240,6 @@
       <Version>4.5.4</Version>
     </PackageReference>
   </ItemGroup>
-  <ItemGroup>
-    <Resource Include="..\SharedFiles\Lombiq.png">
-      <Link>Lombiq.png</Link>
-    </Resource>
-    <VSCTCompile Include="..\SharedFiles\LombiqOrchardVisualStudioExtension.vsct">
-      <Link>LombiqOrchardVisualStudioExtension.vsct</Link>
-    </VSCTCompile>
-    <Content Include="..\SharedFiles\Package.ico">
-      <Link>Package.ico</Link>
-      <IncludeInVSIX>true</IncludeInVSIX>
-    </Content>
-    <Content Include="source.extension.vsixmanifest" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="..\SharedFiles\Key.snk">
-      <Link>Key.snk</Link>
-    </None>
-    <Content Include="..\SharedFiles\Licence.md">
-      <Link>Licence.md</Link>
-      <IncludeInVSIX>true</IncludeInVSIX>
-    </Content>
-  </ItemGroup>
-  <Import Project="..\Lombiq.Vsix.OrchardShared\Lombiq.Vsix.OrchardShared.projitems" Label="Shared" />
   <PropertyGroup>
     <UseCodebase>true</UseCodebase>
   </PropertyGroup>
