@@ -283,7 +283,7 @@ namespace Lombiq.Vsix.Orchard.Services.DependencyInjector
 
             var textSelection = context.Document.Selection as TextSelection;
             textSelection.GotoLine(context.ClassStartLineIndex + 3);
-            textSelection.FindPattern(context.FieldType);
+            textSelection.FindPattern(context.FieldType, 0, Tags: null);
         }
 
         private static int GetIndentSizeOfLine(string codeLine)
