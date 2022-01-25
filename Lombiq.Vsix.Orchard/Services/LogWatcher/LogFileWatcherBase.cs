@@ -57,7 +57,7 @@ namespace Lombiq.Vsix.Orchard.Services.LogWatcher
 
         private async Task TimerCallbackAsync()
         {
-            await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
+            await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync(_package.DisposalToken);
             try
             {
                 if (!(await _package.GetDteAsync().ConfigureAwait(true)).SolutionIsOpen()) return;
@@ -149,7 +149,7 @@ namespace Lombiq.Vsix.Orchard.Services.LogWatcher
 
         protected virtual async Task<string> GetExistingLogFilePathAsync()
         {
-            await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
+            await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync(_package.DisposalToken);
             var logFilePaths = (await _logWatcherSettingsAccessor.GetSettingsAsync().ConfigureAwait(true)).GetLogFileFolderPaths();
             var dte = await _package.GetDteAsync().ConfigureAwait(true);
             var solutionPath = dte.SolutionIsOpen() && !string.IsNullOrEmpty(dte.Solution.FileName) ?
