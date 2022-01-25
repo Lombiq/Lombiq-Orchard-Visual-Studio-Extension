@@ -35,6 +35,7 @@ namespace Lombiq.Vsix.Orchard.Services.DependencyInjector
     {
         public IResult Inject(Document document, DependencyInjectionData dependencyInjectionData)
         {
+            Microsoft.VisualStudio.Shell.ThreadHelper.ThrowIfNotOnUIThread();
             var context = new DependencyInjectionContext
             {
                 FieldName = dependencyInjectionData.FieldName,
