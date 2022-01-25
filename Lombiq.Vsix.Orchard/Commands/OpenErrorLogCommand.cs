@@ -150,6 +150,7 @@ namespace Lombiq.Vsix.Orchard.Commands
 
         private async Task LogWatcherSettingsUpdatedCallbackAsync(LogWatcherSettingsUpdatedEventArgs e)
         {
+            await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
             var isEnabled = e.Settings.LogWatcherEnabled;
             var orchardLogWatcherToolbar = ((CommandBars)(await _package.GetDteAsync()
                 .ConfigureAwait(true)).CommandBars)[CommandBarNames.OrchardLogWatcherToolbarName];
@@ -178,6 +179,7 @@ namespace Lombiq.Vsix.Orchard.Commands
 
         private async Task UpdateOpenErrorLogCommandAccessibilityAndTextAsync(ILogFileStatus logFileStatus = null)
         {
+            await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
             var logWatcherSettings = await _logWatcherSettingsAccessor.GetSettingsAsync().ConfigureAwait(true);
 
             if (!(await _package.GetDteAsync().ConfigureAwait(true)).SolutionIsOpen())

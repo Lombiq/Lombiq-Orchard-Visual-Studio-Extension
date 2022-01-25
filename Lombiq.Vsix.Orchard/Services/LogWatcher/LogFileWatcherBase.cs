@@ -35,7 +35,7 @@ namespace Lombiq.Vsix.Orchard.Services.LogWatcher
 
         protected abstract Task<string> GetLogFileNameAsync();
 
-        public virtual async System.Threading.Tasks.Task StartWatchingAsync()
+        public virtual async Task StartWatchingAsync()
         {
             if (_isWatching) return;
 
@@ -55,8 +55,9 @@ namespace Lombiq.Vsix.Orchard.Services.LogWatcher
             Justification = "The event handler must return void. The JoinableTaskFactory.Run is required to run the tasks asynchronously.")]
         private void TimerCallback(object state) => ThreadHelper.JoinableTaskFactory.Run(TimerCallbackAsync);
 
-        private async System.Threading.Tasks.Task TimerCallbackAsync()
+        private async Task TimerCallbackAsync()
         {
+            await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
             try
             {
                 if (!(await _package.GetDteAsync().ConfigureAwait(true)).SolutionIsOpen()) return;
@@ -148,6 +149,7 @@ namespace Lombiq.Vsix.Orchard.Services.LogWatcher
 
         protected virtual async Task<string> GetExistingLogFilePathAsync()
         {
+            await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
             var logFilePaths = (await _logWatcherSettingsAccessor.GetSettingsAsync().ConfigureAwait(true)).GetLogFileFolderPaths();
             var dte = await _package.GetDteAsync().ConfigureAwait(true);
             var solutionPath = dte.SolutionIsOpen() && !string.IsNullOrEmpty(dte.Solution.FileName) ?
