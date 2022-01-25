@@ -60,6 +60,7 @@ namespace Lombiq.Vsix.Orchard.Commands
 
         private async Task MenuItemCallbackAsync()
         {
+            await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
             const string injectDependencyCaption = "Inject Dependency";
             var dte = await _package.GetDteAsync().ConfigureAwait(true);
 
