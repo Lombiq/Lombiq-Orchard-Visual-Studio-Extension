@@ -1,4 +1,4 @@
-namespace Lombiq.Vsix.Orchard.Constants
+namespace Lombiq.Vsix.Orchard.Constants 
 {
     internal static class DependencyInjectorErrorCodes
     {
