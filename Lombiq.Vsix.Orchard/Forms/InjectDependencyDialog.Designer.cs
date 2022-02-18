@@ -1,4 +1,4 @@
-﻿namespace Lombiq.Vsix.Orchard.Forms
+namespace Lombiq.Vsix.Orchard.Forms
 {
     partial class InjectDependencyDialog
     {
