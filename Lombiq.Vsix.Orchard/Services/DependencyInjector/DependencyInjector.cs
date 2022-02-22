@@ -35,6 +35,7 @@ namespace Lombiq.Vsix.Orchard.Services.DependencyInjector
     {
         public IResult Inject(Document document, DependencyInjectionData dependencyInjectionData)
         {
+            // We should never get an exception here. This is just to ensure we access DTE on the main thread and get rid of the VSTHRD010 violation.
             Microsoft.VisualStudio.Shell.ThreadHelper.ThrowIfNotOnUIThread();
             var context = new DependencyInjectionContext
             {
@@ -83,12 +84,14 @@ namespace Lombiq.Vsix.Orchard.Services.DependencyInjector
 
         public string GetExpectedClassName(Document document)
         {
+            // We should never get an exception here. This is just to ensure we access DTE on the main thread and get rid of the VSTHRD010 violation.
             Microsoft.VisualStudio.Shell.ThreadHelper.ThrowIfNotOnUIThread();
             return Path.GetFileNameWithoutExtension(document.FullName);
         }
 
         private static void GetCodeLines(DependencyInjectionContext context)
         {
+            // We should never get an exception here. This is just to ensure we access DTE on the main thread and get rid of the VSTHRD010 violation.
             Microsoft.VisualStudio.Shell.ThreadHelper.ThrowIfNotOnUIThread();
             var textDocument = context.Document.Object() as TextDocument;
             context.StartEditPoint = textDocument.StartPoint.CreateEditPoint();
@@ -284,6 +287,7 @@ namespace Lombiq.Vsix.Orchard.Services.DependencyInjector
 
         private static void UpdateCodeEditorAndSelectDependency(DependencyInjectionContext context)
         {
+            // We should never get an exception here. This is just to ensure we access DTE on the main thread and get rid of the VSTHRD010 violation.
             Microsoft.VisualStudio.Shell.ThreadHelper.ThrowIfNotOnUIThread();
             context.StartEditPoint.ReplaceText(context.EndEditPoint, string.Join(Environment.NewLine, context.CodeLines), 0);
 
