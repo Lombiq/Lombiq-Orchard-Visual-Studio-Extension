@@ -35,6 +35,9 @@ namespace Lombiq.Vsix.Orchard.Services.DependencyInjector
     {
         public IResult Inject(Document document, DependencyInjectionData dependencyInjectionData)
         {
+            // We should never get an exception here. This is just to ensure we access DTE on the main thread and get
+            // rid of the VSTHRD010 violation.
+            Microsoft.VisualStudio.Shell.ThreadHelper.ThrowIfNotOnUIThread();
             var context = new DependencyInjectionContext
             {
                 FieldName = dependencyInjectionData.FieldName,
@@ -80,11 +83,19 @@ namespace Lombiq.Vsix.Orchard.Services.DependencyInjector
             return Result.SuccessResult;
         }
 
-        public string GetExpectedClassName(Document document) =>
-            Path.GetFileNameWithoutExtension(document.FullName);
+        public string GetExpectedClassName(Document document)
+        {
+            // We should never get an exception here. This is just to ensure we access DTE on the main thread and get
+            // rid of the VSTHRD010 violation.
+            Microsoft.VisualStudio.Shell.ThreadHelper.ThrowIfNotOnUIThread();
+            return Path.GetFileNameWithoutExtension(document.FullName);
+        }
 
         private static void GetCodeLines(DependencyInjectionContext context)
         {
+            // We should never get an exception here. This is just to ensure we access DTE on the main thread and get
+            // rid of the VSTHRD010 violation.
+            Microsoft.VisualStudio.Shell.ThreadHelper.ThrowIfNotOnUIThread();
             var textDocument = context.Document.Object() as TextDocument;
             context.StartEditPoint = textDocument.StartPoint.CreateEditPoint();
             context.EndEditPoint = textDocument.EndPoint.CreateEditPoint();
@@ -279,11 +290,14 @@ namespace Lombiq.Vsix.Orchard.Services.DependencyInjector
 
         private static void UpdateCodeEditorAndSelectDependency(DependencyInjectionContext context)
         {
+            // We should never get an exception here. This is just to ensure we access DTE on the main thread and get
+            // rid of the VSTHRD010 violation.
+            Microsoft.VisualStudio.Shell.ThreadHelper.ThrowIfNotOnUIThread();
             context.StartEditPoint.ReplaceText(context.EndEditPoint, string.Join(Environment.NewLine, context.CodeLines), 0);
 
             var textSelection = context.Document.Selection as TextSelection;
             textSelection.GotoLine(context.ClassStartLineIndex + 3);
-            textSelection.FindPattern(context.FieldType);
+            textSelection.FindPattern(context.FieldType, 0, Tags: null);
         }
 
         private static int GetIndentSizeOfLine(string codeLine)

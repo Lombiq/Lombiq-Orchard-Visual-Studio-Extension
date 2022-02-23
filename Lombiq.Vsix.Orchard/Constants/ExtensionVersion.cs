@@ -1,7 +1,7 @@
-﻿namespace Lombiq.Vsix.Orchard.Constants
+namespace Lombiq.Vsix.Orchard.Constants
 {
     internal static class ExtensionVersion
     {
-        public const string Current = "1.5.4";
+        public const string Current = "1.5.40";
     }
 }

@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.29905.134
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lombiq.Vsix.Orchard", "Lombiq.Vsix.Orchard\Lombiq.Vsix.Orchard.csproj", "{EF02401B-9EB3-4E06-8C34-8411700E4B58}"
 EndProject
@@ -14,13 +14,19 @@ EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
+		Debug|x86 = Debug|x86
 		Release|Any CPU = Release|Any CPU
+		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{EF02401B-9EB3-4E06-8C34-8411700E4B58}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{EF02401B-9EB3-4E06-8C34-8411700E4B58}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EF02401B-9EB3-4E06-8C34-8411700E4B58}.Debug|x86.ActiveCfg = Debug|x86
+		{EF02401B-9EB3-4E06-8C34-8411700E4B58}.Debug|x86.Build.0 = Debug|x86
 		{EF02401B-9EB3-4E06-8C34-8411700E4B58}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EF02401B-9EB3-4E06-8C34-8411700E4B58}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EF02401B-9EB3-4E06-8C34-8411700E4B58}.Release|x86.ActiveCfg = Release|x86
+		{EF02401B-9EB3-4E06-8C34-8411700E4B58}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
