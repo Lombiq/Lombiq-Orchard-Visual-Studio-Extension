@@ -33,6 +33,10 @@ namespace Lombiq.Vsix.Orchard.Services.DependencyInjector
 
     public class DependencyInjector : IDependencyInjector
     {
+        // We could later add a feature to read this out from VS settings somehow, or add logic to determine it, but
+        // virtually everyone uses spaces instead of tabs with a size of 4 characters in the Orchard world.
+        public const int DefaultIndentSize = 4;
+
         public IResult Inject(Document document, DependencyInjectionData dependencyInjectionData)
         {
             // We should never get an exception here. This is just to ensure we access DTE on the main thread and get
@@ -157,25 +161,24 @@ namespace Lombiq.Vsix.Orchard.Services.DependencyInjector
 
         private static void CreateConstructor(DependencyInjectionContext context)
         {
-            var classStartIndentSize = GetIndentSizeOfLine(context.CodeLines[context.ClassStartLineIndex]);
+            var classBodyIndentSize = GetClassBodyIndentSize(context);
             var createConstructorFromIndex = context.ClassStartLineIndex + (context.BraceStyle == BraceStyles.OpenInNewLine ? 2 : 1);
 
             // Add two empty lines before and after to separate the constructor from the field and the other parts of the code.
-            var constructorCodeLines = context.BraceStyle == BraceStyles.OpenInNewLine ?
-                new[]
+            var constructorCodeLines = context.BraceStyle == BraceStyles.OpenInNewLine
+                ? new[]
                 {
                     string.Empty,
-                    IndentText(classStartIndentSize, 2, "public " + context.ClassName + "()"),
-                    IndentText(classStartIndentSize, 2, "{"),
-                    IndentText(classStartIndentSize, 2, "}"),
+                    IndentText(classBodyIndentSize, 1, "public " + context.ClassName + "()"),
+                    IndentText(classBodyIndentSize, 1, "{"),
+                    IndentText(classBodyIndentSize, 1, "}"),
                     string.Empty,
                 }
-                :
-                new[]
+                : new[]
                 {
                     string.Empty,
-                    IndentText(classStartIndentSize, 2, "public " + context.ClassName + "() {"),
-                    IndentText(classStartIndentSize, 2, "}"),
+                    IndentText(classBodyIndentSize, 1, "public " + context.ClassName + "() {"),
+                    IndentText(classBodyIndentSize, 1, "}"),
                     string.Empty,
                 };
 
@@ -190,8 +193,8 @@ namespace Lombiq.Vsix.Orchard.Services.DependencyInjector
         private static void InsertConstructorCodeLine(DependencyInjectionContext context)
         {
             var constructorLine = context.CodeLines[context.ConstructorLineIndex];
-            var constructorIndentSize = GetIndentSizeOfLine(constructorLine);
-            var constructorCodeLine = IndentText(constructorIndentSize, 1.5, context.FieldName + " = " + context.VariableName + ";");
+            var constructorIndentSize = GetIndentSizeOfLine(constructorLine) + DefaultIndentSize;
+            var constructorCodeLine = IndentText(constructorIndentSize, 1, context.FieldName + " = " + context.VariableName + ";");
 
             var constructorCodeLineInserted = false;
             var i = context.ConstructorLineIndex - 1;
@@ -262,7 +265,7 @@ namespace Lombiq.Vsix.Orchard.Services.DependencyInjector
                     var afterClosing = context.CodeLines[i].Substring(indexOfClosing);
 
                     context.CodeLines.RemoveAt(i);
-                    context.CodeLines.Insert(i, IndentText(indentSize, 1.5, injection + afterClosing));
+                    context.CodeLines.Insert(i, IndentText(indentSize + DefaultIndentSize, 1, injection + afterClosing));
                     context.CodeLines.Insert(i, beforeClosing + ",");
                     injectionInserted = true;
                 }
@@ -271,9 +274,9 @@ namespace Lombiq.Vsix.Orchard.Services.DependencyInjector
 
         private static void InsertPrivateField(DependencyInjectionContext context)
         {
-            var classStartLine = context.CodeLines[context.ClassStartLineIndex];
-            var indentSize = GetIndentSizeOfLine(classStartLine);
-            var privateFieldLine = new string(' ', indentSize * 2) + "private readonly " + context.FieldType + " " + context.FieldName + ";";
+            var classBodyIndentSize = GetClassBodyIndentSize(context);
+            var privateFieldLine =
+                IndentText(classBodyIndentSize, 1, "private readonly " + context.FieldType + " " + context.FieldName + ";");
 
             var i = context.ClassStartLineIndex + (context.BraceStyle == BraceStyles.OpenInNewLine ? 1 : 0);
             var privateFieldInserted = false;
@@ -311,8 +314,11 @@ namespace Lombiq.Vsix.Orchard.Services.DependencyInjector
             return indentSize;
         }
 
+        private static int GetClassBodyIndentSize(DependencyInjectionContext context) =>
+            GetIndentSizeOfLine(context.CodeLines[context.ClassStartLineIndex]) + DefaultIndentSize;
+
         private static string IndentText(int baseIndentSize, double indentSizeMultiplier, string text) =>
-            new string(' ', Convert.ToInt32(baseIndentSize * indentSizeMultiplier)) + text;
+        new string(' ', Convert.ToInt32(baseIndentSize * indentSizeMultiplier)) + text;
 
         private enum BraceStyles
         {
