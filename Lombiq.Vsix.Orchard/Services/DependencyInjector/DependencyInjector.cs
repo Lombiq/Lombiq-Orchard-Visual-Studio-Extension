@@ -165,8 +165,8 @@ namespace Lombiq.Vsix.Orchard.Services.DependencyInjector
             var createConstructorFromIndex = context.ClassStartLineIndex + (context.BraceStyle == BraceStyles.OpenInNewLine ? 2 : 1);
 
             // Add two empty lines before and after to separate the constructor from the field and the other parts of the code.
-            var constructorCodeLines = context.BraceStyle == BraceStyles.OpenInNewLine ?
-                new[]
+            var constructorCodeLines = context.BraceStyle == BraceStyles.OpenInNewLine
+                ? new[]
                 {
                     string.Empty,
                     IndentText(classBodyIndentSize, 1, "public " + context.ClassName + "()"),
@@ -174,8 +174,7 @@ namespace Lombiq.Vsix.Orchard.Services.DependencyInjector
                     IndentText(classBodyIndentSize, 1, "}"),
                     string.Empty,
                 }
-                :
-                new[]
+                : new[]
                 {
                     string.Empty,
                     IndentText(classBodyIndentSize, 1, "public " + context.ClassName + "() {"),
