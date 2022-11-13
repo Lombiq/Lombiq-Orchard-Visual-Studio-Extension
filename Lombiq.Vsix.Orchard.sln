@@ -15,6 +15,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{8E63
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{26BB6A8A-3287-4C8A-BFFC-F9F712751D92}"
 	ProjectSection(SolutionItems) = preProject
+		.github\workflows\build.yml = .github\workflows\build.yml
 		.github\workflows\create-jira-issues-for-community-activities.yml = .github\workflows\create-jira-issues-for-community-activities.yml
 		.github\workflows\validate-pull-request.yml = .github\workflows\validate-pull-request.yml
 	EndProjectSection
