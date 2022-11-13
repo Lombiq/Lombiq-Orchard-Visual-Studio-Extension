@@ -34,17 +34,20 @@ jobs:
         vsix-token-source-file: Lombiq.Vsix.Orchard\Constants\ExtensionVersion.cs
 
     - name: Build
-      run: >
-        msbuild 
-            -verbosity:minimal
-            -restore
-            -property:Configuration=Release
-            -property:RunAnalyzersDuringBuild=true
-            -property:TreatWarningsAsErrors=true
-            -warnaserror
-            -property:Retries=4
-            -property:RetryDelayMilliseconds=1000
-            -property:OutDir=\_built
+      run: |
+        $buildSwitches = @(
+            '-verbosity:minimal'
+            '-restore'
+            '-property:Configuration=Release'
+            '-property:RunAnalyzersDuringBuild=true'
+            '-property:TreatWarningsAsErrors=true'
+            '-warnaserror'
+            '-property:Retries=4'
+            '-property:RetryDelayMilliseconds=1000'
+            '-property:OutDir=\_built'
+        )
+
+        msbuild @buildSwitches
 
     - name: Upload artifact
       uses: actions/upload-artifact@v3
