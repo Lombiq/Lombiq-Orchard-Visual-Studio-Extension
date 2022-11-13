@@ -21,7 +21,7 @@
   "overview": "MarketplaceOverview.md",
   "priceCategory": "free",
   "publisher": "LombiqVisualStudioExtension",
-  "private": false,
+  "private": true,
   "qna": true,
   "repo": "https://github.com/Lombiq/Lombiq-Orchard-Visual-Studio-Extension"
 }
