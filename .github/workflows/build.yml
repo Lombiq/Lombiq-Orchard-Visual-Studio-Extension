@@ -6,6 +6,7 @@ on:
     branches:
       - dev
 
+# Mostly buit on https://github.com/timheuer/JwtTools/blob/main/.github/workflows/build.yaml.
 jobs:
   build:
     outputs:
