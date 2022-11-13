@@ -33,7 +33,7 @@ jobs:
         manifest-file: Lombiq.Vsix.Orchard\source.extension.vsixmanifest
 
     - name: Build
-      run: msbuild -verbosity:minimal -restore -property:Configuration=Release -property:OutDir=\_built
+      run: msbuild -verbosity:minimal -restore -p:Configuration=Release -p:OutDir=\_built
 
     - name: Upload artifact
       uses: actions/upload-artifact@v3
