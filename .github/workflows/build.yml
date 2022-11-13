@@ -29,6 +29,3 @@ jobs:
 
     - name: Build VSIX
       uses: ./.github/actions/build-vsix
-      with:
-        name: Lombiq.Vsix.Orchard.vsix
-        path: /artifacts/**/*.vsix

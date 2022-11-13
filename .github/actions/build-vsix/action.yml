@@ -1,11 +1,6 @@
 name: Build VSIX
 description: Builds the Visual Studio extension package for the solution.
 
-inputs:
-  artifact-name-suffix:
-    description: The name of the OS used for the runner (e.g. "ubuntu-latest").
-    required: true
-
 runs:
   using: "composite"
   steps:
