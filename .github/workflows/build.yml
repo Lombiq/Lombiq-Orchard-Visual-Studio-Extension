@@ -21,13 +21,12 @@ jobs:
       # v1.1.3
       uses: microsoft/setup-msbuild@34cfbaee7f672c76950673338facd8a73f637506
 
-    #- name: Increment VSIX version
-    #  id: vsix-version
-    #  # v2
-    #  uses: timheuer/vsix-version-stamp@ca35439ba96072eb62c5dfae481287e6399d4e6b
-    #  with:
-    #    manifest-file: Lombiq.Vsix.Orchard\source.extension.vsixmanifest
-    #    vsix-token-source-file: Lombiq.Vsix.Orchard\source.extension.cs
+    - name: Increment VSIX version
+      id: vsix-version
+      # v2
+      uses: timheuer/vsix-version-stamp@ca35439ba96072eb62c5dfae481287e6399d4e6b
+      with:
+        manifest-file: Lombiq.Vsix.Orchard\source.extension.vsixmanifest
 
     - name: Build
       run: msbuild -verbosity:minimal -restore -property:Configuration=Release -property:OutDir=\_built
