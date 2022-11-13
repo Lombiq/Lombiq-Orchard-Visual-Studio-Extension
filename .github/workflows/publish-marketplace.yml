@@ -16,14 +16,6 @@ jobs:
     - name: Build VSIX
       uses: ./.github/actions/build-vsix
 
-    - name: Publish to Marketplace
-      # v0.2
-      uses: cezarypiatek/VsixPublisherAction@759bd2ec02ac1b13dea56d8c84834e517278b5b1
-      with:
-        extension-file: 'artifacts\Lombiq Orchard Visual Studio Extension.vsix'
-        publish-manifest-file: 'Marketplace\publishManifest.json'
-        personal-access-code: nonsense
-
     - name: Create Release
       # v1.10.0
       uses: ncipollo/release-action@58ae73b360456532aafd58ee170c045abbeaee37
@@ -31,3 +23,11 @@ jobs:
         allowUpdates: true
         generateReleaseNotes: true
         artifacts: artifacts/*.vsix
+
+    - name: Publish to Marketplace
+      # v0.2
+      uses: cezarypiatek/VsixPublisherAction@759bd2ec02ac1b13dea56d8c84834e517278b5b1
+      with:
+        extension-file: 'artifacts\Lombiq Orchard Visual Studio Extension.vsix'
+        publish-manifest-file: 'Marketplace\publishManifest.json'
+        personal-access-code: nonsense
