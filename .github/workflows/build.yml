@@ -19,12 +19,6 @@ jobs:
       with:
         submodules: 'recursive'
 
-    - name: Add MSBuild to PATH
-      # v1.1.3
-      uses: microsoft/setup-msbuild@34cfbaee7f672c76950673338facd8a73f637506
-      with:
-        vs-version: '[17.3,]'
-
     - name: Increment VSIX version
       id: vsix-version
       # This PR: https://github.com/timheuer/vsix-version-stamp/pull/2.
@@ -33,24 +27,8 @@ jobs:
         manifest-file: Lombiq.Vsix.Orchard\source.extension.vsixmanifest
         vsix-token-source-file: Lombiq.Vsix.Orchard\Constants\ExtensionVersion.cs
 
-    - name: Build
-      run: |
-        $buildSwitches = @(
-            '-verbosity:minimal'
-            '-restore'
-            '-property:Configuration=Release'
-            '-property:RunAnalyzersDuringBuild=true'
-            '-property:TreatWarningsAsErrors=true'
-            '-warnaserror'
-            '-property:Retries=4'
-            '-property:RetryDelayMilliseconds=1000'
-            '-property:OutDir=\artifacts'
-        )
-
-        msbuild @buildSwitches
-
-    - name: Upload artifact
-      uses: actions/upload-artifact@v3
+    - name: Build VSIX
+      uses: ./.github/actions/build-vsix
       with:
         name: Lombiq.Vsix.Orchard.vsix
         path: /artifacts/**/*.vsix

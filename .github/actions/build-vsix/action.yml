@@ -1,0 +1,39 @@
+name: Build VSIX
+description: Builds the Visual Studio extension package for the solution.
+
+inputs:
+  artifact-name-suffix:
+    description: The name of the OS used for the runner (e.g. "ubuntu-latest").
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - name: Add MSBuild to PATH
+      # v1.1.3
+      uses: microsoft/setup-msbuild@34cfbaee7f672c76950673338facd8a73f637506
+      with:
+        vs-version: '[17.3,]'
+
+    - name: Build
+      shell: pwsh
+      run: |
+        $buildSwitches = @(
+            '-verbosity:minimal'
+            '-restore'
+            '-property:Configuration=Release'
+            '-property:RunAnalyzersDuringBuild=true'
+            '-property:TreatWarningsAsErrors=true'
+            '-warnaserror'
+            '-property:Retries=4'
+            '-property:RetryDelayMilliseconds=1000'
+            '-property:OutDir=\artifacts'
+        )
+
+        msbuild @buildSwitches
+
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: Lombiq.Vsix.Orchard.vsix
+        path: /artifacts/**/*.vsix
