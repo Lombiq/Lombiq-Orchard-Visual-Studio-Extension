@@ -11,6 +11,14 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		tools\Lombiq.Analyzers\VisualStudioExtension.ruleset = tools\Lombiq.Analyzers\VisualStudioExtension.ruleset
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{8E63D580-805E-4EAB-ABEB-64E9F858953D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{26BB6A8A-3287-4C8A-BFFC-F9F712751D92}"
+	ProjectSection(SolutionItems) = preProject
+		.github\workflows\create-jira-issues-for-community-activities.yml = .github\workflows\create-jira-issues-for-community-activities.yml
+		.github\workflows\validate-pull-request.yml = .github\workflows\validate-pull-request.yml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,6 +38,9 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{26BB6A8A-3287-4C8A-BFFC-F9F712751D92} = {8E63D580-805E-4EAB-ABEB-64E9F858953D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {53B49BEA-6574-4868-B17B-B81D370899B1}
