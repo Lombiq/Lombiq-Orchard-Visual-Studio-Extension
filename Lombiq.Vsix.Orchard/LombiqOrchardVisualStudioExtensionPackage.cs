@@ -27,7 +27,7 @@ namespace Lombiq.Vsix.Orchard
     [InstalledProductRegistration(
         "Lombiq Orchard Visual Studio Extension",
         "Visual Studio extension with many features frequently used by Lombiq developers. Contains Orchard-related as well as generic goodies.",
-        ExtensionVersion.Version,
+        ExtensionVersion.Current,
         IconResourceID = 400)]
     [ProvideMenuResource("Menus.ctmenu", 1)]
     [ProvideOptionPage(typeof(LogWatcherOptionsPage), "Lombiq Orchard Visual Studio Extension", "Orchard Log Watcher", 120, 121, true)]
