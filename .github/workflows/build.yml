@@ -10,7 +10,7 @@ on:
 jobs:
   build:
     outputs:
-      version: ${{ steps.vsix-version.outputs.version }}
+      version: ${{ steps.vsix-version.outputs.version-number }}
     name: Build 
     runs-on: windows-latest
     timeout-minutes: 10
@@ -33,7 +33,7 @@ jobs:
         manifest-file: Lombiq.Vsix.Orchard\source.extension.vsixmanifest
 
     - run: |
-        Write-Output "This is the version: ${{ steps.vsix-version.outputs.version }}"
+        Write-Output "This is the version: ${{ steps.vsix-version.outputs.version-number }}"
 
     - name: Build
       run: msbuild -verbosity:minimal -restore -p:Configuration=Release -p:OutDir=\_built
