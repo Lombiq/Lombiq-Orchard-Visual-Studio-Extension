@@ -22,7 +22,7 @@ jobs:
       with:
         allowUpdates: true
         generateReleaseNotes: true
-        artifacts: artifacts/Lombiq Orchard Visual Studio Extension.vsix
+        artifacts: artifacts/*.vsix
 
     - name: Publish to Marketplace
       # v0.2
