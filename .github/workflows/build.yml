@@ -27,8 +27,8 @@ jobs:
 
     - name: Increment VSIX version
       id: vsix-version
-      # v2
-      uses: timheuer/vsix-version-stamp@ca35439ba96072eb62c5dfae481287e6399d4e6b
+      # This PR: https://github.com/timheuer/vsix-version-stamp/pull/2.
+      uses: timheuer/vsix-version-stamp@e583e79a13b1ecf7cc7c9529e303c8fe6bff2946
       with:
         manifest-file: Lombiq.Vsix.Orchard\source.extension.vsixmanifest
 
