@@ -14,7 +14,8 @@
       "Error Log",
       "Log Watcher",
       "Orchard Core",
-      "dependency injection"
+      "dependency injection",
+      "Orchard"
     ]
   },
   "overview": "MarketplaceOverview.md",
