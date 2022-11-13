@@ -34,7 +34,7 @@ jobs:
         vsix-token-source-file: Lombiq.Vsix.Orchard\Constants\ExtensionVersion.cs
 
     - name: Build
-      run: msbuild -verbosity:minimal -restore -p:Configuration=Release -p:OutDir=\_built
+      run: msbuild -verbosity:minimal -restore -p:Configuration=Release -p:RunAnalyzersDuringBuild=true -p:TreatWarningsAsErrors=true -warnaserror -p:Retries=4 -p:RetryDelayMilliseconds=1000 -p:OutDir=\_built
 
     - name: Upload artifact
       uses: actions/upload-artifact@v3
