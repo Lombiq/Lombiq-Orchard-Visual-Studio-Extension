@@ -17,12 +17,12 @@ jobs:
       uses: ./.github/actions/build-vsix
 
     - name: Create Release
-      # v1.10.0
-      uses: ncipollo/release-action@58ae73b360456532aafd58ee170c045abbeaee37
+      # v1.11.2
+      uses: ncipollo/release-action@18eadf9c9b0f226f47f164f5373c6a44f0aae169
       with:
         allowUpdates: true
         generateReleaseNotes: true
-        artifacts: artifacts/*.vsix
+        artifacts: artifacts/Lombiq Orchard Visual Studio Extension.vsix
 
     - name: Publish to Marketplace
       # v0.2
