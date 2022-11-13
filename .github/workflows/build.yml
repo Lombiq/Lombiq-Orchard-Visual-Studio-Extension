@@ -31,6 +31,7 @@ jobs:
       uses: timheuer/vsix-version-stamp@e583e79a13b1ecf7cc7c9529e303c8fe6bff2946
       with:
         manifest-file: Lombiq.Vsix.Orchard\source.extension.vsixmanifest
+        vsix-token-source-file: Lombiq.Vsix.Orchard\Constants\ExtensionVersion.cs
 
     - run: |
         Write-Output "This is the version: ${{ steps.vsix-version.outputs.version-number }}"
