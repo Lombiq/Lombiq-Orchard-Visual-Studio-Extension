@@ -9,7 +9,6 @@
         <Icon>Package.ico</Icon>
         <PreviewImage>Lombiq.png</PreviewImage>
         <Tags>Orchard, Orchard Core, Dependency, Error Log, Log Watcher, .NET, .NET Core, ASP.NET, ASP.NET Core, BlinkStick</Tags>
-        <Preview>true</Preview>
     </Metadata>
     <Installation InstalledByMsi="false">
         <InstallationTarget Version="[17.0,18.0)" Id="Microsoft.VisualStudio.Pro">
