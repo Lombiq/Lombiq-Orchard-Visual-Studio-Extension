@@ -44,7 +44,7 @@ jobs:
             '-warnaserror'
             '-property:Retries=4'
             '-property:RetryDelayMilliseconds=1000'
-            '-property:OutDir=\_built'
+            '-property:OutDir=\artifacts'
         )
 
         msbuild @buildSwitches
@@ -53,4 +53,4 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: Lombiq.Vsix.Orchard.vsix
-        path: /_built/**/*.vsix
+        path: /artifacts/**/*.vsix
