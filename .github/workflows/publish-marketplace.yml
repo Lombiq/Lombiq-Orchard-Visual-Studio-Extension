@@ -16,9 +16,6 @@ jobs:
     - name: Build VSIX
       uses: ./.github/actions/build-vsix
 
-    - run: |
-        get-childitem -rec | where {!$_.PSIsContainer} | select-object FullName, LastWriteTime, Length
-
     - name: Publish to Marketplace
       # v0.2
       uses: cezarypiatek/VsixPublisherAction@759bd2ec02ac1b13dea56d8c84834e517278b5b1
