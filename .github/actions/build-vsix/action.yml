@@ -22,7 +22,7 @@ runs:
             '-warnaserror'
             '-property:Retries=4'
             '-property:RetryDelayMilliseconds=1000'
-            '-property:OutDir=(Join-Path $PWD artifacts)'
+            "-property:OutDir=$(Join-Path $PWD artifacts)"
         )
 
         msbuild @buildSwitches
