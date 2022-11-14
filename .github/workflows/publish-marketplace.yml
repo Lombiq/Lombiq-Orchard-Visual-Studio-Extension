@@ -22,7 +22,7 @@ jobs:
       with:
         extension-file: 'artifacts\Lombiq.Vsix.Orchard.vsix'
         publish-manifest-file: 'Marketplace\publishManifest.json'
-        personal-access-code: nonsense
+        personal-access-code: ${{ secrets.VS_PUBLISHER_ACCESS_TOKEN }}
 
     - name: Create Release
       # v1.11.2
