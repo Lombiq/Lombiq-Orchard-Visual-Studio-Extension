@@ -28,6 +28,6 @@ jobs:
       # v0.2
       uses: cezarypiatek/VsixPublisherAction@759bd2ec02ac1b13dea56d8c84834e517278b5b1
       with:
-        extension-file: 'artifacts\Lombiq Orchard Visual Studio Extension.vsix'
+        extension-file: 'artifacts\Lombiq.Vsix.Orchard.vsix'
         publish-manifest-file: 'Marketplace\publishManifest.json'
         personal-access-code: nonsense
