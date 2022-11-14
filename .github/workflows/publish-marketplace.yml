@@ -25,7 +25,7 @@ jobs:
       with:
         allowUpdates: true
         generateReleaseNotes: true
-        artifacts: artifacts/*.vsix
+        artifacts: artifacts/Lombiq.Vsix.Orchard.vsix.vsix
 
     - name: Publish to Marketplace
       # v0.2
