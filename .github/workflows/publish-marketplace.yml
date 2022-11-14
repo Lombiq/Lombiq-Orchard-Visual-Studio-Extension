@@ -24,7 +24,7 @@ jobs:
     - name: Build VSIX
       uses: ./.github/actions/build-vsix
       with:
-        version-number: ${{ steps.set-version.version }}
+        version-number: ${{ steps.set-version.outputs.version }}
 
     #- name: Publish to Marketplace
     #  # v0.2
