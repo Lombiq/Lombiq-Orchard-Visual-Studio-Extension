@@ -9,12 +9,18 @@ jobs:
   publish:
     runs-on: windows-latest
     steps:
-    - uses: actions/checkout@v3.1.0
-      with:
-        submodules: 'recursive'
+    - name: Set Version
+      id: set-version
+      shell: pwsh
+      run: |
+        $version = $Env:GITHUB_REF_NAME.Trim().TrimStart("v")
+        Write-Output "Target Version: $version"
+        "PUBLISH_VERSION=$version" >> $Env:GITHUB_ENV
 
     - name: Build VSIX
       uses: ./.github/actions/build-vsix
+      with:
+        version-number: ${{ steps.set-version.version }}
 
     - name: Publish to Marketplace
       # v0.2
