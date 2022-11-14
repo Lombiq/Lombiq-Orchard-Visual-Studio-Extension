@@ -12,10 +12,6 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - shell: pwsh
-      run: |
-        Write-Output "This is the input version: ${{ inputs.version-number }}"
-
     - name: Set VSIX version
       id: vsix-version
       # This PR: https://github.com/timheuer/vsix-version-stamp/pull/4.
@@ -24,10 +20,6 @@ runs:
         manifest-file: Lombiq.Vsix.Orchard\source.extension.vsixmanifest
         vsix-token-source-file: Lombiq.Vsix.Orchard\Constants\ExtensionVersion.cs
         version-number: ${{ inputs.version-number }}
-
-    - shell: pwsh
-      run: |
-        Write-Output "This is the version: ${{ steps.vsix-version.outputs.version-number }}"
 
     - name: Add MSBuild to PATH
       # v1.1.3

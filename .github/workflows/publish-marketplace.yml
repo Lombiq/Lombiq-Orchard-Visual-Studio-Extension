@@ -26,18 +26,18 @@ jobs:
       with:
         version-number: ${{ steps.set-version.outputs.version }}
 
-    #- name: Publish to Marketplace
-    #  # v0.2
-    #  uses: cezarypiatek/VsixPublisherAction@759bd2ec02ac1b13dea56d8c84834e517278b5b1
-    #  with:
-    #    extension-file: 'artifacts\Lombiq.Vsix.Orchard.vsix'
-    #    publish-manifest-file: 'Marketplace\publishManifest.json'
-    #    personal-access-code: ${{ secrets.VS_PUBLISHER_ACCESS_TOKEN }}
+    - name: Publish to Marketplace
+      # v0.2
+      uses: cezarypiatek/VsixPublisherAction@759bd2ec02ac1b13dea56d8c84834e517278b5b1
+      with:
+        extension-file: 'artifacts\Lombiq.Vsix.Orchard.vsix'
+        publish-manifest-file: 'Marketplace\publishManifest.json'
+        personal-access-code: ${{ secrets.VS_PUBLISHER_ACCESS_TOKEN }}
 
-    #- name: Create Release
-    #  # v1.11.2
-    #  uses: ncipollo/release-action@18eadf9c9b0f226f47f164f5373c6a44f0aae169
-    #  with:
-    #    allowUpdates: true
-    #    generateReleaseNotes: true
-    #    artifacts: artifacts/Lombiq.Vsix.Orchard.vsix
+    - name: Create Release
+      # v1.11.2
+      uses: ncipollo/release-action@18eadf9c9b0f226f47f164f5373c6a44f0aae169
+      with:
+        allowUpdates: true
+        generateReleaseNotes: true
+        artifacts: artifacts/Lombiq.Vsix.Orchard.vsix
