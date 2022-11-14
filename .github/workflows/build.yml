@@ -27,8 +27,5 @@ jobs:
         manifest-file: Lombiq.Vsix.Orchard\source.extension.vsixmanifest
         vsix-token-source-file: Lombiq.Vsix.Orchard\Constants\ExtensionVersion.cs
 
-    - run: |
-        Write-Output "This is the version: ${{ steps.vsix-version.outputs.version-number }}"
-
     - name: Build VSIX
       uses: ./.github/actions/build-vsix
