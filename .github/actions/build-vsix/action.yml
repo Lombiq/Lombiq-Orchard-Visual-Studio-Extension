@@ -27,6 +27,10 @@ runs:
 
         msbuild @buildSwitches
 
+    - shell: pwsh
+      run: |
+        get-childitem -rec | where {!$_.PSIsContainer} | select-object FullName, LastWriteTime, Length
+
     - name: Upload Artifact
       uses: actions/upload-artifact@v3
       with:
