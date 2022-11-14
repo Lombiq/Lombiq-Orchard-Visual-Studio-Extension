@@ -29,6 +29,3 @@ jobs:
 
     - name: Build VSIX
       uses: ./.github/actions/build-vsix
-
-    - run: |
-        get-childitem -rec | where {!$_.PSIsContainer} | select-object FullName, LastWriteTime, Length

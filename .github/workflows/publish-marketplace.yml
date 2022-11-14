@@ -16,9 +16,6 @@ jobs:
     - name: Build VSIX
       uses: ./.github/actions/build-vsix
 
-    - run: |
-        get-childitem -rec | where {!$_.PSIsContainer} | select-object FullName, LastWriteTime, Length
-
     - name: Create Release
       # v1.11.2
       uses: ncipollo/release-action@18eadf9c9b0f226f47f164f5373c6a44f0aae169
