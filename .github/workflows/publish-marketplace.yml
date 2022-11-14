@@ -19,7 +19,7 @@ jobs:
       run: |
         $version = $Env:GITHUB_REF_NAME.Trim().TrimStart("v")
         Write-Output "Target Version: $version"
-        "version=$version" >> $Env:GITHUB_ENV
+        "version=$version" >> $Env:GITHUB_OUTPUT
 
     - name: Build VSIX
       uses: ./.github/actions/build-vsix

@@ -12,6 +12,10 @@ inputs:
 runs:
   using: "composite"
   steps:
+    - shell: pwsh
+      run: |
+        Write-Output "This is the input version: ${{ inputs.version-number }}"
+
     - name: Set VSIX version
       id: vsix-version
       # This PR: https://github.com/timheuer/vsix-version-stamp/pull/4.
