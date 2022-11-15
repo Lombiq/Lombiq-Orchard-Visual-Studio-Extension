@@ -1,6 +1,6 @@
 Visual Studio extension with many features and templates frequently used by [Lombiq](https://lombiq.com/) developers. Contains [Orchard CMS](https://www.orchardcore.net/)-related (including Orchard Core and Orchard 1.x) as well as generic goodies. For Orchard developers and for other .NET developers alike!
 
-Are you looking for a VS 2019 or VS 2017 version of this extension? While due to limitations of the Visual Studio Marketplace we can’t publish it here, you can download it from [our GitHub](https://github.com/Lombiq/Lombiq-Orchard-Visual-Studio-Extension/releases/tag/v1.5.4) (just download and open the attached VSIX file).
+Are you looking for a VS 2019 or VS 2017 version of this extension? While due to limitations of the Visual Studio Marketplace we can't publish it here, you can download it from [our GitHub](https://github.com/Lombiq/Lombiq-Orchard-Visual-Studio-Extension/releases/tag/v1.5.4) (just download and open the attached VSIX file).
 
 # Highlights
 
