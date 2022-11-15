@@ -11,7 +11,7 @@ jobs:
     steps:
     - uses: actions/checkout@v3.1.0
       with:
-        submodules: 'recursive'
+        submodules: recursive
 
     - name: Set Version
       id: set-version
@@ -30,8 +30,8 @@ jobs:
       # v0.2
       uses: cezarypiatek/VsixPublisherAction@759bd2ec02ac1b13dea56d8c84834e517278b5b1
       with:
-        extension-file: 'artifacts\Lombiq.Vsix.Orchard.vsix'
-        publish-manifest-file: 'Marketplace\publishManifest.json'
+        extension-file: artifacts\Lombiq.Vsix.Orchard.vsix
+        publish-manifest-file: Marketplace\publishManifest.json
         personal-access-code: ${{ secrets.VS_PUBLISHER_ACCESS_TOKEN }}
 
     - name: Create Release
