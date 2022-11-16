@@ -7,7 +7,7 @@ inputs:
       If provided, will be used directly as the version of the VSIX. Otherwise, the version will be automatically
       incremented.
     required: false
-    default: ''
+    default: ""
 
 runs:
   using: composite
