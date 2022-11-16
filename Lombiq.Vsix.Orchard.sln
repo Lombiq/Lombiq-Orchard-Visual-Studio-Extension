@@ -11,6 +11,29 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		tools\Lombiq.Analyzers\VisualStudioExtension.ruleset = tools\Lombiq.Analyzers\VisualStudioExtension.ruleset
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{8E63D580-805E-4EAB-ABEB-64E9F858953D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{26BB6A8A-3287-4C8A-BFFC-F9F712751D92}"
+	ProjectSection(SolutionItems) = preProject
+		.github\workflows\build.yml = .github\workflows\build.yml
+		.github\workflows\create-jira-issues-for-community-activities.yml = .github\workflows\create-jira-issues-for-community-activities.yml
+		.github\workflows\publish-marketplace.yml = .github\workflows\publish-marketplace.yml
+		.github\workflows\validate-pull-request.yml = .github\workflows\validate-pull-request.yml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "actions", "actions", "{B8531F3D-3FB6-4537-B670-BB6C3B72DB26}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build-vsix", "build-vsix", "{3943360D-9207-4A94-8179-B1333E98EA1E}"
+	ProjectSection(SolutionItems) = preProject
+		.github\actions\build-vsix\action.yml = .github\actions\build-vsix\action.yml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Marketplace", "Marketplace", "{FC38F779-C152-4A56-809F-6FC7832F80CE}"
+	ProjectSection(SolutionItems) = preProject
+		Marketplace\Overview.md = Marketplace\Overview.md
+		Marketplace\publishManifest.json = Marketplace\publishManifest.json
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,6 +53,11 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{26BB6A8A-3287-4C8A-BFFC-F9F712751D92} = {8E63D580-805E-4EAB-ABEB-64E9F858953D}
+		{B8531F3D-3FB6-4537-B670-BB6C3B72DB26} = {8E63D580-805E-4EAB-ABEB-64E9F858953D}
+		{3943360D-9207-4A94-8179-B1333E98EA1E} = {B8531F3D-3FB6-4537-B670-BB6C3B72DB26}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {53B49BEA-6574-4868-B17B-B81D370899B1}

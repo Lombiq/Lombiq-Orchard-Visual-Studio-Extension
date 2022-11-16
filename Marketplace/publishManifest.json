@@ -1,0 +1,27 @@
+{
+  "$schema": "http://json.schemastore.org/vsix-publish",
+  "categories": [
+    "coding"
+  ],
+  "identity": {
+    "internalName": "LombiqOrchardVisualStudioExtension",
+    "tags": [
+      ".NET",
+      ".NET Core",
+      "ASP.NET",
+      "ASP.NET Core",
+      "Dependency",
+      "Error Log",
+      "Log Watcher",
+      "Orchard Core",
+      "dependency injection",
+      "Orchard"
+    ]
+  },
+  "overview": "MarketplaceOverview.md",
+  "priceCategory": "free",
+  "publisher": "LombiqVisualStudioExtension",
+  "private": false,
+  "qna": true,
+  "repo": "https://github.com/Lombiq/Lombiq-Orchard-Visual-Studio-Extension"
+}

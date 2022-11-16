@@ -1,0 +1,23 @@
+name: Build
+
+on:
+  pull_request:
+  push:
+    branches:
+      - dev
+
+# Mostly built on https://github.com/timheuer/JwtTools/blob/main/.github/workflows/build.yaml.
+jobs:
+  build:
+    outputs:
+      version: ${{ steps.vsix-version.outputs.version-number }}
+    name: Build 
+    runs-on: windows-latest
+    timeout-minutes: 10
+    steps:
+    - uses: actions/checkout@v3.1.0
+      with:
+        submodules: recursive
+
+    - name: Build VSIX
+      uses: ./.github/actions/build-vsix
