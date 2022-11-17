@@ -15,7 +15,7 @@ runs:
     - name: Set VSIX version
       id: vsix-version
       # This PR: https://github.com/timheuer/vsix-version-stamp/pull/4.
-      uses: timheuer/vsix-version-stamp@d9f75864ba373a0ae6e9402ecb1da44cf2c1dfa6
+      uses: timheuer/vsix-version-stamp@12489c77408fa1585cbf839cd1790a2fbf22f264
       with:
         manifest-file: Lombiq.Vsix.Orchard\source.extension.vsixmanifest
         vsix-token-source-file: Lombiq.Vsix.Orchard\Constants\ExtensionVersion.cs
