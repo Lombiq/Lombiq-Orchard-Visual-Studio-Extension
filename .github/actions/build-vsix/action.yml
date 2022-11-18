@@ -28,7 +28,7 @@ runs:
         "directory=$(Join-Path $PWD artifacts)" >> $Env:GITHUB_OUTPUT
 
     - name: Build
-      uses: Lombiq/GitHub-Actions/.github/actions/msbuild.yml@issue/CARE-265
+      uses: Lombiq/GitHub-Actions/.github/actions/msbuild@issue/CARE-265
       with:
         dotnet-build-switches: |
           "-property:OutDir=${{ steps.output-directory.outputs.directory }}"
