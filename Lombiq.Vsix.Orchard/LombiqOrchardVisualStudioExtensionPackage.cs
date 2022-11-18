@@ -26,7 +26,7 @@ namespace Lombiq.Vsix.Orchard
     // but that code doesn't work.
     [InstalledProductRegistration(
         "Lombiq Orchard Visual Studio Extension",
-        "Visual Studio extension with many features frequently used by Lombiq developers. Contains Orchard-related as well as generic goodies.",
+        "Visual Studio extension with many features frequently used by Lombiq developers. Contains Orchard-related as well as generic goodies.Visual Studio extension with many features frequently used by Lombiq developers. Contains Orchard-related as well as generic goodies.",
         ExtensionVersion.Version,
         IconResourceID = 400)]
     [ProvideMenuResource("Menus.ctmenu", 1)]
