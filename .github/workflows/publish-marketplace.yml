@@ -9,9 +9,7 @@ jobs:
   publish:
     runs-on: windows-latest
     steps:
-    - uses: actions/checkout@v3.1.0
-      with:
-        submodules: recursive
+    - uses: Lombiq/GitHub-Actions/.github/actions/checkout@issue/CARE-265
 
     - name: Set Version
       id: set-version
