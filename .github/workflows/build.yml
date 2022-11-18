@@ -14,8 +14,8 @@ jobs:
     name: Build 
     runs-on: windows-latest
     timeout-minutes: 10
-    steps:
-    - uses: Lombiq/GitHub-Actions/.github/actions/checkout@issue/CARE-265
+    - name: Checkout
+      uses: Lombiq/GitHub-Actions/.github/actions/checkout@issue/CARE-265
 
     - name: Build VSIX
       uses: ./.github/actions/build-vsix
