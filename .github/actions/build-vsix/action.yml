@@ -30,7 +30,7 @@ runs:
     - name: Build
       uses: Lombiq/GitHub-Actions/.github/actions/msbuild@issue/CARE-265
       with:
-        dotnet-build-switches: |
+        msbuild-switches: |
           "-property:OutDir=${{ steps.output-directory.outputs.directory }}"
 
     - name: Upload Artifact
