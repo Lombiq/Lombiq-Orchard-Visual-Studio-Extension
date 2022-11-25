@@ -14,35 +14,24 @@ runs:
   steps:
     - name: Set VSIX version
       id: vsix-version
-      # This PR: https://github.com/timheuer/vsix-version-stamp/pull/4.
-      uses: timheuer/vsix-version-stamp@d9f75864ba373a0ae6e9402ecb1da44cf2c1dfa6
+      # Latest code as of 17.11.2022.
+      uses: timheuer/vsix-version-stamp@9d38292e99e54046455bb68c6a2b5113d269a7d0
       with:
         manifest-file: Lombiq.Vsix.Orchard\source.extension.vsixmanifest
         vsix-token-source-file: Lombiq.Vsix.Orchard\Constants\ExtensionVersion.cs
         version-number: ${{ inputs.version-number }}
 
-    - name: Add MSBuild to PATH
-      # v1.1.3
-      uses: microsoft/setup-msbuild@34cfbaee7f672c76950673338facd8a73f637506
-      with:
-        vs-version: "[17.3,]"
-
-    - name: Build
+    - name: Configure Output Directory
+      id: output-directory
       shell: pwsh
       run: |
-        $buildSwitches = @(
-            '-verbosity:minimal'
-            '-restore'
-            '-property:Configuration=Release'
-            '-property:RunAnalyzersDuringBuild=true'
-            '-property:TreatWarningsAsErrors=true'
-            '-warnaserror'
-            '-property:Retries=4'
-            '-property:RetryDelayMilliseconds=1000'
-            "-property:OutDir=$(Join-Path $PWD artifacts)"
-        )
+        "directory=$(Join-Path $PWD artifacts)" >> $Env:GITHUB_OUTPUT
 
-        msbuild @buildSwitches
+    - name: Build
+      uses: Lombiq/GitHub-Actions/.github/actions/msbuild@issue/CARE-265
+      with:
+        msbuild-switches: |
+          "-property:OutDir=${{ steps.output-directory.outputs.directory }}"
 
     - name: Upload Artifact
       uses: actions/upload-artifact@v3
