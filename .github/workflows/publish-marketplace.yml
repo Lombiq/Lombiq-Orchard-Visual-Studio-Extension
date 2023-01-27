@@ -10,7 +10,7 @@ jobs:
     runs-on: windows-latest
     steps:
     - name: Checkout
-      uses: Lombiq/GitHub-Actions/.github/actions/checkout@issue/CARE-265
+      uses: Lombiq/GitHub-Actions/.github/actions/checkout@dev
 
     - name: Set Version
       id: set-version

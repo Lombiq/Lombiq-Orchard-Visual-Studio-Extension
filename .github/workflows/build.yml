@@ -16,7 +16,7 @@ jobs:
     timeout-minutes: 10
     steps:
     - name: Checkout
-      uses: Lombiq/GitHub-Actions/.github/actions/checkout@issue/CARE-265
+      uses: Lombiq/GitHub-Actions/.github/actions/checkout@dev
 
     - name: Build VSIX
       uses: ./.github/actions/build-vsix
