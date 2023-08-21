@@ -101,9 +101,10 @@ namespace Lombiq.Vsix.Orchard.Services.LogWatcher
                         // This can happen when the Log Watcher is disabled. Just swallowing it not to cause any issues.
                     }
                 }
-            } 
+            }
             catch (OperationCanceledException)
-            {   // We're being shutdown
+            {
+                // We're being shutdown.
             }
         }
 
