@@ -57,47 +57,54 @@ namespace Lombiq.Vsix.Orchard.Services.LogWatcher
 
         private async Task TimerCallbackAsync()
         {
-            await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync(_package.DisposalToken);
             try
             {
-                if (!(await _package.GetDteAsync().ConfigureAwait(true)).SolutionIsOpen()) return;
-
-                var logFileStatus = await GetLogFileStatusAsync().ConfigureAwait(true);
-
-                // Log file has been deleted.
-                if (logFileStatus == null && _previousLogFileStatus != null)
-                {
-                    LogUpdated?.Invoke(this, new LogChangedEventArgs
-                    {
-                        LogFileStatus = new LogFileStatus
-                        {
-                            Exists = false,
-                            LastUpdatedUtc = DateTime.UtcNow,
-                            HasContent = false,
-                            Path = _previousLogFileStatus.Path,
-                        },
-                    });
-                }
-
-                // Log file has been added or changed.
-                else if ((_previousLogFileStatus == null && logFileStatus != null) ||
-                    (logFileStatus != null && !logFileStatus.Equals(_previousLogFileStatus)))
-                {
-                    LogUpdated?.Invoke(this, new LogChangedEventArgs { LogFileStatus = logFileStatus });
-                }
-
-                _previousLogFileStatus = logFileStatus;
-            }
-            finally
-            {
+                await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync(_package.DisposalToken);
                 try
                 {
-                    _timer.Change(DefaultLogWatcherTimerIntervalInMilliseconds, Timeout.Infinite);
+                    if (!(await _package.GetDteAsync().ConfigureAwait(true)).SolutionIsOpen()) return;
+
+                    var logFileStatus = await GetLogFileStatusAsync().ConfigureAwait(true);
+
+                    // Log file has been deleted.
+                    if (logFileStatus == null && _previousLogFileStatus != null)
+                    {
+                        LogUpdated?.Invoke(this, new LogChangedEventArgs
+                        {
+                            LogFileStatus = new LogFileStatus
+                            {
+                                Exists = false,
+                                LastUpdatedUtc = DateTime.UtcNow,
+                                HasContent = false,
+                                Path = _previousLogFileStatus.Path,
+                            },
+                        });
+                    }
+
+                    // Log file has been added or changed.
+                    else if ((_previousLogFileStatus == null && logFileStatus != null) ||
+                        (logFileStatus != null && !logFileStatus.Equals(_previousLogFileStatus)))
+                    {
+                        LogUpdated?.Invoke(this, new LogChangedEventArgs { LogFileStatus = logFileStatus });
+                    }
+
+                    _previousLogFileStatus = logFileStatus;
                 }
-                catch (ObjectDisposedException)
+                finally
                 {
-                    // This can happen when the Log Watcher is disabled. Just swallowing it not to cause any issues.
+                    try
+                    {
+                        _timer.Change(DefaultLogWatcherTimerIntervalInMilliseconds, Timeout.Infinite);
+                    }
+                    catch (ObjectDisposedException)
+                    {
+                        // This can happen when the Log Watcher is disabled. Just swallowing it not to cause any issues.
+                    }
                 }
+            }
+            catch (OperationCanceledException)
+            {
+                // We're being shutdown.
             }
         }
 
