@@ -6,11 +6,12 @@ Are you looking for a VS 2019 or VS 2017 version of this extension? While due to
 
 Inject a constructor-inject dependency with ease, including all the tricky ones like `ILogger<T>`!
 
-![inject-dependency-dialog.jpg](Images/inject-dependency-dialog.jpg)
+<!-- Images should use absolute URLs as they're displayed on the Marketplace page too. -->
+![inject-dependency-dialog.jpg](https://raw.githubusercontent.com/Lombiq/Lombiq-Orchard-Visual-Studio-Extension/dev/Marketplace/Images/inject-dependency-dialog.jpg)
 
 See a button on the toolbar light up, or even blink an LED if there are new entries in the error log!
 
-![open-orchard-error-log-button.png](Images/open-orchard-error-log-button.png)
+![open-orchard-error-log-button.png](https://raw.githubusercontent.com/Lombiq/Lombiq-Orchard-Visual-Studio-Extension/dev/Marketplace/Images/open-orchard-error-log-button.png)
 
 # Features
 
