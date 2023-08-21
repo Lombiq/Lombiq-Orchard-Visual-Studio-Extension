@@ -8,7 +8,8 @@
         <License>Licence.md</License>
         <Icon>Package.ico</Icon>
         <PreviewImage>Lombiq.png</PreviewImage>
-        <Tags>Orchard, Orchard Core, Dependency, Error Log, Log Watcher, .NET, .NET Core, ASP.NET, ASP.NET Core, BlinkStick</Tags>
+        <!-- This can be at most 50 characters. -->
+        <Tags>Orchard, Orchard Core, .NET Core, ASP.NET Core</Tags>
     </Metadata>
     <Installation InstalledByMsi="false">
         <InstallationTarget Version="[17.0,18.0)" Id="Microsoft.VisualStudio.Pro">
