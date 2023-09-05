@@ -1,4 +1,4 @@
-# Lombiq Orchard Visual Studio Extension readme
+# Lombiq Orchard Visual Studio Extension readme test 2
 
 
 [![Build and Test](https://github.com/Lombiq/Lombiq-Orchard-Visual-Studio-Extension/actions/workflows/build.yml/badge.svg)](https://github.com/Lombiq/Lombiq-Orchard-Visual-Studio-Extension/actions/workflows/build.yml)
