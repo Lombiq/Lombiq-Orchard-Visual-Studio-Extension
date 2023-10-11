@@ -152,6 +152,7 @@
     <Content Include="Readme.md">
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
+    <None Include="Directory.Build.props" />
     <None Include="source.extension.vsixmanifest">
       <SubType>Designer</SubType>
     </None>
