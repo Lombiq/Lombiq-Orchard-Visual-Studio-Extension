@@ -47,7 +47,6 @@ namespace Lombiq.Vsix.Orchard
 
         protected override async Task InitializeAsync(CancellationToken cancellationToken, IProgress<ServiceProgressData> progress)
         {
-
             await base.InitializeAsync(cancellationToken, progress).ConfigureAwait(true);
 
             // On using AsyncPackage see:
