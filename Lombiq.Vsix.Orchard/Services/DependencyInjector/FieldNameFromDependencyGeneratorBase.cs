@@ -61,7 +61,7 @@ namespace Lombiq.Vsix.Orchard.Services.DependencyInjector
             return char.ToLowerInvariant(value[0]) + value.Substring(1);
         }
 
-        private static IEnumerable<char> GetUpperCasedLetters(string value) =>
-            value.Where(letter => char.IsUpper(letter));
+        private static List<char> GetUpperCasedLetters(string value) =>
+            value.Where(letter => char.IsUpper(letter)).ToList();
     }
 }

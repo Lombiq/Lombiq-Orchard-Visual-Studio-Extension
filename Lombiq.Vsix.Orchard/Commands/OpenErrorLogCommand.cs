@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.ComponentModel.Design;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
+using System.Threading;
 using System.Threading.Tasks;
 using Task = System.Threading.Tasks.Task;
 
@@ -30,6 +31,7 @@ namespace Lombiq.Vsix.Orchard.Commands
         private bool _hasSeenErrorLogUpdate;
         private bool _errorIndicatorStateChanged;
         private ILogFileStatus _latestUpdatedLogFileStatus;
+        private CancellationToken _cancellationToken;
 
         private OpenErrorLogCommand(
             AsyncPackage package,
@@ -53,12 +55,14 @@ namespace Lombiq.Vsix.Orchard.Commands
                 await package.GetServicesAsync<ILogFileWatcher>().ConfigureAwait(true),
                 await package.GetServiceAsync<IBlinkStickManager>().ConfigureAwait(true));
 
-            await Instance.InitalizeWatchersAsync().ConfigureAwait(true);
+            await Instance.InitializeWatchersAsync().ConfigureAwait(true);
         }
 
-        public async Task InitializeUIAsync()
+        public async Task InitializeUIAsync(CancellationToken cancellationToken)
         {
-            await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
+            _cancellationToken = cancellationToken;
+
+            await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync(cancellationToken);
 
             _openErrorLogCommand = new OleMenuCommand(OpenErrorLogCallback, new CommandID(CommandSet, CommandId));
             _openErrorLogCommand.BeforeQueryStatus += OpenErrorLogCommandBeforeQueryStatusCallback;
@@ -82,7 +86,7 @@ namespace Lombiq.Vsix.Orchard.Commands
             (await _logWatcherSettingsAccessor.GetSettingsAsync().ConfigureAwait(true)).SettingsUpdated -= LogWatcherSettingsUpdatedCallback;
         }
 
-        private async Task InitalizeWatchersAsync()
+        private async Task InitializeWatchersAsync()
         {
             _hasSeenErrorLogUpdate = true;
             _errorIndicatorStateChanged = true;
@@ -150,7 +154,7 @@ namespace Lombiq.Vsix.Orchard.Commands
 
         private async Task LogWatcherSettingsUpdatedCallbackAsync(LogWatcherSettingsUpdatedEventArgs e)
         {
-            await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
+            await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync(_cancellationToken);
             var isEnabled = e.Settings.LogWatcherEnabled;
             var orchardLogWatcherToolbar = ((CommandBars)(await _package.GetDteAsync()
                 .ConfigureAwait(true)).CommandBars)[CommandBarNames.OrchardLogWatcherToolbarName];
@@ -158,28 +162,31 @@ namespace Lombiq.Vsix.Orchard.Commands
 
             // Since this method will be called from the UI thread not blocking it with the watcher changes that can
             // potentially take some time.
-            await Task.Run(() =>
-            {
-                // If the settings are repeatedly change then wait for the first one to finish before starting the next.
-                lock (_settingsChangeLock)
+            await Task.Run(
+                () =>
                 {
-                    if (isEnabled)
+                    // If the settings are repeatedly change then wait for the first one to finish before starting the next.
+                    lock (_settingsChangeLock)
                     {
-                        StartLogFileWatching();
+                        if (isEnabled)
+                        {
+                            StartLogFileWatching();
+                        }
+                        else
+                        {
+                            StopLogFileWatching();
+                        }
                     }
-                    else
-                    {
-                        StopLogFileWatching();
-                    }
-                }
-            }).ConfigureAwait(true);
+                },
+                _cancellationToken)
+            .ConfigureAwait(true);
 
             await UpdateOpenErrorLogCommandAccessibilityAndTextAsync().ConfigureAwait(true);
         }
 
         private async Task UpdateOpenErrorLogCommandAccessibilityAndTextAsync(ILogFileStatus logFileStatus = null)
         {
-            await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
+            await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync(_cancellationToken);
             var logWatcherSettings = await _logWatcherSettingsAccessor.GetSettingsAsync().ConfigureAwait(true);
 
             if (!(await _package.GetDteAsync().ConfigureAwait(true)).SolutionIsOpen())

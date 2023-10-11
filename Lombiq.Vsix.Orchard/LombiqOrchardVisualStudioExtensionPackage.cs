@@ -65,8 +65,8 @@ namespace Lombiq.Vsix.Orchard
             await InjectDependencyCommand.CreateAsync(this).ConfigureAwait(true);
             await OpenErrorLogCommand.CreateAsync(this, this).ConfigureAwait(true);
 
-            await InjectDependencyCommand.Instance.InitializeUIAsync().ConfigureAwait(true);
-            await OpenErrorLogCommand.Instance.InitializeUIAsync().ConfigureAwait(true);
+            await InjectDependencyCommand.Instance.InitializeUIAsync(cancellationToken).ConfigureAwait(true);
+            await OpenErrorLogCommand.Instance.InitializeUIAsync(cancellationToken).ConfigureAwait(true);
         }
 
         protected override void Dispose(bool disposing)
