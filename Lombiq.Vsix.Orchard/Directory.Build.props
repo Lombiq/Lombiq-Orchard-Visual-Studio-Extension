@@ -4,5 +4,5 @@
     <RunAnalyzersDuringBuild>true</RunAnalyzersDuringBuild>
   </PropertyGroup>-->
   
-  <Import Project="../tools/Lombiq.Analyzers/Lombiq.Analyzers/VisualStudioExtension.Build.props" />
+  <Import Project="../tools/Lombiq.Analyzers/Lombiq.Analyzers.VisualStudioExtension/Build.props" />
 </Project>
