@@ -174,7 +174,7 @@ namespace Lombiq.Vsix.Orchard.Services.LogWatcher
             IEnumerable<string> patterns,
             string logFileName)
         {
-            var fullPaths = patterns.Select(pattern => Path.Combine(root, pattern, logFileName).Replace("/", "\\"));
+            var fullPaths = patterns.Select(pattern => Path.Combine(root, pattern, logFileName).Replace('/', '\\'));
 
             return fullPaths.SelectMany(fullPath =>
             {
