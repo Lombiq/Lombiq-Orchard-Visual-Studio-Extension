@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.Design;
 using System.Diagnostics.CodeAnalysis;
+using System.Threading;
 using System.Windows.Forms;
 using Task = System.Threading.Tasks.Task;
 
@@ -21,6 +22,8 @@ namespace Lombiq.Vsix.Orchard.Commands
         private readonly IDependencyInjector _dependencyInjector;
         private readonly IEnumerable<IFieldNameFromDependencyGenerator> _fieldNameGenerators;
         private readonly IEnumerable<IDependencyNameProvider> _dependencyNameProviders;
+
+        private CancellationToken _cancellationToken;
 
         public static InjectDependencyCommand Instance { get; private set; }
 
@@ -42,9 +45,12 @@ namespace Lombiq.Vsix.Orchard.Commands
                 await package.GetServicesAsync<IFieldNameFromDependencyGenerator>().ConfigureAwait(true),
                 await package.GetServicesAsync<IDependencyNameProvider>().ConfigureAwait(true));
 
-        public async Task InitializeUIAsync()
+        public async Task InitializeUIAsync(CancellationToken cancellationToken)
         {
-            await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
+            _cancellationToken = cancellationToken;
+
+            await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync(cancellationToken);
+
             (await _package.GetServiceAsync<IMenuCommandService>().ConfigureAwait(true)).AddCommand(
                 new MenuCommand(
                     MenuItemCallback,
@@ -60,7 +66,7 @@ namespace Lombiq.Vsix.Orchard.Commands
 
         private async Task MenuItemCallbackAsync()
         {
-            await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
+            await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync(_cancellationToken);
             const string injectDependencyCaption = "Inject Dependency";
             var dte = await _package.GetDteAsync().ConfigureAwait(true);
 

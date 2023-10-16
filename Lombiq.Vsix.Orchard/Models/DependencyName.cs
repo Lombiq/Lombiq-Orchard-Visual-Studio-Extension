@@ -11,8 +11,8 @@ namespace Lombiq.Vsix.Orchard.Models
 
     public class DependencyNameEqualityComparer : IEqualityComparer<DependencyName>
     {
-        public bool Equals(DependencyName first, DependencyName second) => first.Name == second.Name;
+        public bool Equals(DependencyName x, DependencyName y) => x.Name == y.Name;
 
-        public int GetHashCode(DependencyName dependencyName) => StringComparer.Ordinal.GetHashCode(dependencyName);
+        public int GetHashCode(DependencyName obj) => StringComparer.Ordinal.GetHashCode(obj);
     }
 }

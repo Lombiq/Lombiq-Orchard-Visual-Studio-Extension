@@ -46,6 +46,6 @@ namespace Lombiq.Vsix.Orchard.Models
         }
 
         public override int GetHashCode() =>
-            StringComparer.Ordinal.GetHashCode($"{HasContent}/{Exists}/{Path}/{LastUpdatedUtc}");
+            StringComparer.Ordinal.GetHashCode(FormattableString.Invariant($"{HasContent}/{Exists}/{Path}/{LastUpdatedUtc}"));
     }
 }
