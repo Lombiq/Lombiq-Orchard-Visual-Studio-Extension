@@ -27,7 +27,6 @@ jobs:
         version-number: ${{ steps.set-version.outputs.version }}
 
     - name: Publish to Marketplace
-      # v1.0
       uses: cezarypiatek/VsixPublisherAction@9c6b58b5955df9901a6e9834be1d0a94cd54aeba
       with:
         extension-file: artifacts\Lombiq.Vsix.Orchard.vsix
@@ -35,8 +34,7 @@ jobs:
         personal-access-code: ${{ secrets.VS_PUBLISHER_ACCESS_TOKEN }}
 
     - name: Create Release
-      # v1.11.2
-      uses: ncipollo/release-action@18eadf9c9b0f226f47f164f5373c6a44f0aae169
+      uses: Lombiq/GitHub-Actions/.github/actions/release-action@dev
       with:
         allowUpdates: true
         generateReleaseNotes: true
