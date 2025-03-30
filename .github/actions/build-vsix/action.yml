@@ -31,10 +31,10 @@ runs:
       uses: Lombiq/GitHub-Actions/.github/actions/msbuild@issue/CARE-265
       with:
         msbuild-switches: |
-          "-property:OutDir=${{ steps.output-directory.outputs.directory }}"
+          /p:OutDir=${{ steps.output-directory.outputs.directory }}
 
     - name: Upload Artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4.6.2
       with:
         name: Lombiq.Vsix.Orchard.vsix
         path: artifacts/**/*.vsix
