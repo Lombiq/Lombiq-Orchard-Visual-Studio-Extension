@@ -31,7 +31,7 @@ namespace Lombiq.Vsix.Orchard.Services.DependencyInjector
         {
             var upperCasedLetters = GetUpperCasedLetters(value);
 
-            return upperCasedLetters.Any() ?
+            return upperCasedLetters.Count != 0 ?
                 GetLowerInvariantString(new string(upperCasedLetters.ToArray())) :
                 value[0].ToString();
         }
@@ -40,7 +40,7 @@ namespace Lombiq.Vsix.Orchard.Services.DependencyInjector
         {
             var upperCasedLetters = GetUpperCasedLetters(value);
 
-            return upperCasedLetters.Any() ?
+            return upperCasedLetters.Count != 0 ?
                 GetLowerInvariantStringWithUnderscore(new string(upperCasedLetters.ToArray())) :
                 GetStringWithUnderscore(value[0].ToString());
         }

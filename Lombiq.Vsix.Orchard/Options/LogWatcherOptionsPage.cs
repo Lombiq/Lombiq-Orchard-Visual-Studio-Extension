@@ -14,6 +14,8 @@ namespace Lombiq.Vsix.Orchard.Options
     [Guid(PackageGuids.LogWatcherOptionsPageGuidString)]
     public class LogWatcherOptionsPage : DialogPage, ILogWatcherSettings
     {
+        private static readonly string[] _separator = new[] { "|" };
+
         public event EventHandler<LogWatcherSettingsUpdatedEventArgs> SettingsUpdated;
 
         [DisplayName("Enabled")]
@@ -54,7 +56,7 @@ namespace Lombiq.Vsix.Orchard.Options
 
         public IEnumerable<string> GetLogFileFolderPaths() =>
             LogFileFolderPathsSerialized?
-                .Split(new[] { "|" }, StringSplitOptions.RemoveEmptyEntries)
+                .Split(_separator, StringSplitOptions.RemoveEmptyEntries)
                 .Select(value => value.Trim()) ?? Enumerable.Empty<string>();
 
         protected override void OnDeactivate(CancelEventArgs e)
