@@ -30,6 +30,7 @@ runs:
     - name: Build
       uses: Lombiq/GitHub-Actions/.github/actions/msbuild@issue/VSIX-67
       with:
+        create-binary-log: 'true'
         msbuild-switches: |
           /p:OutDir=${{ steps.output-directory.outputs.directory }}
 
