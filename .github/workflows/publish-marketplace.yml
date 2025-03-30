@@ -27,7 +27,7 @@ jobs:
         version-number: ${{ steps.set-version.outputs.version }}
 
     - name: Publish to Marketplace
-      uses: cezarypiatek/VsixPublisherAction@9c6b58b5955df9901a6e9834be1d0a94cd54aeba # 1.0
+      uses: cezarypiatek/VsixPublisherAction@d28bc8109d6eaa67fa28e611d5b4557e90683bdd # 1.1
       with:
         extension-file: artifacts\Lombiq.Vsix.Orchard.vsix
         publish-manifest-file: Marketplace\publishManifest.json
