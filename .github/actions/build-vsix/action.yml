@@ -34,7 +34,7 @@ runs:
           /p:OutDir=${{ steps.output-directory.outputs.directory }}
 
     - name: Upload Artifact
-      uses: actions/upload-artifact@v4.6.2
+      uses: Lombiq/GitHub-Actions/.github/actions/upload-artifact@dev
       with:
         name: Lombiq.Vsix.Orchard.vsix
         path: artifacts/**/*.vsix
