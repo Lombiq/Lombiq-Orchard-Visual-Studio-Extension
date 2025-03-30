@@ -1,3 +1,4 @@
+#error version
 using Lombiq.Vsix.Orchard.Commands;
 using Lombiq.Vsix.Orchard.Constants;
 using Lombiq.Vsix.Orchard.Models;
