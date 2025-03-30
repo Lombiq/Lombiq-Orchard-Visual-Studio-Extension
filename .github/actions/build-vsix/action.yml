@@ -34,7 +34,7 @@ runs:
           "-property:OutDir=${{ steps.output-directory.outputs.directory }}"
 
     - name: Upload Artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4.6.2
       with:
         name: Lombiq.Vsix.Orchard.vsix
         path: artifacts/**/*.vsix
