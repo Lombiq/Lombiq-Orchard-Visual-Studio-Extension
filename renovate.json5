@@ -1,4 +1,15 @@
 {
     '$schema': 'https://docs.renovatebot.com/renovate-schema.json',
     extends: ['github>Lombiq/renovate-config:default-dotnet.json5'],
+    packageRules: [
+        {
+            groupName: 'All Dependencies',
+            matchUpdateTypes: ['*'],
+        },
+    ],
+    'git-submodules': {
+        // Until the latest Meziantou.Analyzer can be used, see
+        // https://github.com/meziantou/Meziantou.Analyzer/issues/791.
+        enabled: false,
+    },
 }
