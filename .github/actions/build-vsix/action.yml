@@ -28,7 +28,7 @@ runs:
         "directory=$(Join-Path $PWD artifacts)" >> $Env:GITHUB_OUTPUT
 
     - name: Build
-      uses: Lombiq/GitHub-Actions/.github/actions/msbuild@dev
+      uses: Lombiq/GitHub-Actions/.github/actions/msbuild@issue/VSIX-67
       with:
         msbuild-switches: |
           /p:OutDir=${{ steps.output-directory.outputs.directory }}
