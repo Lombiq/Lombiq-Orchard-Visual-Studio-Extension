@@ -30,7 +30,7 @@ runs:
     - name: Set up .NET
       uses: Lombiq/GitHub-Actions/.github/actions/setup-dotnet@dev
       with:
-        dotnet-version: 8.0.301
+        dotnet-version: 9.0.201
 
     - name: Build
       uses: Lombiq/GitHub-Actions/.github/actions/msbuild@dev
