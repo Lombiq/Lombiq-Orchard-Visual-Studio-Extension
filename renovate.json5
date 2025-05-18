@@ -1,4 +1,12 @@
 {
     '$schema': 'https://docs.renovatebot.com/renovate-schema.json',
     extends: ['github>Lombiq/renovate-config:default-dotnet.json5'],
+    packageRules: [
+        {
+            groupName: 'Microsoft.VisualStudio Packages',
+            matchPackageNames: [
+                'Microsoft.VisualStudio.*',
+            ],
+        },
+    ],
 }
