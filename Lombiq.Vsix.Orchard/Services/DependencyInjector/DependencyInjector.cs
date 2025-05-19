@@ -333,7 +333,7 @@ namespace Lombiq.Vsix.Orchard.Services.DependencyInjector
             public EditPoint StartEditPoint { get; set; }
             public EditPoint EndEditPoint { get; set; }
             public BraceStyles BraceStyle { get; set; }
-            public IList<string> CodeLines { get; set; }
+            public List<string> CodeLines { get; set; }
             public string FieldName { get; set; }
             public string VariableName { get; set; }
             public string VariableType { get; set; }
