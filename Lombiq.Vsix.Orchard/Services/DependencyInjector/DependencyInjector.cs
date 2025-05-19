@@ -92,7 +92,9 @@ namespace Lombiq.Vsix.Orchard.Services.DependencyInjector
             // We should never get an exception here. This is just to ensure we access DTE on the main thread and get
             // rid of the VSTHRD010 violation.
             Microsoft.VisualStudio.Shell.ThreadHelper.ThrowIfNotOnUIThread();
-            return Path.GetFileNameWithoutExtension(document.FullName);
+            return document.FullName.EndsWith(".cshtml.cs", StringComparison.OrdinalIgnoreCase)
+                ? Path.GetFileNameWithoutExtension(document.FullName).Replace(".cshtml", "Model")
+                : Path.GetFileNameWithoutExtension(document.FullName);
         }
 
         private static void GetCodeLines(DependencyInjectionContext context)
