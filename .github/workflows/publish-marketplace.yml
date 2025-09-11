@@ -8,7 +8,7 @@ on:
 jobs:
   publish:
     name: Publish to the Visual Studio Marketplace
-    runs-on: windows-latest
+    runs-on: windows-2025
     steps:
     - name: Checkout
       uses: Lombiq/GitHub-Actions/.github/actions/checkout@dev
@@ -27,7 +27,7 @@ jobs:
         version-number: ${{ steps.set-version.outputs.version }}
 
     - name: Publish to Marketplace
-      uses: cezarypiatek/VsixPublisherAction@d28bc8109d6eaa67fa28e611d5b4557e90683bdd # 1.1
+      uses: cezarypiatek/VsixPublisherAction@d28bc8109d6eaa67fa28e611d5b4557e90683bdd # v1.1
       with:
         extension-file: artifacts\Lombiq.Vsix.Orchard.vsix
         publish-manifest-file: Marketplace\publishManifest.json
