@@ -1,6 +1,12 @@
 {
     '$schema': 'https://docs.renovatebot.com/renovate-schema.json',
     extends: ['github>Lombiq/renovate-config:default-dotnet.json5'],
+    prBodyNotes: [
+        '@Lombiq/lombiq-orchard-visual-studio-extension-renovate-notification-recipients',
+    ],
+    addLabels: [
+        'no-jira-community-activity-issue',
+    ],
     packageRules: [
         {
             groupName: 'Microsoft.VisualStudio Packages',
