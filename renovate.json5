@@ -8,8 +8,8 @@
         'no-jira-community-activity-issue',
     ],
     packageRules: [
-        'git-submodules': {
-            enabled: true,
+        '{
+            groupName: 'Submodules',
             automerge: true,
         },
         {
