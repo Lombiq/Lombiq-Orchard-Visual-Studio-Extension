@@ -10,7 +10,7 @@
     packageRules: [
         {
             groupName: 'Submodules',
-            automerge: true,
+            'automerge': true,
         },
         {
             groupName: 'Microsoft.VisualStudio Packages',
