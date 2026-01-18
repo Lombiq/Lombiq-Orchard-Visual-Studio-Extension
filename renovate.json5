@@ -8,6 +8,10 @@
         'no-jira-community-activity-issue',
     ],
     packageRules: [
+        'git-submodules': {
+            enabled: true,
+            automerge: true,
+        },
         {
             groupName: 'Microsoft.VisualStudio Packages',
             matchPackageNames: [
