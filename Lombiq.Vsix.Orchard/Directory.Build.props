@@ -5,16 +5,4 @@
   </PropertyGroup>-->
   
   <Import Project="../tools/Lombiq.Analyzers/Lombiq.Analyzers.VisualStudioExtension/Build.props" />
-
-  <ItemGroup>
-    <!-- The VisualStudioExtension/Build.props tries to restrict these to build+analyzers assets only, but its
-         PackageReference Update runs before the Include in NetFx/Build.props, making it a no-op. Re-applying
-         the Update here (after the import) ensures runtime assemblies don't leak and cause MSB3277 conflicts. -->
-    <PackageReference Update="Meziantou.Analyzer">
-      <IncludeAssets>build;analyzers</IncludeAssets>
-    </PackageReference>
-    <PackageReference Update="Microsoft.Net.Compilers.Toolset">
-      <IncludeAssets>build;analyzers</IncludeAssets>
-    </PackageReference>
-  </ItemGroup>
 </Project>
