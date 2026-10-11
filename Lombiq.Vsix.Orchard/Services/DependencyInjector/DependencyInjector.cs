@@ -134,7 +134,7 @@ namespace Lombiq.Vsix.Orchard.Services.DependencyInjector
             var expectedClassDefinition = "class " + context.ClassName;
             context.ClassStartLineIndex = -1;
 
-            for (int i = 0; i < context.CodeLines.Count; i++)
+            for (var i = 0; i < context.CodeLines.Count; i++)
             {
                 if (context.CodeLines[i].IndexOf(expectedClassDefinition, StringComparison.OrdinalIgnoreCase) >= 0)
                 {
@@ -150,7 +150,7 @@ namespace Lombiq.Vsix.Orchard.Services.DependencyInjector
             var expectedConstructorStart = "public " + context.ClassName + "(";
             context.ConstructorLineIndex = -1;
 
-            for (int i = 0; i < context.CodeLines.Count; i++)
+            for (var i = 0; i < context.CodeLines.Count; i++)
             {
                 if (context.CodeLines[i].Trim().StartsWith(expectedConstructorStart, StringComparison.OrdinalIgnoreCase))
                 {
@@ -184,7 +184,7 @@ namespace Lombiq.Vsix.Orchard.Services.DependencyInjector
                     string.Empty,
                 };
 
-            for (int i = 0; i < constructorCodeLines.Length; i++)
+            for (var i = 0; i < constructorCodeLines.Length; i++)
             {
                 context.CodeLines.Insert(createConstructorFromIndex + i, constructorCodeLines[i]);
             }
